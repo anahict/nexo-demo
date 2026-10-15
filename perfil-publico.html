@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Perfil de artista | NEXO</title>
+
+    <link rel="stylesheet" href="../estilos.css">
+
+    <style>
+        .perfil-hero-imagen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .perfil-similares .artistas-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .perfil-similares .artista-card {
+            min-width: 0;
+        }
+
+        .perfil-similares .artista-imagen {
+            overflow: hidden;
+        }
+
+        .perfil-similares .artista-imagen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .perfil-similares .artista-info h3 {
+            margin-bottom: 10px;
+        }
+
+        .perfil-similares .artista-info p {
+            line-height: 1.6;
+        }
+
+        .perfil-similares .artista-acciones {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .perfil-similares .artista-acciones a {
+            display: block;
+            padding: 11px 14px;
+            border-radius: 9px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .perfil-similares .artista-ver {
+            color: #6c4cff;
+            background: #f2efff;
+        }
+
+        .perfil-similares .artista-cotizar {
+            color: #fff;
+            background: #6c4cff;
+        }
+
+        .perfil-similares .artista-cotizar:hover {
+            background: #5434e8;
+        }
+
+        .perfil-video-placeholder .video-mensaje {
+            color: #fff;
+            padding: 25px;
+            text-align: center;
+        }
+
+        @media (max-width: 1050px) {
+            .perfil-similares .artistas-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            .perfil-similares .artistas-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <a href="../index.html" class="logo">
+            NEXO
+        </a>
+
+        <nav class="nav">
+            <a href="explorar.html">Explorar</a>
+            <a href="eventos.html">Tipos de evento</a>
+            <a href="como-funciona.html">Cómo funciona</a>
+            <a href="proveedores.html">Publica tus servicios</a>
+        </nav>
+
+        <div class="header-actions">
+
+            <a href="login.html" class="login">
+                Iniciar sesión
+            </a>
+
+            <a href="cotizar.html" class="btn-cotizar">
+                Cotiza tu evento
+            </a>
+
+        </div>
+
+    </header>
+
+    <main>
+
+        <!-- PORTADA -->
+
+        <section class="perfil-hero">
+
+            <div class="perfil-hero-imagen">
+                <img
+                    id="artista-portada"
+                    src="../assets/images/trendline.png"
+                    alt="Artista"
+                >
+            </div>
+
+            <div class="perfil-hero-overlay"></div>
+
+            <div class="perfil-hero-contenido">
+
+                <span class="perfil-categoria" id="artista-categoria">
+                    BANDA DE COVERS
+                </span>
+
+                <h1 id="artista-nombre">
+                    Trendline
+                </h1>
+
+                <p
+                    class="perfil-descripcion-corta"
+                    id="artista-descripcion-corta"
+                >
+                    Música en vivo para eventos especiales.
+                </p>
+
+                <div class="perfil-acciones">
+
+                    <a
+                        href="cotizar.html"
+                        class="perfil-btn-principal"
+                        id="artista-cotizar"
+                    >
+                        Solicitar cotización
+                    </a>
+
+                    <button
+                        class="perfil-btn-secundario"
+                        type="button"
+                        id="artista-guardar"
+                    >
+                        ♡ Guardar
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- INFORMACIÓN GENERAL -->
+
+        <section class="perfil-resumen">
+
+            <div class="perfil-resumen-contenido">
+
+                <div class="perfil-datos">
+
+                    <div class="perfil-dato">
+                        <span>Ubicación</span>
+                        <strong id="artista-ubicacion">
+                            Consultar cobertura
+                        </strong>
+                    </div>
+
+                    <div class="perfil-dato">
+                        <span>Categoría</span>
+                        <strong id="artista-especialidad">
+                            Banda
+                        </strong>
+                    </div>
+
+                    <div class="perfil-dato">
+                        <span>Ideal para</span>
+                        <strong id="artista-ideal">
+                            Eventos sociales y corporativos
+                        </strong>
+                    </div>
+
+                </div>
+
+                <div class="perfil-sobre">
+
+                    <p class="seccion-etiqueta">
+                        SOBRE EL ARTISTA
+                    </p>
+
+                    <h2 id="artista-sobre-titulo">
+                        Sobre el artista
+                    </h2>
+
+                    <p id="artista-sobre-texto"></p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- MULTIMEDIA -->
+
+        <section class="perfil-media">
+
+            <div class="perfil-media-contenido">
+
+                <div class="perfil-media-header">
+
+                    <p class="seccion-etiqueta">
+                        MEDIA
+                    </p>
+
+                    <h2>
+                        Fotos y videos
+                    </h2>
+
+                </div>
+
+                <div
+                    class="perfil-galeria"
+                    id="artista-galeria"
+                ></div>
+
+                <div class="perfil-video">
+
+                    <div class="perfil-video-placeholder">
+
+                        <p class="video-mensaje">
+                            Consulta el material audiovisual disponible
+                            de este artista.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- REPERTORIO Y SHOWS -->
+
+        <section class="perfil-oferta">
+
+            <div class="perfil-oferta-contenido">
+
+                <div class="perfil-repertorio">
+
+                    <p class="seccion-etiqueta">
+                        ESPECIALIDADES
+                    </p>
+
+                    <h2 id="artista-repertorio-titulo">
+                        Una propuesta para tu evento
+                    </h2>
+
+                    <div
+                        class="repertorio-lista"
+                        id="artista-generos"
+                    ></div>
+
+                    <p
+                        class="repertorio-descripcion"
+                        id="artista-repertorio-descripcion"
+                    >
+                        Consulta los formatos disponibles.
+                    </p>
+
+                </div>
+
+                <div class="perfil-shows">
+
+                    <p class="seccion-etiqueta">
+                        SHOWS DISPONIBLES
+                    </p>
+
+                    <div
+                        class="shows-grid"
+                        id="artista-shows"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- INFORMACIÓN OPERATIVA -->
+
+        <section class="perfil-operativo">
+
+            <div class="perfil-operativo-contenido">
+
+                <div class="perfil-operativo-grid">
+
+                    <article class="perfil-operativo-card">
+
+                        <p class="seccion-etiqueta">
+                            IDEAL PARA
+                        </p>
+
+                        <h2>
+                            Eventos donde funciona mejor
+                        </h2>
+
+                        <ul
+                            class="perfil-lista"
+                            id="artista-eventos"
+                        ></ul>
+
+                    </article>
+
+                    <article class="perfil-operativo-card">
+
+                        <p class="seccion-etiqueta">
+                            REQUERIMIENTOS TÉCNICOS
+                        </p>
+
+                        <h2>
+                            Lo necesario para el show
+                        </h2>
+
+                        <ul
+                            class="perfil-lista"
+                            id="artista-requerimientos"
+                        ></ul>
+
+                    </article>
+
+                </div>
+
+                <div class="perfil-disponibilidad">
+
+                    <div>
+
+                        <p class="seccion-etiqueta">
+                            DISPONIBILIDAD
+                        </p>
+
+                        <h2>
+                            Consulta fechas disponibles
+                        </h2>
+
+                        <p>
+                            La disponibilidad depende de la fecha,
+                            ubicación y características del evento.
+                        </p>
+
+                    </div>
+
+                    <a
+                        href="cotizar.html"
+                        class="perfil-btn-principal"
+                        id="artista-disponibilidad"
+                    >
+                        Consultar disponibilidad
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RECOMENDACIONES -->
+
+        <section class="perfil-similares">
+
+            <div class="perfil-similares-contenido">
+
+                <div class="artistas-header">
+
+                    <div>
+
+                        <h3 class="seccion-etiqueta">
+                            DESCUBRE MÁS TALENTO
+                        </h3>
+
+                        <h2>
+                            Artistas que también te pueden interesar
+                        </h2>
+
+                    </div>
+
+                    <a href="artistas.html" class="ver-todos">
+                        Ver todos →
+                    </a>
+
+                </div>
+
+                <div
+                    class="artistas-grid"
+                    id="artistas-recomendados"
+                ></div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <div class="footer-contenido">
+
+            <div class="footer-marca">
+
+                <a href="../index.html" class="footer-logo">
+                    NEXO
+                </a>
+
+                <p>
+                    Artistas, entretenimiento y producción
+                    para crear eventos memorables.
+                </p>
+
+            </div>
+
+            <div class="footer-columna">
+
+                <h4>Explora</h4>
+
+                <a href="explorar.html">Artistas</a>
+                <a href="produccion.html">Producción</a>
+                <a href="eventos.html">Tipos de evento</a>
+
+            </div>
+
+            <div class="footer-columna">
+
+                <h4>NEXO</h4>
+
+                <a href="como-funciona.html">Cómo funciona</a>
+                <a href="cotizar.html">Cotiza tu evento</a>
+                <a href="proveedores.html">Publica tus servicios</a>
+
+            </div>
+
+            <div class="footer-columna">
+
+                <h4>Cuenta</h4>
+
+                <a href="login.html">Iniciar sesión</a>
+                <a href="registro.html">Crear cuenta</a>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 NEXO. Todos los derechos reservados.
+            </p>
+
+            <div class="footer-legal">
+                <a href="#">Privacidad</a>
+                <a href="#">Términos</a>
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const artistas = {
+
+            "trendline": {
+                nombre: "Trendline",
+                categoria: "BANDA DE COVERS",
+                especialidad: "Banda de covers · Pop y rock",
+                ubicacion: "Ciudad de México",
+
+                descripcion:
+                    "Banda de música en vivo con un espectáculo dinámico de grandes éxitos en inglés y español.",
+
+                sobre:
+                    "Trendline presenta una experiencia musical que combina grandes éxitos, energía escénica y un repertorio versátil. Su espectáculo está diseñado para eventos corporativos, celebraciones privadas y producciones especiales.",
+
+                imagen: "../assets/images/trendline.png",
+
+                generos: [
+                    "Pop",
+                    "Rock",
+                    "Retro",
+                    "Disco",
+                    "Dance",
+                    "Covers"
+                ],
+
+                repertorioTitulo:
+                    "Grandes éxitos para cada momento",
+
+                repertorioDescripcion:
+                    "Repertorio de éxitos en inglés y español de distintas décadas.",
+
+                ideal:
+                    "Corporativos, fiestas y eventos especiales",
+
+                eventos: [
+                    "Eventos corporativos",
+                    "Fiestas privadas",
+                    "Bodas",
+                    "Festivales",
+                    "Eventos de fin de año"
+                ],
+
+                shows: [
+                    {
+                        nombre: "Tour Utopía",
+                        descripcion:
+                            "Espectáculo de música en vivo con un repertorio de grandes éxitos.",
+                        duracion: "120 minutos"
+                    }
+                ],
+
+                requerimientos: [
+                    "Sistema de audio profesional",
+                    "Iluminación de escenario",
+                    "Backline según rider técnico",
+                    "Escenario adecuado",
+                    "Prueba de sonido"
+                ],
+
+                relacionados: [
+                    "two-souls",
+                    "mr-loxley",
+                    "tr3mens"
+                ]
+            },
+
+
+            "mr-loxley": {
+                nombre: "Mr. Loxley",
+                categoria: "EXPERIENCIA MUSICAL INMERSIVA",
+                especialidad: "DJ y espectáculo audiovisual",
+                ubicacion: "Consultar cobertura",
+
+                descripcion:
+                    "Una experiencia inmersiva que combina música, tecnología, performances y producción audiovisual.",
+
+                sobre:
+                    "Mr. Loxley es una experiencia musical y audiovisual que integra DJ, bailarinas, contenido visual sincronizado, iluminación y efectos especiales. Su propuesta combina éxitos de distintas épocas con momentos diseñados para sorprender al público.",
+
+                imagen: "../assets/images/mr-loxley.jpg",
+
+                generos: [
+                    "Pop",
+                    "Top 40",
+                    "Retro",
+                    "Dance",
+                    "Éxitos de distintas décadas"
+                ],
+
+                repertorioTitulo:
+                    "Mucho más que un DJ",
+
+                repertorioDescripcion:
+                    "Una selección musical versátil acompañada de experiencias audiovisuales y performances.",
+
+                ideal:
+                    "Eventos corporativos y celebraciones",
+
+                eventos: [
+                    "Eventos corporativos",
+                    "Fiestas privadas",
+                    "Celebraciones especiales",
+                    "Eventos de fin de año",
+                    "Producciones temáticas"
+                ],
+
+                shows: [
+                    {
+                        nombre: "Mr. Loxley Experience",
+                        descripcion:
+                            "Experiencia musical con DJ, bailarinas, contenido audiovisual y efectos especiales.",
+                        duracion: "Duración según formato contratado"
+                    }
+                ],
+
+                requerimientos: [
+                    "Sistema de audio profesional",
+                    "Pantallas LED según producción",
+                    "Iluminación profesional",
+                    "Equipamiento DJ",
+                    "Efectos especiales según formato",
+                    "Espacio para performances"
+                ],
+
+                relacionados: [
+                    "trendline",
+                    "two-souls",
+                    "tr3mens"
+                ]
+            },
+
+
+            "two-souls": {
+                nombre: "Two Souls",
+                categoria: "DÚO VOCAL",
+                especialidad: "Dúo vocal · Pop y covers",
+                ubicacion: "Consultar cobertura",
+
+                descripcion:
+                    "Dos voces que interpretan grandes éxitos musicales para eventos especiales.",
+
+                sobre:
+                    "Two Souls es un dúo vocal que interpreta covers de música pop y éxitos de distintas épocas. Su formato de dos cantantes con pistas musicales permite ofrecer una experiencia cercana y versátil para celebraciones y eventos.",
+
+                imagen: "../assets/images/two-souls.jpg",
+
+                generos: [
+                    "Pop",
+                    "Covers",
+                    "Retro",
+                    "Baladas"
+                ],
+
+                repertorioTitulo:
+                    "Dos voces, grandes canciones",
+
+                repertorioDescripcion:
+                    "Interpretaciones vocales de éxitos musicales para distintos momentos del evento.",
+
+                ideal:
+                    "Bodas, corporativos y celebraciones",
+
+                eventos: [
+                    "Bodas",
+                    "Eventos corporativos",
+                    "Fiestas privadas",
+                    "Cenas especiales",
+                    "Celebraciones"
+                ],
+
+                shows: [
+                    {
+                        nombre: "Two Souls Live",
+                        descripcion:
+                            "Presentación de dos vocalistas acompañados de pistas musicales.",
+                        duracion: "120 minutos"
+                    }
+                ],
+
+                requerimientos: [
+                    "Sistema de audio profesional",
+                    "Micrófonos para dos vocalistas",
+                    "Reproducción de pistas musicales",
+                    "Monitoreo de escenario",
+                    "Espacio adecuado para presentación"
+                ],
+
+                relacionados: [
+                    "trendline",
+                    "mr-loxley",
+                    "tr3mens"
+                ]
+            },
+
+
+            "tr3mens": {
+                nombre: "Tr3mens",
+                categoria: "MÚSICA INSTRUMENTAL",
+                especialidad: "Ensamble instrumental",
+                ubicacion: "Consultar cobertura",
+
+                descripcion:
+                    "Propuesta de música instrumental que fusiona elementos contemporáneos y clásicos.",
+
+                sobre:
+                    "Tr3mens ofrece una experiencia instrumental con una propuesta que combina influencias clásicas y contemporáneas.",
+
+                imagen: "",
+
+                generos: [
+                    "Instrumental",
+                    "Contemporáneo",
+                    "Fusión"
+                ],
+
+                repertorioTitulo:
+                    "Música instrumental para tu evento",
+
+                repertorioDescripcion:
+                    "Una propuesta instrumental para ambientaciones y presentaciones especiales.",
+
+                ideal:
+                    "Eventos corporativos y celebraciones",
+
+                eventos: [
+                    "Eventos corporativos",
+                    "Celebraciones privadas",
+                    "Cenas especiales"
+                ],
+
+                shows: [
+                    {
+                        nombre: "Tr3mens Live",
+                        descripcion:
+                            "Presentación instrumental en vivo.",
+                        duracion: "90 minutos"
+                    }
+                ],
+
+                requerimientos: [
+                    "Audio y monitoreo según rider técnico",
+                    "Espacio adecuado para músicos",
+                    "Requerimientos de instrumentos según formato"
+                ],
+
+                relacionados: [
+                    "two-souls",
+                    "trendline"
+                ]
+            },
+
+
+            "belanova": {
+                nombre: "Belanova",
+                categoria: "POP · ELECTROPOP",
+                especialidad: "Pop y electropop",
+                ubicacion: "Consultar cobertura",
+
+                descripcion:
+                    "Propuesta musical de pop y electropop.",
+
+                sobre:
+                    "Belanova es una agrupación mexicana reconocida por su propuesta de pop y electropop.",
+
+                imagen: "",
+
+                generos: [
+                    "Pop",
+                    "Electropop"
+                ],
+
+                repertorioTitulo:
+                    "Pop y electropop",
+
+                repertorioDescripcion:
+                    "Consulta las opciones de contratación y disponibilidad.",
+
+                ideal:
+                    "Conciertos y eventos especiales",
+
+                eventos: [
+                    "Conciertos",
+                    "Festivales",
+                    "Eventos especiales"
+                ],
+
+                shows: [
+                    {
+                        nombre: "Presentación en vivo",
+                        descripcion:
+                            "Formato y condiciones sujetos a cotización.",
+                        duracion: "Consultar disponibilidad"
+                    }
+                ],
+
+                requerimientos: [
+                    "Requerimientos sujetos al rider técnico vigente"
+                ],
+
+                relacionados: [
+                    "trendline",
+                    "two-souls",
+                    "mr-loxley"
+                ]
+            }
+
+        };
+
+
+        /* ARTISTA SELECCIONADO */
+
+        const parametros = new URLSearchParams(window.location.search);
+
+        const id = (
+            parametros.get("artista") || "trendline"
+        ).toLowerCase();
+
+        const artista = artistas[id];
+
+        if (!artista) {
+            document.querySelector("main").innerHTML = `
+                <section style="padding:100px 24px;text-align:center">
+                    <h1>Perfil no disponible</h1>
+                    <p>Este artista todavía no tiene un perfil publicado.</p>
+                    <a href="explorar.html">Explorar artistas →</a>
+                </section>
+            `;
+            return;
+        }
+
+
+        /* FUNCIONES */
+
+        function texto(idElemento, valor) {
+            const elemento = document.getElementById(idElemento);
+
+            if (elemento) {
+                elemento.textContent = valor || "";
+            }
+        }
+
+        function lista(idElemento, elementos) {
+            const contenedor = document.getElementById(idElemento);
+
+            if (!contenedor) return;
+
+            contenedor.innerHTML = "";
+
+            elementos.forEach(function (elemento) {
+                const li = document.createElement("li");
+                li.textContent = elemento;
+                contenedor.appendChild(li);
+            });
+        }
+
+
+        /* INFORMACIÓN PRINCIPAL */
+
+        document.title = artista.nombre + " | NEXO";
+
+        texto("artista-nombre", artista.nombre);
+        texto("artista-categoria", artista.categoria);
+        texto("artista-descripcion-corta", artista.descripcion);
+        texto("artista-ubicacion", artista.ubicacion);
+        texto("artista-especialidad", artista.especialidad);
+        texto("artista-ideal", artista.ideal);
+        texto("artista-sobre-titulo", "Sobre " + artista.nombre);
+        texto("artista-sobre-texto", artista.sobre);
+        texto("artista-repertorio-titulo", artista.repertorioTitulo);
+        texto("artista-repertorio-descripcion", artista.repertorioDescripcion);
+
+
+        /* IMAGEN PRINCIPAL */
+
+        const portada = document.getElementById("artista-portada");
+
+        if (artista.imagen) {
+            portada.src = artista.imagen;
+            portada.alt = artista.nombre;
+        } else {
+            portada.removeAttribute("src");
+            portada.alt = "Imagen pendiente de " + artista.nombre;
+            portada.style.display = "none";
+        }
+
+
+        /* GALERÍA */
+
+        const galeria = document.getElementById("artista-galeria");
+
+        galeria.innerHTML = "";
+
+        if (artista.imagen) {
+            const imagen = document.createElement("img");
+            imagen.src = artista.imagen;
+            imagen.alt = artista.nombre + " en vivo";
+            galeria.appendChild(imagen);
+        } else {
+            const mensaje = document.createElement("p");
+            mensaje.textContent = "Galería próximamente disponible.";
+            galeria.appendChild(mensaje);
+        }
+
+
+        /* GÉNEROS */
+
+        const generos = document.getElementById("artista-generos");
+
+        generos.innerHTML = "";
+
+        artista.generos.forEach(function (genero) {
+            const etiqueta = document.createElement("span");
+            etiqueta.textContent = genero;
+            generos.appendChild(etiqueta);
+        });
+
+
+        /* SHOWS */
+
+        const shows = document.getElementById("artista-shows");
+
+        shows.innerHTML = "";
+
+        artista.shows.forEach(function (show, index) {
+
+            const tarjeta = document.createElement("article");
+            tarjeta.className = "show-card";
+
+            const numero = document.createElement("span");
+            numero.className = "show-numero";
+            numero.textContent = String(index + 1).padStart(2, "0");
+
+            const titulo = document.createElement("h3");
+            titulo.textContent = show.nombre;
+
+            const descripcion = document.createElement("p");
+            descripcion.textContent = show.descripcion;
+
+            const duracion = document.createElement("span");
+            duracion.className = "show-duracion";
+            duracion.textContent = show.duracion;
+
+            tarjeta.append(numero, titulo, descripcion, duracion);
+            shows.appendChild(tarjeta);
+
+        });
+
+
+        /* EVENTOS Y REQUERIMIENTOS */
+
+        lista("artista-eventos", artista.eventos);
+        lista("artista-requerimientos", artista.requerimientos);
+
+
+        /* COTIZACIÓN */
+
+        const urlCotizacion =
+            "cotizar.html?artista=" + encodeURIComponent(artista.nombre);
+
+        document.getElementById("artista-cotizar").href = urlCotizacion;
+        document.getElementById("artista-disponibilidad").href = urlCotizacion;
+
+
+        /* RECOMENDACIONES */
+
+        const recomendados = document.getElementById("artistas-recomendados");
+
+        recomendados.innerHTML = "";
+
+        artista.relacionados.forEach(function (relacionadoId) {
+
+            const relacionado = artistas[relacionadoId];
+
+            if (!relacionado) return;
+
+            const tarjeta = document.createElement("article");
+            tarjeta.className = "artista-card";
+
+            const imagenContenedor = document.createElement("div");
+            imagenContenedor.className = "artista-imagen";
+
+            if (relacionado.imagen) {
+                const imagen = document.createElement("img");
+                imagen.src = relacionado.imagen;
+                imagen.alt = relacionado.nombre;
+                imagenContenedor.appendChild(imagen);
+            } else {
+                const marcador = document.createElement("div");
+                marcador.style.cssText =
+                    "height:220px;display:flex;align-items:center;" +
+                    "justify-content:center;background:#17131f;color:#fff;" +
+                    "font-size:32px;font-weight:800";
+                marcador.textContent = relacionado.nombre;
+                imagenContenedor.appendChild(marcador);
+            }
+
+            const info = document.createElement("div");
+            info.className = "artista-info";
+
+            const categoria = document.createElement("span");
+            categoria.className = "artista-categoria";
+            categoria.textContent = relacionado.especialidad;
+
+            const nombre = document.createElement("h3");
+            nombre.textContent = relacionado.nombre;
+
+            const descripcion = document.createElement("p");
+            descripcion.textContent = relacionado.descripcion;
+
+            const acciones = document.createElement("div");
+            acciones.className = "artista-acciones";
+
+            const verPerfil = document.createElement("a");
+            verPerfil.className = "artista-ver";
+            verPerfil.href =
+                "perfil-artista.html?artista=" + relacionadoId;
+            verPerfil.textContent = "Ver perfil →";
+
+            const cotizar = document.createElement("a");
+            cotizar.className = "artista-cotizar";
+            cotizar.href =
+                "cotizar.html?artista=" +
+                encodeURIComponent(relacionado.nombre);
+            cotizar.textContent = "Solicitar cotización";
+
+            acciones.append(verPerfil, cotizar);
+
+            info.append(categoria, nombre, descripcion, acciones);
+
+            tarjeta.append(imagenContenedor, info);
+
+            recomendados.appendChild(tarjeta);
+
+        });
+
+
+        /* GUARDAR ARTISTA */
+
+        const guardar = document.getElementById("artista-guardar");
+
+        guardar.addEventListener("click", function () {
+
+            const clave = "nexoArtistasGuardados";
+
+            let guardados = [];
+
+            try {
+                guardados = JSON.parse(localStorage.getItem(clave)) || [];
+            } catch (error) {
+                guardados = [];
+            }
+
+            if (guardados.includes(id)) {
+                guardados = guardados.filter(function (item) {
+                    return item !== id;
+                });
+                guardar.textContent = "♡ Guardar";
+            } else {
+                guardados.push(id);
+                guardar.textContent = "♥ Guardado";
+            }
+
+            localStorage.setItem(clave, JSON.stringify(guardados));
+
+        });
+
+    });
+
+    </script>
+
+</body>
+</html>

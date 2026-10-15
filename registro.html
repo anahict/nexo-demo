@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Crear cuenta | NEXO</title>
+
+    <link rel="stylesheet" href="../estilos.css">
+
+    <style>
+        .registro-tipos { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        @media (max-width: 850px) { .registro-tipos { grid-template-columns: 1fr; } }
+        /* LOGOTIPO NEXO — BLANCO Y MORADO */
+        .header .logo.nexo-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0;
+            text-decoration: none;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .header .logo.nexo-logo .logo-ne {
+            color: #ffffff !important;
+        }
+
+        .header .logo.nexo-logo .logo-xo {
+            color: #6C4CFF !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ======================================
+         HEADER
+    ======================================= -->
+
+    <header class="header">
+
+        <a href="../index.html" class="logo nexo-logo">
+            <span class="logo-ne">NE</span><span class="logo-xo">XO</span>
+        </a>
+
+        <nav class="nav">
+            <a href="explorar.html">Explorar</a>
+            <a href="eventos.html">Tipos de evento</a>
+            <a href="como-funciona.html">Cómo funciona</a>
+            <a href="proveedores.html">Publica tus servicios</a>
+        </nav>
+
+        <div class="header-actions">
+
+            <a href="login.html" class="login">
+                Iniciar sesión
+            </a>
+
+            <a href="cotizar.html" class="btn-cotizar">
+                Cotiza tu evento
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- ======================================
+         CONTENIDO PRINCIPAL
+    ======================================= -->
+
+    <main>
+
+        <section class="registro">
+
+            <div class="registro-contenido">
+
+                <!-- ENCABEZADO -->
+
+                <div class="registro-header">
+
+                    <p class="seccion-etiqueta">
+                        CREA TU CUENTA
+                    </p>
+
+                    <h1>¿Cómo quieres usar NEXO?</h1>
+
+                    <p>
+                        Elige el tipo de cuenta que mejor se adapte
+                        a lo que quieres hacer.
+                    </p>
+
+                </div>
+
+
+                <!-- ======================================
+                     SELECCIÓN DE CUENTA
+                ======================================= -->
+
+                <div class="registro-tipos">
+
+                    <!-- CLIENTE -->
+
+                    <button
+                        type="button"
+                        class="registro-tipo"
+                        data-tipo="cliente"
+                    >
+
+                        <span class="registro-numero">01</span>
+
+                        <h2>Soy cliente</h2>
+
+                        <p>
+                            Quiero contratar artistas, entretenimiento
+                            o producción para mi evento.
+                        </p>
+
+                        <span class="registro-link">
+                            Crear cuenta de cliente →
+                        </span>
+
+                    </button>
+
+
+                    <!-- PROVEEDOR -->
+
+                    <button
+                        type="button"
+                        class="registro-tipo"
+                        data-tipo="proveedor"
+                    >
+
+                        <span class="registro-numero">02</span>
+
+                        <h2>Soy proveedor</h2>
+
+                        <p>
+                            Quiero publicar mis servicios,
+                            recibir solicitudes y enviar propuestas.
+                        </p>
+
+                        <span class="registro-link">
+                            Crear perfil de proveedor →
+                        </span>
+
+                    </button>
+
+                    <!-- ARTISTA -->
+                    <button type="button" class="registro-tipo" data-tipo="artista">
+                        <span class="registro-numero">03</span>
+                        <h2>Soy artista</h2>
+                        <p>Quiero mostrar mi talento, crear mi perfil profesional y recibir solicitudes para eventos.</p>
+                        <span class="registro-link">Crear perfil de artista →</span>
+                    </button>
+                </div>
+
+
+                <!-- ======================================
+                     FORMULARIO CLIENTE
+                ======================================= -->
+
+                <div
+                    id="formulario-cliente"
+                    class="registro-formulario"
+                >
+
+                    <button type="button" class="registro-volver">
+                        ← Volver
+                    </button>
+
+                    <p class="seccion-etiqueta">
+                        CUENTA DE CLIENTE
+                    </p>
+
+                    <h2>Crea tu cuenta</h2>
+
+                    <p class="registro-formulario-intro">
+                        Guarda favoritos, solicita cotizaciones
+                        y administra tus eventos desde NEXO.
+                    </p>
+
+
+                    <div class="registro-campos">
+
+                        <div class="registro-campo">
+
+                            <label for="cliente-nombre">
+                                Nombre completo
+                            </label>
+
+                            <input
+                                type="text"
+                                id="cliente-nombre"
+                                placeholder="Tu nombre"
+                            >
+
+                        </div>
+
+
+                        <div class="registro-campo">
+
+                            <label for="cliente-correo">
+                                Correo electrónico
+                            </label>
+
+                            <input
+                                type="email"
+                                id="cliente-correo"
+                                placeholder="correo@ejemplo.com"
+                            >
+
+                        </div>
+
+
+                        <div class="registro-campo">
+
+                            <label for="cliente-telefono">
+                                Teléfono
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="cliente-telefono"
+                                placeholder="55 0000 0000"
+                            >
+
+                        </div>
+
+
+                        <div class="registro-campo">
+
+                            <label for="cliente-password">
+                                Contraseña
+                            </label>
+
+                            <input
+                                type="password"
+                                id="cliente-password"
+                                placeholder="Crea una contraseña"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <button type="button" class="registro-enviar" id="crear-cliente">
+                        Continuar
+                    </button>
+
+                </div>
+
+
+                <!-- ======================================
+                     FORMULARIO PROVEEDOR
+                ======================================= -->
+
+                <div
+                    id="formulario-proveedor"
+                    class="registro-formulario"
+                >
+
+                    <button type="button" class="registro-volver">
+                        ← Volver
+                    </button>
+
+                    <p class="seccion-etiqueta" id="registro-titulo-profesional">CUENTA DE PROVEEDOR</p>
+
+                    <h2>Empieza a publicar tus servicios</h2>
+
+                    <p class="registro-formulario-intro">
+                        Primero define qué tipo de servicio ofreces
+                        y después completa tus datos de contacto.
+                    </p>
+
+
+                    <!-- ======================================
+                         CATEGORÍA DEL PROVEEDOR
+                    ======================================= -->
+
+                    <div class="registro-seccion-proveedor">
+
+                        <p class="seccion-etiqueta">
+                            PERFIL PROFESIONAL
+                        </p>
+
+                        <h3>¿Qué tipo de servicio ofreces?</h3>
+
+                        <p class="registro-formulario-intro">
+                            Selecciona la categoría que mejor
+                            describe tu actividad.
+                        </p>
+
+
+                        <div class="registro-opciones-proveedor">
+
+                            <label class="registro-opcion-proveedor">
+                                <input type="radio" name="tipo-proveedor" value="cantante">
+                                <span>Cantante</span>
+                            </label>
+
+                            <label class="registro-opcion-proveedor">
+                                <input type="radio" name="tipo-proveedor" value="banda">
+                                <span>Banda</span>
+                            </label>
+
+                            <label class="registro-opcion-proveedor">
+                                <input type="radio" name="tipo-proveedor" value="dj">
+                                <span>DJ</span>
+                            </label>
+
+                            <label class="registro-opcion-proveedor">
+                                <input type="radio" name="tipo-proveedor" value="musico">
+                                <span>Músico</span>
+                            </label>
+
+                            <label class="registro-opcion-proveedor">
+                                <input type="radio" name="tipo-proveedor" value="ensamble">
+                                <span>Ensamble / tradicional</span>
+                            </label>
+
+                            <label class="registro-opcion-proveedor">
+                                <input type="radio" name="tipo-proveedor" value="comedia">
+                                <span>Comedia</span>
+                            </label>
+
+                            <label class="registro-opcion-proveedor">
+                                <input type="radio" name="tipo-proveedor" value="entretenimiento">
+                                <span>Entretenimiento</span>
+                            </label>
+
+                            <label class="registro-opcion-proveedor">
+                                <input type="radio" name="tipo-proveedor" value="danza">
+                                <span>Danza / performance</span>
+                            </label>
+
+                            <label class="registro-opcion-proveedor">
+                                <input type="radio" name="tipo-proveedor" value="conductor">
+                                <span>Conductor / host</span>
+                            </label>
+
+                            <label class="registro-opcion-proveedor">
+                                <input type="radio" name="tipo-proveedor" value="conferencista">
+                                <span>Conferencista</span>
+                            </label>
+
+                            <label class="registro-opcion-proveedor">
+                                <input type="radio" name="tipo-proveedor" value="show-especial">
+                                <span>Show especial</span>
+                            </label>
+
+                            <label class="registro-opcion-proveedor">
+                                <input type="radio" name="tipo-proveedor" value="produccion">
+                                <span>Producción / equipamiento</span>
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ======================================
+                         GÉNEROS MUSICALES
+                    ======================================= -->
+
+                    <div id="opciones-talento" class="registro-subopciones">
+
+                        <p class="seccion-etiqueta">ESTILO</p>
+
+                        <h3>¿Qué género o estilo manejas?</h3>
+
+                        <div class="registro-tags-seleccion">
+
+                            <label><input type="checkbox" name="genero" value="pop"><span>Pop</span></label>
+                            <label><input type="checkbox" name="genero" value="pop-latino"><span>Pop latino</span></label>
+                            <label><input type="checkbox" name="genero" value="rock"><span>Rock</span></label>
+                            <label><input type="checkbox" name="genero" value="pop-rock"><span>Pop Rock</span></label>
+                            <label><input type="checkbox" name="genero" value="indie"><span>Indie</span></label>
+                            <label><input type="checkbox" name="genero" value="alternativo"><span>Alternativo</span></label>
+                            <label><input type="checkbox" name="genero" value="reggaeton"><span>Reggaetón</span></label>
+                            <label><input type="checkbox" name="genero" value="electronica"><span>Electrónica</span></label>
+                            <label><input type="checkbox" name="genero" value="salsa"><span>Salsa</span></label>
+                            <label><input type="checkbox" name="genero" value="cumbia"><span>Cumbia</span></label>
+                            <label><input type="checkbox" name="genero" value="mariachi"><span>Mariachi</span></label>
+                            <label><input type="checkbox" name="genero" value="banda"><span>Banda</span></label>
+                            <label><input type="checkbox" name="genero" value="norteno"><span>Norteño</span></label>
+                            <label><input type="checkbox" name="genero" value="rnb"><span>R&amp;B</span></label>
+                            <label><input type="checkbox" name="genero" value="soul"><span>Soul</span></label>
+                            <label><input type="checkbox" name="genero" value="funk"><span>Funk</span></label>
+                            <label><input type="checkbox" name="genero" value="jazz"><span>Jazz</span></label>
+                            <label><input type="checkbox" name="genero" value="balada"><span>Balada</span></label>
+                            <label><input type="checkbox" name="genero" value="bolero"><span>Bolero</span></label>
+                            <label><input type="checkbox" name="genero" value="clasica"><span>Clásica</span></label>
+                            <label><input type="checkbox" name="genero" value="instrumental"><span>Instrumental</span></label>
+                            <label><input type="checkbox" name="genero" value="covers"><span>Covers</span></label>
+                            <label><input type="checkbox" name="genero" value="tributos"><span>Tributos</span></label>
+
+                        </div>
+
+
+                        <h3 class="registro-subtitulo">
+                            ¿Trabajas alguna década en particular?
+                        </h3>
+
+                        <div class="registro-tags-seleccion">
+
+                            <label><input type="checkbox" name="decada" value="60"><span>60's</span></label>
+                            <label><input type="checkbox" name="decada" value="70"><span>70's</span></label>
+                            <label><input type="checkbox" name="decada" value="80"><span>80's</span></label>
+                            <label><input type="checkbox" name="decada" value="90"><span>90's</span></label>
+                            <label><input type="checkbox" name="decada" value="2000"><span>2000's</span></label>
+                            <label><input type="checkbox" name="decada" value="2010"><span>2010's</span></label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ======================================
+                         MÚSICOS
+                    ======================================= -->
+
+                    <div id="opciones-musico" class="registro-subopciones">
+
+                        <p class="seccion-etiqueta">INSTRUMENTO</p>
+
+                        <h3>¿Qué instrumento tocas?</h3>
+
+                        <div class="registro-tags-seleccion">
+
+                            <label><input type="checkbox" name="instrumento" value="guitarra"><span>Guitarra</span></label>
+                            <label><input type="checkbox" name="instrumento" value="piano"><span>Piano</span></label>
+                            <label><input type="checkbox" name="instrumento" value="violin"><span>Violín</span></label>
+                            <label><input type="checkbox" name="instrumento" value="saxofon"><span>Saxofón</span></label>
+                            <label><input type="checkbox" name="instrumento" value="bajo"><span>Bajo</span></label>
+                            <label><input type="checkbox" name="instrumento" value="bateria"><span>Batería</span></label>
+                            <label><input type="checkbox" name="instrumento" value="percusion"><span>Percusión</span></label>
+                            <label><input type="checkbox" name="instrumento" value="trompeta"><span>Trompeta</span></label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ======================================
+                         COMEDIA
+                    ======================================= -->
+
+                    <div id="opciones-comedia" class="registro-subopciones">
+
+                        <p class="seccion-etiqueta">COMEDIA</p>
+
+                        <h3>¿Qué tipo de show ofreces?</h3>
+
+                        <div class="registro-tags-seleccion">
+
+                            <label><input type="checkbox" name="comedia" value="stand-up"><span>Stand-up</span></label>
+                            <label><input type="checkbox" name="comedia" value="comediante"><span>Comediante</span></label>
+                            <label><input type="checkbox" name="comedia" value="improvisacion"><span>Improvisación</span></label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ======================================
+                         ENTRETENIMIENTO
+                    ======================================= -->
+
+                    <div id="opciones-entretenimiento" class="registro-subopciones">
+
+                        <p class="seccion-etiqueta">ENTRETENIMIENTO</p>
+
+                        <h3>¿Qué tipo de entretenimiento ofreces?</h3>
+
+                        <div class="registro-tags-seleccion">
+
+                            <label><input type="checkbox" name="entretenimiento" value="magia"><span>Magia</span></label>
+                            <label><input type="checkbox" name="entretenimiento" value="mentalismo"><span>Mentalismo</span></label>
+                            <label><input type="checkbox" name="entretenimiento" value="ilusionismo"><span>Ilusionismo</span></label>
+                            <label><input type="checkbox" name="entretenimiento" value="hipnosis"><span>Hipnosis</span></label>
+                            <label><input type="checkbox" name="entretenimiento" value="imitadores"><span>Imitadores</span></label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ======================================
+                         DANZA
+                    ======================================= -->
+
+                    <div id="opciones-danza" class="registro-subopciones">
+
+                        <p class="seccion-etiqueta">DANZA / PERFORMANCE</p>
+
+                        <h3>¿Qué tipo de propuesta ofreces?</h3>
+
+                        <div class="registro-tags-seleccion">
+
+                            <label><input type="checkbox" name="danza" value="bailarines"><span>Bailarines</span></label>
+                            <label><input type="checkbox" name="danza" value="compania"><span>Compañía de danza</span></label>
+                            <label><input type="checkbox" name="danza" value="performance"><span>Performance</span></label>
+                            <label><input type="checkbox" name="danza" value="show-tematico"><span>Show temático</span></label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ======================================
+                         CONDUCTORES
+                    ======================================= -->
+
+                    <div id="opciones-conductor" class="registro-subopciones">
+
+                        <p class="seccion-etiqueta">CONDUCCIÓN</p>
+
+                        <h3>¿Qué tipo de servicio ofreces?</h3>
+
+                        <div class="registro-tags-seleccion">
+
+                            <label><input type="checkbox" name="conductor" value="host"><span>Host</span></label>
+                            <label><input type="checkbox" name="conductor" value="maestro-ceremonias"><span>Maestro de ceremonias</span></label>
+                            <label><input type="checkbox" name="conductor" value="presentador"><span>Presentador</span></label>
+                            <label><input type="checkbox" name="conductor" value="animador"><span>Animador</span></label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ======================================
+                         CONFERENCISTAS
+                    ======================================= -->
+
+                    <div id="opciones-conferencista" class="registro-subopciones">
+
+                        <p class="seccion-etiqueta">CONFERENCIAS</p>
+
+                        <h3>¿Qué tipo de perfil tienes?</h3>
+
+                        <div class="registro-tags-seleccion">
+
+                            <label><input type="checkbox" name="conferencista" value="speaker"><span>Speaker</span></label>
+                            <label><input type="checkbox" name="conferencista" value="especialista"><span>Especialista</span></label>
+                            <label><input type="checkbox" name="conferencista" value="tallerista"><span>Tallerista</span></label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ======================================
+                         SHOWS ESPECIALES
+                    ======================================= -->
+
+                    <div id="opciones-show" class="registro-subopciones">
+
+                        <p class="seccion-etiqueta">SHOW ESPECIAL</p>
+
+                        <h3>¿Qué tipo de show ofreces?</h3>
+
+                        <div class="registro-tags-seleccion">
+
+                            <label><input type="checkbox" name="show" value="infantil"><span>Infantil</span></label>
+                            <label><input type="checkbox" name="show" value="tributo"><span>Tributo</span></label>
+                            <label><input type="checkbox" name="show" value="personajes"><span>Personajes</span></label>
+                            <label><input type="checkbox" name="show" value="experiencia-tematica"><span>Experiencia temática</span></label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ======================================
+                         PRODUCCIÓN
+                    ======================================= -->
+
+                    <div id="opciones-produccion" class="registro-subopciones">
+
+                        <p class="seccion-etiqueta">PRODUCCIÓN</p>
+
+                        <h3>¿Qué servicios ofreces?</h3>
+
+                        <div class="registro-tags-seleccion">
+
+                            <label><input type="checkbox" name="servicio-produccion" value="audio"><span>Audio</span></label>
+                            <label><input type="checkbox" name="servicio-produccion" value="iluminacion"><span>Iluminación</span></label>
+                            <label><input type="checkbox" name="servicio-produccion" value="pantallas-led"><span>Pantallas LED</span></label>
+                            <label><input type="checkbox" name="servicio-produccion" value="backline"><span>Backline</span></label>
+                            <label><input type="checkbox" name="servicio-produccion" value="escenarios"><span>Escenarios</span></label>
+                            <label><input type="checkbox" name="servicio-produccion" value="produccion-integral"><span>Producción integral</span></label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ======================================
+                         DATOS DEL PROVEEDOR
+                    ======================================= -->
+
+                    <div class="registro-campos">
+
+                        <div class="registro-campo">
+
+                            <label for="proveedor-nombre">
+                                Nombre o nombre comercial
+                            </label>
+
+                            <input
+                                type="text"
+                                id="proveedor-nombre"
+                                placeholder="Ej. Trendline"
+                            >
+
+                        </div>
+
+
+                        <div class="registro-campo">
+
+                            <label for="proveedor-contacto">
+                                Nombre de contacto
+                            </label>
+
+                            <input
+                                type="text"
+                                id="proveedor-contacto"
+                                placeholder="Nombre completo"
+                            >
+
+                        </div>
+
+
+                        <div class="registro-campo">
+
+                            <label for="proveedor-correo">
+                                Correo electrónico
+                            </label>
+
+                            <input
+                                type="email"
+                                id="proveedor-correo"
+                                placeholder="correo@ejemplo.com"
+                            >
+
+                        </div>
+
+
+                        <div class="registro-campo">
+
+                            <label for="proveedor-telefono">
+                                Teléfono
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="proveedor-telefono"
+                                placeholder="55 0000 0000"
+                            >
+
+                        </div>
+
+
+                        <div class="registro-campo">
+
+                            <label for="proveedor-password">
+                                Contraseña
+                            </label>
+
+                            <input
+                                type="password"
+                                id="proveedor-password"
+                                placeholder="Crea una contraseña"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <button type="button" class="registro-enviar" id="crear-proveedor">
+                        Continuar con mi perfil
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+<footer class="nexo-footer">
+
+    <div class="nexo-footer-contenedor">
+
+        <div class="nexo-footer-grid">
+
+            <!-- MARCA -->
+            <div class="nexo-footer-marca">
+
+                <a href="../index.html" class="nexo-footer-logo">
+                    NE<span>XO</span>
+                </a>
+
+                <p>
+                    Conectamos talento, entretenimiento y
+                    producción profesional para hacer
+                    realidad experiencias extraordinarias.
+                </p>
+
+                <div class="nexo-footer-redes">
+                    <a href="#" aria-label="Instagram">Instagram ↗</a>
+                    <a href="#" aria-label="Facebook">Facebook ↗</a>
+                </div>
+
+            </div>
+
+            <!-- EXPLORAR -->
+            <div class="nexo-footer-columna">
+
+                <h3>Explorar</h3>
+
+                <a href="artistas.html">Artistas y música</a>
+                <a href="explorar.html?categoria=entretenimiento">Entretenimiento</a>
+                <a href="produccion.html">Producción y servicios</a>
+                <a href="eventos.html">Tipos de evento</a>
+
+            </div>
+
+            <!-- NEXO -->
+            <div class="nexo-footer-columna">
+
+                <h3>NEXO</h3>
+
+                <a href="como-funciona.html">Cómo funciona</a>
+                <a href="proveedores.html">Publica tus servicios</a>
+                <a href="ayuda.html">Centro de ayuda</a>
+                <a href="contacto.html">Contacto</a>
+
+            </div>
+
+            <!-- CONTRATACIÓN -->
+            <div class="nexo-footer-columna">
+
+                <h3>Tu próximo evento</h3>
+
+                <p>
+                    Encuentra artistas y servicios
+                    para crear un evento inolvidable.
+                </p>
+
+                <a href="cotizar.html" class="nexo-footer-boton">
+                    Cotiza tu evento ↗
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="nexo-footer-inferior">
+
+            <p>© 2026 NEXO. Todos los derechos reservados.</p>
+
+            <div>
+                <a href="privacidad.html">Aviso de privacidad</a>
+                <a href="terminos.html">Términos y condiciones</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+    <!-- ======================================
+         JAVASCRIPT
+    ======================================= -->
+
+    <script src="../script.js"></script>
+	<script src="../buscador.js" defer></script>
+
+</body>
+
+</html>

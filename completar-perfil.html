@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Completar perfil | NEXO</title>
+
+    <link rel="stylesheet" href="../estilos.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <header class="header">
+
+      <a href="../index.html" class="nexo-logo">
+    <span class="logo-ne">NE</span><span class="logo-xo">XO</span>
+</a>
+
+        <nav class="nav">
+
+            <a href="explorar.html">
+                Explorar
+            </a>
+
+            <a href="eventos.html">
+                Tipos de evento
+            </a>
+
+            <a href="como-funciona.html">
+                Cómo funciona
+            </a>
+
+            <a href="proveedores.html">
+                Publica tus servicios
+            </a>
+
+        </nav>
+
+
+        <div class="header-actions">
+
+            <a href="login.html" class="login">
+                Iniciar sesión
+            </a>
+
+            <a href="cotizar.html" class="btn-cotizar">
+                Cotiza tu evento
+            </a>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =========================
+         CONTENIDO PRINCIPAL
+    ========================== -->
+
+    <main>
+
+
+        <!-- =========================
+             HERO
+        ========================== -->
+
+        <section class="perfil-onboarding-hero">
+
+            <div class="perfil-onboarding-contenido">
+
+                <p class="seccion-etiqueta">
+                    PERFIL PROFESIONAL
+                </p>
+
+                <h1>
+                    Completa tu perfil
+                </h1>
+
+                <p>
+                    Agrega la información que los clientes necesitan
+                    para conocerte, comparar opciones y solicitar
+                    una propuesta.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             ONBOARDING
+        ========================== -->
+
+        <section class="perfil-onboarding">
+
+            <div class="perfil-onboarding-contenido">
+
+
+                <!-- =========================
+                     PROGRESO
+                ========================== -->
+
+                <div class="perfil-progreso">
+
+                    <div class="perfil-progreso-info">
+
+                        <span>
+                            Paso 1 de 5
+                        </span>
+
+                        <span>
+                            Información general
+                        </span>
+
+                    </div>
+
+
+                    <div class="perfil-progreso-barra">
+
+                        <div class="perfil-progreso-activa">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =====================================
+                     PASO 01
+                     INFORMACIÓN GENERAL
+                ====================================== -->
+
+                <div
+                    class="perfil-paso activo"
+                    id="perfil-paso-1"
+                >
+
+                    <p class="seccion-etiqueta">
+                        PASO 01
+                    </p>
+
+
+                    <h2>
+                        Cuéntanos sobre tu proyecto
+                    </h2>
+
+
+                    <p class="perfil-paso-intro">
+                        Esta información aparecerá en tu perfil
+                        público dentro de NEXO.
+                    </p>
+
+
+
+                    <!-- DATOS GENERALES -->
+
+                    <div class="perfil-form-grid">
+
+
+                        <!-- NOMBRE -->
+
+                        <div class="perfil-campo">
+
+                            <label for="perfil-nombre">
+                                Nombre artístico o comercial
+                            </label>
+
+                            <input
+                                type="text"
+                                id="perfil-nombre"
+                                name="perfil-nombre"
+                                placeholder="Ej. Trendline"
+                            >
+
+                        </div>
+
+
+
+                        <!-- CIUDAD -->
+
+                        <div class="perfil-campo">
+
+                            <label for="perfil-ciudad">
+                                Ciudad base
+                            </label>
+
+                            <input
+                                type="text"
+                                id="perfil-ciudad"
+                                name="perfil-ciudad"
+                                placeholder="Ej. Ciudad de México"
+                            >
+
+                        </div>
+
+
+
+                        <!-- DESCRIPCIÓN -->
+
+                        <div class="perfil-campo perfil-campo-completo">
+
+                            <label for="perfil-descripcion">
+                                Descripción
+                            </label>
+
+                            <textarea
+                                id="perfil-descripcion"
+                                name="perfil-descripcion"
+                                rows="6"
+                                maxlength="500"
+                                placeholder="Cuéntales a los clientes quién eres, qué haces y qué hace especial tu propuesta."
+                            ></textarea>
+
+                            <small>
+                                Recomendación: entre 100 y 500 caracteres.
+                            </small>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- =========================
+                         COBERTURA
+                    ========================== -->
+
+                    <div class="perfil-subseccion">
+
+                        <h3>
+                            ¿Dónde puedes trabajar?
+                        </h3>
+
+                        <p>
+                            Selecciona la zona principal donde puedes
+                            ofrecer tus servicios.
+                        </p>
+
+
+                        <div class="registro-tags-seleccion">
+
+
+                            <!-- CDMX -->
+
+                            <label>
+
+                                <input
+                                    type="radio"
+                                    name="cobertura"
+                                    value="cdmx"
+                                >
+
+                                <span>
+                                    CDMX
+                                </span>
+
+                            </label>
+
+
+
+                            <!-- ESTADO DE MÉXICO -->
+
+                            <label>
+
+                                <input
+                                    type="radio"
+                                    name="cobertura"
+                                    value="edomex"
+                                >
+
+                                <span>
+                                    Estado de México
+                                </span>
+
+                            </label>
+
+
+
+                            <!-- QUERÉTARO -->
+
+                            <label>
+
+                                <input
+                                    type="radio"
+                                    name="cobertura"
+                                    value="queretaro"
+                                >
+
+                                <span>
+                                    Querétaro
+                                </span>
+
+                            </label>
+
+
+
+                            <!-- PUEBLA -->
+
+                            <label>
+
+                                <input
+                                    type="radio"
+                                    name="cobertura"
+                                    value="puebla"
+                                >
+
+                                <span>
+                                    Puebla
+                                </span>
+
+                            </label>
+
+
+
+                            <!-- MORELOS -->
+
+                            <label>
+
+                                <input
+                                    type="radio"
+                                    name="cobertura"
+                                    value="morelos"
+                                >
+
+                                <span>
+                                    Morelos
+                                </span>
+
+                            </label>
+
+
+
+                            <!-- TODA LA REPÚBLICA -->
+
+                            <label>
+
+                                <input
+                                    type="radio"
+                                    name="cobertura"
+                                    value="nacional"
+                                >
+
+                                <span>
+                                    Toda la República
+                                </span>
+
+                            </label>
+
+
+
+                            <!-- INTERNACIONAL -->
+
+                            <label>
+
+                                <input
+                                    type="radio"
+                                    name="cobertura"
+                                    value="internacional"
+                                >
+
+                                <span>
+                                    Internacional
+                                </span>
+
+                            </label>
+
+
+
+                            <!-- OTRO -->
+
+                            <label>
+
+                                <input
+                                    type="radio"
+                                    name="cobertura"
+                                    value="otro"
+                                    id="cobertura-otro"
+                                >
+
+                                <span>
+                                    Otro
+                                </span>
+
+                            </label>
+
+
+                        </div>
+
+
+
+                        <!-- OTRO LUGAR -->
+
+                        <div
+                            id="campo-otra-cobertura"
+                            class="campo-otra-cobertura"
+                        >
+
+                            <label for="otra-cobertura">
+                                ¿En qué otro lugar puedes trabajar?
+                            </label>
+
+                            <input
+                                type="text"
+                                id="otra-cobertura"
+                                name="otra-cobertura"
+                                placeholder="Ej. Guadalajara, Mérida, Cancún..."
+                            >
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- =========================
+                         BOTONES PASO 01
+                    ========================== -->
+
+                    <div class="perfil-acciones">
+
+                        <a
+                            href="registro.html"
+                            class="perfil-atras"
+                        >
+                            Atrás
+                        </a>
+
+
+                        <button
+                            type="button"
+                            class="perfil-siguiente"
+                            id="continuar-perfil-paso-1"
+                        >
+                            Continuar
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+                <!-- FIN PASO 01 -->
+
+
+
+                <!-- =====================================
+                     PASO 02
+                     FOTOS Y MULTIMEDIA
+                ====================================== -->
+
+                <div
+                    class="perfil-paso"
+                    id="perfil-paso-2"
+                >
+
+                    <p class="seccion-etiqueta">
+                        PASO 02
+                    </p>
+
+
+                    <h2>
+                        Fotos y multimedia
+                    </h2>
+
+
+                    <p class="perfil-paso-intro">
+                        Muestra tu trabajo con imágenes, videos y enlaces
+                        que ayuden a los clientes a conocer mejor tu propuesta.
+                    </p>
+
+
+
+                    <!-- =========================
+                         ARCHIVOS
+                    ========================== -->
+
+                    <div class="perfil-form-grid">
+
+
+                        <!-- PORTADA -->
+
+                        <div class="perfil-campo perfil-campo-completo">
+
+                            <label for="perfil-portada">
+                                Foto de portada
+                            </label>
+
+                            <input
+                                type="file"
+                                id="perfil-portada"
+                                name="perfil-portada"
+                                accept="image/jpeg,image/png,image/webp"
+                            >
+
+                            <small>
+                                Recomendado: 1600 × 900 px · JPG, PNG o WebP · Máx. 1.5 MB
+                            </small>
+
+                        </div>
+
+
+
+                        <!-- FOTO / LOGO -->
+
+                        <div class="perfil-campo perfil-campo-completo">
+
+                            <label for="perfil-avatar">
+                                Foto de perfil o logotipo
+                            </label>
+
+                            <input
+                                type="file"
+                                id="perfil-avatar"
+                                name="perfil-avatar"
+                                accept="image/jpeg,image/png,image/webp"
+                            >
+
+                            <small>
+                                Recomendado: 800 × 800 px · JPG, PNG o WebP · Máx. 1 MB
+                            </small>
+
+                        </div>
+
+
+
+                        <!-- GALERÍA -->
+
+                        <div class="perfil-campo perfil-campo-completo">
+
+                            <label for="perfil-galeria">
+                                Galería de imágenes
+                            </label>
+
+                            <input
+                                type="file"
+                                id="perfil-galeria"
+                                name="perfil-galeria"
+                                accept="image/jpeg,image/png,image/webp"
+                                multiple
+                            >
+
+                            <small>
+                                Recomendado: mínimo 1200 px de ancho · JPG, PNG o WebP · Máx. 1 MB por imagen
+                            </small>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- =========================
+                         VIDEO
+                    ========================== -->
+
+                    <div class="perfil-subseccion">
+
+                        <h3>
+                            Video principal
+                        </h3>
+
+                        <p>
+                            Agrega un video para que los clientes
+                            puedan ver tu trabajo.
+                        </p>
+
+
+                        <div class="perfil-form-grid">
+
+                            <div class="perfil-campo perfil-campo-completo">
+
+                                <label for="perfil-video">
+                                    Enlace de YouTube o Vimeo
+                                </label>
+
+                                <input
+                                    type="url"
+                                    id="perfil-video"
+                                    name="perfil-video"
+                                    placeholder="https://youtube.com/..."
+                                >
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =========================
+                         REDES SOCIALES
+                    ========================== -->
+
+                    <div class="perfil-subseccion">
+
+                        <h3>
+                            Redes y plataformas
+                        </h3>
+
+                        <p>
+                            Estos campos son opcionales. Agrega las
+                            plataformas donde los clientes pueden
+                            conocer más de tu trabajo.
+                        </p>
+
+
+                        <div class="perfil-form-grid">
+
+
+                            <!-- INSTAGRAM -->
+
+                            <div class="perfil-campo">
+
+                                <label for="perfil-instagram">
+                                    Instagram
+                                </label>
+
+                                <input
+                                    type="url"
+                                    id="perfil-instagram"
+                                    name="perfil-instagram"
+                                    placeholder="https://instagram.com/..."
+                                >
+
+                            </div>
+
+
+
+                            <!-- TIKTOK -->
+
+                            <div class="perfil-campo">
+
+                                <label for="perfil-tiktok">
+                                    TikTok
+                                </label>
+
+                                <input
+                                    type="url"
+                                    id="perfil-tiktok"
+                                    name="perfil-tiktok"
+                                    placeholder="https://tiktok.com/@..."
+                                >
+
+                            </div>
+
+
+
+                            <!-- YOUTUBE -->
+
+                            <div class="perfil-campo">
+
+                                <label for="perfil-youtube">
+                                    YouTube
+                                </label>
+
+                                <input
+                                    type="url"
+                                    id="perfil-youtube"
+                                    name="perfil-youtube"
+                                    placeholder="https://youtube.com/..."
+                                >
+
+                            </div>
+
+
+
+                            <!-- SPOTIFY -->
+
+                            <div class="perfil-campo">
+
+                                <label for="perfil-spotify">
+                                    Spotify
+                                </label>
+
+                                <input
+                                    type="url"
+                                    id="perfil-spotify"
+                                    name="perfil-spotify"
+                                    placeholder="https://open.spotify.com/..."
+                                >
+
+                            </div>
+
+
+
+                            <!-- FACEBOOK -->
+
+                            <div class="perfil-campo">
+
+                                <label for="perfil-facebook">
+                                    Facebook
+                                </label>
+
+                                <input
+                                    type="url"
+                                    id="perfil-facebook"
+                                    name="perfil-facebook"
+                                    placeholder="https://facebook.com/..."
+                                >
+
+                            </div>
+
+
+
+                            <!-- SITIO WEB -->
+
+                            <div class="perfil-campo">
+
+                                <label for="perfil-web">
+                                    Sitio web
+                                </label>
+
+                                <input
+                                    type="url"
+                                    id="perfil-web"
+                                    name="perfil-web"
+                                    placeholder="https://..."
+                                >
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =========================
+                         BOTONES PASO 02
+                    ========================== -->
+
+                    <div class="perfil-acciones">
+
+                        <button
+                            type="button"
+                            class="perfil-atras"
+                            id="volver-perfil-paso-1"
+                        >
+                            Atrás
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="perfil-siguiente"
+                            id="continuar-perfil-paso-2"
+                        >
+                            Continuar
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+                <!-- FIN PASO 02 -->
+
+	<!-- =====================================
+    	 PASO 03
+     	SERVICIOS Y PRECIOS
+	====================================== -->
+
+	<div
+    	class="perfil-paso"
+    	id="perfil-paso-3"
+	>
+
+    <p class="seccion-etiqueta">
+        PASO 03
+    </p>
+
+    <h2>
+        Servicios y precios
+    </h2>
+
+    <p class="perfil-paso-intro">
+        Ayuda a los clientes a entender qué pueden contratar
+        y cuál es el presupuesto aproximado para trabajar contigo.
+    </p>
+
+
+    <div class="perfil-form-grid">
+
+
+        <!-- NOMBRE DEL SERVICIO -->
+
+        <div class="perfil-campo perfil-campo-completo">
+
+            <label for="servicio-nombre">
+                Nombre del servicio o show
+            </label>
+
+            <input
+                type="text"
+                id="servicio-nombre"
+                name="servicio-nombre"
+                placeholder="Ej. Show en vivo para eventos"
+            >
+
+        </div>
+
+
+        <!-- PRECIO -->
+
+        <div class="perfil-campo">
+
+            <label for="servicio-precio">
+                Precio desde
+            </label>
+
+            <input
+                type="number"
+                id="servicio-precio"
+                name="servicio-precio"
+                min="0"
+                placeholder="Ej. 15000"
+            >
+
+            <small>
+                Ingresa el precio aproximado en MXN.
+            </small>
+
+        </div>
+
+
+        <!-- MODALIDAD PRECIO -->
+
+        <div class="perfil-campo">
+
+            <label for="servicio-modalidad-precio">
+                ¿Cómo se cotiza?
+            </label>
+
+            <select
+                id="servicio-modalidad-precio"
+                name="servicio-modalidad-precio"
+            >
+
+                <option value="">
+                    Selecciona una opción
+                </option>
+
+                <option value="evento">
+                    Por evento
+                </option>
+
+                <option value="hora">
+                    Por hora
+                </option>
+
+                <option value="dia">
+                    Por día
+                </option>
+
+                <option value="persona">
+                    Por persona
+                </option>
+
+                <option value="paquete">
+                    Por paquete
+                </option>
+
+                <option value="cotizacion">
+                    Cotización personalizada
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- DURACIÓN -->
+
+        <div class="perfil-campo">
+
+            <label for="servicio-duracion">
+                Duración aproximada
+            </label>
+
+            <input
+                type="text"
+                id="servicio-duracion"
+                name="servicio-duracion"
+                placeholder="Ej. 2 horas"
+            >
+
+        </div>
+
+
+        <!-- ANTICIPACIÓN -->
+
+        <div class="perfil-campo">
+
+            <label for="servicio-anticipacion">
+                Anticipación recomendada
+            </label>
+
+            <select
+                id="servicio-anticipacion"
+                name="servicio-anticipacion"
+            >
+
+                <option value="">
+                    Selecciona una opción
+                </option>
+
+                <option value="1-semana">
+                    1 semana
+                </option>
+
+                <option value="2-semanas">
+                    2 semanas
+                </option>
+
+                <option value="1-mes">
+                    1 mes
+                </option>
+
+                <option value="2-meses">
+                    2 meses
+                </option>
+
+                <option value="3-meses">
+                    3 meses o más
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- QUÉ INCLUYE -->
+
+        <div class="perfil-campo perfil-campo-completo">
+
+            <label for="servicio-incluye">
+                ¿Qué incluye?
+            </label>
+
+            <textarea
+                id="servicio-incluye"
+                name="servicio-incluye"
+                rows="5"
+                placeholder="Ej. Presentación de 2 horas, músicos, equipo básico, montaje..."
+            ></textarea>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         VIAJES
+    ========================== -->
+
+    <div class="perfil-subseccion">
+
+        <h3>
+            ¿Puedes viajar para realizar eventos?
+        </h3>
+
+        <p>
+            Indica si aceptas contrataciones fuera de tu ciudad base.
+        </p>
+
+        <div class="registro-tags-seleccion">
+
+            <label>
+                <input
+                    type="radio"
+                    name="servicio-viaja"
+                    value="si"
+                >
+                <span>Sí</span>
+            </label>
+
+            <label>
+                <input
+                    type="radio"
+                    name="servicio-viaja"
+                    value="no"
+                >
+                <span>No</span>
+            </label>
+
+            <label>
+                <input
+                    type="radio"
+                    name="servicio-viaja"
+                    value="depende"
+                >
+                <span>Depende del evento</span>
+            </label>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         BOTONES PASO 03
+    ========================== -->
+
+    <div class="perfil-acciones">
+
+        <button
+            type="button"
+            class="perfil-atras"
+            id="volver-perfil-paso-2"
+        >
+            Atrás
+        </button>
+
+        <button
+            type="button"
+            class="perfil-siguiente"
+            id="continuar-perfil-paso-3"
+        >
+            Continuar
+        </button>
+
+    </div>
+
+</div>
+
+<!-- FIN PASO 03 -->
+				<!-- =====================================
+     PASO 04
+     INFORMACIÓN PROFESIONAL
+====================================== -->
+
+<div
+    class="perfil-paso"
+    id="perfil-paso-4"
+>
+
+    <p class="seccion-etiqueta">
+        PASO 04
+    </p>
+
+    <h2>
+        Información profesional
+    </h2>
+
+    <p class="perfil-paso-intro">
+        Agrega información técnica y profesional que ayude
+        a los clientes a entender cómo trabajas.
+    </p>
+
+
+    <div class="perfil-form-grid">
+
+
+        <!-- EXPERIENCIA -->
+
+        <div class="perfil-campo">
+
+            <label for="perfil-experiencia">
+                Años de experiencia
+            </label>
+
+            <input
+                type="number"
+                id="perfil-experiencia"
+                name="perfil-experiencia"
+                min="0"
+                placeholder="Ej. 8"
+            >
+
+        </div>
+
+
+        <!-- NÚMERO DE PERSONAS -->
+
+        <div class="perfil-campo">
+
+            <label for="perfil-equipo-personas">
+                Personas que integran tu equipo
+            </label>
+
+            <input
+                type="number"
+                id="perfil-equipo-personas"
+                name="perfil-equipo-personas"
+                min="1"
+                placeholder="Ej. 6"
+            >
+
+        </div>
+
+
+        <!-- CLIENTES / EXPERIENCIA -->
+
+        <div class="perfil-campo perfil-campo-completo">
+
+            <label for="perfil-clientes">
+                Experiencia destacada
+            </label>
+
+            <textarea
+                id="perfil-clientes"
+                name="perfil-clientes"
+                rows="5"
+                placeholder="Ej. Eventos corporativos, festivales, bodas, marcas o clientes con los que has trabajado..."
+            ></textarea>
+
+        </div>
+
+
+        <!-- NECESIDADES TÉCNICAS -->
+
+        <div class="perfil-campo perfil-campo-completo">
+
+            <label for="perfil-necesidades">
+                Requerimientos técnicos
+            </label>
+
+            <textarea
+                id="perfil-necesidades"
+                name="perfil-necesidades"
+                rows="5"
+                placeholder="Ej. Espacio mínimo, conexiones eléctricas, audio, iluminación, camerino, montaje..."
+            ></textarea>
+
+        </div>
+
+
+        <!-- RIDER -->
+
+        <div class="perfil-campo perfil-campo-completo">
+
+            <label for="perfil-rider">
+                Rider técnico
+            </label>
+
+            <input
+                type="file"
+                id="perfil-rider"
+                name="perfil-rider"
+                accept=".pdf"
+            >
+
+            <small>
+                Opcional. PDF de máximo 5 MB. En esta demostración el archivo no se envía a un servidor.
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         DISPONIBILIDAD
+    ========================== -->
+
+    <div class="perfil-subseccion">
+
+        <h3>
+            Disponibilidad
+        </h3>
+
+        <p>
+            Indica cuándo sueles estar disponible para eventos.
+        </p>
+
+
+        <div class="registro-tags-seleccion">
+
+            <label>
+                <input
+                    type="checkbox"
+                    name="disponibilidad"
+                    value="entre-semana"
+                >
+                <span>Entre semana</span>
+            </label>
+
+            <label>
+                <input
+                    type="checkbox"
+                    name="disponibilidad"
+                    value="viernes"
+                >
+                <span>Viernes</span>
+            </label>
+
+            <label>
+                <input
+                    type="checkbox"
+                    name="disponibilidad"
+                    value="sabado"
+                >
+                <span>Sábado</span>
+            </label>
+
+            <label>
+                <input
+                    type="checkbox"
+                    name="disponibilidad"
+                    value="domingo"
+                >
+                <span>Domingo</span>
+            </label>
+
+            <label>
+                <input
+                    type="checkbox"
+                    name="disponibilidad"
+                    value="consultar"
+                >
+                <span>Consultar disponibilidad</span>
+            </label>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         BOTONES PASO 04
+    ========================== -->
+
+    <div class="perfil-acciones">
+
+        <button
+            type="button"
+            class="perfil-atras"
+            id="volver-perfil-paso-3"
+        >
+            Atrás
+        </button>
+
+        <button
+            type="button"
+            class="perfil-siguiente"
+            id="continuar-perfil-paso-4"
+        >
+            Continuar
+        </button>
+
+    </div>
+
+</div>
+
+<!-- FIN PASO 04 -->
+				
+				<!-- =====================================
+     PASO 05
+     VISTA PREVIA Y PUBLICACIÓN
+====================================== -->
+
+<div
+    class="perfil-paso"
+    id="perfil-paso-5"
+>
+
+    <p class="seccion-etiqueta">
+        PASO 05
+    </p>
+
+    <h2>
+        Revisa tu perfil antes de enviarlo a revisión
+    </h2>
+
+    <p class="perfil-paso-intro">
+        Confirma que la información esté correcta.
+        Después podrás enviarlo al equipo de NEXO para su revisión.
+    </p>
+
+
+    <div class="perfil-resumen-publicacion">
+
+        <div class="perfil-resumen-item">
+            <span>Nombre</span>
+            <strong id="resumen-nombre">
+                —
+            </strong>
+        </div>
+
+        <div class="perfil-resumen-item">
+            <span>Ciudad base</span>
+            <strong id="resumen-ciudad">
+                —
+            </strong>
+        </div>
+
+        <div class="perfil-resumen-item">
+            <span>Cobertura</span>
+            <strong id="resumen-cobertura">
+                —
+            </strong>
+        </div>
+
+        <div class="perfil-resumen-item">
+            <span>Servicio principal</span>
+            <strong id="resumen-servicio">
+                —
+            </strong>
+        </div>
+
+        <div class="perfil-resumen-item">
+            <span>Precio desde</span>
+            <strong id="resumen-precio">
+                —
+            </strong>
+        </div>
+
+        <div class="perfil-resumen-item">
+            <span>Experiencia</span>
+            <strong id="resumen-experiencia">
+                —
+            </strong>
+        </div>
+
+    </div>
+
+
+    <div class="perfil-subseccion">
+
+        <h3>
+            Antes de enviar a revisión
+        </h3>
+
+        <p>
+            Tu perfil no aparecerá públicamente hasta que sea aprobado por el equipo de NEXO.
+        </p>
+
+        <label class="perfil-aceptacion">
+
+            <input
+                type="checkbox"
+                id="aceptar-publicacion"
+            >
+
+            <span>
+                Confirmo que la información proporcionada
+                es correcta.
+            </span>
+
+        </label>
+
+    </div>
+
+
+    <div class="perfil-acciones">
+
+        <button
+            type="button"
+            class="perfil-atras"
+            id="volver-perfil-paso-4"
+        >
+            Atrás
+        </button>
+
+        <button
+            type="button"
+            class="perfil-siguiente"
+            id="publicar-perfil"
+        >
+            Enviar perfil a revisión
+        </button>
+
+    </div>
+
+</div>
+
+<!-- FIN PASO 05 -->
+				
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+<footer class="nexo-footer">
+
+    <div class="nexo-footer-contenedor">
+
+        <div class="nexo-footer-grid">
+
+            <!-- MARCA -->
+            <div class="nexo-footer-marca">
+
+                <a href="../index.html" class="nexo-footer-logo">
+                    NE<span>XO</span>
+                </a>
+
+                <p>
+                    Conectamos talento, entretenimiento y
+                    producción profesional para hacer
+                    realidad experiencias extraordinarias.
+                </p>
+
+                <div class="nexo-footer-redes">
+                    <a href="#" aria-label="Instagram">Instagram ↗</a>
+                    <a href="#" aria-label="Facebook">Facebook ↗</a>
+                </div>
+
+            </div>
+
+            <!-- EXPLORAR -->
+            <div class="nexo-footer-columna">
+
+                <h3>Explorar</h3>
+
+                <a href="artistas.html">Artistas y música</a>
+                <a href="explorar.html?categoria=entretenimiento">Entretenimiento</a>
+                <a href="produccion.html">Producción y servicios</a>
+                <a href="eventos.html">Tipos de evento</a>
+
+            </div>
+
+            <!-- NEXO -->
+            <div class="nexo-footer-columna">
+
+                <h3>NEXO</h3>
+
+                <a href="como-funciona.html">Cómo funciona</a>
+                <a href="proveedores.html">Publica tus servicios</a>
+                <a href="ayuda.html">Centro de ayuda</a>
+                <a href="contacto.html">Contacto</a>
+
+            </div>
+
+            <!-- CONTRATACIÓN -->
+            <div class="nexo-footer-columna">
+
+                <h3>Tu próximo evento</h3>
+
+                <p>
+                    Encuentra artistas y servicios
+                    para crear un evento inolvidable.
+                </p>
+
+                <a href="cotizar.html" class="nexo-footer-boton">
+                    Cotiza tu evento ↗
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="nexo-footer-inferior">
+
+            <p>© 2026 NEXO. Todos los derechos reservados.</p>
+
+            <div>
+                <a href="privacidad.html">Aviso de privacidad</a>
+                <a href="terminos.html">Términos y condiciones</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script src="../perfil.js"></script>
+	<script src="../buscador.js" defer></script>
+
+
+</body>
+
+</html>

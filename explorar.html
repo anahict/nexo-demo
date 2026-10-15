@@ -1,0 +1,814 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Explorar | NEXO</title>
+
+    <link rel="stylesheet" href="../estilos.css">
+	
+	<style>
+/* ==========================================
+   NEXO - SUGERENCIAS DEL BUSCADOR EXPLORAR
+========================================== */
+
+.explorar-buscador {
+    position: relative !important;
+    overflow: visible !important;
+}
+
+.explorar-buscador #nexo-sugerencias {
+    position: absolute !important;
+    top: calc(100% + 10px) !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-height: 350px !important;
+    overflow-y: auto !important;
+
+    padding: 8px !important;
+    background: #ffffff !important;
+    border: 1px solid #e9e6f5 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18) !important;
+
+    z-index: 99999 !important;
+    box-sizing: border-box !important;
+}
+
+.explorar-buscador #nexo-sugerencias[hidden] {
+    display: none !important;
+}
+
+.explorar-buscador #nexo-sugerencias:not([hidden]) {
+    display: block !important;
+}
+
+.explorar-buscador #nexo-sugerencias .nexo-sugerencia {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    gap: 4px !important;
+
+    width: 100% !important;
+    height: auto !important;
+    min-height: 60px !important;
+    margin: 0 !important;
+    padding: 12px 14px !important;
+
+    background: #ffffff !important;
+    color: #0f0f10 !important;
+    border: none !important;
+    border-radius: 8px !important;
+
+    text-align: left !important;
+    cursor: pointer !important;
+}
+
+.explorar-buscador #nexo-sugerencias .nexo-sugerencia strong {
+    color: #0f0f10 !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+}
+
+.explorar-buscador #nexo-sugerencias .nexo-sugerencia small {
+    color: #777777 !important;
+    font-size: 12px !important;
+}
+
+.explorar-buscador #nexo-sugerencias .nexo-sugerencia:hover {
+    background: #f2efff !important;
+}
+</style>
+</head>
+
+<body>
+
+    <header class="header">
+
+   <a href="../index.html" class="nexo-logo">
+    <span class="logo-ne">NE</span><span class="logo-xo">XO</span>
+</a>
+
+    <nav class="nav">
+        <a href="explorar.html">Explorar</a>
+        <a href="eventos.html">Tipos de evento</a>
+        <a href="como-funciona.html">Cómo funciona</a>
+        <a href="proveedores.html">Publica tus servicios</a>
+    </nav>
+
+    <div class="header-actions">
+
+        <a href="login.html" class="login">
+            Iniciar sesión
+        </a>
+
+        <a href="cotizar.html" class="btn-cotizar">
+            Cotiza tu evento
+        </a>
+
+    </div>
+
+</header>
+	
+	<section class="explorar-hero">
+
+    <div class="explorar-hero-contenido">
+
+        <p class="seccion-etiqueta">
+            EXPLORA NEXO
+        </p>
+
+        <h1>
+            Encuentra lo que tu evento necesita.
+        </h1>
+
+        <p class="explorar-hero-texto">
+            Descubre artistas, experiencias y servicios de producción
+            para construir un evento a tu medida.
+        </p>
+
+        <form class="explorar-buscador" id="nexo-buscador-rapido" autocomplete="off">
+
+    <input
+        type="search"
+        id="nexo-busqueda"
+        name="q"
+        placeholder="Busca artistas, entretenimiento o servicios..."
+        aria-label="Buscar servicios en NEXO"
+        aria-controls="nexo-sugerencias"
+        aria-expanded="false"
+    >
+
+    <button type="submit">Buscar</button>
+
+    <div id="nexo-sugerencias" class="nexo-sugerencias" hidden></div>
+
+</form>
+
+<section id="nexo-resultados" class="nexo-resultados" hidden>
+    <h2 id="nexo-resultados-titulo">Resultados de búsqueda</h2>
+    <div id="nexo-resultados-lista"></div>
+</section>
+    </div>
+
+</section>
+	
+	<section class="explorar-categorias">
+
+    <div class="explorar-categorias-contenido">
+
+        <p class="seccion-etiqueta">
+            ENCUENTRA LO QUE NECESITAS
+        </p>
+
+        <h2>
+            Explora por categoría
+        </h2>
+
+        <div class="explorar-categorias-grid">
+
+            <a href="artistas.html" class="explorar-categoria-card">
+
+                <span class="explorar-numero">01</span>
+
+                <div>
+                    <h3>Artistas</h3>
+
+                    <p>
+                        Bandas, DJs, solistas, cantantes,
+                        instrumentistas y tributos.
+                    </p>
+
+                    <span class="explorar-link">
+                        Ver artistas →
+                    </span>
+                </div>
+
+            </a>
+
+
+            <a href="produccion.html" class="explorar-categoria-card">
+
+                <span class="explorar-numero">02</span>
+
+                <div>
+                    <h3>Producción</h3>
+
+                    <p>
+                        Audio, iluminación, pantallas LED,
+                        backline y producción integral.
+                    </p>
+
+                    <span class="explorar-link">
+                        Ver producción →
+                    </span>
+                </div>
+
+            </a>
+
+
+            <a href="#" class="explorar-categoria-card">
+
+                <span class="explorar-numero">03</span>
+
+                <div>
+                    <h3>Experiencias</h3>
+
+                    <p>
+                        Shows, stand up, conferencias,
+                        hosts y entretenimiento especial.
+                    </p>
+
+                    <span class="explorar-link">
+                        Ver experiencias →
+                    </span>
+                </div>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+	
+	<section class="categorias-rapidas">
+
+    <div class="categorias-rapidas-contenido">
+
+        <div class="categorias-rapidas-header">
+
+            <p class="seccion-etiqueta">
+                EXPLORA MÁS
+            </p>
+
+            <h2>
+                Categorías populares
+            </h2>
+
+        </div>
+
+        <div class="categorias-rapidas-grid">
+
+            <a href="artistas.html" class="categoria-rapida">
+                Bandas
+            </a>
+
+            <a href="artistas.html" class="categoria-rapida">
+                DJs
+            </a>
+
+            <a href="artistas.html" class="categoria-rapida">
+                Cantantes
+            </a>
+
+            <a href="#" class="categoria-rapida">
+                Stand Up
+            </a>
+
+            <a href="#" class="categoria-rapida">
+                Conferencistas
+            </a>
+
+            <a href="produccion.html" class="categoria-rapida">
+                Audio
+            </a>
+
+            <a href="produccion.html" class="categoria-rapida">
+                Iluminación
+            </a>
+
+            <a href="produccion.html" class="categoria-rapida">
+                Pantallas LED
+            </a>
+
+            <a href="produccion.html" class="categoria-rapida">
+                Backline
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+	
+	<section class="artistas-destacados">
+
+    <div class="artistas-contenido">
+
+        <div class="artistas-header">
+
+            <div>
+                <p class="seccion-etiqueta">
+                    TALENTO DESTACADO
+                </p>
+
+                <h2>
+                    Descubre artistas para tu evento
+                </h2>
+            </div>
+
+            <a href="artistas.html" class="ver-todos">
+                Ver todos →
+            </a>
+
+        </div>
+
+        <div class="artistas-grid">
+
+            <article class="artista-card">
+
+                <div class="artista-imagen">
+
+                    <img src="../assets/images/trendline.png" alt="Trendline">
+
+                    <button class="favorito">
+                        ♡
+                    </button>
+
+                </div>
+
+                <div class="artista-info">
+
+                    <span class="artista-categoria">
+                        BANDA · CDMX
+                    </span>
+
+                    <h3>Trendline</h3>
+
+                    <p>
+                        Una experiencia musical en vivo con energía,
+                        repertorio versátil y producción profesional.
+                    </p>
+
+                    <div class="artista-rating">
+                        ★★★★★
+                    </div>
+
+                    <a href="trendline.html">
+    Ver perfil →
+</a>
+
+                </div>
+
+            </article>
+
+
+            <article class="artista-card">
+
+                <div class="artista-imagen">
+
+                    <img src="../assets/images/mr-loxley.jpg" alt="Mr. Loxley">
+
+                    <button class="favorito">
+                        ♡
+                    </button>
+
+                </div>
+
+                <div class="artista-info">
+
+                    <span class="artista-categoria">
+                        DJ · CDMX
+                    </span>
+
+                    <h3>Mr. Loxley</h3>
+
+                    <p>
+                        Música, concepto y experiencia para convertir
+                        cada evento en algo memorable.
+                    </p>
+
+                    <div class="artista-rating">
+                        ★★★★★
+                    </div>
+
+                   <a href="mr-loxley.html">
+    Ver perfil →
+</a>
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <article class="artista-card">
+
+                <div class="artista-imagen">
+
+                    <img src="../assets/images/two-souls.jpg" alt="Two Souls">
+
+                    <button class="favorito">
+                        ♡
+                    </button>
+
+                </div>
+
+                <div class="artista-info">
+
+                    <span class="artista-categoria">
+                        DÚO VOCAL · CDMX
+                    </span>
+
+                    <h3>Two Souls</h3>
+
+                    <p>
+                        Dos voces, armonías y un show diseñado
+                        para conectar con todo tipo de audiencias.
+                    </p>
+
+                    <div class="artista-rating">
+                        ★★★★★
+                    </div>
+
+                   <a href="two-souls.html">
+    Ver perfil →
+</a>
+
+                </div>
+
+            </article>
+		
+		<!-- MICHELLE RODRÍGUEZ -->
+<article class="artista-card">
+
+    <div class="artista-imagen artista-sin-foto">
+        <div class="imagen-placeholder">
+            Michelle Rodríguez
+        </div>
+    </div>
+
+    <div class="artista-info">
+
+        <span class="artista-categoria">
+            COMEDIA · CONFERENCIAS
+        </span>
+
+        <h3>Michelle Rodríguez</h3>
+
+        <p>
+            Comedia, entretenimiento y conferencias
+            para conectar con distintas audiencias.
+        </p>
+
+        <a href="michelle-rodriguez.html">
+            Ver perfil →
+        </a>
+
+    </div>
+
+</article>
+
+
+<!-- ANDREAS ZANETTI -->
+<article class="artista-card">
+
+    <div class="artista-imagen artista-sin-foto">
+        <div class="imagen-placeholder">
+            Andreas Zanetti
+        </div>
+    </div>
+
+    <div class="artista-info">
+
+        <span class="artista-categoria">
+            MÚSICA · COMEDIA
+        </span>
+
+        <h3>Andreas Zanetti</h3>
+
+        <p>
+            Un espectáculo que combina música,
+            humor y entretenimiento.
+        </p>
+
+        <a href="andreas-zanetti.html">
+            Ver perfil →
+        </a>
+
+    </div>
+
+</article>
+
+
+<!-- TR3MENS -->
+<article class="artista-card">
+
+    <div class="artista-imagen artista-sin-foto">
+        <div class="imagen-placeholder">
+            Tr3mens
+        </div>
+    </div>
+
+    <div class="artista-info">
+
+        <span class="artista-categoria">
+            MÚSICA INSTRUMENTAL
+        </span>
+
+        <h3>Tr3mens</h3>
+
+        <p>
+            Una propuesta instrumental que fusiona
+            música clásica y contemporánea.
+        </p>
+
+        <a href="tr3mens.html">
+            Ver perfil →
+        </a>
+
+    </div>
+
+</article>
+
+
+<!-- VÍCTOR CASTAÑEDA -->
+<article class="artista-card">
+
+    <div class="artista-imagen artista-sin-foto">
+        <div class="imagen-placeholder">
+            Víctor Castañeda
+        </div>
+    </div>
+
+    <div class="artista-info">
+
+        <span class="artista-categoria">
+            MENTALISMO · ENTRETENIMIENTO
+        </span>
+
+        <h3>Víctor Castañeda</h3>
+
+        <p>
+            Una experiencia de mentalismo diseñada
+            para sorprender al público.
+        </p>
+
+        <a href="victor-castaneda.html">
+            Ver perfil →
+        </a>
+
+    </div>
+
+</article>
+
+
+<!-- PERCY -->
+<article class="artista-card">
+
+    <div class="artista-imagen artista-sin-foto">
+        <div class="imagen-placeholder">
+            Percy
+        </div>
+    </div>
+
+    <div class="artista-info">
+
+        <span class="artista-categoria">
+            REGIONAL MEXICANO
+        </span>
+
+        <h3>Percy</h3>
+
+        <p>
+            Música regional mexicana para
+            celebraciones y eventos especiales.
+        </p>
+
+        <a href="percy.html">
+            Ver perfil →
+        </a>
+
+    </div>
+
+</article>
+
+
+<!-- JOE & MOY -->
+<article class="artista-card">
+
+    <div class="artista-imagen artista-sin-foto">
+        <div class="imagen-placeholder">
+            Joe &amp; Moy
+        </div>
+    </div>
+
+    <div class="artista-info">
+
+        <span class="artista-categoria">
+            MAGIA · ENTRETENIMIENTO
+        </span>
+
+        <h3>Joe &amp; Moy</h3>
+
+        <p>
+            Un espectáculo de magia interactiva
+            para sorprender y entretener.
+        </p>
+
+        <a href="joe-moy.html">
+            Ver perfil →
+        </a>
+
+    </div>
+
+</article>
+
+        </div>
+
+    </div>
+
+</section>
+	
+	<section class="cta-cotiza">
+
+    <div class="cta-cotiza-contenido">
+
+        <p class="seccion-etiqueta">
+            ¿YA SABES QUÉ NECESITAS?
+        </p>
+
+        <h2>
+            Cuéntanos sobre tu evento.
+        </h2>
+
+        <p>
+            Recibe opciones de artistas, entretenimiento y producción
+            según tus necesidades.
+        </p>
+
+        <a href="cotizar.html" class="cta-boton">
+            Cotiza tu evento
+        </a>
+
+    </div>
+
+</section>
+	
+	<footer class="footer">
+
+    <div class="footer-contenido">
+
+        <div class="footer-marca">
+
+            <a href="../index.html" class="footer-logo">
+                NEXO
+            </a>
+
+            <p>
+                Artistas, entretenimiento y producción
+                para crear eventos memorables.
+            </p>
+
+        </div>
+
+        <div class="footer-columna">
+
+            <h4>Explora</h4>
+
+            <a href="explorar.html">Artistas</a>
+            <a href="produccion.html">Producción</a>
+            <a href="eventos.html">Tipos de evento</a>
+
+        </div>
+
+        <div class="footer-columna">
+
+            <h4>NEXO</h4>
+
+            <a href="como-funciona.html">Cómo funciona</a>
+            <a href="cotizar.html">Cotiza tu evento</a>
+            <a href="proveedores.html">Publica tus servicios</a>
+
+        </div>
+
+        <div class="footer-columna">
+
+            <h4>Cuenta</h4>
+
+            <a href="login.html">Iniciar sesión</a>
+            <a href="registro.html">Crear cuenta</a>
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+
+        <p>
+            © 2026 NEXO. Todos los derechos reservados.
+        </p>
+
+        <div class="footer-legal">
+            <a href="#">Privacidad</a>
+            <a href="#">Términos</a>
+        </div>
+
+    </div>
+
+</footer>
+	
+	<script>
+(() => {
+    const catalogo = [
+        {nombre:'Trendline',categoria:'Banda de covers · CDMX',tipo:'Artista',imagen:'../assets/images/trendline.png',url:'perfil-artista.html?artista=trendline',palabras:'bandas musica covers pop rock'},
+        {nombre:'Mr. Loxley',categoria:'DJ · CDMX',tipo:'Artista',imagen:'../assets/images/mr-loxley.jpg',url:'perfil-artista.html?artista=mr-loxley',palabras:'dj eventos bodas musica performance'},
+        {nombre:'Two Souls',categoria:'Dúo vocal · CDMX',tipo:'Artista',imagen:'../assets/images/two-souls.jpg',url:'perfil-artista.html?artista=two-souls',palabras:'cantantes duo vocal musica'},
+        {nombre:'Andreas Zanetti',categoria:'Pianista y comediante',tipo:'Artista',url:'artistas.html',palabras:'piano comedia'},
+        {nombre:'Michelle Rodríguez',categoria:'Stand-up y conferencias',tipo:'Artista',url:'artistas.html',palabras:'comediante conferencista'},
+        {nombre:'Tr3mens',categoria:'Trío instrumental',tipo:'Artista',url:'artistas.html',palabras:'musica trio instrumental'},
+        {nombre:'Percy',categoria:'Cantante',tipo:'Artista',url:'artistas.html',palabras:'musica voz'},
+        ...['Bandas de covers','Bandas de rock','Bandas de pop','Cantantes','Cantantes solistas','Dúos vocales','DJ','DJ para eventos','DJ para bodas','DJ + performance','Mariachi','Tríos musicales','Saxofonista','Pianista','Violinista','Guitarrista','Músicos','Ensambles musicales','Orquestas'].map(nombre=>({nombre,categoria:'Artistas y música',tipo:'Categoría',url:'artistas.html'})),
+        ...['Stand-up','Comediantes','Magos','Mentalistas','Conferencistas','Conductores','Maestros de ceremonias','Bailarines','Shows temáticos','Imitadores'].map(nombre=>({nombre,categoria:'Entretenimiento',tipo:'Categoría',url:'explorar.html?categoria=entretenimiento'})),
+        ...['Pantallas LED','Renta de pantallas LED','Audio profesional','Renta de audio','Iluminación profesional','Renta de iluminación','Backline','Renta de backline','Escenarios','Montaje de escenarios','Producción de eventos','Producción integral','Producción de conciertos','Producción de eventos corporativos'].map(nombre=>({nombre,categoria:'Producción y servicios',tipo:'Servicio',url:'produccion.html'}))
+    ];
+    const form = document.getElementById('nexo-buscador-rapido');
+    const campo = document.getElementById('nexo-busqueda');
+    const sugerencias = document.getElementById('nexo-sugerencias');
+    const resultados = document.getElementById('nexo-resultados');
+    const titulo = document.getElementById('nexo-resultados-titulo');
+    const lista = document.getElementById('nexo-resultados-lista');
+    if (!form || !campo || !sugerencias || !resultados || !titulo || !lista) return;
+    const normalizar = t => String(t||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+    function prioridad(item,q){
+        const n=normalizar(item.nombre), c=normalizar(item.categoria), p=normalizar(item.palabras);
+        if(n===q) return 0;
+        if(n.startsWith(q)) return 1;
+        if(n.split(/\s+/).some(w=>w.startsWith(q))) return 2;
+        if(n.includes(q)) return 3;
+        if(c.startsWith(q)) return 4;
+        if(c.includes(q)) return 5;
+        if(p.includes(q)) return 6;
+        return 99;
+    }
+    function buscar(texto){
+        const q=normalizar(texto);
+        if(!q) return [];
+        return catalogo.map((item,index)=>({item,index,p:prioridad(item,q)}))
+          .filter(x=>x.p<99)
+          .sort((a,b)=>a.p-b.p || a.index-b.index)
+          .map(x=>x.item);
+    }
+    function ocultar(){ sugerencias.hidden=true; sugerencias.replaceChildren(); campo.setAttribute('aria-expanded','false'); }
+    function mostrarSugerencias(){
+        sugerencias.replaceChildren();
+        const encontrados=buscar(campo.value).slice(0,7);
+        if(!encontrados.length){ ocultar(); return; }
+        encontrados.forEach(item=>{
+            const boton=document.createElement('button'); boton.type='button'; boton.className='nexo-sugerencia';
+            const nombre=document.createElement('strong'); nombre.textContent=item.nombre;
+            const categoria=document.createElement('small'); categoria.textContent=item.categoria;
+            boton.append(nombre,categoria);
+            boton.addEventListener('click',()=>{ campo.value=item.nombre; mostrarResultados(item.nombre); actualizarURL(item.nombre); });
+            sugerencias.appendChild(boton);
+        });
+        sugerencias.hidden=false; campo.setAttribute('aria-expanded','true');
+    }
+    function actualizarURL(q){ const url=new URL(location.href); url.searchParams.set('q',q); history.replaceState({},'',url); }
+    function mostrarResultados(texto){
+        ocultar(); lista.replaceChildren();
+        const q=texto.trim(); if(!q){resultados.hidden=true;return;}
+        const encontrados=buscar(q);
+        const ciudad=new URLSearchParams(location.search).get('ciudad');
+        titulo.textContent=`Resultados para "${q}"${ciudad ? ' · '+ciudad : ''}`;
+        if(!encontrados.length){
+            const aviso=document.createElement('p'); aviso.textContent='No encontramos artistas o servicios que coincidan con tu búsqueda.'; lista.appendChild(aviso);
+        }else{
+            encontrados.forEach(item=>{
+                const tarjeta=document.createElement('article'); tarjeta.className='nexo-resultado-card';
+                tarjeta.style.cssText='display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:14px;';
+                if(item.imagen){
+                    const img=document.createElement('img'); img.src=item.imagen; img.alt=item.nombre;
+                    img.style.cssText='width:110px;height:90px;object-fit:cover;border-radius:10px;'; tarjeta.appendChild(img);
+                }
+                const info=document.createElement('div'); info.style.cssText='flex:1;min-width:190px;';
+                const tipo=document.createElement('small'); tipo.textContent=item.tipo;
+                const nombre=document.createElement('h3'); nombre.textContent=item.nombre;
+                const categoria=document.createElement('p'); categoria.textContent=item.categoria;
+                const enlace=document.createElement('a'); enlace.href=item.url; enlace.textContent=item.imagen?'Ver perfil →':'Explorar opciones →';
+                enlace.style.cssText='color:#6C4CFF;font-weight:700;text-decoration:none;';
+                info.append(tipo,nombre,categoria,enlace); tarjeta.appendChild(info); lista.appendChild(tarjeta);
+            });
+        }
+        resultados.hidden=false;
+        resultados.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+    campo.addEventListener('input',mostrarSugerencias);
+    campo.addEventListener('focus',mostrarSugerencias);
+    campo.addEventListener('keydown',e=>{if(e.key==='Escape') ocultar();});
+    form.addEventListener('submit',e=>{e.preventDefault();const q=campo.value.trim();if(!q)return;actualizarURL(q);mostrarResultados(q);});
+    document.addEventListener('click',e=>{if(!form.contains(e.target))ocultar();});
+    const inicial=new URLSearchParams(location.search).get('q');
+    if(inicial){campo.value=inicial;mostrarResultados(inicial);}
+})();
+</script>
+
+</body>
+
+</html>

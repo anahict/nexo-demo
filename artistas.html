@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Artistas | NEXO</title>
+
+    <link rel="stylesheet" href="../estilos.css">
+</head>
+
+<body>
+
+    <header class="header">
+
+        <a href="../index.html" class="logo">
+            NEXO
+        </a>
+
+        <nav class="nav">
+            <a href="explorar.html">Explorar</a>
+            <a href="eventos.html">Tipos de evento</a>
+            <a href="como-funciona.html">Cómo funciona</a>
+            <a href="proveedores.html">Publica tus servicios</a>
+        </nav>
+
+        <div class="header-actions">
+
+            <a href="login.html" class="login">
+                Iniciar sesión
+            </a>
+
+            <a href="cotizar.html" class="btn-cotizar">
+                Cotiza tu evento
+            </a>
+
+        </div>
+
+    </header>
+
+    <main>
+
+        <section class="artistas-listado-hero">
+
+            <div class="artistas-listado-contenido">
+
+                <p class="seccion-etiqueta">
+                    ARTISTAS
+                </p>
+
+                <h1>
+                    Encuentra talento para tu evento.
+                </h1>
+
+                <p>
+                    Explora bandas, DJs, cantantes, solistas e instrumentistas
+                    disponibles para distintos tipos de eventos.
+                </p>
+
+            </div>
+
+        </section>
+		
+		<section class="artistas-resultados">
+
+    <div class="artistas-resultados-contenido">
+
+        <div class="artistas-toolbar">
+
+            <div class="artistas-buscador">
+
+                <input
+                    type="text"
+                    placeholder="Busca banda, DJ, cantante..."
+                >
+
+                <button type="button">
+                    Buscar
+                </button>
+
+            </div>
+
+            <select class="artistas-orden">
+                <option>Más relevantes</option>
+                <option>Mejor valorados</option>
+                <option>Más recientes</option>
+            </select>
+
+        </div>
+
+
+        <div class="artistas-layout">
+
+            <aside class="artistas-filtros">
+
+                <h2>Filtros</h2>
+
+                <div class="filtro-grupo">
+
+                  <h3>Categoría</h3>
+
+                    <label>
+                        <input type="checkbox">
+                      Bandas
+                  </label>
+
+                    <label>
+                        <input type="checkbox">
+                        DJs
+                  </label>
+
+                    <label>
+                        <input type="checkbox">
+                        Cantantes
+                    </label>
+
+                    <label>
+                        <input type="checkbox">
+                        Solistas
+                    </label>
+
+                    <label>
+                        <input type="checkbox">
+                        Instrumentistas
+                    </label>
+
+                    <label>
+                        <input type="checkbox">
+                        Tributos
+                    </label>
+
+                </div>
+
+
+                <div class="filtro-grupo">
+
+                    <h3>Ubicación</h3>
+
+                    <select>
+                        <option>Ciudad de México</option>
+                        <option>Estado de México</option>
+                        <option>Querétaro</option>
+                        <option>Puebla</option>
+                    </select>
+
+                </div>
+
+
+                <div class="filtro-grupo">
+
+                    <h3>Tipo de evento</h3>
+
+                    <label>
+                        <input type="checkbox">
+                        Corporativo
+                    </label>
+
+                    <label>
+                        <input type="checkbox">
+                        Boda
+                    </label>
+
+                    <label>
+                        <input type="checkbox">
+                        Fiesta
+                    </label>
+
+                    <label>
+                        <input type="checkbox">
+                        Concierto
+                    </label>
+
+                </div>
+
+            </aside>
+
+
+            <div class="artistas-lista">
+
+                <div class="resultados-header">
+
+                    <div>
+                        <span class="resultado-cantidad">
+                            3 artistas
+                        </span>
+
+                        <h2>
+                            Talento disponible
+                        </h2>
+                    </div>
+    </div>
+			
+			<div class="artistas-grid">
+				
+				<!--TRENDLINE -->
+
+    <article class="artista-card">
+
+        <div class="artista-imagen">
+
+            <img src="../assets/images/trendline.png" alt="Trendline">
+
+            <button class="favorito">
+                ♡
+            </button>
+
+        </div>
+
+        <div class="artista-info">
+
+            <span class="artista-categoria">
+                BANDA · CDMX
+            </span>
+
+            <h3>Trendline</h3>
+
+            <p>
+                Una experiencia musical en vivo con energía,
+                repertorio versátil y producción profesional.
+            </p>
+
+            <div class="artista-rating">
+                ★★★★★
+            </div>
+
+            <a href="perfil-artista.html">
+                Ver perfil →
+            </a>
+
+        </div>
+
+    </article>
+	
+				<!--MR. LOXLEY -->
+
+    <article class="artista-card">
+
+        <div class="artista-imagen">
+
+            <img src="../assets/images/mr-loxley.jpg" alt="Mr. Loxley">
+
+            <button class="favorito">
+                ♡
+            </button>
+
+        </div>
+
+        <div class="artista-info">
+
+            <span class="artista-categoria">
+                DJ · CDMX
+            </span>
+
+            <h3>Mr. Loxley</h3>
+
+            <p>
+                Música, concepto y experiencia para convertir
+                cada evento en algo memorable.
+            </p>
+
+            <div class="artista-rating">
+                ★★★★★
+            </div>
+
+            <a href="perfil-artista.html">
+                Ver perfil →
+            </a>
+
+        </div>
+
+    </article>
+
+
+				<!--TWO SOULS -->
+				
+    <article class="artista-card">
+
+        <div class="artista-imagen">
+
+            <img src="../assets/images/two-souls.jpg" alt="Two Souls">
+
+            <button class="favorito">
+                ♡
+            </button>
+
+        </div>
+
+        <div class="artista-info">
+
+            <span class="artista-categoria">
+                DÚO VOCAL · CDMX
+            </span>
+
+            <h3>Two Souls</h3>
+
+            <p>
+                Dos voces, armonías y un show diseñado
+                para conectar con todo tipo de audiencias.
+            </p>
+
+            <div class="artista-rating">
+                ★★★★★
+            </div>
+
+            <a href="perfil-artista.html">
+                Ver perfil →
+            </a>
+
+        </div>
+
+    </article>
+
+</div>
+
+</section>
+
+    </main>
+		
+		<!-- =====================================
+     FOOTER NEXO
+===================================== -->
+
+<footer class="nexo-footer">
+
+    <div class="nexo-footer-contenedor">
+
+        <div class="nexo-footer-grid">
+
+            <!-- MARCA -->
+            <div class="nexo-footer-marca">
+
+                <a href="../index.html" class="nexo-footer-logo">
+                    NE<span>XO</span>
+                </a>
+
+                <p>
+                    Conectamos talento, entretenimiento y
+                    producción profesional para hacer
+                    realidad experiencias extraordinarias.
+                </p>
+
+                <div class="nexo-footer-redes">
+                    <a href="#" aria-label="Instagram">Instagram ↗</a>
+                    <a href="#" aria-label="Facebook">Facebook ↗</a>
+                </div>
+
+            </div>
+
+            <!-- EXPLORAR -->
+            <div class="nexo-footer-columna">
+
+                <h3>Explorar</h3>
+
+                <a href="artistas.html">Artistas y música</a>
+                <a href="explorar.html?categoria=entretenimiento">Entretenimiento</a>
+                <a href="produccion.html">Producción y servicios</a>
+                <a href="eventos.html">Tipos de evento</a>
+
+            </div>
+
+            <!-- NEXO -->
+            <div class="nexo-footer-columna">
+
+                <h3>NEXO</h3>
+
+                <a href="como-funciona.html">Cómo funciona</a>
+                <a href="proveedores.html">Publica tus servicios</a>
+                <a href="ayuda.html">Centro de ayuda</a>
+                <a href="contacto.html">Contacto</a>
+
+            </div>
+
+            <!-- CONTRATACIÓN -->
+            <div class="nexo-footer-columna">
+
+                <h3>Tu próximo evento</h3>
+
+                <p>
+                    Encuentra artistas y servicios
+                    para crear un evento inolvidable.
+                </p>
+
+                <a href="cotizar.html" class="nexo-footer-boton">
+                    Cotiza tu evento ↗
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="nexo-footer-inferior">
+
+            <p>© 2026 NEXO. Todos los derechos reservados.</p>
+
+            <div>
+                <a href="privacidad.html">Aviso de privacidad</a>
+                <a href="terminos.html">Términos y condiciones</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+	
+
+</body>
+
+</html>

@@ -1,0 +1,437 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Explorar | NEXO</title><link rel="stylesheet" href="../estilos.css"><style>/* Autocompletado único de NEXO: aislado de los botones generales */
+        .nexo-header { position: sticky; top: 0; z-index: 1000; overflow: visible; }
+        .nexo-header-buscador,
+        .campo-busqueda.nexo-autocomplete-contenedor {
+            position: relative;
+            overflow: visible;
+        }
+        .nexo-header-buscador { z-index: 101; }
+        .nexo-autocomplete-lista {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            width: 100%;
+            min-width: min(260px, 90vw);
+            max-height: 340px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            z-index: 10000;
+            box-sizing: border-box;
+            padding: 7px;
+            background: #fff;
+            border: 1px solid #e9e6f5;
+            border-radius: 14px;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, .18);
+        }
+        .nexo-autocomplete-lista[hidden] { display: none !important; }
+        /* Especificidad alta para neutralizar reglas de botones del header y hero */
+        form.nexo-header-buscador .nexo-autocomplete-lista button.nexo-autocomplete-opcion,
+        form.nexo-header-buscador .nexo-autocomplete-lista button.nexo-autocomplete-todos,
+        form.buscador .nexo-autocomplete-lista button.nexo-autocomplete-opcion,
+        form.buscador .nexo-autocomplete-lista button.nexo-autocomplete-todos {
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+            align-items: flex-start !important;
+            gap: 4px !important;
+            width: 100% !important;
+            min-width: 0 !important;
+            height: auto !important;
+            min-height: 48px !important;
+            margin: 0 !important;
+            padding: 10px 13px !important;
+            background: #fff !important;
+            color: #0f0f10 !important;
+            border: 0 !important;
+            border-radius: 8px !important;
+            box-shadow: none !important;
+            font-family: inherit !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            line-height: 1.35 !important;
+            text-align: left !important;
+            white-space: normal !important;
+            letter-spacing: normal !important;
+            text-transform: none !important;
+            transform: none !important;
+            cursor: pointer;
+        }
+        form.nexo-header-buscador .nexo-autocomplete-lista button:hover,
+        form.buscador .nexo-autocomplete-lista button:hover,
+        form.nexo-header-buscador .nexo-autocomplete-lista button:focus-visible,
+        form.buscador .nexo-autocomplete-lista button:focus-visible {
+            background: #f2efff !important;
+            color: #6c4cff !important;
+        }
+        .nexo-autocomplete-opcion span {
+            display: block;
+            color: inherit !important;
+            font-size: 14px !important;
+            font-weight: 700 !important;
+            line-height: 1.35 !important;
+        }
+        .nexo-autocomplete-opcion small {
+            display: block;
+            color: #777 !important;
+            font-size: 12px !important;
+            font-weight: 400 !important;
+            line-height: 1.35 !important;
+        }
+        form.nexo-header-buscador .nexo-autocomplete-lista button.nexo-autocomplete-todos,
+        form.buscador .nexo-autocomplete-lista button.nexo-autocomplete-todos {
+            margin-top: 5px !important;
+            border-top: 1px solid #eee !important;
+            color: #6c4cff !important;
+        }
+        @media (max-width: 768px) {
+            .nexo-autocomplete-lista { max-height: 300px; }
+        }
+    
+/* FOOTER NEXO */
+
+.nexo-footer {
+    background: #0F0F10;
+    color: #FFFFFF;
+    padding: 75px 25px 25px;
+}
+
+.nexo-footer-contenedor {
+    max-width: 1250px;
+    margin: 0 auto;
+}
+
+.nexo-footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+    gap: 45px;
+    align-items: start;
+}
+
+.nexo-footer-logo {
+    display: inline-block;
+    color: #FFFFFF;
+    font-size: 38px;
+    font-weight: 900;
+    text-decoration: none;
+    margin-bottom: 25px;
+}
+
+.nexo-footer-logo span {
+    color: #6C4CFF;
+}
+
+.nexo-footer-marca p,
+.nexo-footer-columna p {
+    color: #AAAAAA;
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+.nexo-footer-columna h3 {
+    color: #FFFFFF;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.nexo-footer-columna > a {
+    display: block;
+    color: #AAAAAA;
+    font-size: 14px;
+    text-decoration: none;
+    margin-bottom: 16px;
+    transition: color 0.2s;
+}
+
+.nexo-footer-columna > a:hover,
+.nexo-footer-redes a:hover {
+    color: #6C4CFF;
+}
+
+.nexo-footer-redes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+}
+
+.nexo-footer-redes a {
+    color: #AAAAAA;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.nexo-footer-columna > .nexo-footer-boton {
+    display: inline-block;
+    background: #6C4CFF;
+    color: #FFFFFF;
+    padding: 13px 22px;
+    border-radius: 30px;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.nexo-footer-columna > .nexo-footer-boton:hover {
+    background: #5637e8;
+    color: #FFFFFF;
+}
+
+.nexo-footer-inferior {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    border-top: 1px solid #303036;
+    margin-top: 55px;
+    padding-top: 25px;
+}
+
+.nexo-footer-inferior p {
+    color: #888888;
+    font-size: 13px;
+}
+
+.nexo-footer-inferior > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.nexo-footer-inferior a {
+    color: #AAAAAA;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.nexo-footer-inferior a:hover {
+    color: #6C4CFF;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+    .nexo-footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 35px;
+    }
+}
+
+@media (max-width: 600px) {
+    .nexo-footer {
+        padding: 50px 20px 25px;
+    }
+
+    .nexo-footer-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .nexo-footer-inferior {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+
+.explorar-hero{background:radial-gradient(circle at 85% 20%,rgba(108,76,255,.25),transparent 38%),linear-gradient(110deg,#101017,#211638 80%);padding:78px 24px 84px;color:white}
+.explorar-hero-contenido,.explorar-main{max-width:1200px;margin:0 auto}
+.explorar-hero h1{max-width:820px;font-size:clamp(34px,5vw,60px);line-height:1.1;letter-spacing:-1.5px;margin:15px 0 20px;color:white}
+.explorar-hero-texto{max-width:650px;color:#d6d0e5;font-size:17px;line-height:1.6;margin-bottom:26px}
+.explorar-buscador{display:flex;position:relative;max-width:780px;padding:7px;background:white;border-radius:14px;gap:8px;box-shadow:0 15px 35px #0003}
+.explorar-buscador input{min-width:0;flex:1;border:0;outline:0;padding:13px 17px;font-size:15px;background:white;color:#191622;border-radius:10px}
+.explorar-buscador>button{background:#6c4cff;color:white;border:0;border-radius:9px;padding:13px 27px;font-weight:700;cursor:pointer}
+#nexo-sugerencias{position:absolute;top:calc(100% + 7px);left:0;width:100%;background:white;padding:8px;z-index:300;border-radius:12px;box-shadow:0 15px 40px #0003;max-height:350px;overflow:auto}
+#nexo-sugerencias[hidden],.explorar-grupo[hidden],.explorar-sin-resultados[hidden]{display:none!important}
+.nexo-sugerencia{display:flex;flex-direction:column;align-items:flex-start;gap:4px;width:100%;padding:12px;border:0;background:white;color:#24202e;text-align:left;border-radius:7px;cursor:pointer}
+.nexo-sugerencia:hover{background:#f1edff}.nexo-sugerencia small{color:#777}
+.explorar-chips{display:flex;align-items:center;flex-wrap:wrap;gap:9px;margin-top:22px}.explorar-chips span{color:#d6cdeb;font-size:11px;letter-spacing:1px;margin-right:6px}
+.explorar-chips button{background:#ffffff12;border:1px solid #ffffff33;border-radius:30px;color:white;padding:9px 15px;cursor:pointer}.explorar-chips button:hover{background:#6c4cff}
+.explorar-main{padding:55px 24px 70px}.explorar-intro{margin-bottom:42px}.explorar-intro h2{font-size:clamp(25px,3vw,34px);margin:8px 0}.explorar-intro>p:last-child{color:#696572}
+.explorar-grupo{margin-bottom:55px}.explorar-grupo-encabezado{display:flex;align-items:end;justify-content:space-between;gap:15px;margin-bottom:20px}.explorar-grupo-encabezado span{font-size:11px;color:#6c4cff;font-weight:800;letter-spacing:1px}.explorar-grupo-encabezado h2{font-size:27px;margin:7px 0}.explorar-grupo-encabezado p{color:#777;margin:0}.explorar-grupo-encabezado>a{color:#6c4cff;font-weight:700;text-decoration:none;white-space:nowrap}
+.explorar-tarjetas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.explorar-tarjeta{display:block;overflow:hidden;background:white;border:1px solid #ebe9f0;border-radius:16px;text-decoration:none;color:#1c1825;transition:transform .2s,box-shadow .2s}.explorar-tarjeta:hover{transform:translateY(-4px);box-shadow:0 12px 30px #2116381c}
+.explorar-tarjeta-media{height:175px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#211638,#6c4cff);color:white;text-align:center;padding:15px;font-size:25px;font-weight:800}.explorar-tarjeta-media img{width:100%;height:100%;object-fit:cover}.explorar-tarjeta-cuerpo{padding:19px}.explorar-tarjeta-cuerpo small{color:#6c4cff;font-size:11px;font-weight:800;text-transform:uppercase}.explorar-tarjeta-cuerpo h3{font-size:19px;margin:8px 0}.explorar-tarjeta-cuerpo p{color:#716d78;font-size:13px;line-height:1.5}.explorar-tarjeta-cuerpo strong{color:#6c4cff;font-size:13px}
+.explorar-sin-resultados{background:white;padding:30px;border-radius:14px;margin-bottom:35px}.explorar-sin-resultados a{color:#6c4cff}
+@media(max-width:850px){.explorar-tarjetas{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){.explorar-hero{padding:55px 20px}.explorar-buscador{flex-wrap:wrap}.explorar-buscador>button{width:100%}.explorar-tarjetas{grid-template-columns:1fr}.explorar-grupo-encabezado{align-items:flex-start;flex-wrap:wrap}}
+
+/* EXPLORAR: fondo blanco y jerarquia visual limpia */
+html,body{background:#fff!important;color:#17141f!important}
+.explorar-hero{background:#fff!important;color:#17141f!important;padding:56px 24px 55px!important;border-bottom:1px solid #eeedf2}
+.explorar-hero h1{color:#17141f!important;font-size:clamp(30px,4vw,48px)!important;letter-spacing:-.9px!important}
+.explorar-hero-texto{color:#62616a!important;font-size:16px!important}
+.explorar-chips span{color:#666!important}
+.explorar-chips button{background:#f7f6fa!important;color:#333!important;border:1px solid #e6e3ee!important}
+.explorar-chips button:hover{background:#f0ebff!important;color:#5e42d9!important}
+.explorar-buscador{border:1px solid #e6e3ed;box-shadow:0 8px 26px rgba(23,20,31,.07)!important}
+.explorar-main{background:#fff!important;padding-top:42px!important}
+.explorar-intro h2{font-size:clamp(25px,3vw,34px)!important;color:#17141f!important}
+.explorar-grupo{margin-bottom:44px!important;background:#fff!important;color:#17141f!important}
+.explorar-grupo-encabezado h2{font-size:clamp(22px,2.5vw,29px)!important;color:#17141f!important;margin:0 0 8px!important}
+.explorar-grupo-encabezado p{color:#686671!important;font-size:15px!important}
+.explorar-tarjeta{background:#fff!important;color:#17141f!important}
+.explorar-grupo-encabezado>a{font-size:14px}
+/* Se preservan los fondos negros del header y footer */
+.header.nexo-header,.nexo-footer{background:#0f0f10!important}
+
+/* Correcciones del autocompletado: visibilidad y capas */
+.explorar-hero,.explorar-hero-contenido,.explorar-buscador{overflow:visible!important}
+.explorar-buscador{z-index:20!important}
+#nexo-sugerencias:not([hidden]){display:block!important;position:absolute!important;top:calc(100% + 8px)!important;left:0!important;right:0!important;width:100%!important;z-index:9999!important;background:#fff!important;border:1px solid #e6e3ed!important;box-shadow:0 18px 38px rgba(0,0,0,.16)!important}
+#nexo-sugerencias .nexo-sugerencia{display:flex!important;flex-direction:column!important;align-items:flex-start!important;width:100%!important;height:auto!important;padding:12px 14px!important;background:#fff!important;color:#17141f!important;border:0!important;text-align:left!important;font-size:14px!important;line-height:1.4!important}
+#nexo-sugerencias .nexo-sugerencia:hover{background:#f3f0ff!important}
+</style></head><body><header class="header nexo-header">
+<a class="nexo-logo" href="../index.html">
+<span class="logo-ne">NE</span><span class="logo-xo">XO</span>
+</a>
+<!-- BUSCADOR DEL HEADER -->
+<form action="explorar.html" class="nexo-header-buscador" data-nexo-autocomplete="" method="get">
+<input aria-label="Buscar servicios" autocomplete="off" id="nexo-header-search" name="q" placeholder="Busca artistas, música o servicios..." required="" type="search"/>
+<button aria-label="Buscar" type="submit">
+                ⌕
+            </button>
+</form>
+<div class="nexo-header-acciones">
+<a class="nexo-login nexo-inicio" href="../index.html">Inicio</a>
+<a class="nexo-login" href="login.html">
+                Iniciar sesión
+            </a>
+<a class="nexo-publicar" href="proveedores.html">
+                Publica tus servicios
+            </a>
+<button aria-label="Favoritos" class="nexo-icono" type="button">
+                ♡
+            </button>
+<button aria-controls="nexo-menu" aria-expanded="false" aria-label="Abrir menú" class="nexo-menu-boton" id="nexo-menu-boton" type="button">
+                ☰
+            </button>
+</div>
+</header>
+<nav aria-label="Menú principal" class="nexo-menu-panel" hidden="" id="nexo-menu">
+<div class="nexo-menu-contenido">
+<h2>Explora NEXO</h2>
+<a href="artistas.html">
+                Artistas y música
+            </a>
+<a href="artistas.html?categoria=entretenimiento">
+                Entretenimiento
+            </a>
+
+<a href="explorar.html?q=conferencistas">
+                Conferencistas y conductores
+            </a>
+<a href="produccion.html">
+                Producción y servicios para eventos
+            </a>
+<hr/>
+<a href="../index.html">Inicio</a>
+<a href="explorar.html">Explorar</a>
+<a href="eventos.html">Tipos de evento</a>
+<a href="como-funciona.html">Cómo funciona</a>
+<a href="proveedores.html">Publica tus servicios</a>
+<a href="login.html">Iniciar sesión</a>
+<a class="nexo-menu-cotizar" href="cotizar.html">
+                Cotiza tu evento
+            </a>
+</div>
+</nav>
+<section class="explorar-hero"><div class="explorar-hero-contenido">
+<h1>Encuentra lo que tu evento necesita.</h1>
+<p class="explorar-hero-texto">Descubre artistas, experiencias y servicios de producción para construir un evento a tu medida.</p>
+<form class="explorar-buscador" id="nexo-buscador-rapido" autocomplete="off"><input type="search" id="nexo-busqueda" name="q" placeholder="Busca artistas, entretenimiento o servicios..." aria-label="Buscar servicios en NEXO" aria-controls="nexo-sugerencias" aria-expanded="false"><button type="submit">Buscar →</button><div id="nexo-sugerencias" class="nexo-sugerencias" hidden></div></form>
+<div class="explorar-chips"><span>BÚSQUEDAS POPULARES</span><button data-q="Bandas" type="button">Bandas</button><button data-q="DJ" type="button">DJ</button><button data-q="Stand-up" type="button">Stand-up</button><button data-q="Pantallas LED" type="button">Pantallas LED</button><button data-q="Audio" type="button">Audio</button></div>
+</div></section>
+<main class="explorar-main" id="explorar-contenido"><div class="explorar-intro"><h2 id="nexo-resultados-titulo">Todo para tu próximo evento</h2><p id="nexo-resultados-subtitulo">Explora nuestras opciones por categoría o utiliza el buscador.</p></div>
+<section class="explorar-grupo" id="grupo-musica"><div class="explorar-grupo-encabezado"><div><h2>Artistas y música</h2><p>Bandas, cantantes, DJ y propuestas musicales.</p></div><a href="artistas.html">Ver todos →</a></div><div class="explorar-tarjetas" id="tarjetas-musica"></div></section>
+<section class="explorar-grupo" id="grupo-entretenimiento"><div class="explorar-grupo-encabezado"><div><h2>Entretenimiento</h2><p>Comedia, magia, conferencias y espectáculos.</p></div><a href="artistas.html?categoria=entretenimiento">Ver todos →</a></div><div class="explorar-tarjetas" id="tarjetas-entretenimiento"></div></section>
+<section class="explorar-grupo" id="grupo-produccion"><div class="explorar-grupo-encabezado"><div><h2>Producción y servicios</h2><p>Audio, iluminación, pantallas LED y escenarios.</p></div><a href="produccion.html">Ver todos →</a></div><div class="explorar-tarjetas" id="tarjetas-produccion"></div></section>
+<div class="explorar-sin-resultados" id="sin-resultados" hidden><h3>Sin coincidencias</h3><p>Prueba con otro término o explora las categorías disponibles.</p><a href="explorar.html">Ver todas las opciones →</a></div>
+<section class="cta-cotiza"><div class="cta-cotiza-contenido"><p class="seccion-etiqueta">HAZLO REALIDAD</p><h2>Tu evento empieza aquí.</h2><p>Cuéntanos qué necesitas y recibe opciones de artistas, entretenimiento y producción.</p><a href="cotizar.html" class="cta-boton">Cotiza tu evento</a></div></section></main>
+<footer class="nexo-footer">
+<div class="nexo-footer-contenedor">
+<div class="nexo-footer-grid">
+<!-- MARCA -->
+<div class="nexo-footer-marca">
+<a class="nexo-footer-logo" href="../index.html">
+                    NE<span>XO</span>
+</a>
+<p>
+                    Conectamos talento, entretenimiento y
+                    producción profesional para hacer
+                    realidad experiencias extraordinarias.
+                </p>
+<div class="nexo-footer-redes">
+<a aria-label="Instagram" href="#">Instagram ↗</a>
+<a aria-label="Facebook" href="#">Facebook ↗</a>
+</div>
+</div>
+<!-- EXPLORAR -->
+<div class="nexo-footer-columna">
+<h3>Explorar</h3>
+<a href="artistas.html">Artistas y música</a>
+<a href="artistas.html?categoria=entretenimiento">Entretenimiento</a>
+<a href="produccion.html">Producción y servicios</a>
+<a href="eventos.html">Tipos de evento</a>
+</div>
+<!-- NEXO -->
+<div class="nexo-footer-columna">
+<h3>NEXO</h3>
+<a href="como-funciona.html">Cómo funciona</a>
+<a href="proveedores.html">Publica tus servicios</a>
+<a href="ayuda.html">Centro de ayuda</a>
+<a href="contacto.html">Contacto</a>
+</div>
+<!-- CONTRATACIÓN -->
+<div class="nexo-footer-columna">
+<h3>Tu próximo evento</h3>
+<p>
+                    Encuentra artistas y servicios
+                    para crear un evento inolvidable.
+                </p>
+<a class="nexo-footer-boton" href="cotizar.html">
+                    Cotiza tu evento ↗
+                </a>
+</div>
+</div>
+<div class="nexo-footer-inferior">
+<p>© 2026 NEXO. Todos los derechos reservados.</p>
+<div>
+<a href="privacidad.html">Aviso de privacidad</a>
+<a href="terminos.html">Términos y condiciones</a>
+</div>
+</div>
+</div>
+</footer>
+
+<script>
+(() => {
+ const catalogo = [
+  {nombre:'Trendline',descripcion:'Banda de covers',grupo:'musica',imagen:'../assets/images/trendline.png',url:'trendline.html',tags:'bandas musica covers pop rock boda fiesta'},
+  {nombre:'Mr. Loxley',descripcion:'DJ y experiencias musicales',grupo:'musica',imagen:'../assets/images/mr-loxley.jpg',url:'mr-loxley.html',tags:'dj eventos bodas musica performance fiesta'},
+  {nombre:'Two Souls',descripcion:'Dúo vocal',grupo:'musica',imagen:'../assets/images/two-souls.jpg',url:'two-souls.html',tags:'cantantes duo vocal musica boda'},
+  {nombre:'Andreas Zanetti',descripcion:'Piano y comedia',grupo:'musica',url:'artistas.html',tags:'piano pianista instrumental comedia'},
+  {nombre:'Tr3mens',descripcion:'Trío instrumental',grupo:'musica',url:'artistas.html',tags:'musica trio instrumental'},
+  {nombre:'Percy',descripcion:'Cantante',grupo:'musica',url:'artistas.html',tags:'cantante musica voz'},
+  ...['Bandas de covers','Bandas de rock','Bandas de pop','Cantantes','Dúos vocales','DJ para bodas','Mariachi','Músicos e instrumental','Saxofonista','Pianista','Violinista','Ensambles musicales','Orquestas'].map(nombre=>({nombre,descripcion:'Categoría musical',grupo:'musica',url:'artistas.html',tags:'musica boda fiesta evento'})),
+  {nombre:'Michelle Rodríguez',descripcion:'Stand-up y conferencias',grupo:'entretenimiento',url:'artistas.html?categoria=entretenimiento',tags:'comedia humor comediante conferencista'},
+  ...['Stand-up','Comediantes','Magos','Mentalistas','Conferencistas','Conductores','Maestros de ceremonias','Bailarines','Shows temáticos','Imitadores'].map(nombre=>({nombre,descripcion:'Categoría de entretenimiento',grupo:'entretenimiento',url:'artistas.html?categoria=entretenimiento',tags:'espectaculo evento entretenimiento'})),
+  ...[['Pantallas LED','pantallas-led','../assets/images/produccion-led.jpg'],['Audio profesional','audio','../assets/images/produccion-audio.jpg'],['Iluminación profesional','iluminacion','../assets/images/produccion-iluminacion.jpg'],['Backline','backline','../assets/images/produccion-backline.jpg'],['Escenarios','escenarios','../assets/images/produccion-escenarios.jpg'],['Producción integral','produccion-integral',null]].map(([nombre,slug,imagen])=>({nombre,descripcion:'Servicio de producción',grupo:'produccion',imagen,url:'produccion.html?categoria='+slug,tags:'produccion montaje evento boda concierto corporativo'}))
+ ];
+ const normalizar = t => String(t||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim().replace(/[-_]/g,' ');
+ const equivalencias={bandas:'banda',magos:'mago',cantantes:'cantante',musicos:'musico',conferencistas:'conferencista',pantallas:'pantalla',bodas:'boda',eventos:'evento',comediantes:'comediante'};
+ function buscar(q){const palabras=normalizar(q).split(/\s+/).filter(Boolean).map(p=>equivalencias[p]||p);if(!palabras.length)return catalogo;return catalogo.filter(i=>{const texto=normalizar([i.nombre,i.descripcion,i.tags].join(' '));return palabras.every(p=>texto.includes(p));});}
+ const campo=document.getElementById('nexo-busqueda'), form=document.getElementById('nexo-buscador-rapido'), sugerencias=document.getElementById('nexo-sugerencias');
+ function cerrar(){sugerencias.hidden=true;sugerencias.replaceChildren();campo.setAttribute('aria-expanded','false');}
+ function tarjeta(item){const a=document.createElement('a');a.className='explorar-tarjeta';a.href=item.url;const media=document.createElement('div');media.className='explorar-tarjeta-media';if(item.imagen){const img=document.createElement('img');img.src=item.imagen;img.alt=item.nombre;img.loading='lazy';img.onerror=()=>{media.textContent=item.nombre};media.append(img)}else media.textContent=item.nombre;const body=document.createElement('div');body.className='explorar-tarjeta-cuerpo';const small=document.createElement('small');small.textContent=item.grupo==='produccion'?'Servicio':item.imagen?'Artista':'Explorar categoría';const h=document.createElement('h3');h.textContent=item.nombre;const p=document.createElement('p');p.textContent=item.descripcion;const more=document.createElement('strong');more.textContent=item.imagen?'Ver perfil →':'Explorar opciones →';body.append(small,h,p,more);a.append(media,body);return a;}
+ function render(q){const lista=buscar(q),activo=!!q.trim();document.getElementById('nexo-resultados-titulo').textContent=activo?'Resultados para “'+q+'”':'Todo para tu próximo evento';document.getElementById('nexo-resultados-subtitulo').textContent=activo?lista.length+' opciones relacionadas con tu búsqueda.':'Explora nuestras opciones por categoría o utiliza el buscador.';let total=0;for(const grupo of ['musica','entretenimiento','produccion']){const items=lista.filter(i=>i.grupo===grupo);const sec=document.getElementById('grupo-'+grupo),box=document.getElementById('tarjetas-'+grupo);box.replaceChildren();sec.hidden=items.length===0;const visibles=activo?items.slice(0,6):items.slice(0,3);visibles.forEach(i=>box.append(tarjeta(i)));total+=items.length;}document.getElementById('sin-resultados').hidden=total!==0;}
+ function actualizar(q){campo.value=q;cerrar();const url=new URL(location.href);if(q)url.searchParams.set('q',q);else url.searchParams.delete('q');history.pushState({},'',url);render(q);document.getElementById('explorar-contenido').scrollIntoView({behavior:'smooth'});}
+ function sugerir(){sugerencias.replaceChildren();const q=campo.value.trim();if(!q){cerrar();return;}const encontrados = catalogo.filter(item =>
+  normalizar(item.nombre).startsWith(normalizar(q))
+).slice(0,7);if(!encontrados.length){cerrar();return;}encontrados.forEach(item=>{const b=document.createElement('button');b.type='button';b.className='nexo-sugerencia';const strong=document.createElement('strong');strong.textContent=item.nombre;const small=document.createElement('small');small.textContent=item.descripcion;b.append(strong,small);b.addEventListener('click',()=>actualizar(item.nombre));sugerencias.append(b);});sugerencias.hidden=false;campo.setAttribute('aria-expanded','true');}
+ form.addEventListener('submit',e=>{e.preventDefault();actualizar(campo.value.trim());});campo.addEventListener('input',sugerir);campo.addEventListener('focus',sugerir);campo.addEventListener('keydown',e=>{if(e.key==='Escape')cerrar();});document.addEventListener('click',e=>{if(!form.contains(e.target))cerrar();});document.querySelectorAll('[data-q]').forEach(b=>b.addEventListener('click',()=>actualizar(b.dataset.q)));window.addEventListener('popstate',()=>{const q=new URLSearchParams(location.search).get('q')||'';campo.value=q;render(q);});const initial=new URLSearchParams(location.search).get('q')||'';campo.value=initial;render(initial);
+ // Buscador del header: mismo destino que el Home, con sugerencias de categorías y artistas.
+ const headerForm=document.querySelector('.nexo-header-buscador');if(headerForm){const hi=headerForm.querySelector('input[name="q"]');const list=document.createElement('div');list.className='nexo-autocomplete-lista';list.hidden=true;headerForm.append(list);function hide(){list.hidden=true;list.replaceChildren();hi.setAttribute('aria-expanded','false');}function show(){list.replaceChildren();const q=hi.value.trim();if(!q){hide();return;}buscar(q).slice(0,7).forEach(item=>{const b=document.createElement('button');b.type='button';b.className='nexo-autocomplete-opcion';const s=document.createElement('span');s.textContent=item.nombre;const sm=document.createElement('small');sm.textContent=item.descripcion;b.append(s,sm);b.addEventListener('click',()=>{hi.value=item.nombre;hide();headerForm.requestSubmit();});list.append(b);});if(!list.childElementCount){hide();return;}list.hidden=false;hi.setAttribute('aria-expanded','true');}hi.addEventListener('input',show);hi.addEventListener('focus',show);hi.addEventListener('keydown',e=>{if(e.key==='Escape')hide()});document.addEventListener('click',e=>{if(!headerForm.contains(e.target))hide()});}
+ // Respaldo del menú: funciona aunque el script general no se haya cargado.
+ const btn=document.getElementById('nexo-menu-boton'),panel=document.getElementById('nexo-menu');if(btn&&panel){btn.addEventListener('click',e=>{e.stopPropagation();panel.hidden=!panel.hidden;btn.setAttribute('aria-expanded',String(!panel.hidden));});document.addEventListener('click',e=>{if(!panel.contains(e.target)&&!btn.contains(e.target)){panel.hidden=true;btn.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',e=>{if(e.key==='Escape'){panel.hidden=true;btn.setAttribute('aria-expanded','false');}});}
+})();
+</script>
+
+</body></html>

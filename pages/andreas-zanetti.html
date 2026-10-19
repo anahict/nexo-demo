@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Andreas Zanetti | NEXO</title>
+
+    <link rel="stylesheet" href="../estilos.css">
+
+    <style>
+
+        /* =====================================
+           NEXO - PERFIL ANDREAS ZANETTI
+        ===================================== */
+
+        .perfil-andreas {
+            position: relative;
+        }
+
+        .perfil-andreas .perfil-hero-imagen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 55%;
+        }
+
+        /* CONTENEDOR GENERAL */
+
+        .az-contenedor {
+            max-width: 1250px;
+            margin: 0 auto;
+            padding: 65px 25px;
+        }
+
+        .az-seccion {
+            margin-bottom: 65px;
+        }
+
+        .az-etiqueta {
+            color: #6C4CFF;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .az-titulo {
+            color: #17151f;
+            font-size: 30px;
+            font-weight: 800;
+            margin-bottom: 22px;
+        }
+
+        .az-texto {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        /* INFORMACIÓN SUPERIOR */
+
+        .az-datos {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            background: #fff;
+            padding: 30px;
+            border: 1px solid #eaeaea;
+            border-radius: 18px;
+            margin-bottom: 50px;
+        }
+
+        .az-dato {
+            border-right: 1px solid #eee;
+            padding-right: 15px;
+        }
+
+        .az-dato:last-child {
+            border-right: none;
+        }
+
+        .az-dato span {
+            display: block;
+            color: #777;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .az-dato strong {
+            color: #17151f;
+            font-size: 15px;
+        }
+
+        /* DOS COLUMNAS */
+
+        .az-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+            gap: 45px;
+            align-items: start;
+        }
+
+        .az-principal {
+            min-width: 0;
+        }
+
+        /* GALERÍA */
+
+        .az-galeria-principal {
+            width: 100%;
+            height: 430px;
+            background: #17151f;
+            border-radius: 18px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .az-galeria-principal img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .az-galeria-controles {
+            position: absolute;
+            left: 15px;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+        }
+
+        .az-galeria-controles button {
+            pointer-events: auto;
+            background: rgba(255,255,255,.9);
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 23px;
+            color: #17151f;
+        }
+
+        .az-galeria-controles button:hover {
+            background: #6C4CFF;
+            color: white;
+        }
+
+        .az-miniaturas {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .az-miniaturas button {
+            width: 100px;
+            height: 75px;
+            border: 2px solid transparent;
+            padding: 0;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            background: #eee;
+        }
+
+        .az-miniaturas button.activa {
+            border-color: #6C4CFF;
+        }
+
+        .az-miniaturas img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .az-galeria-aviso {
+            color: #777;
+            font-size: 13px;
+            margin-top: 12px;
+        }
+
+        /* VIDEOS */
+
+        .az-videos {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .az-video {
+            background: white;
+            border: 1px solid #eaeaea;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .az-video iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: none;
+            display: block;
+        }
+
+        .az-video h3 {
+            font-size: 16px;
+            padding: 16px;
+            color: #17151f;
+        }
+
+        /* SHOWS */
+
+        .az-shows {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .az-show {
+            background: #fff;
+            border: 1px solid #e7e7e7;
+            border-radius: 18px;
+            padding: 25px;
+        }
+
+        .az-show-numero {
+            display: inline-block;
+            background: #f1ebff;
+            color: #6C4CFF;
+            font-weight: 800;
+            font-size: 12px;
+            padding: 7px 12px;
+            border-radius: 20px;
+            margin-bottom: 18px;
+        }
+
+        .az-show h3 {
+            color: #17151f;
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .az-show p {
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .az-show ul {
+            padding-left: 20px;
+            color: #555;
+            line-height: 1.9;
+        }
+
+        /* INFORMACIÓN TÉCNICA */
+
+        .az-lista {
+            padding-left: 22px;
+            color: #555;
+            line-height: 2;
+        }
+
+        /* COLUMNA DERECHA */
+
+        .az-sidebar {
+            position: sticky;
+            top: 105px;
+        }
+
+        .az-tarjeta {
+            background: #fff;
+            border: 1px solid #e8e8e8;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 8px 30px rgba(0,0,0,.04);
+            margin-bottom: 20px;
+        }
+
+        .az-perfil-foto {
+            width: 105px;
+            height: 105px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center 35%;
+            display: block;
+            margin: 0 auto 20px;
+        }
+
+        .az-tarjeta h2 {
+            text-align: center;
+            font-size: 24px;
+            color: #17151f;
+            margin-bottom: 8px;
+        }
+
+        .az-tarjeta-categoria {
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .az-boton {
+            display: block;
+            width: 100%;
+            padding: 15px 20px;
+            text-align: center;
+            border-radius: 30px;
+            background: #6C4CFF;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            margin-bottom: 12px;
+            transition: .2s;
+        }
+
+        .az-boton:hover {
+            background: #5637e8;
+        }
+
+        .az-boton-secundario {
+            display: block;
+            width: 100%;
+            padding: 14px 20px;
+            text-align: center;
+            border-radius: 30px;
+            background: white;
+            color: #6C4CFF;
+            border: 1px solid #6C4CFF;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* REDES SOCIALES */
+
+        .az-redes {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .az-redes a {
+            display: block;
+            text-align: center;
+            padding: 12px 8px;
+            background: #f5f2ff;
+            border-radius: 10px;
+            color: #5637e8;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .az-redes a:hover {
+            background: #e7dcff;
+        }
+
+        /* DISPONIBILIDAD */
+
+        .az-disponibilidad {
+            background: #17151f;
+            border-radius: 20px;
+            padding: 35px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .az-disponibilidad h2 {
+            font-size: 25px;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .az-disponibilidad p {
+            color: #ccc;
+        }
+
+        .az-disponibilidad .az-boton {
+            width: auto;
+            min-width: 230px;
+            margin: 0;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 900px) {
+
+            .az-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .az-sidebar {
+                position: static;
+            }
+
+            .az-datos {
+                grid-template-columns: 1fr;
+            }
+
+            .az-dato {
+                border-right: none;
+                border-bottom: 1px solid #eee;
+                padding-bottom: 15px;
+            }
+
+            .az-dato:last-child {
+                border-bottom: none;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .az-contenedor {
+                padding: 40px 18px;
+            }
+
+            .az-videos,
+            .az-shows {
+                grid-template-columns: 1fr;
+            }
+
+            .az-galeria-principal {
+                height: 300px;
+            }
+
+            .az-disponibilidad {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .az-disponibilidad .az-boton {
+                width: 100%;
+            }
+
+        }
+		
+		/* FONDO BLANCO DEL PERFIL */
+
+body,
+#perfil-contenido,
+.az-contenedor {
+    background: #ffffff !important;
+}
+
+.perfil-hero {
+    background: #0F0F10 !important;
+}
+
+.az-titulo,
+.az-show h3 {
+    color: #17151f !important;
+}
+
+.az-texto,
+.az-lista,
+.az-galeria-aviso {
+    color: #555555 !important;
+}
+
+.az-etiqueta {
+    color: #6C4CFF !important;
+	
+}
+		
+		/* AJUSTAR POSICIÓN DE LA FOTO DE ANDREAS */
+
+.perfil-andreas .perfil-hero-imagen img {
+    object-fit: cover;
+    object-position: center 37% !important;
+}
+		
+		/* ARTISTAS RECOMENDADOS */
+
+.az-recomendados {
+    background: #f7f5fc;
+    padding: 25px 0;
+}
+
+.az-recomendados-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.az-recomendado {
+    background: white;
+    border-radius: 18px;
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform .2s;
+    border: 1px solid #eee;
+}
+
+.az-recomendado:hover {
+    transform: translateY(-5px);
+}
+
+.az-recomendado-imagen {
+    height: 220px;
+    background: #e9e5f3;
+}
+
+.az-recomendado-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.az-recomendado h3 {
+    color: #17151f;
+    font-size: 19px;
+    padding: 18px 18px 5px;
+}
+
+.az-recomendado p {
+    color: #666;
+    padding: 0 18px 20px;
+    font-size: 14px;
+}
+
+@media (max-width: 700px) {
+    .az-recomendados-grid {
+        grid-template-columns: 1fr;
+    }
+}
+		/* =====================================
+   FOOTER NEXO - ANDREAS ZANETTI
+===================================== */
+
+.nexo-footer {
+    background: #0F0F10;
+    color: #FFFFFF;
+    padding: 75px 25px 25px;
+}
+
+.nexo-footer-contenedor {
+    max-width: 1250px;
+    margin: 0 auto;
+}
+
+.nexo-footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+    gap: 45px;
+    align-items: start;
+}
+
+.nexo-footer-logo {
+    display: inline-block;
+    color: #FFFFFF;
+    font-size: 38px;
+    font-weight: 900;
+    text-decoration: none;
+    margin-bottom: 25px;
+}
+
+.nexo-footer-logo span {
+    color: #6C4CFF;
+}
+
+.nexo-footer-marca p,
+.nexo-footer-columna p {
+    color: #AAAAAA;
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+.nexo-footer-columna h3 {
+    color: #FFFFFF;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.nexo-footer-columna > a {
+    display: block;
+    color: #AAAAAA;
+    font-size: 14px;
+    text-decoration: none;
+    margin-bottom: 16px;
+    transition: color 0.2s;
+}
+
+.nexo-footer-columna > a:hover,
+.nexo-footer-redes a:hover {
+    color: #6C4CFF;
+}
+
+.nexo-footer-redes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+}
+
+.nexo-footer-redes a {
+    color: #AAAAAA;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.nexo-footer-columna > .nexo-footer-boton {
+    display: inline-block;
+    background: #6C4CFF;
+    color: #FFFFFF;
+    padding: 13px 22px;
+    border-radius: 30px;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.nexo-footer-columna > .nexo-footer-boton:hover {
+    background: #5637e8;
+    color: #FFFFFF;
+}
+
+.nexo-footer-inferior {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    border-top: 1px solid #303036;
+    margin-top: 55px;
+    padding-top: 25px;
+}
+
+.nexo-footer-inferior p {
+    color: #888888;
+    font-size: 13px;
+}
+
+.nexo-footer-inferior > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.nexo-footer-inferior a {
+    color: #AAAAAA;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.nexo-footer-inferior a:hover {
+    color: #6C4CFF;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+    .nexo-footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 35px;
+    }
+}
+
+@media (max-width: 600px) {
+    .nexo-footer {
+        padding: 50px 20px 25px;
+    }
+
+    .nexo-footer-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .nexo-footer-inferior {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+		
+		
+
+    </style>
+
+</head>
+
+<body data-artista="andreas-zanetti">
+
+    <!-- =====================================
+         HEADER NEXO
+    ===================================== -->
+
+    <header class="header">
+
+        <a href="../index.html" class="logo">
+            NE<span class="logo-morado">X</span>O
+        </a>
+
+        <nav class="nav">
+            <a href="explorar.html">Explorar</a>
+            <a href="eventos.html">Tipos de evento</a>
+            <a href="como-funciona.html">Cómo funciona</a>
+            <a href="proveedores.html">Publica tus servicios</a>
+        </nav>
+
+        <div class="header-actions">
+
+            <a href="login.html" class="login">
+                Iniciar sesión
+            </a>
+
+            <a href="cotizar.html?artista=andreas-zanetti"
+               class="btn-cotizar">
+                Cotiza tu evento
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <main id="perfil-contenido">
+
+        <!-- =====================================
+             PORTADA ORIGINAL
+        ===================================== -->
+
+        <section class="perfil-hero perfil-andreas">
+
+            <div class="perfil-hero-imagen">
+
+                <img
+                    src="../assets/images/andreas-zanetti.jpg"
+                    alt="Andreas Zanetti tocando el piano"
+                >
+
+            </div>
+
+            <div class="perfil-hero-overlay"></div>
+
+            <div class="perfil-hero-contenido">
+
+                <span class="perfil-categoria">
+                    MÚSICA · COMEDIA · ENTRETENIMIENTO
+                </span>
+
+                <h1>Andreas Zanetti</h1>
+
+                <p class="perfil-descripcion-corta">
+                    Música, humor y talento escénico en un
+                    espectáculo que conecta con el público.
+                </p>
+
+                <div class="perfil-acciones">
+
+                    <a
+                        href="cotizar.html?artista=andreas-zanetti"
+                        class="perfil-btn-principal"
+                    >
+                        Solicitar cotización
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             CONTENIDO PRINCIPAL
+        ===================================== -->
+
+        <div class="az-contenedor">
+
+            <!-- INFORMACIÓN RÁPIDA -->
+
+            <div class="az-datos">
+
+                <div class="az-dato">
+                    <span>Categoría</span>
+                    <strong>Música y comedia</strong>
+                </div>
+
+                <div class="az-dato">
+                    <span>Espectáculos</span>
+                    <strong>Full Band y Stand Up</strong>
+                </div>
+
+                <div class="az-dato">
+                    <span>Disponibilidad</span>
+                    <strong>Sujeta a confirmación</strong>
+                </div>
+
+            </div>
+
+
+            <div class="az-layout">
+
+                <!-- =====================================
+                     COLUMNA IZQUIERDA
+                ===================================== -->
+
+                <div class="az-principal">
+
+
+                    <!-- GALERÍA -->
+
+                    <section class="az-seccion" id="galeria">
+
+                        <p class="az-etiqueta">
+                            MULTIMEDIA
+                        </p>
+
+                        <h2 class="az-titulo">
+                            Galería de fotografías
+                        </h2>
+
+                        <div class="az-galeria-principal">
+
+                            <img
+                                id="az-imagen-actual"
+                                src="../assets/images/andreas-zanetti.jpg"
+                                alt="Fotografía de Andreas Zanetti"
+                            >
+
+                            <div class="az-galeria-controles">
+
+                                <button
+                                    type="button"
+                                    id="az-anterior"
+                                    aria-label="Fotografía anterior"
+                                >
+                                    &#10094;
+                                </button>
+
+                                <button
+                                    type="button"
+                                    id="az-siguiente"
+                                    aria-label="Fotografía siguiente"
+                                >
+                                    &#10095;
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <div class="az-miniaturas" id="az-miniaturas">
+                        </div>
+
+                        <p class="az-galeria-aviso">
+                            Próximamente agregaremos más fotografías
+                            de sus presentaciones.
+                        </p>
+
+                    </section>
+
+
+                    <!-- VIDEOS -->
+
+                    <section class="az-seccion" id="videos">
+
+                        <p class="az-etiqueta">
+                            VIDEOS
+                        </p>
+
+                        <h2 class="az-titulo">
+                            Andreas Zanetti en acción
+                        </h2>
+
+                        <div class="az-videos">
+
+                            <article class="az-video">
+
+                                <iframe
+                                    src="https://www.youtube-nocookie.com/embed/uz-N8Yn1r98?start=46"
+                                    title="Andreas Zanetti - Show completo"
+                                    loading="lazy"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin"
+                                    allowfullscreen>
+                                </iframe>
+
+                                <h3>
+                                    Show completo
+                                </h3>
+
+                            </article>
+
+
+                            <article class="az-video">
+
+                                <iframe
+                                    src="https://www.youtube-nocookie.com/embed/0wOqM92N4OA"
+                                    title="Andreas Zanetti - Show virtual"
+                                    loading="lazy"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerpolicy="strict-origin-when-cross-origin"
+                                    allowfullscreen>
+                                </iframe>
+
+                                <h3>
+                                    Show virtual
+                                </h3>
+
+                            </article>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- SOBRE EL ARTISTA -->
+
+                    <section class="az-seccion">
+
+                        <p class="az-etiqueta">
+                            SOBRE EL ARTISTA
+                        </p>
+
+                        <h2 class="az-titulo">
+                            Conoce a Andreas Zanetti
+                        </h2>
+
+                        <p class="az-texto">
+                            Andreas Zanetti es un showman que combina
+                            música, piano y comedia para ofrecer
+                            una experiencia de entretenimiento
+                            dinámica y cercana al público.
+                        </p>
+
+                        <br>
+
+                        <p class="az-texto">
+                            Sus presentaciones integran humor,
+                            interpretación musical e interacción
+                            con la audiencia. Cuenta con diferentes
+                            formatos de espectáculo para adaptarse
+                            a las necesidades de cada evento.
+                        </p>
+
+                    </section>
+
+
+                    <!-- ESPECTÁCULOS -->
+
+                    <section class="az-seccion" id="espectaculos">
+
+                        <p class="az-etiqueta">
+                            ESPECTÁCULOS
+                        </p>
+
+                        <h2 class="az-titulo">
+                            Tipos de show
+                        </h2>
+
+                        <div class="az-shows">
+
+                            <!-- FULL BAND -->
+
+                            <article class="az-show">
+
+                                <span class="az-show-numero">
+                                    SHOW 01
+                                </span>
+
+                                <h3>
+                                    Full Band
+                                </h3>
+
+                                <p>
+                                    Espectáculo de música y comedia
+                                    con acompañamiento de banda.
+                                </p>
+
+                                <ul>
+                                    <li>
+                                        Duración: 90 minutos
+                                    </li>
+
+                                    <li>
+                                        5 artistas en escenario
+                                    </li>
+
+                                    <li>
+                                        Andreas Zanetti al piano
+                                    </li>
+
+                                    <li>
+                                        Tecladista
+                                    </li>
+
+                                    <li>
+                                        Baterista
+                                    </li>
+
+                                    <li>
+                                        Guitarrista
+                                    </li>
+
+                                    <li>
+                                        Bajista
+                                    </li>
+                                </ul>
+
+                            </article>
+
+
+                            <!-- STAND UP -->
+
+                            <article class="az-show">
+
+                                <span class="az-show-numero">
+                                    SHOW 02
+                                </span>
+
+                                <h3>
+                                    Stand Up
+                                </h3>
+
+                                <p>
+                                    Formato de comedia y música
+                                    con una propuesta escénica
+                                    más compacta.
+                                </p>
+
+                                <ul>
+                                    <li>
+                                        Duración: 60 minutos
+                                    </li>
+
+                                    <li>
+                                        3 artistas en escenario
+                                    </li>
+
+                                    <li>
+                                        Andreas Zanetti al piano
+                                    </li>
+
+                                    <li>
+                                        Tecladista
+                                    </li>
+
+                                    <li>
+                                        Baterista
+                                    </li>
+                                </ul>
+
+                            </article>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- EVENTOS -->
+
+                    <section class="az-seccion">
+
+                        <p class="az-etiqueta">
+                            CONTRATACIÓN
+                        </p>
+
+                        <h2 class="az-titulo">
+                            Ideal para tu evento
+                        </h2>
+
+                        <ul class="az-lista">
+                            <li>Eventos corporativos</li>
+                            <li>Celebraciones privadas</li>
+                            <li>Teatros y espectáculos</li>
+                            <li>Eventos especiales</li>
+                        </ul>
+
+                    </section>
+
+
+                    <!-- REQUERIMIENTOS -->
+
+                    <section class="az-seccion">
+
+                        <p class="az-etiqueta">
+                            PRODUCCIÓN
+                        </p>
+
+                        <h2 class="az-titulo">
+                            Requerimientos técnicos
+                        </h2>
+
+                        <p class="az-texto">
+                            Los requerimientos varían según
+                            el formato contratado.
+                        </p>
+
+                        <br>
+
+                        <ul class="az-lista">
+                            <li>Sistema profesional de audio</li>
+                            <li>Microfonía para el espectáculo</li>
+                            <li>Iluminación escénica</li>
+                            <li>Piano o teclado</li>
+                            <li>Backline según el formato</li>
+                            <li>Espacio escénico adecuado</li>
+                        </ul>
+
+                        <br>
+
+                        <p class="az-texto">
+                            El rider técnico definitivo se
+                            proporciona durante el proceso
+                            de contratación.
+                        </p>
+
+                    </section>
+
+                </div>
+
+
+                <!-- =====================================
+                     COLUMNA DERECHA
+                ===================================== -->
+
+                <aside class="az-sidebar">
+
+                    <div class="az-tarjeta">
+
+                        <img
+                            src="../assets/images/andreas-zanetti.jpg"
+                            alt="Andreas Zanetti"
+                            class="az-perfil-foto"
+                        >
+
+                        <h2>
+                            Andreas Zanetti
+                        </h2>
+
+                        <p class="az-tarjeta-categoria">
+                            Showman · Música y comedia
+                        </p>
+
+                        <a
+                            href="cotizar.html?artista=andreas-zanetti"
+                            class="az-boton"
+                        >
+                            Solicitar cotización
+                        </a>
+
+                        <button
+                            type="button"
+                            class="az-boton-secundario"
+                            id="az-favorito"
+                            aria-pressed="false"
+                        >
+                            ♡ Agregar a favoritos
+                        </button>
+
+                    </div>
+
+
+                    <!-- REDES SOCIALES -->
+
+                    <div class="az-tarjeta">
+
+                        <p class="az-etiqueta">
+                            CONECTA CON EL ARTISTA
+                        </p>
+
+                        <h2 style="text-align:left; font-size:20px;">
+                            Redes sociales
+                        </h2>
+
+                        <div class="az-redes">
+
+                            <a
+                                href="https://www.facebook.com/Zanetti.Showman"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Facebook
+                            </a>
+
+                            <a
+                                href="https://www.instagram.com/andreas.zanetti/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Instagram
+                            </a>
+
+                            <a
+                                href="https://www.youtube.com/@AndreasZanettiShowman"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                YouTube
+                            </a>
+
+                            <a
+                                href="https://www.andreas-zanetti.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Sitio web
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </aside>
+
+            </div>
+
+
+            <!-- =====================================
+                 DISPONIBILIDAD
+            ===================================== -->
+
+            <section class="az-disponibilidad">
+
+                <div>
+
+                    <h2>
+                        ¿Quieres contratar a Andreas Zanetti?
+                    </h2>
+
+                    <p>
+                        Consulta su disponibilidad para
+                        la fecha de tu evento.
+                    </p>
+
+                </div>
+
+                <a
+                    href="cotizar.html?artista=andreas-zanetti"
+                    class="az-boton"
+                >
+                    Comprobar disponibilidad
+                </a>
+
+            </section>
+
+        </div>
+		
+		<!-- ARTISTAS RECOMENDADOS -->
+
+<section class="az-recomendados">
+
+    <div class="az-contenedor">
+
+        <p class="az-etiqueta">DESCUBRE MÁS TALENTO</p>
+
+        <h2 class="az-titulo">También te pueden interesar</h2>
+
+        <div class="az-recomendados-grid">
+
+            <a href="michelle-rodriguez.html" class="az-recomendado">
+                <div class="az-recomendado-imagen">
+                    <img src="../assets/images/michelle-rodriguez.jpg"
+                         alt="Michelle Rodríguez">
+                </div>
+                <h3>Michelle Rodríguez</h3>
+                <p>Comedia y entretenimiento</p>
+            </a>
+
+            <a href="mr-loxley.html" class="az-recomendado">
+                <div class="az-recomendado-imagen">
+                    <img src="../assets/images/mr-loxley.jpg"
+                         alt="Mr. Loxley">
+                </div>
+                <h3>Mr. Loxley</h3>
+                <p>DJ y espectáculo inmersivo</p>
+            </a>
+
+            <a href="tr3mens.html" class="az-recomendado">
+                <div class="az-recomendado-imagen">
+                    <img src="../assets/images/tr3mens.jpg"
+                         alt="Tr3mens">
+                </div>
+                <h3>Tr3mens</h3>
+                <p>Música instrumental</p>
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+    </main>
+
+
+<!-- =====================================
+     FOOTER NEXO
+===================================== -->
+
+<footer class="nexo-footer">
+
+    <div class="nexo-footer-contenedor">
+
+        <div class="nexo-footer-grid">
+
+            <!-- MARCA -->
+            <div class="nexo-footer-marca">
+
+                <a href="../index.html" class="nexo-footer-logo">
+                    NE<span>XO</span>
+                </a>
+
+                <p>
+                    Conectamos talento, entretenimiento y
+                    producción profesional para hacer
+                    realidad experiencias extraordinarias.
+                </p>
+
+                <div class="nexo-footer-redes">
+                    <a href="#" aria-label="Instagram">Instagram ↗</a>
+                    <a href="#" aria-label="Facebook">Facebook ↗</a>
+                </div>
+
+            </div>
+
+            <!-- EXPLORAR -->
+            <div class="nexo-footer-columna">
+
+                <h3>Explorar</h3>
+
+                <a href="artistas.html">Artistas y música</a>
+                <a href="explorar.html?categoria=entretenimiento">Entretenimiento</a>
+                <a href="produccion.html">Producción y servicios</a>
+                <a href="eventos.html">Tipos de evento</a>
+
+            </div>
+
+            <!-- NEXO -->
+            <div class="nexo-footer-columna">
+
+                <h3>NEXO</h3>
+
+                <a href="como-funciona.html">Cómo funciona</a>
+                <a href="proveedores.html">Publica tus servicios</a>
+                <a href="ayuda.html">Centro de ayuda</a>
+                <a href="contacto.html">Contacto</a>
+
+            </div>
+
+            <!-- CONTRATACIÓN -->
+            <div class="nexo-footer-columna">
+
+                <h3>Tu próximo evento</h3>
+
+                <p>
+                    Encuentra artistas y servicios
+                    para crear un evento inolvidable.
+                </p>
+
+                <a href="cotizar.html" class="nexo-footer-boton">
+                    Cotiza tu evento ↗
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="nexo-footer-inferior">
+
+            <p>© 2026 NEXO. Todos los derechos reservados.</p>
+
+            <div>
+                <a href="privacidad.html">Aviso de privacidad</a>
+                <a href="terminos.html">Términos y condiciones</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+    <!-- =====================================
+         JAVASCRIPT GALERÍA Y FAVORITOS
+    ===================================== -->
+
+    <script>
+
+        /* GALERÍA FOTOGRÁFICA */
+
+        const azFotos = [
+            "../assets/images/andreas-zanetti.jpg"
+        ];
+
+        const azImagenActual = document.getElementById(
+            "az-imagen-actual"
+        );
+
+        const azMiniaturas = document.getElementById(
+            "az-miniaturas"
+        );
+
+        let azIndice = 0;
+
+        function azMostrarFoto(indice) {
+
+            azIndice = (
+                indice + azFotos.length
+            ) % azFotos.length;
+
+            azImagenActual.src = azFotos[azIndice];
+
+            const botones = azMiniaturas.querySelectorAll(
+                "button"
+            );
+
+            botones.forEach((boton, i) => {
+                boton.classList.toggle(
+                    "activa",
+                    i === azIndice
+                );
+            });
+
+        }
+
+        function azCrearMiniaturas() {
+
+            azMiniaturas.innerHTML = "";
+
+            azFotos.forEach((foto, indice) => {
+
+                const boton = document.createElement(
+                    "button"
+                );
+
+                boton.type = "button";
+
+                boton.setAttribute(
+                    "aria-label",
+                    "Ver fotografía " + (indice + 1)
+                );
+
+                const imagen = document.createElement(
+                    "img"
+                );
+
+                imagen.src = foto;
+                imagen.alt = "Andreas Zanetti";
+
+                boton.appendChild(imagen);
+
+                boton.addEventListener("click", () => {
+                    azMostrarFoto(indice);
+                });
+
+                azMiniaturas.appendChild(boton);
+
+            });
+
+            azMostrarFoto(0);
+
+        }
+
+        document.getElementById(
+            "az-anterior"
+        ).addEventListener("click", () => {
+
+            azMostrarFoto(azIndice - 1);
+
+        });
+
+        document.getElementById(
+            "az-siguiente"
+        ).addEventListener("click", () => {
+
+            azMostrarFoto(azIndice + 1);
+
+        });
+
+        azCrearMiniaturas();
+
+
+        /* FAVORITOS */
+
+        const azFavorito = document.getElementById(
+            "az-favorito"
+        );
+
+        const azClaveFavorito = "nexo-favorito-andreas-zanetti";
+
+        function azActualizarFavorito() {
+
+            const guardado = localStorage.getItem(
+                azClaveFavorito
+            ) === "true";
+
+            azFavorito.textContent = guardado
+                ? "♥ Guardado en favoritos"
+                : "♡ Agregar a favoritos";
+
+            azFavorito.setAttribute(
+                "aria-pressed",
+                String(guardado)
+            );
+
+        }
+
+        azFavorito.addEventListener("click", () => {
+
+            const guardado = localStorage.getItem(
+                azClaveFavorito
+            ) === "true";
+
+            localStorage.setItem(
+                azClaveFavorito,
+                String(!guardado)
+            );
+
+            azActualizarFavorito();
+
+        });
+
+        azActualizarFavorito();
+
+    </script>
+
+</body>
+</html>

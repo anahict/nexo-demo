@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NEXO | Todo para tu evento</title>
+
+    <link rel="stylesheet" href="estilos.css">
+
+    <style>
+        /* Autocompletado único de NEXO: aislado de los botones generales */
+        .nexo-header { position: sticky; top: 0; z-index: 1000; overflow: visible; }
+        .nexo-header-buscador,
+        .campo-busqueda.nexo-autocomplete-contenedor {
+            position: relative;
+            overflow: visible;
+        }
+        .nexo-header-buscador { z-index: 101; }
+        .nexo-autocomplete-lista {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            width: 100%;
+            min-width: min(260px, 90vw);
+            max-height: 340px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            z-index: 10000;
+            box-sizing: border-box;
+            padding: 7px;
+            background: #fff;
+            border: 1px solid #e9e6f5;
+            border-radius: 14px;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, .18);
+        }
+        .nexo-autocomplete-lista[hidden] { display: none !important; }
+        /* Especificidad alta para neutralizar reglas de botones del header y hero */
+        form.nexo-header-buscador .nexo-autocomplete-lista button.nexo-autocomplete-opcion,
+        form.nexo-header-buscador .nexo-autocomplete-lista button.nexo-autocomplete-todos,
+        form.buscador .nexo-autocomplete-lista button.nexo-autocomplete-opcion,
+        form.buscador .nexo-autocomplete-lista button.nexo-autocomplete-todos {
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+            align-items: flex-start !important;
+            gap: 4px !important;
+            width: 100% !important;
+            min-width: 0 !important;
+            height: auto !important;
+            min-height: 48px !important;
+            margin: 0 !important;
+            padding: 10px 13px !important;
+            background: #fff !important;
+            color: #0f0f10 !important;
+            border: 0 !important;
+            border-radius: 8px !important;
+            box-shadow: none !important;
+            font-family: inherit !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            line-height: 1.35 !important;
+            text-align: left !important;
+            white-space: normal !important;
+            letter-spacing: normal !important;
+            text-transform: none !important;
+            transform: none !important;
+            cursor: pointer;
+        }
+        form.nexo-header-buscador .nexo-autocomplete-lista button:hover,
+        form.buscador .nexo-autocomplete-lista button:hover,
+        form.nexo-header-buscador .nexo-autocomplete-lista button:focus-visible,
+        form.buscador .nexo-autocomplete-lista button:focus-visible {
+            background: #f2efff !important;
+            color: #6c4cff !important;
+        }
+        .nexo-autocomplete-opcion span {
+            display: block;
+            color: inherit !important;
+            font-size: 14px !important;
+            font-weight: 700 !important;
+            line-height: 1.35 !important;
+        }
+        .nexo-autocomplete-opcion small {
+            display: block;
+            color: #777 !important;
+            font-size: 12px !important;
+            font-weight: 400 !important;
+            line-height: 1.35 !important;
+        }
+        form.nexo-header-buscador .nexo-autocomplete-lista button.nexo-autocomplete-todos,
+        form.buscador .nexo-autocomplete-lista button.nexo-autocomplete-todos {
+            margin-top: 5px !important;
+            border-top: 1px solid #eee !important;
+            color: #6c4cff !important;
+        }
+        @media (max-width: 768px) {
+            .nexo-autocomplete-lista { max-height: 300px; }
+        }
+    </style>
+	
+	<style>
+.nexo-produccion-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.nexo-produccion-card {
+    padding: 0 !important;
+    overflow: hidden;
+    border-radius: 18px;
+    background: #fff;
+    border: 1px solid #eee;
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.nexo-produccion-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 20px 40px rgba(25, 15, 65, .13);
+}
+
+.nexo-produccion-foto {
+    height: 190px;
+    padding: 18px;
+    display: flex;
+    align-items: flex-start;
+    background-color: #201c31;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.nexo-produccion-foto::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(0,0,0,.48),
+        rgba(0,0,0,.05) 55%,
+        rgba(0,0,0,.25)
+    );
+}
+
+.nexo-produccion-foto span {
+    position: relative;
+    z-index: 1;
+    color: white;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.nexo-foto-audio {
+    background-image: url("assets/images/produccion-audio.jpg");
+}
+
+.nexo-foto-iluminacion {
+    background-image: url("assets/images/produccion-iluminacion.jpg");
+}
+
+.nexo-foto-led {
+    background-image: url("assets/images/produccion-led.jpg");
+}
+
+.nexo-foto-backline {
+    background-image: url("assets/images/produccion-backline.jpg");
+}
+.nexo-foto-escenarios { background-image: url("assets/images/produccion-escenarios.jpg"); }
+
+.nexo-produccion-info {
+    padding: 24px;
+}
+
+.nexo-produccion-info h3 {
+    margin: 0 0 12px;
+    font-size: 21px;
+    color: #17141f;
+}
+
+.nexo-produccion-info p {
+    min-height: 72px;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.nexo-produccion-info a {
+    display: inline-block;
+    margin-top: 14px;
+    color: #6c4cff;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.nexo-produccion-info a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 1000px) {
+    .nexo-produccion-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .nexo-produccion-grid {
+        grid-template-columns: 1fr;
+    }
+}
+		
+		/* =====================================
+   FOOTER NEXO - ANDREAS ZANETTI
+===================================== */
+
+.nexo-footer {
+    background: #0F0F10;
+    color: #FFFFFF;
+    padding: 75px 25px 25px;
+}
+
+.nexo-footer-contenedor {
+    max-width: 1250px;
+    margin: 0 auto;
+}
+
+.nexo-footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+    gap: 45px;
+    align-items: start;
+}
+
+.nexo-footer-logo {
+    display: inline-block;
+    color: #FFFFFF;
+    font-size: 38px;
+    font-weight: 900;
+    text-decoration: none;
+    margin-bottom: 25px;
+}
+
+.nexo-footer-logo span {
+    color: #6C4CFF;
+}
+
+.nexo-footer-marca p,
+.nexo-footer-columna p {
+    color: #AAAAAA;
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+.nexo-footer-columna h3 {
+    color: #FFFFFF;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.nexo-footer-columna > a {
+    display: block;
+    color: #AAAAAA;
+    font-size: 14px;
+    text-decoration: none;
+    margin-bottom: 16px;
+    transition: color 0.2s;
+}
+
+.nexo-footer-columna > a:hover,
+.nexo-footer-redes a:hover {
+    color: #6C4CFF;
+}
+
+.nexo-footer-redes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+}
+
+.nexo-footer-redes a {
+    color: #AAAAAA;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.nexo-footer-columna > .nexo-footer-boton {
+    display: inline-block;
+    background: #6C4CFF;
+    color: #FFFFFF;
+    padding: 13px 22px;
+    border-radius: 30px;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.nexo-footer-columna > .nexo-footer-boton:hover {
+    background: #5637e8;
+    color: #FFFFFF;
+}
+
+.nexo-footer-inferior {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    border-top: 1px solid #303036;
+    margin-top: 55px;
+    padding-top: 25px;
+}
+
+.nexo-footer-inferior p {
+    color: #888888;
+    font-size: 13px;
+}
+
+.nexo-footer-inferior > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.nexo-footer-inferior a {
+    color: #AAAAAA;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.nexo-footer-inferior a:hover {
+    color: #6C4CFF;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+    .nexo-footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 35px;
+    }
+}
+
+@media (max-width: 600px) {
+    .nexo-footer {
+        padding: 50px 20px 25px;
+    }
+
+    .nexo-footer-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .nexo-footer-inferior {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+</style>
+	
+	<style>
+/* =====================================
+   NEXO — BUSCADOR POR CATEGORÍAS
+===================================== */
+
+.campo-busqueda {
+    position: relative;
+}
+
+.nexo-filtros-buscador {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    width: 100%;
+    min-width: min(350px, 90vw);
+    max-height: min(440px, 65vh);
+    overflow-y: auto;
+    background: #FFFFFF;
+    border: 1px solid #E9E6F5;
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    z-index: 10000;
+    box-sizing: border-box;
+}
+
+.nexo-filtros-buscador[hidden] {
+    display: none !important;
+}
+
+/* CONTENEDOR DE OPCIONES */
+
+#nexo-filtros-opciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* BURBUJAS */
+
+.buscador .nexo-filtro-burbuja {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: auto;
+    min-height: 38px;
+    padding: 9px 15px;
+    border: 1px solid #E6E0FF;
+    border-radius: 25px;
+    background: #F5F2FF;
+    color: #6C4CFF;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.3;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.buscador .nexo-filtro-burbuja:hover,
+.buscador .nexo-filtro-burbuja:focus-visible {
+    background: #6C4CFF;
+    color: #FFFFFF;
+    border-color: #6C4CFF;
+    transform: none;
+}
+
+/* BOTÓN PARA REGRESAR */
+
+.buscador .nexo-filtro-volver {
+    width: 100%;
+    height: auto;
+    margin-bottom: 12px;
+    padding: 8px 0;
+    border: none;
+    background: transparent;
+    color: #6C4CFF;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+}
+
+/* VERSIÓN MÓVIL */
+
+@media (max-width: 600px) {
+    .nexo-filtros-buscador {
+        min-width: 0;
+        width: 100%;
+        padding: 14px;
+    }
+
+    .buscador .nexo-filtro-burbuja {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+    <!-- =========================================
+         HEADER PRINCIPAL
+    ========================================= -->
+
+    <header class="header nexo-header">
+
+        <a href="index.html" class="nexo-logo">
+            <span class="logo-ne">NE</span><span class="logo-xo">XO</span>
+        </a>
+
+        <!-- BUSCADOR DEL HEADER -->
+
+        <form
+            class="nexo-header-buscador"
+            data-nexo-autocomplete
+            action="pages/explorar.html"
+            method="get"
+        >
+
+            <input
+                type="search"
+                id="nexo-header-search"
+                name="q"
+                autocomplete="off"
+                placeholder="Busca artistas, música o servicios..."
+                aria-label="Buscar servicios"
+                required
+            >
+
+            <button type="submit" aria-label="Buscar">
+                ⌕
+            </button>
+
+        </form>
+
+
+        <div class="nexo-header-acciones">
+
+            <a href="index.html" class="nexo-login nexo-inicio">Inicio</a>
+
+            <a href="pages/login.html" class="nexo-login">
+                Iniciar sesión
+            </a>
+
+            <a href="pages/proveedores.html" class="nexo-publicar">
+                Publica tus servicios
+            </a>
+
+            <button
+                type="button"
+                class="nexo-icono"
+                aria-label="Favoritos"
+            >
+                ♡
+            </button>
+
+            <button
+                type="button"
+                class="nexo-menu-boton"
+                id="nexo-menu-boton"
+                aria-label="Abrir menú"
+                aria-expanded="false"
+                aria-controls="nexo-menu"
+            >
+                ☰
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================
+         MENÚ DESPLEGABLE
+    ========================================= -->
+
+    <nav
+        class="nexo-menu-panel"
+        id="nexo-menu"
+        aria-label="Menú principal"
+        hidden
+    >
+
+        <div class="nexo-menu-contenido">
+
+            <h2>Explora NEXO</h2>
+
+            <a href="pages/artistas.html">
+                Artistas y música
+            </a>
+
+           <href="pages/artistas.html?categoria=entretenimiento">
+                Entretenimiento
+            </a>
+
+            <a href="pages/explorar.html?q=conferencistas">
+                Conferencistas y conductores
+            </a>
+
+            <a href="pages/produccion.html">
+                Producción y servicios para eventos
+            </a>
+
+            <hr>
+
+            <a href="index.html">Inicio</a>
+
+            <a href="pages/explorar.html">Explorar</a>
+
+            <a href="pages/eventos.html">Tipos de evento</a>
+
+            <a href="pages/como-funciona.html">Cómo funciona</a>
+
+            <a href="pages/proveedores.html">Publica tus servicios</a>
+
+            <a href="pages/login.html">Iniciar sesión</a>
+
+            <a
+                href="pages/cotizar.html"
+                class="nexo-menu-cotizar"
+            >
+                Cotiza tu evento
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================================
+         HERO PRINCIPAL
+    ========================================= -->
+
+    <section class="hero nexo-hero-integrado">
+        <div class="hero-contenido nexo-hero-grid">
+            <div class="nexo-hero-izquierda">
+
+            <p class="hero-etiqueta">
+                TODO PARA TU EVENTO
+            </p>
+
+            <h1>
+                Encuentra lo que necesitas.<br>
+                Haz que suceda.
+            </h1>
+
+            <p class="hero-texto">
+                Artistas, entretenimiento y producción
+                para crear experiencias increíbles.
+            </p>
+
+
+            <!-- BUSCADOR PRINCIPAL -->
+
+            <form
+                class="buscador"
+                data-nexo-autocomplete
+                action="pages/explorar.html"
+                method="get"
+            >
+
+                <div class="campo-busqueda">
+					<div class="nexo-filtros-buscador" id="nexo-filtros-buscador" hidden>
+
+    <div id="nexo-filtros-opciones"></div>
+
+</div>
+
+                    <label for="busqueda-servicio">
+                        ¿Qué buscas?
+                    </label>
+
+                    <input
+                        id="busqueda-servicio"
+                        type="search"
+                        name="q"
+                        placeholder="¿Qué necesitas para tu evento?"
+                        autocomplete="off"
+                        required
+                    >
+
+                </div>
+
+
+                <button type="submit">
+                    Buscar
+                </button>
+
+            </form>
+
+                    </div>
+            <aside class="nexo-hero-derecha" aria-labelledby="nexo-unete-titulo">
+
+        <p class="seccion-etiqueta">FORMA PARTE DE NEXO</p>
+        <h2 id="nexo-unete-titulo">Tu talento merece ser descubierto.</h2>
+        <p class="nexo-unete-intro">Forma parte de NEXO y conecta con personas que buscan talento, entretenimiento y servicios profesionales para sus eventos. Crea tu perfil, muestra tu trabajo y recibe oportunidades de contratación.</p>
+        <div class="nexo-unete-grid">
+          <article class="nexo-unete-card">
+            <span>01 / ARTISTAS</span><h3>Publica tu talento</h3>
+            <p>¿Eres cantante, músico, DJ, comediante o conferencista? Presenta tu propuesta y conecta con nuevos eventos.</p>
+            <a href="pages/registro.html?tipo=artista">Soy artista <span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="nexo-unete-card">
+            <span>02 / PROVEEDORES</span><h3>Ofrece tus servicios</h3>
+            <p>Audio, iluminación, pantallas LED, escenarios y producción: muestra tus soluciones a quienes organizan eventos.</p>
+            <a href="pages/registro.html?tipo=proveedor">Soy proveedor <span aria-hidden="true">↗</span></a>
+          </article>
+        </div>
+                  </aside>
+        </div>
+    </section>
+
+
+    <!-- =========================================
+         SERVICIOS NEXO
+    ========================================= -->
+
+    <section class="nexo-servicios">
+
+        <div class="nexo-servicios-contenedor">
+
+            <div class="nexo-servicios-encabezado">
+
+                <span class="nexo-servicios-etiqueta">
+                    DESCUBRE NEXO
+                </span>
+
+                <h2>
+                    Todo lo que necesitas<br>
+                    <span>para tu evento.</span>
+                </h2>
+
+                <p>
+                    Descubre artistas, entretenimiento y soluciones
+                    profesionales para crear experiencias extraordinarias.
+                </p>
+
+            </div>
+
+
+            <div class="nexo-servicios-grid">
+
+                <!-- =================================
+                     01 — ARTISTAS Y MÚSICA
+                ================================= -->
+
+                <article class="nexo-servicio-card nexo-servicio-musica">
+
+                    <div class="nexo-servicio-info">
+
+                        <span class="nexo-servicio-numero">
+                            01 / ARTISTAS
+                        </span>
+
+                        <h3>
+                            Artistas<br>
+                            y música.
+                        </h3>
+
+                        <p>
+                            El talento que transforma cualquier
+                            celebración en una experiencia inolvidable.
+                        </p>
+
+                        <div class="nexo-servicio-lista">
+
+                            <a href="pages/explorar.html?q=bandas">
+                                Bandas
+                            </a>
+
+                            <a href="pages/explorar.html?q=dj">
+                                DJ
+                            </a>
+
+                            <a href="pages/explorar.html?q=cantantes">
+                                Cantantes
+                            </a>
+
+                            <a href="pages/explorar.html?q=mariachi">
+                                Mariachis
+                            </a>
+
+                            <a href="pages/explorar.html?q=musicos">
+                                Músicos
+                            </a>
+
+                            <a href="pages/explorar.html?q=ensambles">
+                                Ensambles
+                            </a>
+
+                        </div>
+
+                        <a
+                            href="pages/artistas.html"
+                            class="nexo-servicio-boton"
+                        >
+                            Explorar artistas
+                            <span aria-hidden="true">↗</span>
+                        </a>
+
+                    </div>
+
+
+                    <div class="nexo-servicio-imagen">
+
+                        <img
+                            src="assets/images/nexo-artistas.jpg"
+                            alt="Banda musical durante un concierto"
+                            loading="lazy"
+                        >
+
+                    </div>
+
+                </article>
+
+
+                <!-- =================================
+                     02 — ENTRETENIMIENTO
+                ================================= -->
+
+                <article class="nexo-servicio-card nexo-servicio-entretenimiento">
+
+                    <div class="nexo-servicio-imagen">
+
+                        <img
+                            src="assets/images/nexo-entretenimiento.jpg"
+                            alt="Artista presentando un espectáculo en vivo"
+                            loading="lazy"
+                        >
+
+                    </div>
+
+
+                    <div class="nexo-servicio-info">
+
+                        <span class="nexo-servicio-numero">
+                            02 / EXPERIENCIAS
+                        </span>
+
+                        <h3>
+                            Entretenimiento.
+                        </h3>
+
+                        <p>
+                            Momentos sorprendentes que conectan,
+                            emocionan y hacen único tu evento.
+                        </p>
+
+                        <div class="nexo-servicio-lista">
+
+                            <a href="pages/explorar.html?q=stand-up">
+                                Stand-up
+                            </a>
+
+                            <a href="pages/explorar.html?q=magos">
+                                Magos
+                            </a>
+
+                            <a href="pages/explorar.html?q=conferencistas">
+                                Conferencistas
+                            </a>
+
+                            <a href="pages/explorar.html?q=conductores">
+                                Conductores
+                            </a>
+
+                            <a href="pages/explorar.html?q=bailarines">
+                                Bailarines
+                            </a>
+
+                        </div>
+
+                        <a
+    href="pages/artistas.html?categoria=entretenimiento"
+    class="nexo-servicio-boton"
+>
+    Explorar entretenimiento
+    <span aria-hidden="true">↗</span>
+</a>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =================================
+                     03 — PRODUCCIÓN Y SERVICIOS
+                ================================= -->
+
+                <article class="nexo-servicio-card nexo-servicio-produccion">
+
+                    <div class="nexo-servicio-info">
+
+                        <span class="nexo-servicio-numero">
+                            03 / PRODUCCIÓN
+                        </span>
+
+                        <h3>
+                            Producción<br>
+                            y servicios.
+                        </h3>
+
+                        <p>
+                            Tecnología, infraestructura y experiencia
+                            técnica para llevar tu evento al siguiente nivel.
+                        </p>
+
+                        <div class="nexo-servicio-lista">
+
+                            <a href="pages/explorar.html?q=pantallas-led">
+                                Pantallas LED
+                            </a>
+
+                            <a href="pages/explorar.html?q=audio">
+                                Audio
+                            </a>
+
+                            <a href="pages/explorar.html?q=iluminacion">
+                                Iluminación
+                            </a>
+
+                            <a href="pages/explorar.html?q=backline">
+                                Backline
+                            </a>
+
+                            <a href="pages/explorar.html?q=montaje">
+                                Montaje
+                            </a>
+
+                            <a href="pages/explorar.html?q=produccion-integral">
+                                Producción integral
+                            </a>
+
+                        </div>
+
+                        <a
+                            href="pages/produccion.html"
+                            class="nexo-servicio-boton"
+                        >
+                            Explorar producción
+                            <span aria-hidden="true">↗</span>
+                        </a>
+
+                    </div>
+
+
+                    <div class="nexo-servicio-imagen">
+
+                        <img
+                            src="assets/images/nexo-produccion.jpg"
+                            alt="Escenario con pantallas LED e iluminación"
+                            loading="lazy"
+                        >
+
+                    </div>
+
+                </article>
+
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         ARTISTAS DESTACADOS
+    ========================================= -->
+
+
+
+
+    <section class="artistas-destacados">
+
+        <div class="artistas-contenido">
+
+            <div class="artistas-header">
+
+                <div>
+
+                    <p class="seccion-etiqueta">
+                        DESCUBRE TALENTO
+                    </p>
+
+                    <h2>
+                        Artistas destacados
+                    </h2>
+
+                </div>
+
+                <a href="pages/artistas.html" class="ver-todos">
+                    Ver todos →
+                </a>
+
+            </div>
+
+
+            <div class="artistas-grid">
+
+                <!-- TRENDLINE -->
+
+                <article class="artista-card">
+
+                    <div class="artista-imagen">
+
+                        <img
+                            src="assets/images/trendline.png"
+                            alt="Trendline"
+                        >
+
+                        <button
+                            type="button"
+                            class="favorito"
+                            aria-label="Agregar Trendline a favoritos"
+                        >
+                            ♡
+                        </button>
+
+                    </div>
+
+                    <div class="artista-info">
+
+                        <span class="artista-categoria">
+                            BANDA
+                        </span>
+
+                        <h3>Trendline</h3>
+
+                        <p>
+                            Una experiencia musical en vivo con energía,
+                            repertorio versátil y producción profesional.
+                        </p>
+
+                        <a href="pages/trendline.html">Ver perfil →</a>
+
+                    </div>
+
+                </article>
+
+
+                <!-- MR. LOXLEY -->
+
+                <article class="artista-card">
+
+                    <div class="artista-imagen">
+
+                        <img
+                            src="assets/images/mr-loxley.jpg"
+                            alt="Mr. Loxley"
+                        >
+
+                        <button
+                            type="button"
+                            class="favorito"
+                            aria-label="Agregar Mr. Loxley a favoritos"
+                        >
+                            ♡
+                        </button>
+
+                    </div>
+
+                    <div class="artista-info">
+
+                        <span class="artista-categoria">
+                            DJ
+                        </span>
+
+                        <h3>Mr. Loxley</h3>
+
+                        <p>
+                            Música, concepto y experiencia para convertir
+                            cada evento en algo memorable.
+                        </p>
+
+                       <a href="pages/mr-loxley.html">Ver perfil →</a>
+
+                    </div>
+
+                </article>
+
+
+                <!-- TWO SOULS -->
+
+                <article class="artista-card">
+
+                    <div class="artista-imagen">
+
+                        <img
+                            src="assets/images/two-souls.jpg"
+                            alt="Two Souls"
+                        >
+
+                        <button
+                            type="button"
+                            class="favorito"
+                            aria-label="Agregar Two Souls a favoritos"
+                        >
+                            ♡
+                        </button>
+
+                    </div>
+
+                    <div class="artista-info">
+
+                        <span class="artista-categoria">
+                            DÚO VOCAL
+                        </span>
+
+                        <h3>Two Souls</h3>
+
+                        <p>
+                            Dos voces, armonías y un show diseñado
+                            para conectar con todo tipo de audiencias.
+                        </p>
+
+                        <a href="pages/two-souls.html">Ver perfil →</a>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         PRODUCCIÓN
+    ========================================= -->
+
+    <section class="produccion">
+
+        <div class="produccion-contenido">
+
+            <div class="produccion-header">
+
+                <p class="seccion-etiqueta">
+                    PRODUCCIÓN
+                </p>
+
+                <h2>
+                    Todo para llevar tu evento al siguiente nivel.
+                </h2>
+
+            </div>
+
+
+           <div class="produccion-grid nexo-produccion-grid">
+
+    <article class="produccion-card nexo-produccion-card">
+        <div class="nexo-produccion-foto nexo-foto-audio">
+        
+        </div>
+        <div class="nexo-produccion-info">
+            <h3>Audio profesional</h3>
+            <p>Sistemas de sonido para conciertos, eventos y conferencias.</p>
+            <a href="pages/produccion.html?categoria=audio">
+                Explorar audio →
+            </a>
+        </div>
+    </article>
+
+    <article class="produccion-card nexo-produccion-card">
+        <div class="nexo-produccion-foto nexo-foto-iluminacion">
+        </div>
+        <div class="nexo-produccion-info">
+            <h3>Iluminación</h3>
+            <p>Diseño de iluminación para crear ambientes extraordinarios.</p>
+            <a href="pages/produccion.html?categoria=iluminacion">
+                Explorar iluminación →
+            </a>
+        </div>
+    </article>
+
+    <article class="produccion-card nexo-produccion-card">
+        <div class="nexo-produccion-foto nexo-foto-led">
+        </div>
+        <div class="nexo-produccion-info">
+            <h3>Pantallas LED</h3>
+            <p>Soluciones visuales para escenarios y eventos corporativos.</p>
+            <a href="pages/produccion.html?categoria=pantallas-led">
+                Explorar pantallas →
+            </a>
+        </div>
+    </article>
+
+    <article class="produccion-card nexo-produccion-card">
+        <div class="nexo-produccion-foto nexo-foto-backline">
+        </div>
+        <div class="nexo-produccion-info">
+            <h3>Backline</h3>
+            <p>Instrumentos y equipo profesional para espectáculos en vivo.</p>
+            <a href="pages/produccion.html?categoria=backline">
+                Explorar backline →
+            </a>
+        </div>
+    </article>
+
+    <article class="produccion-card nexo-produccion-card">
+      <div class="nexo-produccion-foto nexo-foto-escenarios"></div>
+      <div class="nexo-produccion-info">
+        <h3>Escenarios profesionales</h3>
+        <p>Estructuras y escenarios profesionales para conciertos, espectáculos y eventos corporativos.</p>
+        <a href="pages/produccion.html?categoria=escenarios">Explorar escenarios →</a>
+      </div>
+    </article>
+
+</div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         TIPOS DE EVENTO
+    ========================================= -->
+
+    <section class="tipos-evento">
+
+        <div class="tipos-evento-contenido">
+
+            <div class="tipos-evento-header">
+
+                <p class="seccion-etiqueta">
+                    ¿QUÉ ESTÁS ORGANIZANDO?
+                </p>
+
+                <h2>
+                    Encuentra todo según tu tipo de evento.
+                </h2>
+
+            </div>
+
+
+            <div class="tipos-evento-grid">
+
+                <article class="evento-card">
+                    <h3>Corporativos</h3>
+                    <a href="pages/eventos.html">Explorar →</a>
+                </article>
+
+                <article class="evento-card">
+                    <h3>Bodas</h3>
+                    <a href="pages/eventos.html">Explorar →</a>
+                </article>
+
+                <article class="evento-card">
+                    <h3>Fiestas</h3>
+                    <a href="pages/eventos.html">Explorar →</a>
+                </article>
+
+                <article class="evento-card">
+                    <h3>Conciertos</h3>
+                    <a href="pages/eventos.html">Explorar →</a>
+                </article>
+
+                <article class="evento-card">
+                    <h3>Festivales</h3>
+                    <a href="pages/eventos.html">Explorar →</a>
+                </article>
+
+                <article class="evento-card">
+                    <h3>Fin de año</h3>
+                    <a href="pages/eventos.html">Explorar →</a>
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         CÓMO FUNCIONA
+    ========================================= -->
+
+    <section class="como-funciona">
+
+        <div class="como-funciona-contenido">
+
+            <div class="como-funciona-header">
+
+                <p class="seccion-etiqueta">
+                    CÓMO FUNCIONA
+                </p>
+
+                <h2>
+                    Encuentra, compara y contrata en pocos pasos.
+                </h2>
+
+            </div>
+
+
+            <div class="pasos-grid">
+
+                <article class="paso-card">
+
+                    <span class="paso-numero">01</span>
+
+                    <h3>Cuéntanos qué necesitas</h3>
+
+                    <p>
+                        Dinos qué tipo de evento estás organizando,
+                        dónde será y qué servicios estás buscando.
+                    </p>
+
+                </article>
+
+
+                <article class="paso-card">
+
+                    <span class="paso-numero">02</span>
+
+                    <h3>Explora opciones</h3>
+
+                    <p>
+                        Descubre artistas, entretenimiento y servicios
+                        de producción que se adapten a tu evento.
+                    </p>
+
+                </article>
+
+
+                <article class="paso-card">
+
+                    <span class="paso-numero">03</span>
+
+                    <h3>Solicita propuestas</h3>
+
+                    <p>
+                        Envía tu solicitud y recibe opciones para
+                        comparar antes de tomar una decisión.
+                    </p>
+
+                </article>
+
+
+                <article class="paso-card">
+
+                    <span class="paso-numero">04</span>
+
+                    <h3>Haz que suceda</h3>
+
+                    <p>
+                        Elige la mejor opción para tu evento y continúa
+                        con el proceso de contratación.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         LLAMADO A COTIZAR
+    ========================================= -->
+
+    <section class="cta-cotiza">
+
+        <div class="cta-cotiza-contenido">
+
+            <p class="seccion-etiqueta">
+                HAZLO REALIDAD
+            </p>
+
+            <h2>
+                Tu evento empieza aquí.
+            </h2>
+
+            <p>
+                Cuéntanos qué necesitas y recibe opciones de artistas,
+                entretenimiento y producción para tu evento.
+            </p>
+
+            <a href="pages/cotizar.html" class="cta-boton">
+                Cotiza tu evento
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================
+     FOOTER NEXO
+===================================== -->
+
+<footer class="nexo-footer">
+
+    <div class="nexo-footer-contenedor">
+
+        <div class="nexo-footer-grid">
+
+            <!-- MARCA -->
+            <div class="nexo-footer-marca">
+
+                <a href="index.html" class="nexo-footer-logo">
+                    NE<span>XO</span>
+                </a>
+
+                <p>
+                    Conectamos talento, entretenimiento y
+                    producción profesional para hacer
+                    realidad experiencias extraordinarias.
+                </p>
+
+                <div class="nexo-footer-redes">
+                    <a href="#" aria-label="Instagram">Instagram ↗</a>
+                    <a href="#" aria-label="Facebook">Facebook ↗</a>
+                </div>
+
+            </div>
+
+            <!-- EXPLORAR -->
+            <div class="nexo-footer-columna">
+
+                <h3>Explorar</h3>
+
+                <a href="pages/artistas.html">Artistas y música</a>
+                <a href="pages/explorar.html?categoria=entretenimiento">Entretenimiento</a>
+                <a href="pages/produccion.html">Producción y servicios</a>
+                <a href="pages/eventos.html">Tipos de evento</a>
+
+            </div>
+
+            <!-- NEXO -->
+            <div class="nexo-footer-columna">
+
+                <h3>NEXO</h3>
+
+                <a href="pages/como-funciona.html">Cómo funciona</a>
+                <a href="pages/proveedores.html">Publica tus servicios</a>
+                <a href="pages/ayuda.html">Centro de ayuda</a>
+                <a href="pages/contacto.html">Contacto</a>
+
+            </div>
+
+            <!-- CONTRATACIÓN -->
+            <div class="nexo-footer-columna">
+
+                <h3>Tu próximo evento</h3>
+
+                <p>
+                    Encuentra artistas y servicios
+                    para crear un evento inolvidable.
+                </p>
+
+                <a href="pages/cotizar.html" class="nexo-footer-boton">
+                    Cotiza tu evento ↗
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="nexo-footer-inferior">
+
+            <p>© 2026 NEXO. Todos los derechos reservados.</p>
+
+            <div>
+                <a href="pages/privacidad.html">Aviso de privacidad</a>
+                <a href="pages/terminos.html">Términos y condiciones</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+    <!-- =========================================
+         JAVASCRIPT PRINCIPAL
+    ========================================= -->
+
+    <script src="script.js"></script>
+    <script>
+    /* NEXO: clasificación compartida entre búsqueda visual y autocompletado */
+    (() => {
+      const talento = {
+        "Cantantes y solistas": ["Solista femenino", "Solista masculino", "Dúos vocales", "Cantantes con banda", "Cantantes de música versátil"],
+        "Bandas y grupos musicales": ["Grupos de covers", "Grupos versátiles", "Bandas de rock", "Grupos pop", "Bandas de música original", "Grupos de música regional"],
+        "Música tradicional y ensambles": ["Mariachis", "Tríos románticos", "Norteños", "Bandas sinaloenses", "Rondallas", "Orquestas", "Big Bands", "Cuartetos", "Ensambles"],
+        "Músicos e instrumental": ["Pianistas y tecladistas", "Violinistas", "Saxofonistas", "Guitarristas", "Bajistas", "Bateristas y percusionistas", "Trompetistas", "Flautistas", "Violonchelistas", "Arpistas", "Música clásica e instrumental"],
+        "DJ y experiencias musicales": ["DJ para bodas", "DJ para eventos corporativos", "DJ para fiestas privadas", "DJ con performance", "Música electrónica", "Música versátil"],
+        "Comedia y humor": ["Stand-up comedy", "Comediantes", "Improvisación", "Comedia musical", "Shows de humor"],
+        "Magia y espectáculos": ["Magos", "Ilusionistas", "Mentalistas", "Hipnotistas", "Imitadores", "Shows temáticos"],
+        "Danza y performance": ["Bailarines profesionales", "Compañías de danza", "Shows coreográficos", "Performance artístico", "Espectáculos circenses"],
+        "Conferencistas": ["Motivacionales", "Empresariales", "Liderazgo", "Desarrollo personal", "Tecnología e innovación", "Bienestar"],
+        "Conductores y presentadores": ["Maestros de ceremonias", "Conductoras", "Conductores", "Presentadores corporativos", "Animadores de eventos"],
+        "Entretenimiento infantil": ["Shows infantiles", "Payasos", "Magos infantiles", "Personajes temáticos", "Cuentacuentos", "Animadores infantiles"],
+        "Actores y talento escénico": ["Actrices", "Actores", "Talento para eventos", "Personajes caracterizados", "Teatro en vivo"]
+      };
+      const produccion = ["Audio profesional", "Iluminación profesional", "Pantallas LED", "Escenarios", "Backline", "Producción integral", "Montaje de escenarios"];
+      const generos = ["Pop", "Rock", "Salsa", "Cumbia", "Regional mexicano", "Jazz", "Balada", "Versátil", "Electrónica", "Reggaetón", "Disco", "Clásica", "Norteño", "Banda", "Bolero"];
+      const conGeneros = new Set(["Cantantes y solistas", "Bandas y grupos musicales", "Música tradicional y ensambles", "DJ y experiencias musicales"]);
+      const artistas = [
+        ["Trendline", "Bandas y grupos musicales"], ["Mr. Loxley", "DJ y experiencias musicales"],
+        ["Two Souls", "Cantantes y solistas"], ["Andreas Zanetti", "Músicos e instrumental"],
+        ["Michelle Rodríguez", "Comedia y humor"], ["Tr3mens", "Músicos e instrumental"],
+        ["Percy", "Cantantes y solistas"]
+      ];
+      const normalizar = texto => texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+      const catalogo = [...artistas, ...Object.entries(talento).flatMap(([categoria, opciones]) => [
+        [categoria, 'Categoría de talento'], ...opciones.map(nombre => [nombre, categoria])
+      ]), ...produccion.map(nombre => [nombre, 'Producción y servicios'])];
+      const inputHero = document.getElementById('busqueda-servicio');
+      const menu = document.getElementById('nexo-filtros-buscador');
+      const opciones = document.getElementById('nexo-filtros-opciones');
+      const heroForm = inputHero?.closest('form');
+      let categoriaActual = '';
+      let tipoActual = '';
+
+      function render(etiquetas, onSelect, anterior) {
+        if (!menu || !opciones) return;
+        opciones.replaceChildren();
+        menu.querySelectorAll('.nexo-filtro-volver').forEach(el => el.remove());
+        if (anterior) {
+          const volver = document.createElement('button');
+          volver.type = 'button';
+          volver.className = 'nexo-filtro-volver';
+          volver.textContent = '← Volver';
+          volver.addEventListener('click', anterior);
+          opciones.before(volver);
+        }
+        etiquetas.forEach(etiqueta => {
+          const boton = document.createElement('button');
+          boton.type = 'button';
+          boton.className = 'nexo-filtro-burbuja';
+          boton.textContent = etiqueta;
+          boton.addEventListener('click', () => onSelect(etiqueta));
+          opciones.appendChild(boton);
+        });
+        menu.hidden = false;
+        inputHero?.setAttribute('aria-expanded', 'true');
+      }
+      function categorias() {
+        render([...Object.keys(talento), 'Producción y servicios'], elegirCategoria, null);
+      }
+      function elegirCategoria(categoria) {
+        categoriaActual = categoria;
+        render(categoria === 'Producción y servicios' ? produccion : talento[categoria], elegirTipo, categorias);
+      }
+      function elegirTipo(tipo) {
+        tipoActual = tipo;
+        if (conGeneros.has(categoriaActual)) {
+          render(['Todos los géneros', ...generos], elegirGenero, () => elegirCategoria(categoriaActual));
+        } else {
+          completar(tipo);
+        }
+      }
+      function elegirGenero(genero) {
+        completar(genero === 'Todos los géneros' ? tipoActual : `${tipoActual} ${genero}`);
+      }
+      function completar(valor) {
+        if (!inputHero || !menu) return;
+        inputHero.value = valor;
+        menu.hidden = true;
+        inputHero.setAttribute('aria-expanded', 'false');
+        inputHero.dispatchEvent(new Event('nexo:seleccion', {bubbles:true}));
+      }
+      if (inputHero && menu && opciones) {
+        inputHero.setAttribute('aria-haspopup', 'dialog');
+        inputHero.setAttribute('aria-controls', 'nexo-filtros-buscador');
+        inputHero.addEventListener('focus', () => { if (!inputHero.value.trim()) categorias(); });
+        inputHero.addEventListener('click', () => { if (!inputHero.value.trim()) categorias(); });
+        inputHero.addEventListener('input', () => {
+          menu.hidden = true;
+          inputHero.setAttribute('aria-expanded', 'false');
+        });
+        inputHero.addEventListener('keydown', e => {
+          if (e.key === 'Escape') { menu.hidden = true; inputHero.setAttribute('aria-expanded','false'); }
+        });
+        document.addEventListener('click', e => {
+          if (!menu.contains(e.target) && e.target !== inputHero) {
+            menu.hidden = true;
+            inputHero.setAttribute('aria-expanded','false');
+          }
+        });
+        heroForm?.addEventListener('submit', () => { menu.hidden = true; });
+      }
+      document.querySelectorAll('form[data-nexo-autocomplete]').forEach((form, index) => {
+        const input = form.querySelector('input[name="q"]');
+        if (!input) return;
+        const contenedor = input.closest('.campo-busqueda') || form;
+        contenedor.classList.add('nexo-autocomplete-contenedor');
+        const lista = document.createElement('div');
+        lista.className = 'nexo-autocomplete-lista';
+        lista.id = `nexo-autocomplete-${index}`;
+        lista.setAttribute('role','listbox');
+        lista.hidden = true;
+        contenedor.appendChild(lista);
+        // El HEADER y el HOME comparten sugerencias, pero el HOME conserva las burbujas al estar vacío.
+        if (input !== inputHero) input.setAttribute('aria-controls',lista.id);
+        function cerrarLista() { lista.hidden = true; lista.replaceChildren(); if (input !== inputHero) input.setAttribute('aria-expanded','false'); }
+        function sugerir() {
+          const consulta = normalizar(input.value);
+          lista.replaceChildren();
+          if (!consulta) { cerrarLista(); return; }
+          if (input === inputHero) { menu.hidden = true; inputHero.setAttribute('aria-expanded','false'); }
+          const coincidencias = catalogo.filter(([nombre, categoria]) =>
+            normalizar(nombre).includes(consulta) || normalizar(categoria).includes(consulta)
+          ).sort((a,b) => {
+            const score = item => { const nombre = normalizar(item[0]); return nombre === consulta ? 0 : nombre.startsWith(consulta) ? 1 : nombre.includes(consulta) ? 2 : 3; };
+            return score(a) - score(b);
+          }).slice(0,7);
+          coincidencias.forEach(([nombre, categoria]) => {
+            const boton = document.createElement('button');
+            boton.type = 'button'; boton.className = 'nexo-autocomplete-opcion'; boton.setAttribute('role','option');
+            const principal = document.createElement('span'); principal.textContent = nombre;
+            const detalle = document.createElement('small'); detalle.textContent = categoria;
+            boton.append(principal, detalle);
+            boton.addEventListener('click', () => { input.value = nombre; cerrarLista(); form.requestSubmit(); });
+            lista.appendChild(boton);
+          });
+          const todos = document.createElement('button');
+          todos.type = 'button'; todos.className = 'nexo-autocomplete-todos';
+          todos.textContent = `Ver resultados para “${input.value.trim()}” →`;
+          todos.addEventListener('click', () => { cerrarLista(); form.requestSubmit(); });
+          lista.appendChild(todos);
+          lista.hidden = false;
+          input.setAttribute('aria-expanded','true');
+        }
+        input.addEventListener('input', sugerir);
+        input.addEventListener('focus', sugerir);
+        input.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarLista(); });
+        document.addEventListener('click', e => { if (!contenedor.contains(e.target)) cerrarLista(); });
+        if (input === inputHero) input.addEventListener('nexo:seleccion', cerrarLista);
+      });
+    })();
+    </script>
+
+</body>
+
+</html>

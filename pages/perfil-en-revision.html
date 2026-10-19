@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Perfil en revisión | NEXO</title>
+
+    <link rel="stylesheet" href="../estilos.css">
+
+    <style>
+        .header .nexo-logo { display:inline-flex; text-decoration:none; font-weight:800; letter-spacing:2px; }
+        .header .nexo-logo .logo-ne { color:#fff !important; }
+        .header .nexo-logo .logo-xo { color:#6C4CFF !important; }
+        .revision-pagina {
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 70px 20px;
+            background: #F4F4F4;
+        }
+
+        .revision-tarjeta {
+            width: 100%;
+            max-width: 650px;
+            padding: 55px 45px;
+            background: #FFFFFF;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.08);
+        }
+
+        .revision-icono {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #F0ECFF;
+            color: #6C4CFF;
+            font-size: 38px;
+        }
+
+        .revision-tarjeta h1 {
+            margin-bottom: 20px;
+            color: #0F0F10;
+            font-size: 38px;
+        }
+
+        .revision-tarjeta p {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .revision-estado {
+            margin: 30px 0;
+            padding: 18px;
+            border-radius: 12px;
+            background: #F4F1FF;
+            color: #6C4CFF;
+            font-weight: 700;
+        }
+
+        .revision-plazo {
+            margin-bottom: 25px;
+            font-size: 15px;
+        }
+
+        .revision-boton {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #6C4CFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+
+        .revision-boton:hover {
+            background: #5434E8;
+        }
+
+        @media (max-width: 600px) {
+            .revision-tarjeta {
+                padding: 35px 22px;
+            }
+
+            .revision-tarjeta h1 {
+                font-size: 29px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <a href="../index.html" class="logo nexo-logo"><span class="logo-ne">NE</span><span class="logo-xo">XO</span></a>
+        <nav class="nav"><a href="explorar.html">Explorar</a><a href="eventos.html">Tipos de evento</a><a href="como-funciona.html">Cómo funciona</a><a href="proveedores.html">Publica tus servicios</a></nav>
+        <div class="header-actions"><a href="login.html" class="login">Iniciar sesión</a><a href="cotizar.html" class="btn-cotizar">Cotiza tu evento</a></div>
+    </header>
+
+    <main class="revision-pagina">
+
+        <div class="revision-tarjeta">
+
+            <div class="revision-icono">✓</div>
+
+            <h1>¡Tu perfil está en revisión!</h1>
+
+            <p>
+                Hemos recibido tu solicitud para formar parte de NEXO.
+                Nuestro equipo revisará tu información, fotografías
+                y servicios para verificar que cumplan nuestras
+                normas de publicación.
+            </p>
+
+            <div class="revision-estado">
+                Estado: Pendiente de revisión
+            </div>
+
+            <p class="revision-plazo">
+                <strong>El tiempo de revisión se confirmará cuando el sistema esté habilitado.</strong>
+            </p>
+
+            <p>
+                Una vez revisado tu perfil, te informaremos
+                si fue aprobado o si necesitamos alguna corrección.
+            </p>
+
+            <br>
+
+            <a href="../index.html" class="revision-boton">
+                Volver al inicio
+            </a>
+
+        </div>
+
+    </main>
+	
+	<!-- =====================================
+     FOOTER NEXO
+===================================== -->
+
+<footer class="nexo-footer">
+
+    <div class="nexo-footer-contenedor">
+
+        <div class="nexo-footer-grid">
+
+            <!-- MARCA -->
+            <div class="nexo-footer-marca">
+
+                <a href="../index.html" class="nexo-footer-logo">
+                    NE<span>XO</span>
+                </a>
+
+                <p>
+                    Conectamos talento, entretenimiento y
+                    producción profesional para hacer
+                    realidad experiencias extraordinarias.
+                </p>
+
+                <div class="nexo-footer-redes">
+                    <a href="#" aria-label="Instagram">Instagram ↗</a>
+                    <a href="#" aria-label="Facebook">Facebook ↗</a>
+                </div>
+
+            </div>
+
+            <!-- EXPLORAR -->
+            <div class="nexo-footer-columna">
+
+                <h3>Explorar</h3>
+
+                <a href="artistas.html">Artistas y música</a>
+                <a href="explorar.html?categoria=entretenimiento">Entretenimiento</a>
+                <a href="produccion.html">Producción y servicios</a>
+                <a href="eventos.html">Tipos de evento</a>
+
+            </div>
+
+            <!-- NEXO -->
+            <div class="nexo-footer-columna">
+
+                <h3>NEXO</h3>
+
+                <a href="como-funciona.html">Cómo funciona</a>
+                <a href="proveedores.html">Publica tus servicios</a>
+                <a href="ayuda.html">Centro de ayuda</a>
+                <a href="contacto.html">Contacto</a>
+
+            </div>
+
+            <!-- CONTRATACIÓN -->
+            <div class="nexo-footer-columna">
+
+                <h3>Tu próximo evento</h3>
+
+                <p>
+                    Encuentra artistas y servicios
+                    para crear un evento inolvidable.
+                </p>
+
+                <a href="cotizar.html" class="nexo-footer-boton">
+                    Cotiza tu evento ↗
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="nexo-footer-inferior">
+
+            <p>© 2026 NEXO. Todos los derechos reservados.</p>
+
+            <div>
+                <a href="privacidad.html">Aviso de privacidad</a>
+                <a href="terminos.html">Términos y condiciones</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+</body>
+</html>

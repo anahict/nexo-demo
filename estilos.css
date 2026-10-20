@@ -7260,3 +7260,17 @@ html {
 #formulario-artista .registro-subopciones { scroll-margin-top: 110px; }
 #dias-especificos[hidden], #vista-publica-artista[hidden] { display:none; }
 .perfil-resumen-publicacion[hidden] { display: none; }
+
+#perfil-paso-4 #dias-especificos {
+    border: 0;
+    padding: 0;
+    margin: 28px 0 0;
+    min-width: 0;
+}
+
+#perfil-paso-4 #dias-especificos legend {
+    padding: 0;
+    margin-bottom: 18px;
+    font-size: 16px;
+    font-weight: 600;
+}

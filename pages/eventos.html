@@ -1,13 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Tipos de evento | NEXO</title>
-
-    <link rel="stylesheet" href="../estilos.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tipos de evento | NEXO</title>
+<link href="../estilos.css" rel="stylesheet"/>
 <style>
 
 /* Ajustes exclusivos de esta pagina */
@@ -150,339 +148,305 @@ html{scroll-behavior:smooth}
     display: none !important;
 }
 	
+	
+/* Eventos: conservar la interactividad de las tarjetas */
+.nexo-menu-panel[hidden]{display:none!important}
+.evento-tipo-card{cursor:pointer}
 </style>
-</head>
+<style>
+#nexo-sugerencias{position:fixed;z-index:10000;box-sizing:border-box;padding:6px;background:#fff;color:#222;border:1px solid #ddd;border-radius:14px;box-shadow:0 10px 30px #0003;max-height:320px;overflow:auto}
+#nexo-sugerencias[hidden]{display:none!important}
+#nexo-sugerencias a{display:block;padding:11px 14px;border-radius:8px;color:#222;text-decoration:none}
+#nexo-sugerencias a:hover{background:#eee8ff;color:#5430c7}
+#nexo-sugerencias small{display:block;color:#666;font-size:12px;margin-top:3px}
+	
+	/* LOGOTIPO OFICIAL NEXO EN EL FOOTER */
 
+.nexo-footer .nexo-footer-logo {
+    color: #FFFFFF !important;
+}
+
+.nexo-footer .nexo-footer-logo span {
+    color: #6C4CFF !important;
+}
+	
+/* Menú NEXO: capa independiente del contenido de Eventos */
+.header.nexo-header { position: sticky !important; top: 0; z-index: 1000 !important; overflow: visible !important; }
+#nexo-menu.nexo-menu-panel { position: fixed !important; top: 76px !important; right: 22px !important; left: auto !important; z-index: 2147483000 !important; pointer-events: auto !important; max-height: calc(100vh - 90px); overflow-y: auto; }
+#nexo-menu.nexo-menu-panel[hidden] { display: none !important; }
+#nexo-menu.nexo-menu-panel:not([hidden]) { display: block !important; }
+#nexo-menu .nexo-menu-contenido, #nexo-menu .nexo-menu-contenido a { pointer-events: auto !important; }
+@media (max-width: 600px) { #nexo-menu.nexo-menu-panel { right: 10px !important; top: 68px !important; max-width: calc(100vw - 20px); } }
+</style></head>
 <body>
-
-    <header class="header">
-
-      <a href="../index.html" class="nexo-logo">
-    <span class="logo-ne">NE</span><span class="logo-xo">XO</span>
+<header class="header nexo-header">
+<a class="nexo-logo" href="../index.html">
+<span class="logo-ne">NE</span><span class="logo-xo">XO</span>
 </a>
-
-        <nav class="nav">
-            <a href="explorar.html">Explorar</a>
-            <a href="eventos.html">Tipos de evento</a>
-            <a href="como-funciona.html">Cómo funciona</a>
-            <a href="proveedores.html">Publica tus servicios</a>
-        </nav>
-
-        <div class="header-actions">
-
-            <a href="login.html" class="login">
-                Iniciar sesión
-            </a>
-
-            <a href="cotizar.html" class="btn-cotizar">
-                Cotiza tu evento
-            </a>
-
-        </div>
-
-    </header>
-
-
-    <main>
-
-        <section class="eventos-hero">
-
-            <div class="eventos-hero-contenido">
-
-                <p class="seccion-etiqueta">
+<!-- BUSCADOR DEL HEADER -->
+<form action="explorar.html" class="nexo-header-buscador" method="get">
+<input aria-label="Buscar servicios" autocomplete="off" id="nexo-header-search" name="q" placeholder="Busca artistas, música o servicios..." required="" type="search"/>
+<button aria-label="Buscar" type="submit">
+            ⌕
+        </button>
+</form>
+<div class="nexo-header-acciones">
+<a class="nexo-login nexo-inicio" href="../index.html">
+            Inicio
+        </a>
+<a class="nexo-login" href="login.html">
+            Iniciar sesión
+        </a>
+<a class="nexo-publicar" href="proveedores.html">
+            Publica tus servicios
+        </a>
+<button aria-label="Favoritos" class="nexo-icono" type="button">
+            ♡
+        </button>
+<button aria-controls="nexo-menu" aria-expanded="false" aria-label="Abrir menú" class="nexo-menu-boton" id="nexo-menu-boton" type="button">
+            ☰
+        </button>
+</div>
+</header><nav aria-label="Menú principal" class="nexo-menu-panel" hidden id="nexo-menu">
+<div class="nexo-menu-contenido">
+<h2>Explora NEXO</h2>
+<a href="artistas.html">Artistas y música</a>
+<a href="explorar.html?categoria=entretenimiento">
+            Entretenimiento
+        </a>
+<a href="explorar.html?q=conferencistas">
+            Conferencistas y conductores
+        </a>
+<a href="produccion.html">
+            Producción y servicios para eventos
+        </a>
+<hr/>
+<a href="../index.html">Inicio</a>
+<a href="explorar.html">Explorar</a>
+<a href="eventos.html">Tipos de evento</a>
+<a href="como-funciona.html">Cómo funciona</a>
+<a href="proveedores.html">Publica tus servicios</a>
+<a href="login.html">Iniciar sesión</a>
+<a class="nexo-menu-cotizar" href="cotizar.html">
+            Cotiza tu evento
+        </a>
+</div>
+</nav>
+<main>
+<section class="eventos-hero">
+<div class="eventos-hero-contenido">
+<p class="seccion-etiqueta">
                     TIPOS DE EVENTO
                 </p>
-
-                <h1>
+<h1>
                     Todo lo que necesitas, según lo que estás organizando.
                 </h1>
-
-                <p class="eventos-hero-texto">
+<p class="eventos-hero-texto">
                     Encuentra artistas, entretenimiento y producción
                     pensados para cada tipo de evento.
                 </p>
-
-            </div>
-
-        </section>
-
-
-        <section class="eventos-categorias">
-
-            <div class="eventos-categorias-contenido">
-
-                <p class="seccion-etiqueta">
+</div>
+</section>
+<section class="eventos-categorias">
+<div class="eventos-categorias-contenido">
+<p class="seccion-etiqueta">
                     EXPLORA POR EVENTO
                 </p>
-
-                <h2>
+<h2>
                     ¿Qué estás organizando?
                 </h2>
-
-                <div class="eventos-categorias-grid">
-
-                    <article class="evento-tipo-card" role="button" tabindex="0" aria-pressed="true" data-evento="corporativos">
-                        <span>01</span>
-                        <h3>Corporativos</h3>
-                        <p>
+<div class="eventos-categorias-grid">
+<article aria-pressed="true" class="evento-tipo-card" data-evento="corporativos" role="button" tabindex="0">
+<span>01</span>
+<h3>Corporativos</h3>
+<p>
                             Conferencias, lanzamientos, convenciones
                             y eventos empresariales.
                         </p>
-                    
 <p class="evento-tipo-enlace">Ver recomendaciones →</p>
 </article>
-
-                    <article class="evento-tipo-card" role="button" tabindex="0" aria-pressed="false" data-evento="bodas">
-                        <span>02</span>
-                        <h3>Bodas</h3>
-                        <p>
+<article aria-pressed="false" class="evento-tipo-card" data-evento="bodas" role="button" tabindex="0">
+<span>02</span>
+<h3>Bodas</h3>
+<p>
                             Música, producción, iluminación y experiencias
                             para cada momento de la celebración.
                         </p>
-                    
 <p class="evento-tipo-enlace">Ver recomendaciones →</p>
 </article>
-
-                    <article class="evento-tipo-card" role="button" tabindex="0" aria-pressed="false" data-evento="fiestas">
-                        <span>03</span>
-                        <h3>Fiestas</h3>
-                        <p>
+<article aria-pressed="false" class="evento-tipo-card" data-evento="fiestas" role="button" tabindex="0">
+<span>03</span>
+<h3>Fiestas</h3>
+<p>
                             DJs, bandas, audio, iluminación y entretenimiento
                             para celebraciones privadas.
                         </p>
-                    
 <p class="evento-tipo-enlace">Ver recomendaciones →</p>
 </article>
-
-                    <article class="evento-tipo-card" role="button" tabindex="0" aria-pressed="false" data-evento="conciertos">
-                        <span>04</span>
-                        <h3>Conciertos</h3>
-                        <p>
+<article aria-pressed="false" class="evento-tipo-card" data-evento="conciertos" role="button" tabindex="0">
+<span>04</span>
+<h3>Conciertos</h3>
+<p>
                             Artistas, producción técnica, escenarios
                             y operación para shows en vivo.
                         </p>
-                    
 <p class="evento-tipo-enlace">Ver recomendaciones →</p>
 </article>
-
-                    <article class="evento-tipo-card" role="button" tabindex="0" aria-pressed="false" data-evento="festivales">
-                        <span>05</span>
-                        <h3>Festivales</h3>
-                        <p>
+<article aria-pressed="false" class="evento-tipo-card" data-evento="festivales" role="button" tabindex="0">
+<span>05</span>
+<h3>Festivales</h3>
+<p>
                             Soluciones para múltiples artistas,
                             escenarios y producción continua.
                         </p>
-                    
 <p class="evento-tipo-enlace">Ver recomendaciones →</p>
 </article>
-
-                    <article class="evento-tipo-card" role="button" tabindex="0" aria-pressed="false" data-evento="fin-ano">
-                        <span>06</span>
-                        <h3>Fin de año</h3>
-                        <p>
+<article aria-pressed="false" class="evento-tipo-card" data-evento="fin-ano" role="button" tabindex="0">
+<span>06</span>
+<h3>Fin de año</h3>
+<p>
                             Producción, artistas y entretenimiento
                             para celebraciones empresariales.
                         </p>
-                    
 <p class="evento-tipo-enlace">Ver recomendaciones →</p>
 </article>
-
-                </div>
-
-            </div>
-
-        </section>
-		
-		
-<section class="nexo-evento-detalle" id="detalle-evento" aria-live="polite">
- <div class="nexo-evento-contenido">
-  <p class="seccion-etiqueta" id="detalle-etiqueta">EVENTOS CORPORATIVOS</p>
-  <h2 id="detalle-titulo">Experiencias que conectan personas y marcas.</h2>
-  <p class="nexo-evento-intro" id="detalle-texto">Conferencias, convenciones, lanzamientos de producto y celebraciones empresariales con una produccion profesional.</p>
-  <div class="nexo-recomendaciones"><h3>Recomendado para tu evento</h3><ul id="detalle-lista"><li>Conductores</li><li>Conferencistas</li><li>Audio profesional</li><li>Pantallas LED</li></ul></div>
-  <a class="nexo-evento-boton" id="detalle-cotizar" href="cotizar.html">Cotizar evento corporativo →</a>
- </div>
+</div>
+</div>
+</section>
+<section aria-live="polite" class="nexo-evento-detalle" id="detalle-evento">
+<div class="nexo-evento-contenido">
+<p class="seccion-etiqueta" id="detalle-etiqueta">EVENTOS CORPORATIVOS</p>
+<h2 id="detalle-titulo">Experiencias que conectan personas y marcas.</h2>
+<p class="nexo-evento-intro" id="detalle-texto">Conferencias, convenciones, lanzamientos de producto y celebraciones empresariales con una produccion profesional.</p>
+<div class="nexo-recomendaciones"><h3>Recomendado para tu evento</h3><ul id="detalle-lista"><li>Conductores</li><li>Conferencistas</li><li>Audio profesional</li><li>Pantallas LED</li></ul></div>
+<a class="nexo-evento-boton" href="cotizar.html" id="detalle-cotizar">Cotizar evento corporativo →</a>
+</div>
 </section>
 <section class="nexo-renta" id="renta-equipo">
- <div class="nexo-renta-contenido">
-  <p class="seccion-etiqueta">PRODUCCIÓN</p>
-  <h2>Opciones de renta para tu evento</h2>
-  <p class="nexo-renta-intro">Equipo profesional para acompañar la experiencia que estás organizando.</p>
-  <div class="nexo-renta-grid">
-   <article class="nexo-renta-card"><div class="nexo-renta-imagen"><img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=850&q=85" alt="Equipo de audio profesional" loading="lazy"><span class="nexo-renta-num">01 / AUDIO</span></div><div class="nexo-renta-info"><h3>Audio profesional</h3><p>Sistemas de sonido, micrófonos, consolas y operación técnica.</p><a href="produccion.html">Explorar audio →</a></div></article>
-   <article class="nexo-renta-card"><div class="nexo-renta-imagen"><img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=850&q=85" alt="Iluminación de escenario" loading="lazy"><span class="nexo-renta-num">02 / ILUMINACIÓN</span></div><div class="nexo-renta-info"><h3>Iluminación</h3><p>Iluminación escénica y ambiental para crear la atmósfera adecuada.</p><a href="produccion.html">Explorar iluminación →</a></div></article>
-   <article class="nexo-renta-card"><div class="nexo-renta-imagen"><img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=850&q=85" alt="Producción visual de evento" loading="lazy"><span class="nexo-renta-num">03 / PANTALLAS LED</span></div><div class="nexo-renta-info"><h3>Pantallas LED</h3><p>Soluciones visuales para presentaciones, espectáculos y conciertos.</p><a href="produccion.html">Explorar pantallas →</a></div></article>
-   <article class="nexo-renta-card"><div class="nexo-renta-imagen"><img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=850&q=85" alt="Instrumentos musicales sobre escenario" loading="lazy"><span class="nexo-renta-num">04 / BACKLINE</span></div><div class="nexo-renta-info"><h3>Backline</h3><p>Baterías, amplificadores e instrumentos para shows en vivo.</p><a href="produccion.html">Explorar backline →</a></div></article>
-   <article class="nexo-renta-card"><div class="nexo-renta-imagen"><img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&amp;fit=crop&amp;w=850&amp;q=85" alt="Escenario de concierto con estructuras e iluminación" loading="lazy"><span class="nexo-renta-num">05 / ESCENARIOS</span></div><div class="nexo-renta-info"><h3>Escenarios y estructuras</h3><p>Renta de escenarios, tarimas, estructuras truss y soluciones de montaje para conciertos, festivales y eventos.</p><a href="produccion.html">Explorar escenarios →</a></div></article>
-  </div>
- </div>
+<div class="nexo-renta-contenido">
+<p class="seccion-etiqueta">PRODUCCIÓN</p>
+<h2>Opciones de renta para tu evento</h2>
+<p class="nexo-renta-intro">Equipo profesional para acompañar la experiencia que estás organizando.</p>
+<div class="nexo-renta-grid">
+<article class="nexo-renta-card"><div class="nexo-renta-imagen"><img alt="Equipo de audio profesional" loading="lazy" src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&amp;fit=crop&amp;w=850&amp;q=85"/><span class="nexo-renta-num">01 / AUDIO</span></div><div class="nexo-renta-info"><h3>Audio profesional</h3><p>Sistemas de sonido, micrófonos, consolas y operación técnica.</p><a href="produccion.html">Explorar audio →</a></div></article>
+<article class="nexo-renta-card"><div class="nexo-renta-imagen"><img alt="Iluminación de escenario" loading="lazy" src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&amp;fit=crop&amp;w=850&amp;q=85"/><span class="nexo-renta-num">02 / ILUMINACIÓN</span></div><div class="nexo-renta-info"><h3>Iluminación</h3><p>Iluminación escénica y ambiental para crear la atmósfera adecuada.</p><a href="produccion.html">Explorar iluminación →</a></div></article>
+<article class="nexo-renta-card"><div class="nexo-renta-imagen"><img alt="Producción visual de evento" loading="lazy" src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&amp;fit=crop&amp;w=850&amp;q=85"/><span class="nexo-renta-num">03 / PANTALLAS LED</span></div><div class="nexo-renta-info"><h3>Pantallas LED</h3><p>Soluciones visuales para presentaciones, espectáculos y conciertos.</p><a href="produccion.html">Explorar pantallas →</a></div></article>
+<article class="nexo-renta-card"><div class="nexo-renta-imagen"><img alt="Instrumentos musicales sobre escenario" loading="lazy" src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&amp;fit=crop&amp;w=850&amp;q=85"/><span class="nexo-renta-num">04 / BACKLINE</span></div><div class="nexo-renta-info"><h3>Backline</h3><p>Baterías, amplificadores e instrumentos para shows en vivo.</p><a href="produccion.html">Explorar backline →</a></div></article>
+<article class="nexo-renta-card"><div class="nexo-renta-imagen"><img alt="Escenario de concierto con estructuras e iluminación" loading="lazy" src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&amp;fit=crop&amp;w=850&amp;q=85"/><span class="nexo-renta-num">05 / ESCENARIOS</span></div><div class="nexo-renta-info"><h3>Escenarios y estructuras</h3><p>Renta de escenarios, tarimas, estructuras truss y soluciones de montaje para conciertos, festivales y eventos.</p><a href="produccion.html">Explorar escenarios →</a></div></article>
+</div>
+</div>
 </section>
-
 <section class="eventos-soluciones">
-
-    <div class="eventos-soluciones-contenido">
-
-        <div class="eventos-soluciones-header">
-
-            <p class="seccion-etiqueta">
+<div class="eventos-soluciones-contenido">
+<div class="eventos-soluciones-header">
+<p class="seccion-etiqueta">
                 ENCUENTRA TODO EN UN SOLO LUGAR
             </p>
-
-            <h2>
+<h2>
                 Qué puedes contratar para tu evento
             </h2>
-
-        </div>
-
-        <div class="eventos-soluciones-grid">
-
-            <article class="evento-solucion-card">
-
-                <span>01</span>
-
-                <h3>Artistas</h3>
-
-                <p>
+</div>
+<div class="eventos-soluciones-grid">
+<article class="evento-solucion-card">
+<span>01</span>
+<h3>Artistas</h3>
+<p>
                     Bandas, DJs, cantantes, solistas,
                     instrumentistas y tributos.
                 </p>
-
-                <a href="artistas.html">
+<a href="artistas.html">
                     Explorar artistas →
                 </a>
-
-            </article>
-
-
-            <article class="evento-solucion-card">
-
-                <span>02</span>
-
-                <h3>Entretenimiento</h3>
-
-                <p>
+</article>
+<article class="evento-solucion-card">
+<span>02</span>
+<h3>Entretenimiento</h3>
+<p>
                     Stand up, conferencistas, hosts,
                     shows y experiencias especiales.
                 </p>
-
-                <a href="explorar.html">
+<a href="explorar.html">
                     Explorar experiencias →
                 </a>
-
-            </article>
-
-
-            <article class="evento-solucion-card">
-
-                <span>03</span>
-
-                <h3>Producción</h3>
-
-                <p>
+</article>
+<article class="evento-solucion-card">
+<span>03</span>
+<h3>Producción</h3>
+<p>
                     Audio, iluminación, pantallas LED,
                     backline, escenarios y operación técnica.
                 </p>
-
-                <a href="produccion.html">
+<a href="produccion.html">
                     Explorar producción →
                 </a>
-
-            </article>
-
-        </div>
-
-    </div>
-
+</article>
+</div>
+</div>
 </section>
-		
-		<section class="eventos-proceso">
-
-    <div class="eventos-proceso-contenido">
-
-        <div class="eventos-proceso-header">
-
-            <p class="seccion-etiqueta">
+<section class="eventos-proceso">
+<div class="eventos-proceso-contenido">
+<div class="eventos-proceso-header">
+<p class="seccion-etiqueta">
                 CÓMO FUNCIONA
             </p>
-
-            <h2>
+<h2>
                 Encuentra lo que necesitas en pocos pasos
             </h2>
-
-        </div>
-
-        <div class="eventos-proceso-grid">
-
-            <article class="evento-proceso-card">
-                <span>01</span>
-                <h3>Elige tu tipo de evento</h3>
-                <p>
+</div>
+<div class="eventos-proceso-grid">
+<article class="evento-proceso-card">
+<span>01</span>
+<h3>Elige tu tipo de evento</h3>
+<p>
                     Selecciona si estás organizando una boda,
                     evento corporativo, fiesta, concierto o festival.
                 </p>
-            </article>
-
-            <article class="evento-proceso-card">
-                <span>02</span>
-                <h3>Define lo que necesitas</h3>
-                <p>
+</article>
+<article class="evento-proceso-card">
+<span>02</span>
+<h3>Define lo que necesitas</h3>
+<p>
                     Artistas, entretenimiento, producción
                     o una solución integral.
                 </p>
-            </article>
-
-            <article class="evento-proceso-card">
-                <span>03</span>
-                <h3>Solicita propuestas</h3>
-                <p>
+</article>
+<article class="evento-proceso-card">
+<span>03</span>
+<h3>Solicita propuestas</h3>
+<p>
                     Cuéntanos fecha, ciudad, número de invitados
                     y presupuesto estimado.
                 </p>
-            </article>
-
-            <article class="evento-proceso-card">
-                <span>04</span>
-                <h3>Haz que suceda</h3>
-                <p>
+</article>
+<article class="evento-proceso-card">
+<span>04</span>
+<h3>Haz que suceda</h3>
+<p>
                     Compara opciones y continúa con la contratación
                     de los servicios que mejor se adapten a tu evento.
                 </p>
-            </article>
-
-        </div>
-
-    </div>
-
+</article>
+</div>
+</div>
 </section>
-		
-		<section class="cta-cotiza">
-
-    <div class="cta-cotiza-contenido">
-
-        <p class="seccion-etiqueta">
+<section class="cta-cotiza">
+<div class="cta-cotiza-contenido">
+<p class="seccion-etiqueta">
             HAGAMOS TU EVENTO
         </p>
-
-        <h2>
+<h2>
             Cuéntanos qué estás organizando.
         </h2>
-
-        <p>
+<p>
             Te ayudamos a encontrar artistas, entretenimiento y producción
             según el tipo de evento, ciudad y presupuesto.
         </p>
-
-        <a href="cotizar.html" class="cta-boton">
+<a class="cta-boton" href="cotizar.html">
             Cotiza tu evento
         </a>
-
-    </div>
-
+</div>
 </section>
-
-    </main>
-
-
+</main>
 <script>
 (() => {
  const eventos = {
@@ -516,100 +480,138 @@ html{scroll-behavior:smooth}
  });
 })();
 </script>
-	
-</main>
 
 <!-- =========================================
      FOOTER NEXO
 ========================================= -->
-
+<!-- FOOTER OFICIAL NEXO -->
 <footer class="nexo-footer">
+    <div class="nexo-footer-contenedor">
+        <div class="nexo-footer-contenido">
 
-    <div class="nexo-footer-contenido">
+            <!-- MARCA -->
+            <div class="nexo-footer-marca">
+                <a class="nexo-footer-logo" href="../index.html">
+                    NE<span>XO</span>
+                </a>
 
-        <!-- MARCA -->
+                <p>
+                    Conectamos talento, entretenimiento y
+                    producción profesional para hacer
+                    realidad experiencias extraordinarias.
+                </p>
 
-        <div class="nexo-footer-marca">
+                <div class="nexo-footer-redes">
+                    <a href="#" aria-label="Instagram">Instagram ↗</a>
+                    <a href="#" aria-label="Facebook">Facebook ↗</a>
+                </div>
+            </div>
 
-            <a href="../index.html" class="nexo-footer-logo">
-                <span>NE</span><strong>XO</strong>
-            </a>
+            <!-- EXPLORAR -->
+            <div class="nexo-footer-columna">
+                <h3>Explorar</h3>
+                <a href="artistas.html">Artistas y música</a>
+                <a href="explorar.html?categoria=entretenimiento">Entretenimiento</a>
+                <a href="produccion.html">Producción y servicios</a>
+                <a href="eventos.html">Tipos de evento</a>
+            </div>
 
-            <p>
-                Conectamos grandes ideas con el talento,
-                entretenimiento y producción que necesitas
-                para crear experiencias extraordinarias.
-            </p>
+            <!-- NEXO -->
+            <div class="nexo-footer-columna">
+                <h3>NEXO</h3>
+                <a href="como-funciona.html">Cómo funciona</a>
+                <a href="proveedores.html">Publica tus servicios</a>
+                <a href="ayuda.html">Centro de ayuda</a>
+                <a href="contacto.html">Contacto</a>
+            </div>
 
-        </div>
+            <!-- TU PRÓXIMO EVENTO -->
+            <div class="nexo-footer-columna">
+                <h3>Tu próximo evento</h3>
 
-        <!-- EXPLORA -->
+                <p>
+                    Encuentra artistas y servicios
+                    para crear un evento inolvidable.
+                </p>
 
-        <div class="nexo-footer-columna">
-
-            <h3>Explora</h3>
-
-            <a href="explorar.html">Explorar servicios</a>
-            <a href="artistas.html">Artistas</a>
-            <a href="eventos.html">Tipos de evento</a>
-            <a href="produccion.html">Producción</a>
-
-        </div>
-
-        <!-- NEXO -->
-
-        <div class="nexo-footer-columna">
-
-            <h3>NEXO</h3>
-
-            <a href="como-funciona.html">Cómo funciona</a>
-            <a href="proveedores.html">Publica tus servicios</a>
-            <a href="login.html">Iniciar sesión</a>
-            <a href="cotizar.html">Cotiza tu evento</a>
-
-        </div>
-
-        <!-- CONTACTO -->
-
-        <div class="nexo-footer-columna">
-
-            <h3>Contacto</h3>
-
-            <a href="contacto.html">Contáctanos</a>
-            <a href="ayuda.html">Centro de ayuda</a>
-
-            <p>
-                ¿Tienes un evento en mente?
-                Encuentra todo lo que necesitas en NEXO.
-            </p>
+                <a class="nexo-footer-boton" href="cotizar.html">
+                    Cotiza tu evento ↗
+                </a>
+            </div>
 
         </div>
 
+        <div class="nexo-footer-inferior">
+            <p>© 2026 NEXO. Todos los derechos reservados.</p>
+
+            <div>
+                <a href="privacidad.html">Aviso de privacidad</a>
+                <a href="terminos.html">Términos y condiciones</a>
+            </div>
+        </div>
     </div>
-
-    <!-- PARTE INFERIOR -->
-
-    <div class="nexo-footer-inferior">
-
-        <p>
-            © <span id="nexo-year"></span> NEXO.
-            Todos los derechos reservados.
-        </p>
-
-        <div class="nexo-footer-legales">
-            <a href="privacidad.html">Aviso de privacidad</a>
-            <a href="terminos.html">Términos y condiciones</a>
-        </div>
-
-    </div>
-
 </footer>
-
 <script>
-    document.getElementById("nexo-year").textContent =
-        new Date().getFullYear();
-</script>
-
-</body>
-
+document.addEventListener('DOMContentLoaded', function () {
+  // Menú: un único controlador, igual que el respaldo de Explorar.
+  const boton = document.getElementById('nexo-menu-boton');
+  const menu = document.getElementById('nexo-menu');
+  if (boton && menu) {
+    menu.hidden = true;
+    boton.setAttribute('aria-expanded', 'false');
+    boton.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      menu.hidden = !menu.hidden;
+      boton.setAttribute('aria-expanded', String(!menu.hidden));
+      boton.setAttribute('aria-label', menu.hidden ? 'Abrir menú' : 'Cerrar menú');
+    });
+    document.addEventListener('click', function(e) {
+      if (!menu.contains(e.target) && !boton.contains(e.target)) {
+        menu.hidden = true;
+        boton.setAttribute('aria-expanded', 'false');
+      }
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        menu.hidden = true;
+        boton.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+  const input = document.getElementById('nexo-header-search');
+  if (!input) return;
+  const sugerencias = [
+    ['Trendline','Banda','artistas.html?q=Trendline'],
+    ['Mr. Loxley','DJ','artistas.html?q=Mr.%20Loxley'],
+    ['Two Souls','Dúo vocal','artistas.html?q=Two%20Souls'],
+    ['Andreas Zanetti','Música y comedia','artistas.html?q=Andreas%20Zanetti'],
+    ['Michelle Rodríguez','Comedia','artistas.html?q=Michelle%20Rodr%C3%ADguez'],
+    ['Artistas y música','Catálogo','artistas.html'],
+    ['Producción y servicios','Equipamiento','produccion.html'],
+    ['Tipos de evento','Eventos','eventos.html']
+  ];
+  const panel=document.createElement('div'); panel.id='nexo-sugerencias'; panel.hidden=true;
+  panel.setAttribute('role','listbox'); document.body.appendChild(panel);
+  input.setAttribute('autocomplete','off'); input.setAttribute('role','combobox');
+  input.setAttribute('aria-autocomplete','list'); input.setAttribute('aria-controls','nexo-sugerencias');
+  const normalizar=t=>(t||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  function cerrar(){panel.hidden=true;input.setAttribute('aria-expanded','false');}
+  function actualizar(){
+    const q=normalizar(input.value).trim(); panel.replaceChildren();
+    if(!q){cerrar();return;}
+    const encontrados=sugerencias.filter(([n,d])=>normalizar(n+' '+d).includes(q)).slice(0,6);
+    if(!encontrados.length){cerrar();return;}
+    encontrados.forEach(([n,d,url])=>{const a=document.createElement('a');a.href=url;a.textContent=n;
+      const small=document.createElement('small');small.textContent=d;a.appendChild(small);panel.appendChild(a);});
+    const rect=input.getBoundingClientRect();panel.style.left=Math.max(8,rect.left)+'px';
+    panel.style.top=(rect.bottom+6)+'px';panel.style.width=Math.min(rect.width,innerWidth-16)+'px';
+    panel.hidden=false;input.setAttribute('aria-expanded','true');
+  }
+  input.addEventListener('input',actualizar);input.addEventListener('focus',actualizar);
+  input.addEventListener('keydown',e=>{if(e.key==='Escape')cerrar();});
+  document.addEventListener('pointerdown',e=>{if(e.target!==input&&!panel.contains(e.target))cerrar();});
+  window.addEventListener('resize',cerrar);window.addEventListener('scroll',cerrar);
+});
+</script></body>
 </html>

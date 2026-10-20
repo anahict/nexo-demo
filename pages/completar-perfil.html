@@ -11,6 +11,40 @@
     <title>Completar perfil | NEXO</title>
 
     <link rel="stylesheet" href="../estilos.css">
+	
+	<style>
+#perfil-paso-2 button[id^="eliminar-perfil-"],
+#perfil-paso-2 #eliminar-perfil-galeria + div button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
+    justify-self: start;
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 0;
+    max-width: 100%;
+    height: auto;
+    min-height: 32px;
+    padding: 6px 12px;
+    margin: 8px 0 0;
+    border: 1px solid #d8d8d8;
+    border-radius: 7px;
+    background: #fff;
+    color: #555;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.3;
+    cursor: pointer;
+}
+
+#perfil-paso-2 button[id^="eliminar-perfil-"]:hover,
+#perfil-paso-2 #eliminar-perfil-galeria + div button:hover {
+    background: #f5f2ff;
+    color: #6545dc;
+    border-color: #6545dc;
+}
+</style>
 
 </head>
 
@@ -507,6 +541,7 @@
                                 name="perfil-portada"
                                 accept="image/jpeg,image/png,image/webp"
                             >
+<button type="button" class="perfil-atras" id="eliminar-perfil-portada">Eliminar portada</button>
 
                             <small>
                                 Recomendado: 1600 × 900 px · JPG, PNG o WebP · Máx. 1.5 MB
@@ -530,6 +565,7 @@
                                 name="perfil-avatar"
                                 accept="image/jpeg,image/png,image/webp"
                             >
+<button type="button" class="perfil-atras" id="eliminar-perfil-avatar">Eliminar foto de perfil</button>
 
                             <small>
                                 Recomendado: 800 × 800 px · JPG, PNG o WebP · Máx. 1 MB
@@ -554,6 +590,7 @@
                                 accept="image/jpeg,image/png,image/webp"
                                 multiple
                             >
+<button type="button" class="perfil-atras" id="eliminar-perfil-galeria">Eliminar toda la galería</button>
 
                             <small>
                                 Recomendado: mínimo 1200 px de ancho · JPG, PNG o WebP · Máx. 1 MB por imagen
@@ -571,11 +608,23 @@
 <div class="perfil-campo">
 <label for="perfil-press-kit">Press Kit PDF (opcional)</label>
 <input type="file" id="perfil-press-kit" name="perfil-press-kit" accept=".pdf,application/pdf" disabled>
+<button type="button" class="perfil-atras" id="eliminar-perfil-press-kit">Eliminar Press Kit</button>
 <small>Máximo 20 MB. Puedes continuar sin adjuntarlo.</small>
 <p id="estado-press-kit" role="status" aria-live="polite"></p>
 </div>
-<p>Por ahora puedes seleccionar y validar tu EPK, pero no se guarda ni se envía. En el futuro podrás consultarlo, actualizarlo o eliminarlo desde tu panel.</p>
+<p>Selecciona o elimina tu Press Kit. En esta demostración el PDF no se conserva ni se envía; solo se guarda su ficha descriptiva al solicitar revisión.</p>
 </div>
+<section id="seccion-rider" class="perfil-subseccion" hidden>
+<h3>Rider técnico para artistas</h3>
+<div class="perfil-campo">
+<label for="perfil-rider">Rider técnico PDF (opcional)</label>
+<input type="file" id="perfil-rider" name="perfil-rider" accept=".pdf,application/pdf" disabled>
+<button type="button" class="perfil-atras" id="eliminar-perfil-rider">Eliminar rider</button>
+<small>Máximo 20 MB. Adjunta los requerimientos técnicos de tu presentación.</small>
+<p id="estado-rider" role="status" aria-live="polite"></p>
+</div>
+<p>El rider es información interna y no aparece en tu perfil público. En esta demostración el PDF no se conserva ni se envía; solo se guarda su ficha descriptiva al solicitar revisión.</p>
+</section>
 <!-- =========================
                          VIDEO
                     ========================== -->
@@ -1308,7 +1357,7 @@
         </h3>
 
         <p>
-            En la plataforma, NEXO revisará tu perfil antes de publicarlo. Esta demostración solo guarda una solicitud local; no envía información al equipo. Las tarifas y el EPK no se muestran públicamente. Esta demostración no ofrece confidencialidad real ni conserva archivos PDF. Para almacenar el EPK y permitir consultarlo, actualizarlo o eliminarlo de forma privada será necesario implementar un servidor con autenticación y control de acceso.
+            En la plataforma, NEXO revisará tu perfil antes de publicarlo. Esta demostración solo guarda una solicitud local; no envía información al equipo. Las tarifas, el EPK y el rider no se muestran públicamente. Esta demostración no ofrece confidencialidad real ni conserva archivos PDF. Para almacenar el EPK y permitir consultarlo, actualizarlo o eliminarlo de forma privada será necesario implementar un servidor con autenticación y control de acceso.
         </p>
 
         <label class="perfil-aceptacion">

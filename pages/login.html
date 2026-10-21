@@ -1,0 +1,672 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+  <title>Iniciar sesión | NEXO</title>
+  <link rel="stylesheet" href="../estilos.css">
+
+  <style>
+    :root {
+      --morado: #6C4CFF;
+      --negro: #0F0F10;
+      --gris: #777;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #fff;
+      color: var(--negro);
+    }
+
+    .login-header {
+      padding: 24px 6%;
+      border-bottom: 1px solid #eee;
+    }
+
+    .logo {
+      font-size: 30px;
+      font-weight: 900;
+      color: var(--negro);
+      text-decoration: none;
+      letter-spacing: -2px;
+    }
+
+    .logo span { color: var(--morado); }
+
+    main.login-main {
+      min-height: calc(100vh - 95px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 50px 20px;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 430px;
+    }
+
+    .login-card h1 {
+      margin: 0 0 12px;
+      text-align: center;
+      font-size: 32px;
+    }
+
+    .descripcion {
+      text-align: center;
+      color: var(--gris);
+      margin-bottom: 36px;
+      line-height: 1.6;
+    }
+
+    #login-form label {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    #login-form input {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 24px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    #login-form input:focus {
+      border-color: var(--morado);
+      box-shadow: 0 0 0 3px #6c4cff18;
+    }
+
+    .recuperar {
+      display: block;
+      text-align: right;
+      color: var(--morado);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 25px;
+    }
+
+    .login-boton {
+      width: 100%;
+      padding: 16px;
+      background: var(--morado);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .login-boton:hover {
+      background: #5637e8;
+    }
+
+    .login-card .registro {
+      text-align: center;
+      margin-top: 30px;
+      color: var(--gris);
+      font-size: 14px;
+    }
+
+    .login-card .registro a {
+      color: var(--morado);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .aviso {
+      margin-top: 22px;
+      padding: 12px;
+      background: #f6f4ff;
+      border-radius: 10px;
+      color: #51467c;
+      font-size: 13px;
+      text-align: center;
+      line-height: 1.5;
+    }
+	  
+	  
+
+
+
+/* Autocompletado oficial del Home */
+
+        /* Autocompletado único de NEXO: aislado de los botones generales */
+        .nexo-header { position: sticky; top: 0; z-index: 1000; overflow: visible; }
+        .nexo-header-buscador,
+        .campo-busqueda.nexo-autocomplete-contenedor {
+            position: relative;
+            overflow: visible;
+        }
+        .nexo-header-buscador { z-index: 101; }
+        .nexo-autocomplete-lista {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            width: 100%;
+            min-width: min(260px, 90vw);
+            max-height: 340px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            z-index: 10000;
+            box-sizing: border-box;
+            padding: 7px;
+            background: #fff;
+            border: 1px solid #e9e6f5;
+            border-radius: 14px;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, .18);
+        }
+        .nexo-autocomplete-lista[hidden] { display: none !important; }
+        /* Especificidad alta para neutralizar reglas de botones del header y hero */
+        form.nexo-header-buscador .nexo-autocomplete-lista button.nexo-autocomplete-opcion,
+        form.nexo-header-buscador .nexo-autocomplete-lista button.nexo-autocomplete-todos,
+        form.buscador .nexo-autocomplete-lista button.nexo-autocomplete-opcion,
+        form.buscador .nexo-autocomplete-lista button.nexo-autocomplete-todos {
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+            align-items: flex-start !important;
+            gap: 4px !important;
+            width: 100% !important;
+            min-width: 0 !important;
+            height: auto !important;
+            min-height: 48px !important;
+            margin: 0 !important;
+            padding: 10px 13px !important;
+            background: #fff !important;
+            color: #0f0f10 !important;
+            border: 0 !important;
+            border-radius: 8px !important;
+            box-shadow: none !important;
+            font-family: inherit !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            line-height: 1.35 !important;
+            text-align: left !important;
+            white-space: normal !important;
+            letter-spacing: normal !important;
+            text-transform: none !important;
+            transform: none !important;
+            cursor: pointer;
+        }
+        form.nexo-header-buscador .nexo-autocomplete-lista button:hover,
+        form.buscador .nexo-autocomplete-lista button:hover,
+        form.nexo-header-buscador .nexo-autocomplete-lista button:focus-visible,
+        form.buscador .nexo-autocomplete-lista button:focus-visible {
+            background: #f2efff !important;
+            color: #6c4cff !important;
+        }
+        .nexo-autocomplete-opcion span {
+            display: block;
+            color: inherit !important;
+            font-size: 14px !important;
+            font-weight: 700 !important;
+            line-height: 1.35 !important;
+        }
+        .nexo-autocomplete-opcion small {
+            display: block;
+            color: #777 !important;
+            font-size: 12px !important;
+            font-weight: 400 !important;
+            line-height: 1.35 !important;
+        }
+        form.nexo-header-buscador .nexo-autocomplete-lista button.nexo-autocomplete-todos,
+        form.buscador .nexo-autocomplete-lista button.nexo-autocomplete-todos {
+            margin-top: 5px !important;
+            border-top: 1px solid #eee !important;
+            color: #6c4cff !important;
+        }
+        @media (max-width: 768px) {
+            .nexo-autocomplete-lista { max-height: 300px; }
+        }
+	  
+	  
+/* Corregir bloque inferior del login */
+.login-card .registro {
+  background: transparent !important;
+  background-image: none !important;
+  min-height: 0 !important;
+  height: auto !important;
+  padding: 0 !important;
+  margin: 28px 0 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Mantener el formulario sobre fondo blanco */
+.login-card {
+  background: #ffffff !important;
+  background-image: none !important;
+}
+
+
+  </style>
+</head>
+
+<body>
+
+  
+    <header class="header nexo-header">
+
+        <a href="../index.html" class="nexo-logo">
+            <span class="logo-ne">NE</span><span class="logo-xo">XO</span>
+        </a>
+
+        <!-- BUSCADOR DEL HEADER -->
+
+        <form
+            class="nexo-header-buscador"
+            data-nexo-autocomplete
+            action="explorar.html"
+            method="get"
+        >
+
+            <input
+                type="search"
+                id="nexo-header-search"
+                name="q"
+                autocomplete="off"
+                placeholder="Busca artistas, música o servicios..."
+                aria-label="Buscar servicios"
+                required
+            >
+
+            <button type="submit" aria-label="Buscar">
+                ⌕
+            </button>
+
+        </form>
+
+
+        <div class="nexo-header-acciones">
+
+            <a href="../index.html" class="nexo-login nexo-inicio">Inicio</a>
+
+            <a href="login.html" class="nexo-login">
+                Iniciar sesión
+            </a>
+
+            <a href="proveedores.html" class="nexo-publicar">
+                Publica tus servicios
+            </a>
+
+            <button
+                type="button"
+                class="nexo-icono"
+                aria-label="Favoritos"
+            >
+                ♡
+            </button>
+
+            <button
+                type="button"
+                class="nexo-menu-boton"
+                id="nexo-menu-boton"
+                aria-label="Abrir menú"
+                aria-expanded="false"
+                aria-controls="nexo-menu"
+            >
+                ☰
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================
+         MENÚ DESPLEGABLE
+    ========================================= -->
+
+    <nav
+        class="nexo-menu-panel"
+        id="nexo-menu"
+        aria-label="Menú principal"
+        hidden
+    >
+
+        <div class="nexo-menu-contenido">
+
+            <h2>Explora NEXO</h2>
+
+            <a href="artistas.html">
+                Artistas y música
+            </a>
+
+           <a href="artistas.html?categoria=entretenimiento">
+                Entretenimiento
+            </a>
+
+            <a href="explorar.html?q=conferencistas">
+                Conferencistas y conductores
+            </a>
+
+            <a href="produccion.html">
+                Producción y servicios para eventos
+            </a>
+
+            <hr>
+
+            <a href="../index.html">Inicio</a>
+
+            <a href="explorar.html">Explorar</a>
+
+            <a href="eventos.html">Tipos de evento</a>
+
+            <a href="como-funciona.html">Cómo funciona</a>
+
+            <a href="proveedores.html">Publica tus servicios</a>
+
+            <a href="login.html">Iniciar sesión</a>
+
+            <a
+                href="cotizar.html"
+                class="nexo-menu-cotizar"
+            >
+                Cotiza tu evento
+            </a>
+
+        </div>
+
+    </nav>
+
+
+<main class="login-main">
+    <section class="login-card">
+
+      <h1>Bienvenido de nuevo</h1>
+
+      <p class="descripcion">
+        Inicia sesión para continuar en NEXO.
+      </p>
+
+      <form id="login-form">
+
+        <label for="correo">Correo electrónico</label>
+        <input
+          type="email"
+          id="correo"
+          name="correo"
+          placeholder="correo@ejemplo.com"
+          autocomplete="email"
+          required
+        >
+
+        <label for="password">Contraseña</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Ingresa tu contraseña"
+          autocomplete="current-password"
+          required
+        >
+
+        <a href="#" class="recuperar" id="recuperar">
+          ¿Olvidaste tu contraseña?
+        </a>
+
+        <button type="submit" class="login-boton">
+          Iniciar sesión →
+        </button>
+
+      </form>
+
+      <p class="registro">
+        ¿Todavía no tienes cuenta?
+        <a href="registro.html">Regístrate</a>
+      </p>
+
+      <p class="aviso" id="aviso" role="status" hidden></p>
+
+    </section>
+  </main>
+
+  <!-- Supabase: biblioteca oficial para el navegador -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script>
+    // La clave PUBLICABLE se pega aqui. Nunca uses secret ni service_role.
+    const NEXO_SUPABASE_URL = 'https://bbszahuoeclszmivgnyy.supabase.co';
+    const NEXO_SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_VLTfpjdin94_xmYSA-Y-yg_-q8_e_Ii';
+
+    const formulario = document.getElementById('login-form');
+    const aviso = document.getElementById('aviso');
+    const botonAcceso = formulario.querySelector('button[type="submit"]');
+    const mostrarAviso = (mensaje) => {
+      aviso.textContent = mensaje;
+      aviso.hidden = false;
+    };
+
+    formulario.addEventListener('submit', async function(evento) {
+      evento.preventDefault();
+      if (!window.supabase || typeof window.supabase.createClient !== 'function') {
+        mostrarAviso('No se pudo cargar Supabase. Revisa tu conexion a Internet.');
+        return;
+      }
+      if (NEXO_SUPABASE_PUBLISHABLE_KEY === 'PEGA_AQUI_TU_SB_PUBLISHABLE_KEY') {
+        mostrarAviso('Falta agregar la clave publica de Supabase en login.html.');
+        return;
+      }
+
+      botonAcceso.disabled = true;
+      botonAcceso.textContent = 'Iniciando sesion...';
+      aviso.hidden = true;
+      try {
+        const cliente = window.supabase.createClient(
+          NEXO_SUPABASE_URL,
+          NEXO_SUPABASE_PUBLISHABLE_KEY
+        );
+        const { data, error } = await cliente.auth.signInWithPassword({
+          email: document.getElementById('correo').value.trim(),
+          password: document.getElementById('password').value
+        });
+        if (error) {
+          mostrarAviso(error.message === 'Invalid login credentials'
+            ? 'Correo o contrasena incorrectos, o cuenta aun no confirmada.'
+            : 'No fue posible iniciar sesion: ' + error.message);
+          return;
+        }
+        if (!data.session) {
+          mostrarAviso('Revisa tu correo para confirmar tu cuenta antes de iniciar sesion.');
+          return;
+        }
+        window.location.assign('../index.html');
+      } catch (error) {
+        mostrarAviso('No fue posible conectar con Supabase. Intenta nuevamente.');
+      } finally {
+        botonAcceso.disabled = false;
+        botonAcceso.textContent = 'Iniciar sesión →';
+      }
+    });
+
+    document.getElementById('recuperar').addEventListener('click', function(evento) {
+      evento.preventDefault();
+      mostrarAviso('La recuperacion de contrasena se activara al crear su pagina segura de restablecimiento.');
+    });
+  </script>
+
+
+<script>
+  (() => {
+    const boton = document.getElementById('nexo-menu-boton');
+    const panel = document.getElementById('nexo-menu');
+    boton?.addEventListener('click', () => {
+      panel.hidden = !panel.hidden;
+      boton.setAttribute('aria-expanded', String(!panel.hidden));
+    });
+    document.addEventListener('click', (event) => {
+      if (panel && boton && !panel.contains(event.target) && !boton.contains(event.target)) {
+        panel.hidden = true;
+        boton.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+    /* NEXO: clasificación compartida entre búsqueda visual y autocompletado */
+    (() => {
+      const talento = {
+        "Cantantes y solistas": ["Solista femenino", "Solista masculino", "Dúos vocales", "Cantantes con banda", "Cantantes de música versátil"],
+        "Bandas y grupos musicales": ["Grupos de covers", "Grupos versátiles", "Bandas de rock", "Grupos pop", "Bandas de música original", "Grupos de música regional"],
+        "Música tradicional y ensambles": ["Mariachis", "Tríos románticos", "Norteños", "Bandas sinaloenses", "Rondallas", "Orquestas", "Big Bands", "Cuartetos", "Ensambles"],
+        "Músicos e instrumental": ["Pianistas y tecladistas", "Violinistas", "Saxofonistas", "Guitarristas", "Bajistas", "Bateristas y percusionistas", "Trompetistas", "Flautistas", "Violonchelistas", "Arpistas", "Música clásica e instrumental"],
+        "DJ y experiencias musicales": ["DJ para bodas", "DJ para eventos corporativos", "DJ para fiestas privadas", "DJ con performance", "Música electrónica", "Música versátil"],
+        "Comedia y humor": ["Stand-up comedy", "Comediantes", "Improvisación", "Comedia musical", "Shows de humor"],
+        "Magia y espectáculos": ["Magos", "Ilusionistas", "Mentalistas", "Hipnotistas", "Imitadores", "Shows temáticos"],
+        "Danza y performance": ["Bailarines profesionales", "Compañías de danza", "Shows coreográficos", "Performance artístico", "Espectáculos circenses"],
+        "Conferencistas": ["Motivacionales", "Empresariales", "Liderazgo", "Desarrollo personal", "Tecnología e innovación", "Bienestar"],
+        "Conductores y presentadores": ["Maestros de ceremonias", "Conductoras", "Conductores", "Presentadores corporativos", "Animadores de eventos"],
+        "Entretenimiento infantil": ["Shows infantiles", "Payasos", "Magos infantiles", "Personajes temáticos", "Cuentacuentos", "Animadores infantiles"],
+        "Actores y talento escénico": ["Actrices", "Actores", "Talento para eventos", "Personajes caracterizados", "Teatro en vivo"]
+      };
+      const produccion = ["Audio profesional", "Iluminación profesional", "Pantallas LED", "Escenarios", "Backline", "Producción integral", "Montaje de escenarios"];
+      const generos = ["Pop", "Rock", "Salsa", "Cumbia", "Regional mexicano", "Jazz", "Balada", "Versátil", "Electrónica", "Reggaetón", "Disco", "Clásica", "Norteño", "Banda", "Bolero"];
+      const conGeneros = new Set(["Cantantes y solistas", "Bandas y grupos musicales", "Música tradicional y ensambles", "DJ y experiencias musicales"]);
+      const artistas = [
+        ["Trendline", "Bandas y grupos musicales"], ["Mr. Loxley", "DJ y experiencias musicales"],
+        ["Two Souls", "Cantantes y solistas"], ["Andreas Zanetti", "Músicos e instrumental"],
+        ["Michelle Rodríguez", "Comedia y humor"], ["Tr3mens", "Músicos e instrumental"],
+        ["Percy", "Cantantes y solistas"]
+      ];
+      const normalizar = texto => texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+      const catalogo = [...artistas, ...Object.entries(talento).flatMap(([categoria, opciones]) => [
+        [categoria, 'Categoría de talento'], ...opciones.map(nombre => [nombre, categoria])
+      ]), ...produccion.map(nombre => [nombre, 'Producción y servicios'])];
+      const inputHero = document.getElementById('busqueda-servicio');
+      const menu = document.getElementById('nexo-filtros-buscador');
+      const opciones = document.getElementById('nexo-filtros-opciones');
+      const heroForm = inputHero?.closest('form');
+      let categoriaActual = '';
+      let tipoActual = '';
+
+      function render(etiquetas, onSelect, anterior) {
+        if (!menu || !opciones) return;
+        opciones.replaceChildren();
+        menu.querySelectorAll('.nexo-filtro-volver').forEach(el => el.remove());
+        if (anterior) {
+          const volver = document.createElement('button');
+          volver.type = 'button';
+          volver.className = 'nexo-filtro-volver';
+          volver.textContent = '← Volver';
+          volver.addEventListener('click', anterior);
+          opciones.before(volver);
+        }
+        etiquetas.forEach(etiqueta => {
+          const boton = document.createElement('button');
+          boton.type = 'button';
+          boton.className = 'nexo-filtro-burbuja';
+          boton.textContent = etiqueta;
+          boton.addEventListener('click', () => onSelect(etiqueta));
+          opciones.appendChild(boton);
+        });
+        menu.hidden = false;
+        inputHero?.setAttribute('aria-expanded', 'true');
+      }
+      function categorias() {
+        render([...Object.keys(talento), 'Producción y servicios'], elegirCategoria, null);
+      }
+      function elegirCategoria(categoria) {
+        categoriaActual = categoria;
+        render(categoria === 'Producción y servicios' ? produccion : talento[categoria], elegirTipo, categorias);
+      }
+      function elegirTipo(tipo) {
+        tipoActual = tipo;
+        if (conGeneros.has(categoriaActual)) {
+          render(['Todos los géneros', ...generos], elegirGenero, () => elegirCategoria(categoriaActual));
+        } else {
+          completar(tipo);
+        }
+      }
+      function elegirGenero(genero) {
+        completar(genero === 'Todos los géneros' ? tipoActual : `${tipoActual} ${genero}`);
+      }
+      function completar(valor) {
+        if (!inputHero || !menu) return;
+        inputHero.value = valor;
+        menu.hidden = true;
+        inputHero.setAttribute('aria-expanded', 'false');
+        inputHero.dispatchEvent(new Event('nexo:seleccion', {bubbles:true}));
+      }
+      if (inputHero && menu && opciones) {
+        inputHero.setAttribute('aria-haspopup', 'dialog');
+        inputHero.setAttribute('aria-controls', 'nexo-filtros-buscador');
+        inputHero.addEventListener('focus', () => { if (!inputHero.value.trim()) categorias(); });
+        inputHero.addEventListener('click', () => { if (!inputHero.value.trim()) categorias(); });
+        inputHero.addEventListener('input', () => {
+          menu.hidden = true;
+          inputHero.setAttribute('aria-expanded', 'false');
+        });
+        inputHero.addEventListener('keydown', e => {
+          if (e.key === 'Escape') { menu.hidden = true; inputHero.setAttribute('aria-expanded','false'); }
+        });
+        document.addEventListener('click', e => {
+          if (!menu.contains(e.target) && e.target !== inputHero) {
+            menu.hidden = true;
+            inputHero.setAttribute('aria-expanded','false');
+          }
+        });
+        heroForm?.addEventListener('submit', () => { menu.hidden = true; });
+      }
+      document.querySelectorAll('form[data-nexo-autocomplete]').forEach((form, index) => {
+        const input = form.querySelector('input[name="q"]');
+        if (!input) return;
+        const contenedor = input.closest('.campo-busqueda') || form;
+        contenedor.classList.add('nexo-autocomplete-contenedor');
+        const lista = document.createElement('div');
+        lista.className = 'nexo-autocomplete-lista';
+        lista.id = `nexo-autocomplete-${index}`;
+        lista.setAttribute('role','listbox');
+        lista.hidden = true;
+        contenedor.appendChild(lista);
+        // El HEADER y el HOME comparten sugerencias, pero el HOME conserva las burbujas al estar vacío.
+        if (input !== inputHero) input.setAttribute('aria-controls',lista.id);
+        function cerrarLista() { lista.hidden = true; lista.replaceChildren(); if (input !== inputHero) input.setAttribute('aria-expanded','false'); }
+        function sugerir() {
+          const consulta = normalizar(input.value);
+          lista.replaceChildren();
+          if (!consulta) { cerrarLista(); return; }
+          if (input === inputHero) { menu.hidden = true; inputHero.setAttribute('aria-expanded','false'); }
+          const coincidencias = catalogo.filter(([nombre, categoria]) =>
+            normalizar(nombre).includes(consulta) || normalizar(categoria).includes(consulta)
+          ).sort((a,b) => {
+            const score = item => { const nombre = normalizar(item[0]); return nombre === consulta ? 0 : nombre.startsWith(consulta) ? 1 : nombre.includes(consulta) ? 2 : 3; };
+            return score(a) - score(b);
+          }).slice(0,7);
+          coincidencias.forEach(([nombre, categoria]) => {
+            const boton = document.createElement('button');
+            boton.type = 'button'; boton.className = 'nexo-autocomplete-opcion'; boton.setAttribute('role','option');
+            const principal = document.createElement('span'); principal.textContent = nombre;
+            const detalle = document.createElement('small'); detalle.textContent = categoria;
+            boton.append(principal, detalle);
+            boton.addEventListener('click', () => { input.value = nombre; cerrarLista(); form.requestSubmit(); });
+            lista.appendChild(boton);
+          });
+          const todos = document.createElement('button');
+          todos.type = 'button'; todos.className = 'nexo-autocomplete-todos';
+          todos.textContent = `Ver resultados para “${input.value.trim()}” →`;
+          todos.addEventListener('click', () => { cerrarLista(); form.requestSubmit(); });
+          lista.appendChild(todos);
+          lista.hidden = false;
+          input.setAttribute('aria-expanded','true');
+        }
+        input.addEventListener('input', sugerir);
+        input.addEventListener('focus', sugerir);
+        input.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarLista(); });
+        document.addEventListener('click', e => { if (!contenedor.contains(e.target)) cerrarLista(); });
+        if (input === inputHero) input.addEventListener('nexo:seleccion', cerrarLista);
+      });
+    })();
+
+</script>
+</body>
+</html>

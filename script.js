@@ -632,6 +632,13 @@ document.addEventListener("DOMContentLoaded", function () {
         window.scrollTo(0, 0);
     }
     tarjetas.forEach(b => b.addEventListener('click', () => abrirRegistro(b.dataset.tipo)));
+    // Abrir automáticamente el formulario elegido desde la portada.
+    if (seleccion && tarjetas.length) {
+        const tipoSolicitado = new URLSearchParams(window.location.search).get('tipo');
+        if (tipoSolicitado === 'artista' || tipoSolicitado === 'proveedor' || tipoSolicitado === 'cliente') {
+            abrirRegistro(tipoSolicitado);
+        }
+    }
     document.querySelectorAll('.registro-volver').forEach(b => b.addEventListener('click', () => {
         Object.values(formularios).forEach(f => f?.classList.remove('activo'));
         if (seleccion) seleccion.style.display = 'grid';
@@ -685,14 +692,65 @@ document.addEventListener("DOMContentLoaded", function () {
         // No se guarda la contraseña: esta versión es una maqueta sin autenticación real.
         return {nombre, contacto, correo, telefono};
     }
-    document.getElementById('crear-cliente')?.addEventListener('click', () => {
-        const datos = validarDatos('cliente',false);
-        if (!datos) return;
-        try {localStorage.setItem('nexoClienteDemo',JSON.stringify({...datos,tipoCuenta:'cliente'}));}
-        catch(e){return avisar('No se pudieron guardar los datos en este navegador.');}
-        alert('Datos guardados solo en este navegador como demostración. No se creó una cuenta real.');
-        window.location.href='../index.html';
-    });
+   
+document.getElementById('crear-cliente')?.addEventListener('click', async () => {
+    const datos = validarDatos('cliente', false);
+    if (!datos) return;
+
+    const boton = document.getElementById('crear-cliente');
+    const password = document.getElementById('cliente-password').value;
+
+    if (!window.supabase?.createClient) {
+        alert('No se pudo cargar Supabase. Revisa tu conexión a Internet.');
+        return;
+    }
+
+    boton.disabled = true;
+    boton.textContent = 'Creando cuenta...';
+
+    try {
+        const clienteSupabase = window.supabase.createClient(
+            'https://bbszahuoeclszmivgnyy.supabase.co',
+            'sb_publishable_VLTfpjdin94_xmYSA-Y-yg_-q8_e_Ii'
+        );
+
+        const { data, error } = await clienteSupabase.auth.signUp({
+            email: datos.correo,
+            password,
+            options: {
+                data: {
+                    full_name: datos.nombre,
+                    phone: datos.telefono,
+                    role: 'cliente'
+                },
+                emailRedirectTo: 'https://anahict.github.io/nexo-demo/pages/login.html'
+            }
+        });
+
+        if (error) {
+            alert('No se pudo crear la cuenta: ' + error.message);
+            return;
+        }
+
+        if (!data.user) {
+            alert('No se pudo completar el registro. Intenta nuevamente.');
+            return;
+        }
+
+        alert(
+            '¡Registro recibido! Revisa tu correo electrónico y confirma tu cuenta antes de iniciar sesión.'
+        );
+
+        window.location.href = 'login.html';
+
+    } catch (error) {
+        alert('No fue posible conectar con Supabase. Intenta nuevamente.');
+    } finally {
+        boton.disabled = false;
+        boton.textContent = 'Crear cuenta';
+    }
+});
+
     document.getElementById('crear-artista')?.addEventListener('click', () => {
         const categoria = artistaForm?.querySelector('input[name="tipo-proveedor"]:checked')?.value;
         if (!categoria) return avisar('Selecciona qué tipo de artista eres.');

@@ -8,36 +8,217 @@
     <title>Cotiza tu evento | NEXO</title>
 
     <link rel="stylesheet" href="../estilos.css">
+<style>
+        /* Autocompletado único de NEXO: aislado de los botones generales */
+        .nexo-header { position: sticky; top: 0; z-index: 1000; overflow: visible; }
+        .nexo-header-buscador,
+        .campo-busqueda.nexo-autocomplete-contenedor {
+            position: relative;
+            overflow: visible;
+        }
+        .nexo-header-buscador { z-index: 101; }
+        .nexo-autocomplete-lista {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            width: 100%;
+            min-width: min(260px, 90vw);
+            max-height: 340px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            z-index: 10000;
+            box-sizing: border-box;
+            padding: 7px;
+            background: #fff;
+            border: 1px solid #e9e6f5;
+            border-radius: 14px;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, .18);
+        }
+        .nexo-autocomplete-lista[hidden] { display: none !important; }
+        /* Especificidad alta para neutralizar reglas de botones del header y hero */
+        form.nexo-header-buscador .nexo-autocomplete-lista button.nexo-autocomplete-opcion,
+        form.nexo-header-buscador .nexo-autocomplete-lista button.nexo-autocomplete-todos,
+        form.buscador .nexo-autocomplete-lista button.nexo-autocomplete-opcion,
+        form.buscador .nexo-autocomplete-lista button.nexo-autocomplete-todos {
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+            align-items: flex-start !important;
+            gap: 4px !important;
+            width: 100% !important;
+            min-width: 0 !important;
+            height: auto !important;
+            min-height: 48px !important;
+            margin: 0 !important;
+            padding: 10px 13px !important;
+            background: #fff !important;
+            color: #0f0f10 !important;
+            border: 0 !important;
+            border-radius: 8px !important;
+            box-shadow: none !important;
+            font-family: inherit !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            line-height: 1.35 !important;
+            text-align: left !important;
+            white-space: normal !important;
+            letter-spacing: normal !important;
+            text-transform: none !important;
+            transform: none !important;
+            cursor: pointer;
+        }
+        form.nexo-header-buscador .nexo-autocomplete-lista button:hover,
+        form.buscador .nexo-autocomplete-lista button:hover,
+        form.nexo-header-buscador .nexo-autocomplete-lista button:focus-visible,
+        form.buscador .nexo-autocomplete-lista button:focus-visible {
+            background: #f2efff !important;
+            color: #6c4cff !important;
+        }
+        .nexo-autocomplete-opcion span {
+            display: block;
+            color: inherit !important;
+            font-size: 14px !important;
+            font-weight: 700 !important;
+            line-height: 1.35 !important;
+        }
+        .nexo-autocomplete-opcion small {
+            display: block;
+            color: #777 !important;
+            font-size: 12px !important;
+            font-weight: 400 !important;
+            line-height: 1.35 !important;
+        }
+        form.nexo-header-buscador .nexo-autocomplete-lista button.nexo-autocomplete-todos,
+        form.buscador .nexo-autocomplete-lista button.nexo-autocomplete-todos {
+            margin-top: 5px !important;
+            border-top: 1px solid #eee !important;
+            color: #6c4cff !important;
+        }
+        @media (max-width: 768px) {
+            .nexo-autocomplete-lista { max-height: 300px; }
+        }
+    </style>
 </head>
 
 <body>
 
-    <header class="header">
+    <header class="header nexo-header" id="nexo-header-unificado">
 
-        <a href="../index.html" class="logo">
-            NEXO
+        <a href="../index.html" class="nexo-logo">
+            <span class="logo-ne">NE</span><span class="logo-xo">XO</span>
         </a>
 
-        <nav class="nav">
-            <a href="explorar.html">Explorar</a>
-            <a href="eventos.html">Tipos de evento</a>
-            <a href="como-funciona.html">Cómo funciona</a>
-            <a href="proveedores.html">Publica tus servicios</a>
-        </nav>
+        <!-- BUSCADOR DEL HEADER -->
 
-        <div class="header-actions">
+        <form
+            class="nexo-header-buscador"
+            data-nexo-autocomplete
+            action="explorar.html"
+            method="get"
+        >
 
-            <a href="login.html" class="login">
+            <input
+                type="search"
+                id="nexo-header-search"
+                name="q"
+                autocomplete="off"
+                placeholder="Busca artistas, música o servicios..."
+                aria-label="Buscar servicios"
+                required
+            >
+
+            <button type="submit" aria-label="Buscar">
+                ⌕
+            </button>
+
+        </form>
+
+
+        <div class="nexo-header-acciones">
+
+            <a href="../index.html" class="nexo-login nexo-inicio">Inicio</a>
+
+            <a href="login.html" class="nexo-login">
                 Iniciar sesión
             </a>
 
-            <a href="cotizar.html" class="btn-cotizar">
+            <a href="proveedores.html" class="nexo-publicar">
+                Publica tus servicios
+            </a>
+
+            <button
+                type="button"
+                class="nexo-icono"
+                aria-label="Favoritos"
+            >
+                ♡
+            </button>
+
+            <button
+                type="button"
+                class="nexo-menu-boton"
+                id="nexo-menu-boton"
+                aria-label="Abrir menú"
+                aria-expanded="false"
+                aria-controls="nexo-menu"
+            >
+                ☰
+            </button>
+
+        </div>
+
+    </header>
+<nav
+        class="nexo-menu-panel"
+        id="nexo-menu"
+        aria-label="Menú principal"
+        hidden
+    >
+
+        <div class="nexo-menu-contenido">
+
+            <h2>Explora NEXO</h2>
+
+            <a href="artistas.html">
+                Artistas y música
+            </a>
+
+           <a href="artistas.html?categoria=entretenimiento">
+                Entretenimiento
+            </a>
+
+            <a href="explorar.html?q=conferencistas">
+                Conferencistas y conductores
+            </a>
+
+            <a href="produccion.html">
+                Producción y servicios para eventos
+            </a>
+
+            <hr>
+
+            <a href="../index.html">Inicio</a>
+
+            <a href="explorar.html">Explorar</a>
+
+            <a href="eventos.html">Tipos de evento</a>
+
+            <a href="como-funciona.html">Cómo funciona</a>
+
+            <a href="proveedores.html">Publica tus servicios</a>
+
+            <a href="login.html">Iniciar sesión</a>
+
+            <a
+                href="cotizar.html"
+                class="nexo-menu-cotizar"
+            >
                 Cotiza tu evento
             </a>
 
         </div>
 
-    </header>
+    </nav>
 
 
     <main>
@@ -635,6 +816,122 @@
 	
 	<script src="../script.js"></script>
 
+<script id="nexo-menu-unificado-script">
+(() => {
+ const header = document.getElementById('nexo-header-unificado');
+ const button = document.getElementById('nexo-menu-boton');
+ const panel = document.getElementById('nexo-menu');
+ if (!header || !button || !panel) return;
+ const size = () => document.documentElement.style.setProperty('--nexo-header-alto', header.getBoundingClientRect().height + 'px');
+ size(); window.addEventListener('resize', size);
+ if (window.ResizeObserver) new ResizeObserver(size).observe(header);
+ const close = () => { panel.hidden = true; button.setAttribute('aria-expanded','false'); button.setAttribute('aria-label','Abrir menú'); };
+ button.addEventListener('click', event => {
+   event.preventDefault(); event.stopImmediatePropagation();
+   const open = panel.hidden; panel.hidden = !open;
+   button.setAttribute('aria-expanded', String(open));
+   button.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+   size();
+ }, true);
+ document.addEventListener('click', event => { if (!panel.contains(event.target) && !button.contains(event.target)) close(); });
+ document.addEventListener('keydown', event => { if (event.key === 'Escape' && !panel.hidden) {close();button.focus();} });
+ panel.addEventListener('click', event => {if(event.target.closest('a')) close();});
+})();
+</script>
+<script>
+    /* NEXO: autocompletado sin menú de categorías */
+    (() => {
+      const talento = {
+        "Cantantes y solistas": ["Solista femenino", "Solista masculino", "Dúos vocales", "Cantantes con banda", "Cantantes de música versátil"],
+        "Bandas y grupos musicales": ["Grupos de covers", "Grupos versátiles", "Bandas de rock", "Grupos pop", "Bandas de música original", "Grupos de música regional"],
+        "Música tradicional y ensambles": ["Mariachis", "Tríos románticos", "Norteños", "Bandas sinaloenses", "Rondallas", "Orquestas", "Big Bands", "Cuartetos", "Ensambles"],
+        "Músicos e instrumental": ["Pianistas y tecladistas", "Violinistas", "Saxofonistas", "Guitarristas", "Bajistas", "Bateristas y percusionistas", "Trompetistas", "Flautistas", "Violonchelistas", "Arpistas", "Música clásica e instrumental"],
+        "DJ y experiencias musicales": ["DJ para bodas", "DJ para eventos corporativos", "DJ para fiestas privadas", "DJ con performance", "Música electrónica", "Música versátil"],
+        "Comedia y humor": ["Stand-up comedy", "Comediantes", "Improvisación", "Comedia musical", "Shows de humor"],
+        "Magia y espectáculos": ["Magos", "Ilusionistas", "Mentalistas", "Hipnotistas", "Imitadores", "Shows temáticos"],
+        "Danza y performance": ["Bailarines profesionales", "Compañías de danza", "Shows coreográficos", "Performance artístico", "Espectáculos circenses"],
+        "Conferencistas": ["Motivacionales", "Empresariales", "Liderazgo", "Desarrollo personal", "Tecnología e innovación", "Bienestar"],
+        "Conductores y presentadores": ["Maestros de ceremonias", "Conductoras", "Conductores", "Presentadores corporativos", "Animadores de eventos"],
+        "Entretenimiento infantil": ["Shows infantiles", "Payasos", "Magos infantiles", "Personajes temáticos", "Cuentacuentos", "Animadores infantiles"],
+        "Actores y talento escénico": ["Actrices", "Actores", "Talento para eventos", "Personajes caracterizados", "Teatro en vivo"]
+      };
+      const produccion = ["Audio profesional", "Iluminación profesional", "Pantallas LED", "Escenarios", "Backline", "Producción integral", "Montaje de escenarios"];
+      const artistas = [
+        ["Trendline", "Bandas y grupos musicales"], ["Mr. Loxley", "DJ y experiencias musicales"],
+        ["Two Souls", "Cantantes y solistas"], ["Andreas Zanetti", "Músicos e instrumental"],
+        ["Michelle Rodríguez", "Comedia y humor"], ["Tr3mens", "Músicos e instrumental"],
+        ["Percy", "Cantantes y solistas"]
+      ];
+      const normalizar = texto => texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+      const catalogo = [...artistas, ...Object.entries(talento).flatMap(([categoria, opciones]) => [
+        [categoria, 'Categoría de talento'], ...opciones.map(nombre => [nombre, categoria])
+      ]), ...produccion.map(nombre => [nombre, 'Producción y servicios'])];
+
+      document.querySelectorAll('form[data-nexo-autocomplete]').forEach((form, index) => {
+        const input = form.querySelector('input[name="q"]');
+        if (!input) return;
+        const contenedor = input.closest('.campo-busqueda') || form;
+        contenedor.classList.add('nexo-autocomplete-contenedor');
+        const lista = document.createElement('div');
+        lista.className = 'nexo-autocomplete-lista';
+        lista.id = `nexo-autocomplete-${index}`;
+        lista.setAttribute('role', 'listbox');
+        lista.hidden = true;
+        contenedor.appendChild(lista);
+        input.setAttribute('aria-controls', lista.id);
+        input.setAttribute('aria-expanded', 'false');
+        input.setAttribute('aria-autocomplete', 'list');
+
+        function cerrarLista() {
+          lista.hidden = true;
+          lista.replaceChildren();
+          input.setAttribute('aria-expanded', 'false');
+        }
+        function buscar() {
+          const consulta = normalizar(input.value);
+          lista.replaceChildren();
+          if (!consulta) { cerrarLista(); return; }
+          const coincidencias = catalogo.filter(([nombre, categoria]) =>
+            normalizar(nombre).includes(consulta) || normalizar(categoria).includes(consulta)
+          ).sort((a, b) => {
+            const puntaje = item => {
+              const nombre = normalizar(item[0]);
+              return nombre === consulta ? 0 : nombre.startsWith(consulta) ? 1 : nombre.includes(consulta) ? 2 : 3;
+            };
+            return puntaje(a) - puntaje(b);
+          }).slice(0, 7);
+          coincidencias.forEach(([nombre, categoria]) => {
+            const boton = document.createElement('button');
+            boton.type = 'button';
+            boton.className = 'nexo-autocomplete-opcion';
+            boton.setAttribute('role', 'option');
+            const titulo = document.createElement('span'); titulo.textContent = nombre;
+            const detalle = document.createElement('small'); detalle.textContent = categoria;
+            boton.append(titulo, detalle);
+            boton.addEventListener('click', () => {
+              input.value = nombre;
+              cerrarLista();
+              form.requestSubmit();
+            });
+            lista.appendChild(boton);
+          });
+          const todos = document.createElement('button');
+          todos.type = 'button';
+          todos.className = 'nexo-autocomplete-todos';
+          todos.textContent = `Ver resultados para “${input.value.trim()}” →`;
+          todos.addEventListener('click', () => { cerrarLista(); form.requestSubmit(); });
+          lista.appendChild(todos);
+          lista.hidden = false;
+          input.setAttribute('aria-expanded', 'true');
+        }
+        input.addEventListener('input', buscar);
+        input.addEventListener('focus', buscar);
+        input.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarLista(); });
+        document.addEventListener('click', e => { if (!contenedor.contains(e.target)) cerrarLista(); });
+        form.addEventListener('submit', cerrarLista);
+      });
+    })();
+    </script>
 </body>
 
 </html>

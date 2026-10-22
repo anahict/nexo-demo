@@ -400,6 +400,60 @@ function tabla(registros, columnas) {
     </table>
   `;
 }
+	
+	function abrirCotizacion(id) {
+  const cotizacion = cotizaciones.find(c => String(c.id) === String(id));
+  if (!cotizacion) return;
+
+  const evento = eventos.find(e =>
+    String(e.id) === String(cotizacion.evento_id)
+  );
+
+  const detalle = document.getElementById('detalle-contenido');
+  const panel = document.getElementById('detalle-cotizacion');
+
+  function campos(objeto) {
+    return Object.entries(objeto || {}).map(([clave, valor]) => {
+      const texto = valor !== null && typeof valor === 'object'
+        ? JSON.stringify(valor, null, 2)
+        : String(valor ?? 'No especificado');
+
+      return `
+        <div style="padding:12px 0;border-bottom:1px solid #eee">
+          <strong>${escapar(clave.replaceAll('_', ' '))}</strong>
+          <div style="margin-top:6px;white-space:pre-wrap;overflow-wrap:anywhere">
+            ${escapar(texto)}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  detalle.innerHTML = `
+    <h3>Información de la cotización</h3>
+    ${campos(cotizacion)}
+    <h3 style="margin-top:28px">Información del evento</h3>
+    ${evento ? campos(evento) : '<p>No se encontró el evento asociado.</p>'}
+  `;
+
+  document.querySelectorAll('[data-tab]').forEach(b =>
+    b.classList.toggle('active', b.dataset.tab === 'cotizaciones')
+  );
+
+  document.querySelectorAll('.section').forEach(s =>
+    s.classList.toggle('active', s.id === 'cotizaciones')
+  );
+
+  panel.hidden = false;
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+document.addEventListener('click', function(evento) {
+  const boton = evento.target.closest('[data-ver-cotizacion]');
+  if (!boton) return;
+
+  abrirCotizacion(boton.dataset.verCotizacion);
+});
 
 function renderizar() {
   document.getElementById('stat-cotizaciones').textContent =
@@ -437,7 +491,61 @@ function renderizar() {
     estado: c.estado || c.status || 'Sin estado'
   }));
 
+    const columnasConAccion = [
+    ...columnasCotizaciones,
+    { titulo: 'Acción', campo: 'accion' }
+  ];
+
+  const filas = cotizacionesVisibles.map(c => ({
+    ...c,
+    accion: 'Ver detalles'
+  }));
+
+  function tablaConBotones(registros) {
+    if (!registros.length) {
+      return '<p>No hay solicitudes disponibles.</p>';
+    }
+
+    return `
+      <table>
+        <thead>
+          <tr>
+            <th>Estado</th>
+            <th>Evento</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${registros.map(c => `
+            <tr>
+              <td>${escapar(c.estado)}</td>
+              <td>${escapar(
+                eventos.find(e => String(e.id) === String(c.evento_id))?.nombre
+                || c.evento_id
+                || 'Sin evento'
+              )}</td>
+              <td>
+                <button type="button" class="btn"
+                  data-ver-cotizacion="${escapar(c.id)}">
+                  Ver detalles
+                </button>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+  }
+
   document.getElementById('recientes').innerHTML =
+    tablaConBotones(filas.slice(0, 5));
+
+  document.getElementById('lista-cotizaciones').innerHTML =
+    tablaConBotones(filas);
+
+  document.getElementById('lista-eventos').innerHTML =
+    tabla(eventos, columnasEventos);
+
     tabla(cotizacionesVisibles.slice(0, 5), columnasCotizaciones);
 
   document.getElementById('lista-cotizaciones').innerHTML =

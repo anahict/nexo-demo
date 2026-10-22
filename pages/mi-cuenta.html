@@ -1,0 +1,682 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Mi cuenta | NEXO</title>
+
+  <style>
+    :root {
+      --morado: #5636b9;
+      --morado-claro: #7655e7;
+      --negro: #101014;
+      --fondo: #f6f6f9;
+      --borde: #e7e7ee;
+      --texto: #191922;
+      --gris: #747480;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--fondo);
+      color: var(--texto);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .header {
+      background: #0f0f10;
+      color: white;
+      min-height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 18px 5%;
+    }
+
+    .logo {
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: -2px;
+    }
+
+    .logo span {
+      color: #704ce1;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+
+    .header-nav a {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .header-nav a:hover {
+      color: #aa92ff;
+    }
+
+    .header-nav .activo {
+      color: #aa92ff;
+    }
+
+    .publicar {
+      background: var(--morado);
+      padding: 13px 18px;
+      border-radius: 9px;
+    }
+
+    .contenedor {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 52px 24px 90px;
+    }
+
+    .etiqueta {
+      color: var(--morado);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(32px, 5vw, 48px);
+      letter-spacing: -1.5px;
+      margin: 12px 0;
+    }
+
+    .subtitulo {
+      color: var(--gris);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .panel {
+      display: grid;
+      grid-template-columns: 270px minmax(0, 1fr);
+      gap: 25px;
+      margin-top: 38px;
+    }
+
+    .sidebar,
+    .tarjeta {
+      background: white;
+      border: 1px solid var(--borde);
+      border-radius: 18px;
+    }
+
+    .sidebar {
+      padding: 24px 18px;
+      align-self: start;
+    }
+
+    .avatar {
+      width: 76px;
+      height: 76px;
+      background: #eee9ff;
+      color: var(--morado);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 28px;
+      font-weight: 800;
+      margin: 0 auto 15px;
+    }
+
+    .sidebar-nombre {
+      text-align: center;
+      font-size: 17px;
+      font-weight: 800;
+      overflow-wrap: anywhere;
+    }
+
+    .sidebar-correo {
+      text-align: center;
+      font-size: 12px;
+      color: var(--gris);
+      margin: 9px 0 25px;
+      overflow-wrap: anywhere;
+    }
+
+    .menu-lateral {
+      display: grid;
+      gap: 8px;
+    }
+
+    .menu-lateral button {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: 0;
+      padding: 15px;
+      border-radius: 10px;
+      font-weight: 700;
+      color: #555560;
+    }
+
+    .menu-lateral button:hover,
+    .menu-lateral button.activo {
+      background: #f0ecff;
+      color: var(--morado);
+    }
+
+    .menu-lateral .salir {
+      color: #b33c50;
+      border-top: 1px solid var(--borde);
+      border-radius: 0;
+      margin-top: 12px;
+    }
+
+    .contenido {
+      min-width: 0;
+    }
+
+    .seccion {
+      display: none;
+    }
+
+    .seccion.activa {
+      display: block;
+    }
+
+    .tarjeta {
+      padding: 30px;
+      margin-bottom: 20px;
+    }
+
+    .tarjeta h2 {
+      font-size: 22px;
+      margin: 0 0 15px;
+    }
+
+    .tarjeta p {
+      color: var(--gris);
+      line-height: 1.7;
+    }
+
+    .bienvenida {
+      background: linear-gradient(125deg, #181323, #5636b9);
+      color: white;
+      border: 0;
+    }
+
+    .bienvenida p {
+      color: #e6dfff;
+    }
+
+    .datos {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+      margin-top: 22px;
+    }
+
+    .dato {
+      background: #f8f8fb;
+      padding: 18px;
+      border-radius: 11px;
+      min-width: 0;
+    }
+
+    .dato small {
+      display: block;
+      color: var(--gris);
+      margin-bottom: 10px;
+    }
+
+    .dato strong {
+      display: block;
+      overflow-wrap: anywhere;
+    }
+
+    .vacio {
+      border: 1px dashed #d8d4e5;
+      border-radius: 14px;
+      text-align: center;
+      padding: 45px 20px;
+      margin-top: 22px;
+    }
+
+    .vacio .icono {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .boton {
+      display: inline-block;
+      background: var(--morado);
+      color: white;
+      border: 0;
+      border-radius: 10px;
+      padding: 14px 20px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 15px;
+    }
+
+    .boton:hover {
+      background: var(--morado-claro);
+    }
+
+    .lista-favoritos {
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .favorito-item {
+      background: #f8f8fb;
+      border: 1px solid var(--borde);
+      padding: 17px;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+
+    .estado {
+      padding: 18px 24px;
+      text-align: center;
+      color: var(--gris);
+    }
+
+    footer {
+      background: var(--negro);
+      color: #b8b8c1;
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 800px) {
+      .header {
+        flex-direction: column;
+      }
+
+      .header-nav {
+        justify-content: center;
+        gap: 15px;
+      }
+
+      .panel {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        padding: 20px;
+      }
+
+      .datos {
+        grid-template-columns: 1fr;
+      }
+
+      .tarjeta {
+        padding: 23px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="header">
+    <a href="../index.html" class="logo">NE<span>XO</span></a>
+
+    <nav class="header-nav" aria-label="Navegación principal">
+      <a href="../index.html">Inicio</a>
+      <a href="mi-cuenta.html" class="activo">Mi cuenta</a>
+      <a href="proveedores.html" class="publicar">Publica tus servicios</a>
+    </nav>
+  </header>
+
+  <main class="contenedor">
+
+    <div class="etiqueta">Panel de cliente</div>
+    <h1>Mi cuenta</h1>
+    <p class="subtitulo">
+      Administra tu información, favoritos y solicitudes desde un solo lugar.
+    </p>
+
+    <div id="estado-carga" class="estado">
+      Verificando tu sesión...
+    </div>
+
+    <div class="panel" id="panel-cliente" hidden>
+
+      <aside class="sidebar">
+        <div class="avatar" id="avatar">N</div>
+        <div class="sidebar-nombre" id="nombre-sidebar">Cliente NEXO</div>
+        <div class="sidebar-correo" id="correo-sidebar"></div>
+
+        <nav class="menu-lateral" aria-label="Secciones de mi cuenta">
+          <button type="button" class="activo" data-seccion="resumen">
+            Mi perfil
+          </button>
+
+          <button type="button" data-seccion="solicitudes">
+            Mis solicitudes
+          </button>
+
+          <button type="button" data-seccion="favoritos">
+            Mis favoritos
+          </button>
+
+          <button type="button" data-seccion="configuracion">
+            Configuración
+          </button>
+
+          <button type="button" class="salir" id="cerrar-sesion">
+            Cerrar sesión
+          </button>
+        </nav>
+      </aside>
+
+      <div class="contenido">
+
+        <section id="seccion-resumen" class="seccion activa">
+
+          <div class="tarjeta bienvenida">
+            <div class="etiqueta" style="color:#c8b9ff">
+              Bienvenido a NEXO
+            </div>
+            <h2 id="saludo">¡Hola!</h2>
+            <p>
+              Encuentra artistas, entretenimiento y servicios para crear
+              experiencias extraordinarias.
+            </p>
+          </div>
+
+          <div class="tarjeta">
+            <h2>Información personal</h2>
+            <p>Estos son los datos asociados a tu cuenta.</p>
+
+            <div class="datos">
+              <div class="dato">
+                <small>Nombre completo</small>
+                <strong id="dato-nombre">—</strong>
+              </div>
+
+              <div class="dato">
+                <small>Correo electrónico</small>
+                <strong id="dato-correo">—</strong>
+              </div>
+
+              <div class="dato">
+                <small>Teléfono</small>
+                <strong id="dato-telefono">—</strong>
+              </div>
+
+              <div class="dato">
+                <small>Tipo de cuenta</small>
+                <strong>Cliente</strong>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <section id="seccion-solicitudes" class="seccion">
+          <div class="tarjeta">
+            <h2>Mis solicitudes</h2>
+            <p>
+              Aquí podrás consultar tus cotizaciones y dar seguimiento
+              a tus contrataciones.
+            </p>
+
+            <div class="vacio">
+              <div class="icono">📋</div>
+              <h3>Aún no hay solicitudes disponibles</h3>
+              <p>
+                El historial de cotizaciones se habilitará cuando
+                conectemos las solicitudes con tu cuenta.
+              </p>
+              <a href="../index.html" class="boton">
+                Explorar servicios
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section id="seccion-favoritos" class="seccion">
+          <div class="tarjeta">
+            <h2>Mis favoritos</h2>
+            <p>
+              Consulta los artistas que has marcado como favoritos
+              en este navegador.
+            </p>
+
+            <div id="contenido-favoritos"></div>
+          </div>
+        </section>
+
+        <section id="seccion-configuracion" class="seccion">
+          <div class="tarjeta">
+            <h2>Configuración de cuenta</h2>
+            <p>
+              Tu cuenta está protegida mediante Supabase Auth.
+            </p>
+
+            <div class="datos">
+              <div class="dato">
+                <small>Correo de acceso</small>
+                <strong id="config-correo">—</strong>
+              </div>
+
+              <div class="dato">
+                <small>Estado</small>
+                <strong id="config-estado">—</strong>
+              </div>
+            </div>
+
+            <p>
+              Próximamente podrás actualizar tus datos personales
+              y administrar tus preferencias.
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    © 2026 NEXO. Artistas, entretenimiento y producción de eventos.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const NEXO_URL = 'https://bbszahuoeclszmivgnyy.supabase.co';
+    const NEXO_KEY = 'sb_publishable_VLTfpjdin94_xmYSA-Y-yg_-q8_e_Ii';
+
+    const $ = id => document.getElementById(id);
+
+    function texto(id, valor) {
+      const elemento = $(id);
+      if (elemento) elemento.textContent = valor || '—';
+    }
+
+    function mostrarSeccion(nombre) {
+      document.querySelectorAll('.seccion').forEach(seccion => {
+        seccion.classList.toggle(
+          'activa',
+          seccion.id === 'seccion-' + nombre
+        );
+      });
+
+      document.querySelectorAll('[data-seccion]').forEach(boton => {
+        boton.classList.toggle(
+          'activo',
+          boton.dataset.seccion === nombre
+        );
+      });
+
+      if (nombre === 'favoritos') {
+        cargarFavoritos();
+      }
+    }
+
+    function cargarFavoritos() {
+      const contenedor = $('contenido-favoritos');
+      contenedor.replaceChildren();
+
+      let favoritos = [];
+
+      try {
+        const guardados = JSON.parse(
+          localStorage.getItem('nexoFavoritos') || '[]'
+        );
+
+        if (Array.isArray(guardados)) {
+          favoritos = guardados.filter(
+            nombre => typeof nombre === 'string'
+          );
+        }
+      } catch (error) {
+        favoritos = [];
+      }
+
+      if (!favoritos.length) {
+        const vacio = document.createElement('div');
+        vacio.className = 'vacio';
+
+        const titulo = document.createElement('h3');
+        titulo.textContent = 'Todavía no tienes favoritos';
+
+        const descripcion = document.createElement('p');
+        descripcion.textContent =
+          'Explora NEXO y guarda los artistas que más te gusten.';
+
+        const enlace = document.createElement('a');
+        enlace.href = '../index.html';
+        enlace.className = 'boton';
+        enlace.textContent = 'Explorar artistas';
+
+        vacio.append(titulo, descripcion, enlace);
+        contenedor.appendChild(vacio);
+        return;
+      }
+
+      const lista = document.createElement('div');
+      lista.className = 'lista-favoritos';
+
+      favoritos.forEach(nombre => {
+        const item = document.createElement('div');
+        item.className = 'favorito-item';
+        item.textContent = '♥ ' + nombre;
+        lista.appendChild(item);
+      });
+
+      contenedor.appendChild(lista);
+    }
+
+    document.querySelectorAll('[data-seccion]').forEach(boton => {
+      boton.addEventListener('click', () => {
+        mostrarSeccion(boton.dataset.seccion);
+      });
+    });
+
+    async function iniciarPanel() {
+      if (!window.supabase?.createClient) {
+        texto('estado-carga', 'No se pudo cargar Supabase. Revisa tu conexión.');
+        return;
+      }
+
+      const cliente = window.supabase.createClient(
+        NEXO_URL,
+        NEXO_KEY
+      );
+
+      let usuario;
+
+      try {
+        const resultado = await cliente.auth.getUser();
+
+        if (resultado.error || !resultado.data.user) {
+          window.location.replace('login.html');
+          return;
+        }
+
+        usuario = resultado.data.user;
+      } catch (error) {
+        texto('estado-carga', 'No se pudo verificar la sesión. Intenta de nuevo.');
+        return;
+      }
+
+      const nombre =
+        usuario.user_metadata?.full_name ||
+        usuario.email?.split('@')[0] ||
+        'Cliente NEXO';
+
+      const correo = usuario.email || '';
+      const telefono = usuario.user_metadata?.phone || '';
+
+      texto('nombre-sidebar', nombre);
+      texto('correo-sidebar', correo);
+      texto('avatar', nombre.charAt(0).toUpperCase());
+      texto('saludo', '¡Hola, ' + nombre.split(' ')[0] + '!');
+      texto('dato-nombre', nombre);
+      texto('dato-correo', correo);
+      texto('dato-telefono', telefono);
+      texto('config-correo', correo);
+      texto(
+        'config-estado',
+        usuario.email_confirmed_at
+          ? 'Correo confirmado'
+          : 'Pendiente de confirmación'
+      );
+
+      $('estado-carga').hidden = true;
+      $('panel-cliente').hidden = false;
+
+      $('cerrar-sesion').addEventListener('click', async () => {
+        const boton = $('cerrar-sesion');
+        boton.disabled = true;
+        boton.textContent = 'Cerrando sesión...';
+
+        try {
+          const { error } = await cliente.auth.signOut();
+
+          if (error) throw error;
+
+          window.location.replace('login.html');
+        } catch (error) {
+          alert('No se pudo cerrar sesión. Intenta nuevamente.');
+          boton.disabled = false;
+          boton.textContent = 'Cerrar sesión';
+        }
+      });
+
+      cliente.auth.onAuthStateChange((evento) => {
+        if (evento === 'SIGNED_OUT') {
+          window.location.replace('login.html');
+        }
+      });
+    }
+
+    iniciarPanel();
+  </script>
+
+</body>
+</html>

@@ -482,7 +482,24 @@
           mostrarAviso('Revisa tu correo para confirmar tu cuenta antes de iniciar sesion.');
           return;
         }
-        window.location.assign('../index.html');
+        // NEXO: redirigir según el acceso administrativo registrado.
+        // Esta consulta está protegida por RLS en Supabase.
+        const { data: accesoAdmin, error: errorAdmin } = await cliente
+          .from('nexo_admin_access')
+          .select('user_id')
+          .eq('user_id', data.user.id)
+          .maybeSingle();
+
+        if (errorAdmin) {
+          mostrarAviso('Iniciaste sesión, pero no se pudo comprobar tu tipo de cuenta: ' + errorAdmin.message);
+          return;
+        }
+
+        if (accesoAdmin) {
+          window.location.assign('../admin.html');
+        } else {
+          window.location.assign('mi-cuenta.html');
+        }
       } catch (error) {
         mostrarAviso('No fue posible conectar con Supabase. Intenta nuevamente.');
       } finally {

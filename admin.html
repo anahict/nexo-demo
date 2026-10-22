@@ -1,0 +1,574 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXO | Administración</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+:root {
+  --negro: #101014;
+  --morado: #8053e8;
+  --fondo: #f6f6f9;
+  --borde: #e9e9ee;
+  --texto: #24242c;
+  --gris: #777783;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+  background: var(--negro);
+  color: white;
+  padding: 19px 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  font-size: 25px;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+
+.logo span { color: #a48cff; }
+
+.logo small {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  margin-left: 10px;
+  color: #aaa;
+}
+
+header nav {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+header a, header button {
+  color: white;
+  text-decoration: none;
+  background: none;
+  border: 0;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+header a:hover, header button:hover {
+  color: #b49aff;
+}
+
+main {
+  max-width: 1250px;
+  margin: auto;
+  padding: 35px 24px 70px;
+}
+
+h1 { font-size: 30px; margin: 0 0 9px; }
+h2 { font-size: 20px; margin: 0 0 20px; }
+
+.subtitle { color: var(--gris); margin-bottom: 30px; }
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.tabs button {
+  background: white;
+  color: #333;
+  border: 1px solid var(--borde);
+  padding: 12px 17px;
+  border-radius: 9px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.tabs button.active {
+  background: var(--morado);
+  color: white;
+  border-color: var(--morado);
+}
+
+.section { display: none; }
+.section.active { display: block; }
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 17px;
+  margin-bottom: 30px;
+}
+
+.card, .panel {
+  background: white;
+  border: 1px solid var(--borde);
+  border-radius: 14px;
+  padding: 23px;
+}
+
+.card .number {
+  font-size: 34px;
+  font-weight: 800;
+  margin-bottom: 9px;
+}
+
+.card .label { color: var(--gris); font-size: 13px; }
+
+.panel { margin-bottom: 20px; overflow-x: auto; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 620px;
+}
+
+th, td {
+  padding: 15px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--borde);
+  font-size: 14px;
+}
+
+th { color: var(--gris); font-size: 12px; }
+
+.badge {
+  display: inline-block;
+  background: #f0eaff;
+  color: #6942c5;
+  border-radius: 20px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.btn {
+  background: var(--morado);
+  border: 0;
+  color: white;
+  padding: 11px 17px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn:hover { background: #693dce; }
+
+.btn.secondary {
+  background: #f0edfa;
+  color: #6942c5;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #dddde5;
+  border-radius: 8px;
+  font: inherit;
+  margin: 7px 0 17px;
+}
+
+textarea { min-height: 110px; resize: vertical; }
+
+label { font-size: 13px; font-weight: 600; }
+
+.message {
+  padding: 18px;
+  border-radius: 12px;
+  background: white;
+  border: 1px solid var(--borde);
+  margin-bottom: 22px;
+}
+
+.error { color: #aa3434; }
+
+#app { display: none; }
+
+#access-screen {
+  max-width: 600px;
+  margin: 70px auto;
+  padding: 30px;
+  background: white;
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+  text-align: center;
+}
+
+#access-screen h2 { margin-bottom: 12px; }
+#access-screen p { color: var(--gris); line-height: 1.6; }
+
+@media (max-width: 900px) {
+  .stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 560px) {
+  .stats { grid-template-columns: 1fr; }
+  header { padding: 18px; }
+  main { padding: 25px 15px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">NE<span>XO</span><small>ADMIN</small></div>
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="pages/mi-cuenta.html">Mi cuenta</a>
+    <button id="logout" type="button">Cerrar sesión</button>
+  </nav>
+</header>
+
+<div id="access-screen">
+  <h2>Verificando acceso administrativo</h2>
+  <p id="access-message">Estamos comprobando tu sesión de NEXO.</p>
+  <a class="btn" id="login-link"
+     href="pages/login.html"
+     style="display:none;text-decoration:none">
+     Ir a iniciar sesión
+  </a>
+</div>
+
+<main id="app">
+
+  <h1>Panel de administración</h1>
+  <p class="subtitle">
+    Gestiona cotizaciones, eventos, clientes y proveedores de NEXO.
+  </p>
+
+  <div class="tabs">
+    <button class="active" data-tab="resumen">Resumen</button>
+    <button data-tab="cotizaciones">Cotizaciones</button>
+    <button data-tab="eventos">Eventos</button>
+    <button data-tab="usuarios">Usuarios</button>
+    <button data-tab="proveedores">Artistas y proveedores</button>
+  </div>
+
+  <section id="resumen" class="section active">
+    <div class="stats">
+      <div class="card">
+        <div class="number" id="stat-pendientes">—</div>
+        <div class="label">Cotizaciones pendientes</div>
+      </div>
+      <div class="card">
+        <div class="number" id="stat-cotizaciones">—</div>
+        <div class="label">Total de cotizaciones</div>
+      </div>
+      <div class="card">
+        <div class="number" id="stat-eventos">—</div>
+        <div class="label">Eventos registrados</div>
+      </div>
+      <div class="card">
+        <div class="number" id="stat-aceptadas">—</div>
+        <div class="label">Cotizaciones aceptadas</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Solicitudes recientes</h2>
+      <div id="recientes">Cargando solicitudes...</div>
+    </div>
+  </section>
+
+  <section id="cotizaciones" class="section">
+    <div class="panel">
+      <h2>Solicitudes de cotización</h2>
+      <div id="lista-cotizaciones">Cargando...</div>
+    </div>
+
+    <div class="panel" id="detalle-cotizacion" hidden>
+      <h2>Detalle de solicitud</h2>
+      <div id="detalle-contenido"></div>
+    </div>
+  </section>
+
+  <section id="eventos" class="section">
+    <div class="panel">
+      <h2>Eventos registrados</h2>
+      <div id="lista-eventos">Cargando...</div>
+    </div>
+  </section>
+
+  <section id="usuarios" class="section">
+    <div class="panel">
+      <h2>Usuarios y clientes</h2>
+      <p>
+        Este módulo mostrará los perfiles de clientes
+        cuando confirmemos la estructura de la tabla
+        correspondiente en Supabase.
+      </p>
+    </div>
+  </section>
+
+  <section id="proveedores" class="section">
+    <div class="panel">
+      <h2>Artistas y proveedores</h2>
+      <p>
+        Aquí revisaremos los registros, documentos EPK
+        y solicitudes de publicación.
+      </p>
+      <p>
+        Los perfiles nuevos deberán pasar por el proceso
+        de revisión de hasta 72 horas.
+      </p>
+    </div>
+  </section>
+
+  <div id="system-message" role="status"></div>
+
+</main>
+
+<script>
+const SUPABASE_URL =
+  'https://bbszahuoeclszmivgnyy.supabase.co';
+
+/*
+  Pega aquí la clave pública publishable de tu proyecto.
+  No utilices una service_role ni una clave secreta.
+*/
+const SUPABASE_KEY = 'sb_publishable_VLTfpjdin94_xmYSA-Y-yg_-q8_e_Ii';
+
+let db = null;
+let cotizaciones = [];
+let eventos = [];
+
+function mostrarAcceso(mensaje, mostrarLogin = false) {
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('access-screen').style.display = 'block';
+  document.getElementById('access-message').textContent = mensaje;
+  document.getElementById('login-link').style.display =
+    mostrarLogin ? 'inline-block' : 'none';
+}
+
+function mostrarError(mensaje) {
+  const elemento = document.getElementById('system-message');
+  elemento.className = 'message error';
+  elemento.textContent = mensaje;
+}
+
+function escapar(valor) {
+  return String(valor ?? '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[c]));
+}
+
+function tabla(registros, columnas) {
+  if (!registros.length) {
+    return '<p>No hay registros disponibles.</p>';
+  }
+
+  return `
+    <table>
+      <thead>
+        <tr>${columnas.map(c =>
+          `<th>${escapar(c.titulo)}</th>`
+        ).join('')}</tr>
+      </thead>
+      <tbody>
+        ${registros.map(registro => `
+          <tr>
+            ${columnas.map(c => `
+              <td>${escapar(registro[c.campo])}</td>
+            `).join('')}
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+function renderizar() {
+  document.getElementById('stat-cotizaciones').textContent =
+    cotizaciones.length;
+
+  document.getElementById('stat-eventos').textContent =
+    eventos.length;
+
+  document.getElementById('stat-pendientes').textContent =
+    cotizaciones.filter(c =>
+      String(c.estado || c.status || '').toLowerCase() === 'pendiente'
+    ).length;
+
+  document.getElementById('stat-aceptadas').textContent =
+    cotizaciones.filter(c =>
+      ['aceptada', 'aceptado'].includes(
+        String(c.estado || c.status || '').toLowerCase()
+      )
+    ).length;
+
+  const columnasCotizaciones = [
+    { titulo: 'ID', campo: 'id' },
+    { titulo: 'Estado', campo: 'estado' },
+    { titulo: 'Evento', campo: 'evento_id' }
+  ];
+
+  const columnasEventos = [
+    { titulo: 'ID', campo: 'id' },
+    { titulo: 'Nombre', campo: 'nombre' },
+    { titulo: 'Fecha', campo: 'fecha' }
+  ];
+
+  const cotizacionesVisibles = cotizaciones.map(c => ({
+    ...c,
+    estado: c.estado || c.status || 'Sin estado'
+  }));
+
+  document.getElementById('recientes').innerHTML =
+    tabla(cotizacionesVisibles.slice(0, 5), columnasCotizaciones);
+
+  document.getElementById('lista-cotizaciones').innerHTML =
+    tabla(cotizacionesVisibles, columnasCotizaciones);
+
+  document.getElementById('lista-eventos').innerHTML =
+    tabla(eventos, columnasEventos);
+}
+
+async function cargarDatos() {
+  const resultados = await Promise.all([
+    db.from('cotizaciones').select('*'),
+    db.from('eventos').select('*')
+  ]);
+
+  const [resultadoCotizaciones, resultadoEventos] = resultados;
+
+  if (resultadoCotizaciones.error) {
+    mostrarError(
+      'No se pudieron cargar las cotizaciones: ' +
+      resultadoCotizaciones.error.message
+    );
+  }
+
+  if (resultadoEventos.error) {
+    mostrarError(
+      'No se pudieron cargar los eventos: ' +
+      resultadoEventos.error.message
+    );
+  }
+
+  cotizaciones = resultadoCotizaciones.data || [];
+  eventos = resultadoEventos.data || [];
+
+  renderizar();
+}
+
+async function iniciar() {
+  if (!window.supabase) {
+    mostrarAcceso(
+      'No se pudo cargar la biblioteca de Supabase. Comprueba tu conexión.'
+    );
+    return;
+  }
+
+  if (SUPABASE_KEY === 'PEGA_AQUI_TU_CLAVE_PUBLICA') {
+    mostrarAcceso(
+      'Falta configurar la clave pública de Supabase en admin.html.'
+    );
+    return;
+  }
+
+  try {
+    db = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+    const { data, error } = await db.auth.getUser();
+
+    if (error || !data.user) {
+      mostrarAcceso(
+        'Inicia sesión con una cuenta administradora para continuar.',
+        true
+      );
+      return;
+    }
+
+    const { data: acceso, error: errorAcceso } = await db
+      .from('nexo_admin_access')
+      .select('user_id')
+      .eq('user_id', data.user.id)
+      .maybeSingle();
+
+    if (errorAcceso) {
+      mostrarAcceso(
+        'No fue posible comprobar los permisos: ' +
+        errorAcceso.message
+      );
+      return;
+    }
+
+    if (!acceso) {
+      mostrarAcceso(
+        'Esta cuenta no está registrada como administradora.'
+      );
+      return;
+    }
+
+    document.getElementById('access-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+
+    await cargarDatos();
+
+  } catch (error) {
+    mostrarAcceso(
+      'Error al iniciar el panel: ' + error.message
+    );
+  }
+}
+
+document.querySelectorAll('[data-tab]').forEach(boton => {
+  boton.addEventListener('click', () => {
+    document.querySelectorAll('[data-tab]').forEach(b =>
+      b.classList.remove('active')
+    );
+
+    document.querySelectorAll('.section').forEach(s =>
+      s.classList.remove('active')
+    );
+
+    boton.classList.add('active');
+
+    document.getElementById(
+      boton.dataset.tab
+    ).classList.add('active');
+  });
+});
+
+document.getElementById('logout').addEventListener(
+  'click',
+  async () => {
+    if (db) {
+      await db.auth.signOut();
+    }
+    window.location.href = 'pages/login.html';
+  }
+);
+
+iniciar();
+</script>
+
+</body>
+</html>

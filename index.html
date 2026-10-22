@@ -455,7 +455,7 @@
 
             <a href="index.html" class="nexo-login nexo-inicio">Inicio</a>
 
-            <a href="pages/login.html" class="nexo-login">
+            <a href="pages/login.html" class="nexo-login" id="nexo-cuenta">
                 Iniciar sesión
             </a>
 
@@ -1540,6 +1540,42 @@ document.querySelectorAll(
     }, true);
 });
 </script>
+	
+	
+<!-- NEXO: reconocer al usuario conectado -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', async function () {
+    const botonCuenta = document.getElementById('nexo-cuenta');
+
+    if (!botonCuenta || !window.supabase?.createClient) return;
+
+    const clienteSupabase = window.supabase.createClient(
+        'https://bbszahuoeclszmivgnyy.supabase.co',
+        'sb_publishable_VLTfpjdin94_xmYSA-Y-yg_-q8_e_Ii'
+    );
+
+    async function actualizarCuenta() {
+        const { data, error } = await clienteSupabase.auth.getUser();
+
+        if (!error && data.user) {
+            botonCuenta.textContent = 'Mi cuenta';
+            botonCuenta.href = 'pages/mi-cuenta.html';
+        } else {
+            botonCuenta.textContent = 'Iniciar sesión';
+            botonCuenta.href = 'pages/login.html';
+        }
+    }
+
+    await actualizarCuenta();
+
+    clienteSupabase.auth.onAuthStateChange(function () {
+        actualizarCuenta();
+    });
+});
+</script>
+
 
 </body>
 

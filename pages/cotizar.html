@@ -363,6 +363,12 @@
         >
 
     </div>
+			
+<div
+  class="cf-turnstile"
+  data-sitekey="0x4AAAAAAFnQtJ45MD__yLoI">
+</div>
+
 
     <div class="cotizador-acciones">
 
@@ -731,6 +737,11 @@
 
     </div>
 
+    <div class="nexo-turnstile" style="margin: 18px 0;">
+        <div class="cf-turnstile" data-sitekey="REEMPLAZAR_CON_SITE_KEY_DE_CLOUDFLARE"></div>
+        <p id="nexo-envio-estado" role="status" aria-live="polite" style="margin-top:10px;"></p>
+    </div>
+
     <div class="cotizador-acciones">
 
         <button type="button" class="cotizador-anterior">
@@ -814,7 +825,9 @@
 
 </footer>
 	
+	<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 	<script src="../script.js"></script>
+	<script src="../cotizar-nexo.js"></script>
 
 <script id="nexo-menu-unificado-script">
 (() => {

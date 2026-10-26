@@ -482,6 +482,14 @@
     color: #a48cff !important;
 }
 </style>
+<style>
+/* Selector múltiple para el editor de eventos; respeta la tipografía y colores del panel. */
+.nexo-servicios-selector{border:1px solid #d5d5dd;border-radius:8px;background:transparent;max-width:100%}
+.nexo-servicios-selector summary{cursor:pointer;padding:12px 14px;line-height:1.5;overflow-wrap:anywhere}
+.nexo-servicios-opciones{max-height:270px;overflow-y:auto;padding:8px 12px 12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px}
+.nexo-servicio-opcion{display:flex;align-items:center;gap:9px;padding:7px 5px;cursor:pointer;font-size:inherit}
+.nexo-servicio-opcion input{width:17px;height:17px;flex:none;accent-color:#7b3fea}
+</style>
 </head>
 <body>
 <header class="header nexo-header">
@@ -642,11 +650,11 @@
 <div class="evento-campo"><label for="evento-tipo">Tipo de evento *</label><select id="evento-tipo" required=""><option value="">Selecciona una opción</option><option>Boda</option><option>Cumpleaños</option><option>Evento corporativo</option><option>Concierto</option><option>Graduación</option><option>Fiesta privada</option><option>Otro</option></select></div><div class="evento-campo" hidden="" id="evento-tipo-otro-campo"><label for="evento-tipo-otro">Especifica el tipo de evento *</label><input id="evento-tipo-otro" maxlength="150" placeholder="Escribe el tipo de evento"/></div>
 <div class="evento-campo"><label for="evento-fecha">Fecha *</label><input id="evento-fecha" required="" type="date"/></div>
 <div class="evento-campo"><label for="evento-hora">Horario (opcional)</label><div class="evento-horario-selectores"><select id="evento-hora" aria-label="Hora"><option value="">Hora</option></select><select id="evento-minutos" aria-label="Minutos"><option value="">Minutos</option></select><select id="evento-periodo" aria-label="Periodo"><option value="am">a. m.</option><option value="pm">p. m.</option></select></div><input id="evento-horario" type="hidden"/></div>
-<div class="evento-campo"><label for="evento-ciudad">Ciudad *</label><input id="evento-ciudad" maxlength="150" placeholder="Ej. Ciudad de México" required=""/></div>
+<div class="evento-campo"><label for="evento-ciudad">Estado donde será el evento *</label><select id="evento-ciudad" required><option value="">Selecciona un estado</option><option value="Aguascalientes">Aguascalientes</option><option value="Baja California">Baja California</option><option value="Baja California Sur">Baja California Sur</option><option value="Campeche">Campeche</option><option value="Chiapas">Chiapas</option><option value="Chihuahua">Chihuahua</option><option value="Ciudad de México">Ciudad de México</option><option value="Coahuila">Coahuila</option><option value="Colima">Colima</option><option value="Durango">Durango</option><option value="Estado de México">Estado de México</option><option value="Guanajuato">Guanajuato</option><option value="Guerrero">Guerrero</option><option value="Hidalgo">Hidalgo</option><option value="Jalisco">Jalisco</option><option value="Michoacán">Michoacán</option><option value="Morelos">Morelos</option><option value="Nayarit">Nayarit</option><option value="Nuevo León">Nuevo León</option><option value="Oaxaca">Oaxaca</option><option value="Puebla">Puebla</option><option value="Querétaro">Querétaro</option><option value="Quintana Roo">Quintana Roo</option><option value="San Luis Potosí">San Luis Potosí</option><option value="Sinaloa">Sinaloa</option><option value="Sonora">Sonora</option><option value="Tabasco">Tabasco</option><option value="Tamaulipas">Tamaulipas</option><option value="Tlaxcala">Tlaxcala</option><option value="Veracruz">Veracruz</option><option value="Yucatán">Yucatán</option><option value="Zacatecas">Zacatecas</option></select></div>
 
 <div class="evento-campo"><label for="evento-invitados">Invitados estimados</label><input id="evento-invitados" min="0" placeholder="Ej. 150" step="1" type="number"/></div>
-<div class="evento-campo"><label for="evento-presupuesto">Presupuesto estimado (MXN)</label><input id="evento-presupuesto" inputmode="numeric" maxlength="16" placeholder="$50,000" type="text"/></div>
-<div class="evento-campo ancho"><label for="evento-servicio">Talento o servicio solicitado *</label><input autocomplete="off" id="evento-servicio" list="evento-servicios-lista" maxlength="180" placeholder="Escribe para buscar: Trendline, DJ, pantallas LED..."/><datalist id="evento-servicios-lista"></datalist></div><div class="evento-campo ancho"><label for="evento-descripcion">Comentarios (opcional)</label><textarea id="evento-descripcion" maxlength="3000" placeholder="Cuéntanos si tienes alguna petición especial o información adicional..."></textarea></div>
+<div class="evento-campo"><label for="evento-presupuesto">Presupuesto estimado (MXN) *</label><select id="evento-presupuesto" required><option value="">Selecciona un rango de presupuesto</option><option value="9999">Menos de $10,000</option><option value="10000">$10,000 – $25,000</option><option value="25000">$25,000 – $50,000</option><option value="50000">$50,000 – $100,000</option><option value="100000">$100,000 – $250,000</option><option value="250001">Más de $250,000</option></select></div>
+<div class="evento-campo ancho"><label for="evento-servicio-selector">Talentos y servicios solicitados *</label><details id="evento-servicio-selector" class="nexo-servicios-selector"><summary id="evento-servicio-resumen">Selecciona uno o varios talentos y servicios</summary><div id="evento-servicios-opciones" class="nexo-servicios-opciones"></div></details><input id="evento-servicio" type="hidden"/><small>Selecciona todas las opciones que necesites.</small></div><div class="evento-campo ancho"><label for="evento-descripcion">Comentarios (opcional)</label><textarea id="evento-descripcion" maxlength="3000" placeholder="Cuéntanos si tienes alguna petición especial o información adicional..."></textarea></div>
 <div class="evento-acciones evento-acciones-principales"><button id="evento-guardar" type="submit" value="guardar">Guardar evento</button><button class="secundario" id="evento-cerrar" type="button">Cancelar edición</button><button class="evento-boton" id="evento-cotizar" type="button">Solicitar cotización</button></div>
 </form>
 <div aria-live="polite" class="evento-aviso" id="evento-form-aviso" role="status"></div>
@@ -1038,8 +1046,43 @@ botonFavoritosHeader?.addEventListener('click', () => {
       'Pista de baile','Baños móviles','Producción integral del evento','Producción técnica',
       'Artistas y producción técnica','Organización completa del evento','Otro / No encuentro lo que busco'
     ];
-    const servicioLista=$('evento-servicios-lista');
-    SERVICIOS_NEXO.forEach(nombre=>servicioLista.append(new Option(nombre,nombre)));
+    // Catálogo cerrado: no permite capturar servicios libres.
+    const servicioLista=$('evento-servicios-opciones');
+    SERVICIOS_NEXO.filter(nombre=>nombre!=='Otro / No encuentro lo que busco').forEach(nombre=>{
+      const etiqueta=document.createElement('label');
+      etiqueta.className='nexo-servicio-opcion';
+      const casilla=document.createElement('input');
+      casilla.type='checkbox';casilla.name='evento-servicios';casilla.value=nombre;
+      casilla.addEventListener('change',sincronizarServicios);
+      const texto=document.createElement('span');texto.textContent=nombre;
+      etiqueta.append(casilla,texto);servicioLista.append(etiqueta);
+    });
+    function sincronizarServicios(){
+      const elegidos=[...document.querySelectorAll('input[name="evento-servicios"]:checked')].map(c=>c.value);
+      $('evento-servicio').value=elegidos.join(', ');
+      $('evento-servicio-resumen').textContent=elegidos.length?elegidos.join(' · '):'Selecciona uno o varios talentos y servicios';
+      return elegidos;
+    }
+    function cargarServicios(valor){
+      const nombres=String(valor||'').split(',').map(x=>x.trim());
+      document.querySelectorAll('input[name="evento-servicios"]').forEach(c=>c.checked=nombres.includes(c.value));
+      sincronizarServicios();
+    }
+    const PRESUPUESTOS_NEXO={'9999':'Menos de $10,000','10000':'$10,000 – $25,000','25000':'$25,000 – $50,000','50000':'$50,000 – $100,000','100000':'$100,000 – $250,000','250001':'Más de $250,000'};
+    function etiquetaPresupuesto(valor){return PRESUPUESTOS_NEXO[String(valor)]||Number(valor).toLocaleString('es-MX',{style:'currency',currency:'MXN'});}
+    // Los rangos se almacenan en la columna numérica existente usando valores de referencia.
+    // Los presupuestos antiguos conservan su cifra exacta y se muestran como importe.
+    function presupuestoAlEditar(valor){
+      if(valor==null)return '';
+      const n=Number(valor);
+      if(PRESUPUESTOS_NEXO[String(n)])return String(n);
+      if(n<10000)return '9999';
+      if(n<25000)return '10000';
+      if(n<50000)return '25000';
+      if(n<100000)return '50000';
+      if(n<=250000)return '100000';
+      return '250001';
+    }
     function actualizarTipoOtro(){
       const otro=$('evento-tipo').value==='Otro';
       $('evento-tipo-otro-campo').hidden=!otro;
@@ -1070,15 +1113,13 @@ botonFavoritosHeader?.addEventListener('click', () => {
     }
     [horaSelect,minutosSelect,periodoSelect].forEach(control=>control.addEventListener('change',sincronizarHorario));
 
-    function dineroEvento(valor){
-      const n=String(valor??'').replace(/[^0-9]/g,'');
-      return n?'$'+Number(n).toLocaleString('es-MX',{maximumFractionDigits:0}):'';
-    }
-    $('evento-presupuesto').addEventListener('input',e=>{e.target.value=dineroEvento(e.target.value)});
+
     function abrirEditorEvento(evento=null){
       eventoEditando=evento?.id || null;
       $('evento-form').reset();
       cargarHorario(null);
+      cargarServicios('');
+      $('evento-servicio-selector').open=false;
       $('evento-form-titulo').textContent=evento?'Editar evento':'Nuevo evento';
       if(evento){
         for(const campo of ['nombre','fecha','ciudad','invitados','descripcion'])
@@ -1088,14 +1129,14 @@ botonFavoritosHeader?.addEventListener('click', () => {
         actualizarTipoOtro();
         if(esOtro)$('evento-tipo-otro').value=evento.tipo;
         cargarHorario(evento.horario);
-        $('evento-presupuesto').value=dineroEvento(evento.presupuesto);
-        $('evento-servicio').value=evento.servicio_solicitado||'';
+        $('evento-presupuesto').value=presupuestoAlEditar(evento.presupuesto);
+        cargarServicios(evento.servicio_solicitado);
       }else actualizarTipoOtro();
       eventoMensaje('evento-form-aviso','');
       $('evento-editor').hidden=false;
       $('evento-editor').scrollIntoView({behavior:'smooth',block:'start'});
     }
-    function cerrarEditorEvento(){$('evento-editor').hidden=true;eventoEditando=null;$('evento-form').reset();cargarHorario(null);actualizarTipoOtro()}
+    function cerrarEditorEvento(){$('evento-editor').hidden=true;eventoEditando=null;$('evento-form').reset();cargarServicios('');cargarHorario(null);actualizarTipoOtro()}
     async function cargarEventos(){
       if(!nexoCliente||!nexoUsuario)return;
       const lista=$('evento-lista');lista.replaceChildren();
@@ -1115,7 +1156,7 @@ botonFavoritosHeader?.addEventListener('click', () => {
         const h=document.createElement('h3');h.textContent=evento.nombre;
         const estado=document.createElement('span');estado.className='evento-etiqueta';estado.textContent=({planeacion:'En planeación',confirmado:'Confirmado',finalizado:'Finalizado',cancelado:'Cancelado'})[evento.estado]||evento.estado;
         const info=document.createElement('p');info.textContent=[evento.tipo,evento.fecha,evento.horario?.slice(0,5),evento.ciudad].filter(Boolean).join(' · ');
-        const detalles=document.createElement('p');detalles.textContent=[evento.servicio_solicitado,evento.invitados!=null?evento.invitados+' invitados':null,evento.presupuesto!=null?Number(evento.presupuesto).toLocaleString('es-MX',{style:'currency',currency:'MXN'}):null].filter(Boolean).join(' · ');
+        const detalles=document.createElement('p');detalles.textContent=[evento.servicio_solicitado,evento.invitados!=null?evento.invitados+' invitados':null,evento.presupuesto!=null?etiquetaPresupuesto(evento.presupuesto):null].filter(Boolean).join(' · ');
         item.append(h,estado,info,detalles);
         if(evento.descripcion){const d=document.createElement('p');d.textContent=evento.descripcion;item.append(d)}
         if(evento.estado!=='cancelado'){
@@ -1198,15 +1239,15 @@ botonFavoritosHeader?.addEventListener('click', () => {
       if((horaSelect.value&&!minutosSelect.value)||(!horaSelect.value&&minutosSelect.value)){eventoMensaje('evento-form-aviso','Selecciona tanto la hora como los minutos, o deja ambos vacíos.',true);return;}
       if(!$('evento-form').reportValidity())return;
       const tipo=$('evento-tipo').value==='Otro'?eventoValor('evento-tipo-otro'):eventoValor('evento-tipo');
-      const servicio=eventoValor('evento-servicio');
-      const presupuesto=eventoValor('evento-presupuesto').replace(/[^0-9]/g,'');
+      const servicio=sincronizarServicios().join(', ');
+      const presupuesto=eventoValor('evento-presupuesto');
       const datos={nombre:eventoValor('evento-nombre'),tipo,fecha:eventoValor('evento-fecha'),
         horario:eventoValor('evento-horario')||null,ciudad:eventoValor('evento-ciudad'),
         direccion:null,invitados:eventoValor('evento-invitados')===''?null:Number(eventoValor('evento-invitados')),
         presupuesto:presupuesto===''?null:Number(presupuesto),descripcion:eventoValor('evento-descripcion')||null,
         servicio_solicitado:servicio||null,actualizado_en:new Date().toISOString()};
-      if(!datos.nombre||!datos.tipo||!datos.fecha||!datos.ciudad){eventoMensaje('evento-form-aviso','Completa los campos obligatorios.',true);return}
-      if(solicitar&&!servicio){eventoMensaje('evento-form-aviso','Selecciona el talento o servicio solicitado.',true);$('evento-servicio').focus();return}
+      if(!datos.nombre||!datos.tipo||!datos.fecha||!datos.ciudad||!presupuesto){eventoMensaje('evento-form-aviso','Completa los campos obligatorios.',true);return}
+      if(!servicio){eventoMensaje('evento-form-aviso','Selecciona al menos un talento o servicio.',true);$('evento-servicio-selector').open=true;$('evento-servicio-selector').scrollIntoView({behavior:'smooth',block:'center'});return}
       const botones=[$('evento-guardar'),$('evento-cotizar')];botones.forEach(b=>b.disabled=true);
       eventoMensaje('evento-form-aviso',solicitar?'Guardando y solicitando cotización...':'Guardando evento...');
       try{

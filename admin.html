@@ -241,6 +241,18 @@ label { font-size: 13px; font-weight: 600; }
 .burbuja small { color:#65518e; font-weight:700; }
 .burbuja p { margin:8px 0 0; white-space:pre-wrap; overflow-wrap:anywhere; }
 @media(max-width:560px) { .detalle-grid { grid-template-columns:1fr; } .burbuja { max-width:95%; } }
+
+:root{--morado:#6843e9;--fondo:#f6f6fa;--borde:#e7e5ee}
+main{max-width:1240px;position:relative;padding-top:40px;min-height:650px}
+main>h1,main>.subtitle,main>.section,main>#system-message{margin-left:256px}
+.tabs{position:absolute;top:40px;left:24px;width:230px;display:flex;flex-direction:column;background:#fff;padding:16px;border:1px solid var(--borde);border-radius:16px}
+.tabs button{text-align:left;border:0;background:transparent;padding:16px 14px}
+.tabs button.active{background:#eee9ff;color:#5133c6}
+h1{font-size:34px}.card,.panel{border-radius:16px}.card{padding:25px 20px}.card .number{font-size:36px}
+.btn.secondary{background:#f0ebff;color:#5236bd}.btn.danger{background:#fff0f0;color:#b42335;border:1px solid #f4cbd0}
+.actions{display:flex;gap:8px;flex-wrap:wrap}.btn:disabled{opacity:.5;cursor:wait}
+@media(max-width:800px){.tabs{position:static;width:auto;flex-direction:row;overflow:auto;flex-wrap:nowrap}.tabs button{white-space:nowrap}main>h1,main>.subtitle,main>.section,main>#system-message{margin-left:0}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.stats{grid-template-columns:1fr}}
 </style>
 </head>
 
@@ -733,6 +745,49 @@ document.getElementById('logout').addEventListener(
     window.location.href = 'pages/login.html';
   }
 );
+
+function botonesGestion(tipo,id){
+ return '<div class="actions">'+(tipo==='cotizaciones'?'<button class="btn secondary" data-operacion="visto" data-tipo="'+tipo+'" data-id="'+escapar(id)+'">Marcar como visto</button><button class="btn secondary" data-operacion="finalizado" data-tipo="'+tipo+'" data-id="'+escapar(id)+'">Finalizar</button>':'')+'<button class="btn danger" data-operacion="eliminar" data-tipo="'+tipo+'" data-id="'+escapar(id)+'">Eliminar</button></div>';
+}
+const renderOriginal=renderizar;
+renderizar=function(){
+ renderOriginal();
+ ['recientes','lista-cotizaciones'].forEach(target=>{
+ const records=target==='recientes'?cotizaciones.slice(0,5):cotizaciones;
+ document.querySelectorAll('#'+target+' tbody tr').forEach((row,index)=>{
+ const c=records[index];if(!c)return;
+ const cell=row.cells[row.cells.length-1];cell.insertAdjacentHTML('beforeend',botonesGestion('cotizaciones',c.id));
+ });
+ });
+ const table=document.querySelector('#lista-eventos table');
+ if(table){table.tHead.rows[0].insertAdjacentHTML('beforeend','<th>Acción</th>');
+ Array.from(table.tBodies[0].rows).forEach((row,index)=>row.insertCell().innerHTML=botonesGestion('eventos',eventos[index].id));}
+};
+let operacionPendiente=false;
+document.addEventListener('click',async event=>{
+ const button=event.target.closest('[data-operacion]');if(!button||operacionPendiente)return;
+ const tipo=button.dataset.tipo,id=button.dataset.id,action=button.dataset.operacion;
+ if(!['cotizaciones','eventos'].includes(tipo))return;
+ const record=(tipo==='cotizaciones'?cotizaciones:eventos).find(r=>String(r.id)===id);if(!record)return;
+ if(action==='eliminar'&&!window.confirm('¿Eliminar este registro de NEXO? Se eliminará de la base de datos. Esta acción no se puede deshacer.'))return;
+ if(action==='finalizado'&&!window.confirm('¿Marcar esta cotización como finalizada?'))return;
+ operacionPendiente=true;button.disabled=true;
+ try{
+  const auth=await db.auth.getUser();if(auth.error||!auth.data.user)throw new Error('La sesión expiró. Inicia sesión otra vez.');
+  let request;
+  if(action==='eliminar')request=db.from(tipo).delete().eq('id',record.id).select('id');
+  else if(tipo==='cotizaciones'&&['visto','finalizado'].includes(action))request=db.from(tipo).update({estado:action}).eq('id',record.id).select('id');
+  else throw new Error('Acción no disponible.');
+  const result=await request;if(result.error)throw result.error;
+  if(result.data?.length!==1)throw new Error('No se confirmó el cambio. Revisa los permisos administrativos en Supabase.');
+  if(String(cotizacionActualId)===id&&(action==='eliminar'||tipo==='cotizaciones')){
+    cotizacionActualId=null;document.getElementById('detalle-cotizacion').hidden=true;
+  }
+  await cargarDatos();
+  const status=document.getElementById('system-message');status.className='message';status.textContent=action==='eliminar'?'Registro eliminado.':'Estado actualizado: '+action+'.';
+ }catch(error){mostrarError('No se pudo guardar el cambio: '+error.message+' Si Supabase indica permisos o estado no válido, falta ajustar su configuración.');}
+ finally{operacionPendiente=false;button.disabled=false;}
+});
 
 iniciar();
 </script>

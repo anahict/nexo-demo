@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Administración de proveedores | NEXO</title>
+
+    <link rel="stylesheet" href="../estilos.css">
+
+    <style>
+        /* =========================================
+           CONFIGURACIÓN GENERAL
+        ========================================= */
+
+        body {
+            margin: 0;
+            background: #FFFFFF !important;
+            color: #0F0F10;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* =========================================
+           ENCABEZADO Y LOGOTIPO
+        ========================================= */
+
+        .admin-header {
+            background: #0F0F10;
+            padding: 22px 6%;
+            border-bottom: 1px solid #252529;
+        }
+
+        .admin-logo {
+            display: inline-block;
+            color: #FFFFFF !important;
+            text-decoration: none;
+            font-size: 30px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        .admin-logo span {
+            color: #9E8CFF !important;
+        }
+
+        /* =========================================
+           CONTENEDOR
+        ========================================= */
+
+        .admin-contenedor {
+            max-width: 1100px;
+            margin: 60px auto;
+            padding: 0 20px 80px;
+        }
+
+        /* =========================================
+           ENCABEZADO DE PÁGINA
+        ========================================= */
+
+        .admin-encabezado {
+            margin-bottom: 35px;
+        }
+
+        .admin-encabezado h1 {
+            color: #0F0F10;
+            font-size: 36px;
+            margin: 0 0 15px;
+            font-weight: 800;
+        }
+
+        .admin-encabezado p {
+            color: #666666;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* =========================================
+           TARJETAS
+        ========================================= */
+
+        .admin-tarjeta {
+            background: #F8F8FA;
+            border: 1px solid #E8E8ED;
+            border-radius: 18px;
+            padding: 35px;
+            margin-bottom: 20px;
+            color: #0F0F10;
+        }
+
+        .admin-tarjeta h2 {
+            color: #0F0F10;
+            font-size: 25px;
+            margin: 22px 0 12px;
+            font-weight: 800;
+        }
+
+        .admin-tarjeta p {
+            color: #555555;
+            font-size: 15px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        /* =========================================
+           ESTADO DE REVISIÓN
+        ========================================= */
+
+        .admin-estado {
+            display: inline-block;
+            padding: 9px 16px;
+            background: #EEE9FF;
+            color: #6C4CFF;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* =========================================
+           BOTONES
+        ========================================= */
+
+        .admin-acciones {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .admin-boton {
+            padding: 14px 22px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .admin-aprobar {
+            background: #6C4CFF;
+            color: #FFFFFF;
+        }
+
+        .admin-aprobar:hover {
+            background: #5434E8;
+        }
+
+        .admin-corregir {
+            background: #E8E8EB;
+            color: #222222;
+        }
+
+        .admin-corregir:hover {
+            background: #D8D8DD;
+        }
+
+        .admin-rechazar {
+            background: #FCE8E8;
+            color: #A52222;
+        }
+
+        .admin-rechazar:hover {
+            background: #F7D1D1;
+        }
+
+        /* =========================================
+           NOTA INFORMATIVA
+        ========================================= */
+
+        .admin-nota {
+            margin-top: 30px;
+            padding: 22px 25px;
+            border: 1px solid #DDD5FF;
+            border-radius: 12px;
+            background: #F5F2FF;
+        }
+
+        .admin-nota p {
+            color: #555064;
+            font-size: 14px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .admin-nota strong {
+            color: #6C4CFF;
+        }
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 768px) {
+
+            .admin-contenedor {
+                margin: 35px auto;
+            }
+
+            .admin-encabezado h1 {
+                font-size: 28px;
+            }
+
+            .admin-tarjeta {
+                padding: 25px 20px;
+            }
+
+            .admin-tarjeta h2 {
+                font-size: 22px;
+            }
+
+            .admin-acciones {
+                flex-direction: column;
+            }
+
+            .admin-boton {
+                width: 100%;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- ENCABEZADO -->
+
+    <header class="admin-header">
+
+        <a href="../index.html" class="admin-logo">
+            NE<span>XO</span>
+        </a>
+
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+
+    <main class="admin-contenedor">
+
+        <div class="admin-encabezado">
+
+            <h1>Administración de proveedores</h1>
+
+            <p>
+                Revisa las solicitudes de registro antes de
+                autorizar su publicación en NEXO.
+            </p>
+
+        </div>
+
+        <!-- SOLICITUDES -->
+
+        <section id="admin-solicitudes">
+
+            <article class="admin-tarjeta">
+
+                <span class="admin-estado">
+                    Pendiente de revisión
+                </span>
+
+                <h2>Solicitudes de proveedores</h2>
+
+                <p>
+                    Aquí aparecerán los perfiles enviados
+                    para su revisión.
+                </p>
+
+                <div class="admin-acciones">
+
+                    <button
+                        class="admin-boton admin-aprobar"
+                        type="button"
+                    >
+                        Aprobar perfil
+                    </button>
+
+                    <button
+                        class="admin-boton admin-corregir"
+                        type="button"
+                    >
+                        Solicitar correcciones
+                    </button>
+
+                    <button
+                        class="admin-boton admin-rechazar"
+                        type="button"
+                    >
+                        Rechazar perfil
+                    </button>
+
+                </div>
+
+            </article>
+
+        </section>
+
+        <!-- NOTA INFORMATIVA -->
+
+        <div class="admin-nota">
+
+            <p>
+                <strong>Proceso de revisión NEXO:</strong>
+                todas las solicitudes de proveedores deberán
+                ser revisadas antes de su publicación.
+
+                El plazo establecido es de hasta
+                <strong>72 horas naturales</strong>
+                desde el envío de la solicitud.
+
+                La publicación requiere aprobación expresa.
+            </p>
+
+        </div>
+
+    </main>
+	
+	<!-- =====================================
+     FOOTER NEXO
+===================================== -->
+
+<footer class="nexo-footer">
+
+    <div class="nexo-footer-contenedor">
+
+        <div class="nexo-footer-grid">
+
+            <!-- MARCA -->
+            <div class="nexo-footer-marca">
+
+                <a href="../index.html" class="nexo-footer-logo">
+                    NE<span>XO</span>
+                </a>
+
+                <p>
+                    Conectamos talento, entretenimiento y
+                    producción profesional para hacer
+                    realidad experiencias extraordinarias.
+                </p>
+
+                <div class="nexo-footer-redes">
+                    <a href="#" aria-label="Instagram">Instagram ↗</a>
+                    <a href="#" aria-label="Facebook">Facebook ↗</a>
+                </div>
+
+            </div>
+
+            <!-- EXPLORAR -->
+            <div class="nexo-footer-columna">
+
+                <h3>Explorar</h3>
+
+                <a href="artistas.html">Artistas y música</a>
+                <a href="explorar.html?categoria=entretenimiento">Entretenimiento</a>
+                <a href="produccion.html">Producción y servicios</a>
+                <a href="eventos.html">Tipos de evento</a>
+
+            </div>
+
+            <!-- NEXO -->
+            <div class="nexo-footer-columna">
+
+                <h3>NEXO</h3>
+
+                <a href="como-funciona.html">Cómo funciona</a>
+                <a href="proveedores.html">Publica tus servicios</a>
+                <a href="ayuda.html">Centro de ayuda</a>
+                <a href="contacto.html">Contacto</a>
+
+            </div>
+
+            <!-- CONTRATACIÓN -->
+            <div class="nexo-footer-columna">
+
+                <h3>Tu próximo evento</h3>
+
+                <p>
+                    Encuentra artistas y servicios
+                    para crear un evento inolvidable.
+                </p>
+
+                <a href="cotizar.html" class="nexo-footer-boton">
+                    Cotiza tu evento ↗
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="nexo-footer-inferior">
+
+            <p>© 2026 NEXO. Todos los derechos reservados.</p>
+
+            <div>
+                <a href="privacidad.html">Aviso de privacidad</a>
+                <a href="terminos.html">Términos y condiciones</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+</body>
+
+</html>

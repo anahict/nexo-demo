@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cómo funciona | NEXO</title>
+<link rel="stylesheet" href="../estilos.css">
+<style>
+/* Header y menu NEXO: misma estructura de Explorar */
+.header.nexo-header { position:sticky; top:0; z-index:1000; overflow:visible; background:#0f0f10; }
+.nexo-menu-panel { position:fixed !important; top:78px !important; right:24px !important; left:auto !important; width:min(420px,calc(100vw - 32px)) !important; max-height:calc(100vh - 95px); overflow-y:auto; background:#fff; border-radius:18px; padding:24px; box-shadow:0 16px 48px rgba(0,0,0,.25); z-index:10001 !important; pointer-events:auto !important; box-sizing:border-box; }
+.nexo-menu-panel[hidden] {display:none !important;}
+.nexo-menu-contenido {position:relative; pointer-events:auto;}
+.nexo-menu-contenido a {position:relative; display:block; pointer-events:auto; cursor:pointer;}
+.nexo-footer {background:#0f0f10;color:#fff;padding:75px 25px 25px;}
+.nexo-footer-contenedor {max-width:1250px;margin:0 auto;}
+.nexo-footer-grid {display:grid;grid-template-columns:1.5fr 1fr 1fr 1.2fr;gap:45px;align-items:start;}
+.nexo-footer-logo {display:inline-block;color:#fff;font-size:38px;font-weight:900;text-decoration:none;margin-bottom:25px;}
+.nexo-footer-logo span {color:#6c4cff !important;}
+.nexo-footer-marca p,.nexo-footer-columna p {color:#aaa;font-size:14px;line-height:1.8;margin-bottom:15px;}
+.nexo-footer-columna h3 {color:#fff;font-size:17px;font-weight:700;margin-bottom:25px;}
+.nexo-footer-columna>a {display:block;color:#aaa;font-size:14px;text-decoration:none;margin-bottom:16px;transition:color .2s;}
+.nexo-footer-columna>a:hover,.nexo-footer-redes a:hover {color:#6c4cff;}
+.nexo-footer-redes {display:flex;flex-wrap:wrap;gap:18px;}
+.nexo-footer-redes a {color:#aaa;font-size:14px;text-decoration:none;}
+.nexo-footer-columna>.nexo-footer-boton {display:inline-block;background:#6c4cff;color:#fff;padding:13px 22px;border-radius:30px;font-weight:700;margin-top:10px;}
+.nexo-footer-columna>.nexo-footer-boton:hover {background:#5637e8;color:#fff;}
+.nexo-footer-inferior {display:flex;justify-content:space-between;align-items:center;gap:20px;border-top:1px solid #303036;margin-top:55px;padding-top:25px;}
+.nexo-footer-inferior p {color:#888;font-size:13px;}
+.nexo-footer-inferior>div {display:flex;flex-wrap:wrap;gap:20px;}
+.nexo-footer-inferior a {color:#aaa;font-size:13px;text-decoration:none;}
+.nexo-footer-inferior a:hover {color:#6c4cff;}
+@media(max-width:900px){.nexo-footer-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:35px;}}
+@media(max-width:600px){.nexo-footer{padding:50px 20px 25px}.nexo-footer-grid{grid-template-columns:1fr;gap:30px}.nexo-footer-inferior{flex-direction:column;align-items:flex-start}.nexo-menu-panel{top:70px !important;right:12px !important;}}
+</style>
+</head>
+<body>
+<header class="header nexo-header">
+<a class="nexo-logo" href="../index.html">
+<span class="logo-ne">NE</span><span class="logo-xo">XO</span>
+</a>
+<!-- BUSCADOR DEL HEADER -->
+<form action="explorar.html" class="nexo-header-buscador" data-nexo-autocomplete="" method="get">
+<input aria-label="Buscar servicios" autocomplete="off" id="nexo-header-search" name="q" placeholder="Busca artistas, música o servicios..." required="" type="search"/>
+<button aria-label="Buscar" type="submit">
+                ⌕
+            </button>
+</form>
+<div class="nexo-header-acciones">
+<a class="nexo-login nexo-inicio" href="../index.html">Inicio</a>
+<a class="nexo-login" href="login.html">
+                Iniciar sesión
+            </a>
+<a class="nexo-publicar" href="proveedores.html">
+                Publica tus servicios
+            </a>
+<button aria-label="Favoritos" class="nexo-icono" type="button">
+                ♡
+            </button>
+<button aria-controls="nexo-menu" aria-expanded="false" aria-label="Abrir menú" class="nexo-menu-boton" id="nexo-menu-boton" type="button">
+                ☰
+            </button>
+</div>
+</header>
+<nav aria-label="Menú principal" class="nexo-menu-panel" hidden="" id="nexo-menu">
+<div class="nexo-menu-contenido">
+<h2>Explora NEXO</h2>
+<a href="artistas.html">
+                Artistas y música
+            </a>
+<a href="artistas.html?categoria=entretenimiento">
+                Entretenimiento
+            </a>
+
+<a href="explorar.html?q=conferencistas">
+                Conferencistas y conductores
+            </a>
+<a href="produccion.html">
+                Producción y servicios para eventos
+            </a>
+<hr/>
+<a href="../index.html">Inicio</a>
+<a href="explorar.html">Explorar</a>
+<a href="eventos.html">Tipos de evento</a>
+<a href="como-funciona.html">Cómo funciona</a>
+<a href="proveedores.html">Publica tus servicios</a>
+<a href="login.html">Iniciar sesión</a>
+<a class="nexo-menu-cotizar" href="cotizar.html">
+                Cotiza tu evento
+            </a>
+</div>
+</nav>
+
+<main>
+
+        <section class="como-funciona-hero">
+
+            <div class="como-funciona-hero-contenido">
+
+                <p class="seccion-etiqueta">
+                    CÓMO FUNCIONA
+                </p>
+
+                <h1>
+                    Organizar tu evento puede ser mucho más simple.
+                </h1>
+
+                <p class="como-funciona-hero-texto">
+                    Encuentra talento, compara opciones y solicita propuestas
+                    desde un solo lugar.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section class="como-funciona-pasos">
+
+            <div class="como-funciona-pasos-contenido">
+
+                <p class="seccion-etiqueta">
+                    PASO A PASO
+                </p>
+
+                <h2>
+                    De la idea a la contratación
+                </h2>
+
+                <div class="como-funciona-pasos-grid">
+
+                    <article class="como-funciona-paso-card">
+                        <span>01</span>
+                        <h3>Busca</h3>
+                        <p>
+                            Explora artistas, entretenimiento y servicios
+                            de producción según lo que necesitas.
+                        </p>
+                    </article>
+
+                    <article class="como-funciona-paso-card">
+                        <span>02</span>
+                        <h3>Compara</h3>
+                        <p>
+                            Revisa perfiles, opciones, categorías
+                            y formatos disponibles.
+                        </p>
+                    </article>
+
+                    <article class="como-funciona-paso-card">
+                        <span>03</span>
+                        <h3>Solicita propuestas</h3>
+                        <p>
+                            Comparte fecha, ciudad, tipo de evento
+                            y presupuesto estimado.
+                        </p>
+                    </article>
+
+                    <article class="como-funciona-paso-card">
+                        <span>04</span>
+                        <h3>Contrata</h3>
+                        <p>
+                            Elige la opción que mejor se adapte
+                            a tu evento y continúa con la contratación.
+                        </p>
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+		
+		<section class="como-funciona-proveedor">
+
+    <div class="como-funciona-proveedor-contenido">
+
+        <div class="como-funciona-proveedor-texto">
+
+            <p class="seccion-etiqueta">
+                PARA PROVEEDORES
+            </p>
+
+            <h2>
+                Publica tus servicios y conecta con nuevos clientes.
+            </h2>
+
+            <p>
+                Si eres artista, DJ, proveedor técnico, productor,
+                conferencista o brindas servicios para eventos,
+                puedes crear un perfil y mostrar lo que ofreces dentro de NEXO.
+            </p>
+
+            <a href="proveedores.html" class="perfil-btn-principal">
+                Publica tus servicios
+            </a>
+
+        </div>
+
+
+        <div class="como-funciona-proveedor-pasos">
+
+            <div class="proveedor-paso">
+                <span>01</span>
+
+                <div>
+                    <h3>Crea tu perfil</h3>
+                    <p>
+                        Agrega información sobre tu servicio,
+                        experiencia, ubicación y especialidad.
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="proveedor-paso">
+                <span>02</span>
+
+                <div>
+                    <h3>Muestra tu trabajo</h3>
+                    <p>
+                        Publica fotos, videos, formatos disponibles
+                        y detalles de tus servicios.
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="proveedor-paso">
+                <span>03</span>
+
+                <div>
+                    <h3>Recibe solicitudes</h3>
+                    <p>
+                        Conecta con clientes que estén buscando
+                        servicios como los tuyos.
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="proveedor-paso">
+                <span>04</span>
+
+                <div>
+                    <h3>Envía propuestas</h3>
+                    <p>
+                        Responde solicitudes y continúa
+                        el proceso de contratación.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+		
+		<section class="cta-cotiza">
+
+    <div class="cta-cotiza-contenido">
+
+        <p class="seccion-etiqueta">
+            EMPIEZA AQUÍ
+        </p>
+
+        <h2>
+            Encuentra lo que necesitas para tu evento.
+        </h2>
+
+        <p>
+            Explora opciones, compara servicios y solicita propuestas
+            desde un solo lugar.
+        </p>
+
+        <a href="explorar.html" class="cta-boton">
+            Explorar NEXO
+        </a>
+
+    </div>
+
+</section>
+
+    </main>
+<footer class="nexo-footer">
+<div class="nexo-footer-contenedor">
+<div class="nexo-footer-grid">
+<!-- MARCA -->
+<div class="nexo-footer-marca">
+<a class="nexo-footer-logo" href="../index.html">
+                    NE<span>XO</span>
+</a>
+<p>
+                    Conectamos talento, entretenimiento y
+                    producción profesional para hacer
+                    realidad experiencias extraordinarias.
+                </p>
+<div class="nexo-footer-redes">
+<a aria-label="Instagram" href="#">Instagram ↗</a>
+<a aria-label="Facebook" href="#">Facebook ↗</a>
+</div>
+</div>
+<!-- EXPLORAR -->
+<div class="nexo-footer-columna">
+<h3>Explorar</h3>
+<a href="artistas.html">Artistas y música</a>
+<a href="artistas.html?categoria=entretenimiento">Entretenimiento</a>
+<a href="produccion.html">Producción y servicios</a>
+<a href="eventos.html">Tipos de evento</a>
+</div>
+<!-- NEXO -->
+<div class="nexo-footer-columna">
+<h3>NEXO</h3>
+<a href="como-funciona.html">Cómo funciona</a>
+<a href="proveedores.html">Publica tus servicios</a>
+<a href="ayuda.html">Centro de ayuda</a>
+<a href="contacto.html">Contacto</a>
+</div>
+<!-- CONTRATACIÓN -->
+<div class="nexo-footer-columna">
+<h3>Tu próximo evento</h3>
+<p>
+                    Encuentra artistas y servicios
+                    para crear un evento inolvidable.
+                </p>
+<a class="nexo-footer-boton" href="cotizar.html">
+                    Cotiza tu evento ↗
+                </a>
+</div>
+</div>
+<div class="nexo-footer-inferior">
+<p>© 2026 NEXO. Todos los derechos reservados.</p>
+<div>
+<a href="privacidad.html">Aviso de privacidad</a>
+<a href="terminos.html">Términos y condiciones</a>
+</div>
+</div>
+</div>
+</footer>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const btn = document.getElementById('nexo-menu-boton');
+  const panel = document.getElementById('nexo-menu');
+  if (!btn || !panel) return;
+  function closeMenu() { panel.hidden=true; btn.setAttribute('aria-expanded','false'); btn.setAttribute('aria-label','Abrir menú'); }
+  btn.addEventListener('click', function(e) { e.stopPropagation(); const opening=panel.hidden; panel.hidden=!opening; btn.setAttribute('aria-expanded',String(opening)); btn.setAttribute('aria-label',opening?'Cerrar menú':'Abrir menú'); });
+  document.addEventListener('click', function(e) { if(!panel.hidden && !panel.contains(e.target) && !btn.contains(e.target)) closeMenu(); });
+  document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeMenu(); });
+});
+</script>
+</body>
+</html>

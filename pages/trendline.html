@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Trendline | NEXO</title>
+
+  <link rel="stylesheet" href="../estilos.css">
+
+  <style>
+
+    /* ==============================
+       CONFIGURACIÓN GENERAL
+    ============================== */
+
+    :root {
+      --nexo-morado: #6C4CFF;
+      --nexo-negro: #0F0F10;
+      --nexo-texto: #17151F;
+      --nexo-gris: #666;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: #fff;
+      color: var(--nexo-texto);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    /* ==============================
+       HEADER Y LOGOTIPO NEXO
+    ============================== */
+
+    .header {
+      background: var(--nexo-negro);
+      min-height: 80px;
+      padding: 16px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .logo {
+      color: #fff !important;
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      white-space: nowrap;
+    }
+
+    .logo .logo-x {
+      color: var(--nexo-morado) !important;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .nav a,
+    .header-actions a {
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav a:hover {
+      color: #B6A8FF;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .btn-cotizar,
+    .btn-principal {
+      background: var(--nexo-morado);
+      color: #fff !important;
+      padding: 15px 26px;
+      border-radius: 30px;
+      font-weight: 700;
+      display: inline-block;
+      text-align: center;
+      transition: background .2s;
+    }
+
+    .btn-cotizar:hover,
+    .btn-principal:hover {
+      background: #5838E8;
+    }
+
+    /* ==============================
+       BANNER PRINCIPAL
+    ============================== */
+
+    .perfil-hero {
+      position: relative;
+      min-height: 620px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background: #10101A;
+      color: #fff;
+    }
+
+    .perfil-hero-imagen {
+      position: absolute;
+      inset: 0;
+    }
+
+    .perfil-hero-imagen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+    }
+
+    .perfil-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg,
+        rgba(10, 8, 25, .94) 0%,
+        rgba(10, 8, 25, .70) 35%,
+        rgba(10, 8, 25, .12) 75%
+      );
+    }
+
+    .perfil-hero-contenido {
+      position: relative;
+      z-index: 2;
+      width: min(1200px, 90%);
+      margin: auto;
+      padding: 90px 0;
+    }
+
+    .etiqueta {
+      color: #A995FF;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .perfil-hero h1 {
+      font-size: clamp(46px, 6vw, 78px);
+      margin: 18px 0;
+      line-height: 1.05;
+      color: #fff;
+    }
+
+    .perfil-hero p {
+      max-width: 580px;
+      font-size: 19px;
+      line-height: 1.7;
+      margin-bottom: 35px;
+      color: #f1f1f1;
+    }
+
+    /* ==============================
+       CONTENIDO PRINCIPAL
+    ============================== */
+
+    .perfil-main {
+      background: #fff;
+      padding: 65px 5% 100px;
+    }
+
+    .perfil-container {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .perfil-datos {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      background: #fff;
+      border: 1px solid #E6E6E6;
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, .04);
+      margin-bottom: 65px;
+    }
+
+    .perfil-datos > div:not(:last-child) {
+      border-right: 1px solid #EAEAEA;
+    }
+
+    .perfil-datos small {
+      color: #777;
+      display: block;
+      margin-bottom: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .perfil-datos strong {
+      font-size: 16px;
+    }
+
+    .perfil-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(290px, 1fr);
+      gap: 55px;
+      align-items: start;
+    }
+
+    .perfil-seccion {
+      margin-bottom: 65px;
+    }
+
+    .perfil-seccion h2 {
+      font-size: 30px;
+      margin: 12px 0 25px;
+      color: #17151F;
+    }
+
+    .perfil-seccion p,
+    .perfil-seccion li {
+      color: #555;
+      line-height: 1.85;
+      font-size: 16px;
+    }
+
+    /* ==============================
+       GALERÍA
+    ============================== */
+
+    .galeria-principal {
+      height: 460px;
+      background: #17141F;
+      border-radius: 18px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .galeria-principal img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .galeria-control {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 42px;
+      height: 42px;
+      border: none;
+      border-radius: 50%;
+      background: #fff;
+      color: #17151F;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .galeria-control.anterior {
+      left: 15px;
+    }
+
+    .galeria-control.siguiente {
+      right: 15px;
+    }
+
+    .galeria-miniaturas {
+      display: flex;
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .galeria-miniaturas button {
+      padding: 0;
+      border: 2px solid var(--nexo-morado);
+      border-radius: 10px;
+      overflow: hidden;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .galeria-miniaturas img {
+      width: 90px;
+      height: 65px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .galeria-nota {
+      font-size: 13px !important;
+      color: #777 !important;
+      margin-top: 12px;
+    }
+
+    /* ==============================
+       VIDEOS
+    ============================== */
+
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .video-card {
+      border: 1px solid #EAEAEA;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .video-card iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 0;
+    }
+
+    .video-card h3 {
+      margin: 16px;
+      font-size: 16px;
+    }
+
+    /* ==============================
+       FORMATOS DE SHOW
+    ============================== */
+
+    .shows-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .show-card {
+      border: 1px solid #E8E8E8;
+      border-radius: 18px;
+      padding: 26px;
+      background: #fff;
+    }
+
+    .show-card span {
+      display: inline-block;
+      color: var(--nexo-morado);
+      background: #F0EBFF;
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .show-card h3 {
+      font-size: 22px;
+      margin: 20px 0 10px;
+    }
+
+    .show-card ul {
+      padding-left: 20px;
+    }
+
+    /* ==============================
+       COLUMNA DERECHA
+    ============================== */
+
+    .perfil-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      position: sticky;
+      top: 20px;
+    }
+
+    .sidebar-card {
+      background: #fff;
+      border: 1px solid #E7E7E7;
+      border-radius: 20px;
+      padding: 30px;
+    }
+
+    .artista-card {
+      text-align: center;
+    }
+
+  .artista-avatar {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  margin: 0 auto 18px;
+  background-color: #17114B;
+}
+
+    .artista-card h2 {
+      margin: 0 0 10px;
+      font-size: 24px;
+    }
+
+    .artista-card p {
+      color: #777;
+      margin-bottom: 25px;
+    }
+
+    .artista-card .btn-principal {
+      display: block;
+      width: 100%;
+    }
+
+    .btn-favoritos {
+      width: 100%;
+      padding: 14px;
+      margin-top: 12px;
+      border: 1px solid var(--nexo-morado);
+      border-radius: 30px;
+      background: #fff;
+      color: var(--nexo-morado);
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .btn-favoritos[aria-pressed="true"] {
+      background: #F0EBFF;
+    }
+
+    .redes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .redes-grid a {
+      padding: 14px 8px;
+      background: #F3F0FF;
+      color: var(--nexo-morado);
+      border-radius: 10px;
+      font-weight: 700;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .redes-grid a:hover {
+      background: #E8E0FF;
+    }
+
+    /* ==============================
+       CONTRATACIÓN
+    ============================== */
+
+    .perfil-cta {
+      background: #17141F;
+      color: #fff;
+      border-radius: 22px;
+      padding: 38px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 25px;
+      margin-top: 35px;
+    }
+
+    .perfil-cta h2 {
+      color: #fff;
+      margin: 0 0 12px;
+    }
+
+    .perfil-cta p {
+      color: #ddd;
+      margin: 0;
+    }
+
+    /* ==============================
+       FOOTER
+    ============================== */
+
+    .footer {
+      background: #09090B;
+      color: #fff;
+      padding: 65px 5% 25px;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 45px;
+      padding-bottom: 50px;
+    }
+
+    .footer h3 {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .footer p {
+      color: #AAA;
+      line-height: 1.8;
+      max-width: 350px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .footer-links a {
+      color: #BBB;
+      font-size: 14px;
+    }
+
+    .footer-links a:hover {
+      color: #A995FF;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #292929;
+      padding-top: 25px;
+      color: #888;
+      font-size: 13px;
+    }
+
+    /* ==============================
+       RESPONSIVE
+    ============================== */
+
+    @media (max-width: 950px) {
+
+      .header {
+        flex-wrap: wrap;
+      }
+
+      .nav {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .perfil-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .perfil-sidebar {
+        position: static;
+      }
+
+      .perfil-hero {
+        min-height: 520px;
+      }
+
+    }
+
+    @media (max-width: 600px) {
+
+      .header {
+        padding: 18px 5%;
+      }
+
+      .logo {
+        font-size: 27px;
+      }
+
+      .header-actions {
+        gap: 10px;
+      }
+
+      .header-actions .btn-cotizar {
+        padding: 11px 14px;
+        font-size: 12px;
+      }
+
+      .nav {
+        gap: 15px;
+      }
+
+      .nav a {
+        font-size: 12px;
+      }
+
+      .perfil-hero {
+        min-height: 540px;
+      }
+
+      .perfil-hero-imagen img {
+        object-position: 65% center;
+      }
+
+      .perfil-hero-overlay {
+        background: linear-gradient(
+          90deg,
+          rgba(10, 8, 25, .94),
+          rgba(10, 8, 25, .55)
+        );
+      }
+
+      .perfil-hero h1 {
+        font-size: 48px;
+      }
+
+      .perfil-hero p {
+        font-size: 16px;
+      }
+
+      .perfil-datos {
+        grid-template-columns: 1fr;
+      }
+
+      .perfil-datos > div:not(:last-child) {
+        border-right: 0;
+        border-bottom: 1px solid #EAEAEA;
+        padding-bottom: 18px;
+      }
+
+      .videos-grid,
+      .shows-grid,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .galeria-principal {
+        height: 300px;
+      }
+
+      .perfil-cta {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+    }
+	  
+	  /* ==========================================
+   NEXO - ARTISTAS RELACIONADOS
+========================================== */
+
+#nexo-recomendaciones {
+    background: #f7f5fc;
+    padding: 70px 5%;
+    width: 100%;
+}
+
+.nexo-recomendaciones-contenido {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nexo-recomendaciones-etiqueta {
+    display: block;
+    color: #6c4cff;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+#nexo-recomendaciones h2 {
+    color: #17151f;
+    font-size: 32px;
+    font-weight: 800;
+    margin: 0 0 30px;
+}
+
+.nexo-recomendaciones-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 25px;
+}
+
+a.nexo-recomendacion-card {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e8e4f0;
+    border-radius: 18px;
+    text-decoration: none;
+    color: #17151f;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+a.nexo-recomendacion-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+a.nexo-recomendacion-card img {
+    display: block;
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    object-position: center 30%;
+}
+
+.nexo-recomendacion-info {
+    padding: 20px;
+}
+
+.nexo-recomendacion-info h3 {
+    color: #17151f;
+    font-size: 19px;
+    font-weight: 800;
+    margin: 0 0 8px;
+}
+
+.nexo-recomendacion-info p {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* TABLET */
+
+@media (max-width: 900px) {
+    .nexo-recomendaciones-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* MÓVIL */
+
+@media (max-width: 600px) {
+    #nexo-recomendaciones {
+        padding: 45px 20px;
+    }
+
+    #nexo-recomendaciones h2 {
+        font-size: 26px;
+    }
+
+    .nexo-recomendaciones-grid {
+        grid-template-columns: 1fr;
+    }
+
+    a.nexo-recomendacion-card img {
+        height: 210px;
+    }
+}
+
+  </style>
+</head>
+
+<body data-artista="trendline">
+
+  <!-- ==============================
+       HEADER
+  ============================== -->
+
+  <header class="header">
+
+    <a href="../index.html" class="logo">
+      NE<span class="logo-x">X</span>O
+    </a>
+
+    <nav class="nav">
+
+      <a href="explorar.html">
+        Explorar
+      </a>
+
+      <a href="eventos.html">
+        Tipos de evento
+      </a>
+
+      <a href="como-funciona.html">
+        Cómo funciona
+      </a>
+
+      <a href="proveedores.html">
+        Publica tus servicios
+      </a>
+
+    </nav>
+
+    <div class="header-actions">
+
+      <a href="login.html">
+        Iniciar sesión
+      </a>
+
+      <a href="cotizar.html" class="btn-cotizar">
+        Cotiza tu evento
+      </a>
+
+    </div>
+
+  </header>
+
+
+  <!-- ==============================
+       BANNER TRENDLINE
+  ============================== -->
+
+  <section class="perfil-hero">
+
+    <div class="perfil-hero-imagen">
+
+      <img
+        src="../assets/images/trendline-portada.png"
+        alt="Trendline - Tour Utopía"
+      >
+
+    </div>
+
+    <div class="perfil-hero-overlay"></div>
+
+    <div class="perfil-hero-contenido">
+
+      <span class="etiqueta">
+        MÚSICA EN VIVO · POP · ROCK · COVERS
+      </span>
+
+      <h1>Trendline</h1>
+
+      <p>
+        Vive la experiencia Tour Utopía:
+        un espectáculo musical lleno de energía,
+        grandes éxitos y entretenimiento en vivo.
+      </p>
+
+      <a
+        href="cotizar.html?artista=trendline"
+        class="btn-principal"
+      >
+        Solicitar cotización
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- ==============================
+       CONTENIDO PRINCIPAL
+  ============================== -->
+
+  <main class="perfil-main">
+
+    <div class="perfil-container">
+
+      <!-- INFORMACIÓN RÁPIDA -->
+
+      <div class="perfil-datos">
+
+        <div>
+
+          <small>CATEGORÍA</small>
+
+          <strong>
+            Banda de covers
+          </strong>
+
+        </div>
+
+        <div>
+
+          <small>ESPECTÁCULOS</small>
+
+          <strong>
+            Tour Utopía · Show en vivo
+          </strong>
+
+        </div>
+
+        <div>
+
+          <small>DISPONIBILIDAD</small>
+
+          <strong>
+            Sujeta a confirmación
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <div class="perfil-grid">
+
+        <!-- ==============================
+             COLUMNA IZQUIERDA
+        ============================== -->
+
+        <div class="perfil-contenido">
+
+
+          <!-- GALERÍA -->
+
+          <section class="perfil-seccion" id="galeria">
+
+            <span class="etiqueta">
+              MULTIMEDIA
+            </span>
+
+            <h2>Galería de fotografías</h2>
+
+            <div class="galeria-principal">
+
+              <button
+                class="galeria-control anterior"
+                type="button"
+                aria-label="Fotografía anterior"
+                onclick="cambiarFoto(-1)"
+              >
+                &#10094;
+              </button>
+
+              <img
+                id="foto-principal"
+                src="../assets/images/trendline-portada.png"
+                alt="Fotografía de Trendline"
+              >
+
+              <button
+                class="galeria-control siguiente"
+                type="button"
+                aria-label="Fotografía siguiente"
+                onclick="cambiarFoto(1)"
+              >
+                &#10095;
+              </button>
+
+            </div>
+
+            <div class="galeria-miniaturas" id="miniaturas">
+
+              <button
+                type="button"
+                onclick="mostrarFoto(0)"
+                aria-label="Ver fotografía de Trendline"
+              >
+
+                <img
+                  src="../assets/images/trendline-portada.png"
+                  alt="Trendline"
+                >
+
+              </button>
+
+            </div>
+
+            <p class="galeria-nota">
+              Próximamente agregaremos más fotografías
+              de sus presentaciones.
+            </p>
+
+          </section>
+
+
+          <!-- VIDEOS -->
+
+          <section class="perfil-seccion" id="videos">
+
+            <span class="etiqueta">
+              VIDEOS
+            </span>
+
+            <h2>Trendline en acción</h2>
+
+            <div class="videos-grid">
+
+              <div class="video-card">
+
+                <iframe
+                  src="https://www.youtube.com/embed/QER34njjZ4U"
+                  title="Trendline - Show completo"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen>
+                </iframe>
+
+                <h3>
+                  Show completo
+                </h3>
+
+              </div>
+
+              <div class="video-card">
+
+                <iframe
+                  src="https://www.youtube.com/embed/lOGAVUdGW5E"
+                  title="Trendline - Show virtual"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen>
+                </iframe>
+
+                <h3>
+                  Show virtual
+                </h3>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- SOBRE TRENDLINE -->
+
+          <section class="perfil-seccion">
+
+            <span class="etiqueta">
+              SOBRE EL ARTISTA
+            </span>
+
+            <h2>Conoce a Trendline</h2>
+
+            <p>
+              Trendline es una banda de covers que ofrece
+              un espectáculo musical dinámico, combinando
+              grandes éxitos del pop y rock con una
+              producción visual diseñada para crear
+              una experiencia memorable.
+            </p>
+
+            <p>
+              Su propuesta Tour Utopía integra música
+              en vivo, energía escénica e interacción
+              con el público, creando una experiencia
+              de entretenimiento ideal para diferentes
+              tipos de eventos.
+            </p>
+
+          </section>
+
+
+          <!-- FORMATOS -->
+
+          <section class="perfil-seccion">
+
+            <span class="etiqueta">
+              ESPECTÁCULOS
+            </span>
+
+            <h2>Formatos disponibles</h2>
+
+            <div class="shows-grid">
+
+              <div class="show-card">
+
+                <span>SHOW 01</span>
+
+                <h3>
+                  Tour Utopía
+                </h3>
+
+                <p>
+                  Espectáculo musical en vivo
+                  con producción escénica
+                  y grandes éxitos.
+                </p>
+
+                <ul>
+
+                  <li>
+                    Duración: 120 minutos
+                  </li>
+
+                  <li>
+                    Banda en vivo
+                  </li>
+
+                  <li>
+                    Repertorio de pop y rock
+                  </li>
+
+                  <li>
+                    Producción audiovisual
+                  </li>
+
+                </ul>
+
+              </div>
+
+
+              <div class="show-card">
+
+                <span>SHOW 02</span>
+
+                <h3>
+                  Show virtual
+                </h3>
+
+                <p>
+                  Formato de espectáculo musical
+                  para experiencias y eventos
+                  virtuales.
+                </p>
+
+                <ul>
+
+                  <li>
+                    Duración: 90 minutos
+                  </li>
+
+                  <li>
+                    Formato virtual
+                  </li>
+
+                  <li>
+                    Transmisión en vivo o pregrabada
+                  </li>
+
+                  <li>
+                    Sujeto a disponibilidad
+                  </li>
+
+                </ul>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- EVENTOS -->
+
+          <section class="perfil-seccion">
+
+            <span class="etiqueta">
+              CONTRATACIÓN
+            </span>
+
+            <h2>Ideal para tu evento</h2>
+
+            <ul>
+
+              <li>
+                Eventos corporativos
+              </li>
+
+              <li>
+                Fiestas privadas
+              </li>
+
+              <li>
+                Festivales
+              </li>
+
+              <li>
+                Celebraciones especiales
+              </li>
+
+              <li>
+                Eventos musicales
+              </li>
+
+            </ul>
+
+          </section>
+
+
+          <!-- REQUISITOS TÉCNICOS -->
+
+          <section class="perfil-seccion">
+
+            <span class="etiqueta">
+              PRODUCCIÓN
+            </span>
+
+            <h2>Requerimientos técnicos</h2>
+
+            <p>
+              Los requerimientos técnicos dependen
+              del formato y las características
+              del evento.
+            </p>
+
+            <ul>
+
+              <li>
+                Escenario adecuado para la presentación
+              </li>
+
+              <li>
+                Sistema profesional de audio
+              </li>
+
+              <li>
+                Iluminación escénica
+              </li>
+
+              <li>
+                Pantallas LED, según producción
+              </li>
+
+              <li>
+                Backline e instrumentos
+              </li>
+
+              <li>
+                Microfonía y monitoreo profesional
+              </li>
+
+            </ul>
+
+            <p>
+              El rider técnico completo se proporciona
+              durante el proceso de contratación.
+            </p>
+
+          </section>
+
+
+        </div>
+
+
+        <!-- ==============================
+             COLUMNA DERECHA
+        ============================== -->
+
+        <aside class="perfil-sidebar">
+
+
+          <!-- TARJETA DEL ARTISTA -->
+
+          <div class="sidebar-card artista-card">
+
+            <div class="avatar-contenedor">
+  <img
+    src="../assets/images/trendline-portada.png"
+    alt="Trendline"
+    class="artista-avatar"
+  >
+</div>
+
+            <h2>Trendline</h2>
+
+            <p>
+              Banda de covers · Pop y rock
+            </p>
+
+            <a
+              href="cotizar.html?artista=trendline"
+              class="btn-principal"
+            >
+              Solicitar cotización
+            </a>
+
+            <button
+              class="btn-favoritos"
+              type="button"
+              id="btn-favoritos"
+              aria-pressed="false"
+            >
+              ♡ Agregar a favoritos
+            </button>
+
+          </div>
+
+
+          <!-- REDES SOCIALES -->
+
+          <div class="sidebar-card">
+
+            <span class="etiqueta">
+              CONECTA CON EL ARTISTA
+            </span>
+
+            <h2>Redes sociales</h2>
+
+            <div class="redes-grid">
+
+              <a
+                href="https://www.facebook.com/trendlinemusic"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Facebook
+              </a>
+
+              <a
+                href="https://www.instagram.com/trendline.music/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Instagram
+              </a>
+
+              <a
+                href="https://www.youtube.com/@TrendlineMusic"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                YouTube
+              </a>
+
+              <a
+                href="https://www.trendline.mx"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Sitio web
+              </a>
+
+            </div>
+
+          </div>
+
+
+        </aside>
+
+      </div>
+
+
+      <!-- ==============================
+           COMPROBAR DISPONIBILIDAD
+      ============================== -->
+
+      <section class="perfil-cta">
+
+        <div>
+
+          <h2>
+            ¿Quieres contratar a Trendline?
+          </h2>
+
+          <p>
+            Consulta su disponibilidad
+            para la fecha de tu evento.
+          </p>
+
+        </div>
+
+        <a
+          href="cotizar.html?artista=trendline"
+          class="btn-principal"
+        >
+          Comprobar disponibilidad
+        </a>
+
+      </section>
+
+
+    </div>
+
+  </main>
+
+	<!-- ARTISTAS RELACIONADOS -->
+<section id="nexo-recomendaciones" data-artista="trendline"></section>
+
+  <!-- ==============================
+       FOOTER
+  ============================== -->
+
+  <footer class="footer">
+
+    <div class="footer-container">
+
+      <div class="footer-grid">
+
+
+        <div>
+
+          <a href="../index.html" class="logo">
+            NE<span class="logo-x">X</span>O
+          </a>
+
+          <p>
+            Conectamos talento, entretenimiento
+            y producción profesional con
+            experiencias extraordinarias.
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <h3>Explora NEXO</h3>
+
+          <div class="footer-links">
+
+            <a href="../index.html">
+              Inicio
+            </a>
+
+            <a href="explorar.html">
+              Explorar artistas
+            </a>
+
+            <a href="eventos.html">
+              Tipos de evento
+            </a>
+
+            <a href="produccion.html">
+              Producción
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <div>
+
+          <h3>Información</h3>
+
+          <div class="footer-links">
+
+            <a href="como-funciona.html">
+              Cómo funciona
+            </a>
+
+            <a href="proveedores.html">
+              Publica tus servicios
+            </a>
+
+            <a href="contacto.html">
+              Contacto
+            </a>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+      <div class="footer-bottom">
+
+        © 2026 NEXO. Todos los derechos reservados.
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- ==============================
+       JAVASCRIPT
+  ============================== -->
+
+  <script>
+
+    /* GALERÍA */
+
+    const fotografias = [
+      "../assets/images/trendline-portada.png"
+    ];
+
+    let fotoActual = 0;
+
+    function mostrarFoto(indice) {
+
+      if (!fotografias.length) return;
+
+      fotoActual = (
+        indice + fotografias.length
+      ) % fotografias.length;
+
+      document.getElementById(
+        "foto-principal"
+      ).src = fotografias[fotoActual];
+
+    }
+
+    function cambiarFoto(direccion) {
+
+      mostrarFoto(
+        fotoActual + direccion
+      );
+
+    }
+
+
+    /* FAVORITOS */
+
+    const botonFavoritos = document.getElementById(
+      "btn-favoritos"
+    );
+
+    const claveFavorito = "nexo-favorito-trendline";
+
+    function actualizarFavoritos() {
+
+      const esFavorito =
+        localStorage.getItem(claveFavorito) === "true";
+
+      botonFavoritos.setAttribute(
+        "aria-pressed",
+        String(esFavorito)
+      );
+
+      botonFavoritos.textContent = esFavorito
+        ? "♥ Agregado a favoritos"
+        : "♡ Agregar a favoritos";
+
+    }
+
+    botonFavoritos.addEventListener(
+      "click",
+      function () {
+
+        const esFavorito =
+          localStorage.getItem(claveFavorito) === "true";
+
+        localStorage.setItem(
+          claveFavorito,
+          String(!esFavorito)
+        );
+
+        actualizarFavoritos();
+
+      }
+    );
+
+    actualizarFavoritos();
+
+  </script>
+
+	<script src="../recomendaciones.js"></script>
+	
+</body>
+</html>

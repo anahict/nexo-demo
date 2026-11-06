@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NEXO ADMIN | Vista previa</title>
+<style>
+:root{--purple:#6843e9;--ink:#17151f;--muted:#777482;--line:#e7e5ee;--bg:#f6f6fa}*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Arial,Helvetica,sans-serif;color:var(--ink)}header{background:#101014;color:white;padding:22px max(24px,calc((100vw - 1240px)/2));display:flex;justify-content:space-between;align-items:center;gap:20px}.logo{font-size:29px;font-weight:900;letter-spacing:1px}.logo span{color:#9b77ff}.logo small{font-size:11px;letter-spacing:1px;margin-left:12px}header a{color:#fff;text-decoration:none;font-size:14px;margin-left:24px}.shell{max-width:1240px;margin:40px auto;padding:0 22px}.preview{background:#eee8ff;color:#4b2ea8;padding:12px 18px;border:1px solid #d8c9ff;border-radius:12px;font-size:13px;margin-bottom:25px}.layout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:26px}.sidebar,.panel,.metric{background:white;border:1px solid var(--line);border-radius:16px}.sidebar{padding:16px;align-self:start}.sidebar button{width:100%;display:block;border:0;background:transparent;text-align:left;padding:14px;border-radius:10px;font-size:14px;cursor:pointer;color:#494653;margin:3px 0}.sidebar button.active,.sidebar button:hover{background:#eee9ff;color:#5133c6;font-weight:bold}.content h1{font-size:31px;margin:0 0 7px}.subtitle{color:var(--muted);margin:0 0 24px}.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.metric{padding:22px}.metric strong{display:block;font-size:34px;margin:13px 0 8px}.metric span{font-size:13px;color:var(--muted)}.metric .symbol{font-size:21px;color:var(--purple)}.panel{padding:23px;margin-top:22px}.panel h2{margin:0 0 16px;font-size:20px}.tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:600px;text-align:left}th,td{padding:15px 10px;border-bottom:1px solid var(--line);font-size:14px}th{font-size:12px;color:var(--muted)}tr:last-child td{border-bottom:0}.pill{display:inline-block;border-radius:100px;padding:7px 10px;font-size:12px;background:#fff2d7;color:#8b5b00}.pill.sent{background:#e9e8ff;color:#5541bd}.pill.ok{background:#e3f7ed;color:#167448}.btn{border:0;background:var(--purple);color:#fff;padding:11px 15px;border-radius:9px;cursor:pointer;font-weight:700}.btn.alt{background:#f0ebff;color:#5236bd}.section{display:none}.section.active{display:block}.empty{padding:28px;background:#faf9fd;border-radius:12px;color:var(--muted);line-height:1.6}label{display:block;font-size:13px;font-weight:bold;margin:12px 0 6px}input,textarea,select{width:100%;padding:12px;border:1px solid #dcd9e6;border-radius:9px;font:inherit}textarea{min-height:90px;resize:vertical}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.note{color:var(--muted);font-size:13px}.toprow{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}@media(max-width:1050px){.metrics{grid-template-columns:repeat(2,1fr)}}@media(max-width:700px){header{padding:18px 20px}header a{margin-left:12px}.layout{grid-template-columns:1fr}.sidebar{display:flex;overflow:auto;gap:5px}.sidebar button{white-space:nowrap;width:auto}.metrics{grid-template-columns:repeat(2,1fr)}.formgrid{grid-template-columns:1fr}.content h1{font-size:26px}}
+
+.btn.danger{background:#fff0f0;color:#b42335;border:1px solid #f4cbd0}
+.btn.danger:hover{background:#ffe1e5}.actions{display:flex;gap:8px;flex-wrap:wrap}
+button:focus-visible{outline:3px solid #a994f2;outline-offset:3px}
+dialog{width:min(440px,calc(100% - 32px));padding:28px;border:1px solid var(--line);border-radius:16px;color:var(--ink);box-shadow:0 20px 80px #17151f33}
+dialog::backdrop{background:#17151f88}dialog h2{margin-top:0}
+dialog p{line-height:1.6}dialog .actions{justify-content:flex-end;margin-top:24px}
+#deleteName{font-weight:bold;overflow-wrap:anywhere}.demo-status{color:#167448;margin:12px 0;min-height:20px;font-size:14px}
+.empty-row{text-align:center;color:var(--muted);padding:28px}
+</style>
+</head>
+<body>
+<header><div class="logo">NE<span>XO</span><small>ADMIN</small></div><nav><a href="index.html">Inicio</a><a href="mi-cuenta.html">Mi cuenta</a></nav></header>
+<div class="shell"><div class="preview"><strong>VISTA PREVIA DE DISEÑO</strong> · Los números, personas y solicitudes de esta página son ficticios. No está conectada a Supabase ni permite realizar operaciones reales.</div><div class="layout"><aside class="sidebar" aria-label="Menú administrativo"><button class="active" data-tab="resumen">▦ &nbsp; Resumen</button><button data-tab="cotizaciones">▤ &nbsp; Cotizaciones</button><button data-tab="eventos">▣ &nbsp; Eventos</button><button data-tab="usuarios">♙ &nbsp; Usuarios</button><button data-tab="talentos">☆ &nbsp; Artistas y proveedores</button></aside><main class="content">
+<section class="section active" id="resumen"><h1>Panel de administración</h1><p class="subtitle">Bienvenida a NEXO. Consulta y gestiona la actividad de la plataforma.</p><div class="metrics"><div class="metric"><div class="symbol">▤</div><strong>12</strong><span>Cotizaciones pendientes</span></div><div class="metric"><div class="symbol">☆</div><strong>8</strong><span>Artistas y proveedores</span></div><div class="metric"><div class="symbol">▣</div><strong>5</strong><span>Eventos registrados</span></div><div class="metric"><div class="symbol">✓</div><strong>3</strong><span>Cotizaciones aceptadas</span></div></div><div class="panel"><div class="toprow"><h2>Solicitudes recientes</h2><button class="btn alt" data-go="cotizaciones">Ver todas →</button></div><div class="tablewrap"><table><thead><tr><th>EVENTO</th><th>SERVICIO</th><th>ESTADO</th><th>ACCIÓN</th></tr></thead><tbody><tr><td>Gala NEXO 2026</td><td>Trendline</td><td><span class="pill">Pendiente</span></td><td><button class="btn alt" data-go="cotizaciones">Revisar</button></td></tr><tr><td>Evento corporativo</td><td>Producción de audio</td><td><span class="pill sent">Respondida</span></td><td><button class="btn alt" data-go="cotizaciones">Ver</button></td></tr><tr><td>Fiesta privada</td><td>DJ</td><td><span class="pill ok">Aceptada</span></td><td><button class="btn alt" data-go="cotizaciones">Ver</button></td></tr></tbody></table></div></div></section>
+<section class="section" id="cotizaciones"><h1>Cotizaciones</h1><p class="subtitle">Revisa las solicitudes y prepara propuestas.</p><div class="panel"><h2>Solicitudes de ejemplo</h2><div class="tablewrap"><table><thead><tr><th>EVENTO</th><th>SERVICIO</th><th>CLIENTE</th><th>ESTADO</th></tr></thead><tbody><tr><td>Gala NEXO 2026</td><td>Trendline</td><td>Valeria Mendoza</td><td><span class="pill">Pendiente</span></td></tr><tr><td>Evento corporativo</td><td>Audio profesional</td><td>Eventos Aurora</td><td><span class="pill sent">Respondida</span></td></tr></tbody></table></div></div><div class="panel"><h2>Preparar propuesta · Demostración</h2><div class="formgrid"><div><label for="monto">Monto (MXN)</label><input id="monto" type="number" placeholder="25000" min="0"></div><div><label for="vigencia">Vigencia</label><input id="vigencia" type="date"></div></div><label for="detalle">Descripción de la propuesta</label><textarea id="detalle" placeholder="Describe lo que incluye el servicio..."></textarea><label for="condiciones">Condiciones</label><textarea id="condiciones" placeholder="Anticipo, montaje, horarios..."></textarea><button class="btn" id="demoSend">Vista previa de respuesta</button><p class="note" id="demoMsg">Este formulario no envía información ni modifica la base de datos.</p></div></section>
+<section class="section" id="eventos"><h1>Eventos</h1><p class="subtitle">Consulta las fechas y necesidades de los clientes.</p><div class="panel"><div class="tablewrap"><table><thead><tr><th>EVENTO</th><th>TIPO</th><th>CIUDAD</th><th>ESTADO</th></tr></thead><tbody><tr><td>Gala NEXO 2026</td><td>Corporativo</td><td>Ciudad de México</td><td><span class="pill">Por cotizar</span></td></tr><tr><td>Fiesta privada</td><td>Social</td><td>Querétaro</td><td><span class="pill ok">Confirmado</span></td></tr></tbody></table></div></div></section>
+<section class="section" id="usuarios"><h1>Usuarios</h1><p class="subtitle">Directorio administrativo de clientes registrados.</p><div class="panel"><h2>Clientes</h2><p class="note">Datos ficticios para probar los botones de eliminación.</p><div class="tablewrap"><table><thead><tr><th>NOMBRE</th><th>CORREO</th><th>TIPO</th></tr></thead><tbody><tr><td>Valeria Mendoza</td><td>valeria@example.com</td><td>Cliente</td></tr><tr><td>Eventos Aurora</td><td>eventos@example.com</td><td>Empresa</td></tr></tbody></table></div></div></section>
+<section class="section" id="talentos"><h1>Artistas y proveedores</h1><p class="subtitle">Revisión de perfiles antes de su publicación.</p><div class="metrics"><div class="metric"><div class="symbol">⌛</div><strong>4</strong><span>Perfiles pendientes</span></div><div class="metric"><div class="symbol">✓</div><strong>8</strong><span>Perfiles aprobados</span></div></div><div class="panel"><h2>Revisión de perfiles</h2><p class="note">Datos ficticios para probar los botones de eliminación.</p><div class="tablewrap"><table><thead><tr><th>NOMBRE</th><th>TIPO</th><th>ESTADO</th></tr></thead><tbody><tr><td>Trendline</td><td>Artista</td><td>Aprobado</td></tr><tr><td>Audio profesional</td><td>Proveedor</td><td>Pendiente</td></tr></tbody></table></div></div></section>
+<p id="deleteStatus" class="demo-status" role="status" aria-live="polite"></p><button type="button" class="btn alt" id="resetDemo">Restablecer vista previa</button><p class="note">Las eliminaciones son de demostración y se restablecen al recargar la página.</p></main></div></div>
+<script>
+(function(){function show(tab){document.querySelectorAll('.section').forEach(x=>x.classList.toggle('active',x.id===tab));document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));window.scrollTo({top:0,behavior:'smooth'});}document.querySelectorAll('[data-tab]').forEach(x=>x.addEventListener('click',()=>show(x.dataset.tab)));document.querySelectorAll('[data-go]').forEach(x=>x.addEventListener('click',()=>show(x.dataset.go)));document.getElementById('demoSend').addEventListener('click',()=>{document.getElementById('demoMsg').textContent='Vista previa únicamente: la propuesta no fue enviada ni guardada.';});})();
+</script>
+<dialog id="deleteDialog" aria-labelledby="deleteTitle" aria-describedby="deleteDescription"><h2 id="deleteTitle">¿Eliminar este registro?</h2><p id="deleteName"></p><p id="deleteDescription">Se quitará únicamente de esta vista previa. Los datos reales de NEXO no se modificarán.</p><div class="actions"><button type="button" class="btn alt" id="cancelDelete">Cancelar</button><button type="button" class="btn danger" id="confirmDelete">Eliminar</button></div></dialog><script>
+(function(){
+  const dialog=document.getElementById('deleteDialog');
+  const status=document.getElementById('deleteStatus');
+  let pending=null;
+  let returnFocus=null;
+  function addActions(sectionId,kind,existingAction){
+    const table=document.querySelector('#'+sectionId+' table');
+    if(!table) return;
+    if(!existingAction){const th=document.createElement('th');th.textContent='ACCIÓN';table.tHead.rows[0].append(th);}
+    Array.from(table.tBodies[0].rows).forEach(row=>{
+      row.dataset.kind=kind;
+      row.dataset.record=row.cells[0].textContent.trim();
+      const cell=existingAction?row.cells[row.cells.length-1]:row.insertCell();
+      const wrap=document.createElement('div');wrap.className='actions';
+      while(cell.firstChild)wrap.append(cell.firstChild);
+      const button=document.createElement('button');
+      button.type='button';button.className='btn danger';button.textContent='Eliminar';
+      button.dataset.delete='true';
+      button.setAttribute('aria-label','Eliminar '+row.dataset.record);
+      wrap.append(button);cell.append(wrap);
+    });
+  }
+  addActions('resumen','cotizaciones',true);
+  addActions('cotizaciones','cotizaciones',false);
+  addActions('eventos','eventos',false);
+  addActions('usuarios','usuarios',false);
+  addActions('talentos','talentos',false);
+  function decrease(metric){
+    if(metric)metric.textContent=String(Math.max(0,Number(metric.textContent)-1));
+  }
+  function clearEmpty(table){
+    const body=table.tBodies[0];
+    if(body.rows.length)return;
+    const row=body.insertRow();const cell=row.insertCell();
+    cell.colSpan=table.tHead.rows[0].cells.length;
+    cell.className='empty-row';cell.textContent='No hay registros de ejemplo.';
+  }
+  document.addEventListener('click',event=>{
+    const button=event.target.closest('[data-delete]');
+    if(!button)return;
+    const row=button.closest('tr');returnFocus=button;
+    pending={kind:row.dataset.kind,name:row.dataset.record,row};
+    document.getElementById('deleteName').textContent=pending.name;
+    status.textContent='';
+    dialog.showModal();
+    document.getElementById('cancelDelete').focus();
+  });
+  document.getElementById('cancelDelete').addEventListener('click',()=>dialog.close());
+  dialog.addEventListener('close',()=>{
+    pending=null;
+    if(returnFocus?.isConnected)returnFocus.focus();
+    else document.querySelector('.sidebar button.active')?.focus();
+  });
+  document.getElementById('confirmDelete').addEventListener('click',()=>{
+    if(!pending)return;
+    const {kind,name,row}=pending;
+    const state=row.textContent;
+    document.querySelectorAll('tr[data-kind]').forEach(r=>{
+      if(r.dataset.kind===kind && r.dataset.record===name){
+        const table=r.closest('table');r.remove();clearEmpty(table);
+      }
+    });
+    const metrics=document.querySelectorAll('#resumen .metric strong');
+    if(kind==='cotizaciones'){
+      if(state.includes('Pendiente'))decrease(metrics[0]);
+      if(state.includes('Aceptada'))decrease(metrics[3]);
+    }
+    if(kind==='eventos')decrease(metrics[2]);
+    if(kind==='talentos'){
+      decrease(metrics[1]);
+      const counts=document.querySelectorAll('#talentos .metric strong');
+      decrease(counts[state.includes('Pendiente')?0:1]);
+    }
+    status.textContent='Se eliminó “'+name+'” de la vista previa. Puedes recuperarlo con “Restablecer vista previa”.';
+    dialog.close();
+  });
+  document.getElementById('resetDemo').addEventListener('click',()=>window.location.reload());
+})();
+</script>
+<style>.pill.seen{background:#e8efff;color:#315aa6}.pill.finished{background:#e3f7ed;color:#167448}</style>
+<script>
+(function(){
+  document.querySelectorAll('tr[data-kind="cotizaciones"]').forEach(row=>{
+    const actions=row.querySelector('.actions');
+    ['visto','finalizado'].forEach(state=>{
+      const button=document.createElement('button');button.type='button';button.className='btn alt';
+      button.textContent=state==='visto'?'Marcar como visto':'Finalizar';
+      button.dataset.markState=state;actions.insertBefore(button,actions.lastElementChild);
+    });
+  });
+  document.addEventListener('click',event=>{
+    const button=event.target.closest('[data-mark-state]');if(!button)return;
+    const row=button.closest('tr');const name=row.dataset.record;const state=button.dataset.markState;
+    const matches=Array.from(document.querySelectorAll('tr[data-kind="cotizaciones"]')).filter(r=>r.dataset.record===name);
+    const previous=row.querySelector('.pill').textContent;
+    matches.forEach(r=>{
+      const badge=r.querySelector('.pill');badge.textContent=state==='visto'?'Visto':'Finalizado';badge.className='pill '+(state==='visto'?'seen':'finished');
+      r.querySelectorAll('[data-mark-state]').forEach(b=>{b.disabled=state==='finalizado'||b.dataset.markState===state;});
+    });
+    if(previous==='Pendiente'){
+      const metric=document.querySelector('#resumen .metric strong');metric.textContent=String(Math.max(0,Number(metric.textContent)-1));
+    }
+    if(previous==='Aceptada'){
+      const metric=document.querySelectorAll('#resumen .metric strong')[3];metric.textContent=String(Math.max(0,Number(metric.textContent)-1));
+    }
+    document.getElementById('deleteStatus').textContent='“'+name+'”: '+(state==='visto'?'marcado como visto.':'finalizado.')+' Cambio de demostración; se restablece al recargar.';
+  });
+})();
+</script>
+<dialog id="profileDialog" aria-labelledby="profileTitle"><h2 id="profileTitle">Perfil de ejemplo</h2><div id="profileContent"></div><label for="profileChanges">Cambios solicitados</label><textarea id="profileChanges" placeholder="Describe los ajustes necesarios…"></textarea><p id="profileFeedback" role="status"></p><div class="actions"><button class="btn alt" id="closeProfile">Cerrar</button><button class="btn alt" id="requestChanges">Solicitar cambios</button><button class="btn" id="approveProfile">Aprobar</button></div></dialog>
+<style>#profileDialog{width:min(680px,calc(100% - 32px));max-height:90vh;overflow:auto}.profile-demo{padding:18px;background:#f6f3ff;border-radius:12px;margin:12px 0}.profile-demo h3{margin-top:0}.profile-filters{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.profile-filters [aria-pressed="true"]{background:var(--purple);color:white}</style>
+<script>
+(function(){
+ const section=document.getElementById('talentos'), table=section.querySelector('table'), dialog=document.getElementById('profileDialog');
+ const profiles={Trendline:{type:'Artista',description:'Grupo de covers para eventos. Este contenido sirve únicamente para probar la revisión del perfil.',media:'Fotos, videos y EPK: espacios de ejemplo; no hay archivos reales adjuntos.'},'Audio profesional':{type:'Proveedor',description:'Servicio de audio para eventos. Este contenido sirve únicamente para probar la revisión del perfil.',media:'Fotos de equipo y videos: espacios de ejemplo; no hay archivos reales adjuntos. EPK no aplica a proveedores.'}};
+ let selected=null,origin=null,filter='Todos';
+ const filters=document.createElement('div');filters.className='profile-filters';filters.setAttribute('aria-label','Filtrar perfiles');
+ ['Todos','Pendientes','Aprobados','Cambios solicitados'].forEach(label=>{const b=document.createElement('button');b.type='button';b.className='btn alt';b.textContent=label;b.setAttribute('aria-pressed',label===filter?'true':'false');b.addEventListener('click',()=>{filter=label;applyFilter();});filters.append(b);});
+ table.closest('.tablewrap').before(filters);
+ const empty=document.createElement('p');empty.className='note';empty.textContent='No hay perfiles con este estado.';empty.hidden=true;filters.after(empty);
+ function rows(){return Array.from(table.querySelectorAll('tr[data-kind="talentos"]'));}
+ function applyFilter(){let visible=0;rows().forEach(r=>{const state=r.cells[2].textContent;r.hidden=!(filter==='Todos'||(filter==='Pendientes'&&state==='Pendiente')||(filter==='Aprobados'&&state==='Aprobado')||filter===state);if(!r.hidden)visible++;});empty.hidden=visible>0;filters.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.textContent===filter)));}
+ function counts(){const r=rows();const metrics=section.querySelectorAll('.metric strong');metrics[0].textContent=r.filter(x=>x.cells[2].textContent==='Pendiente').length;metrics[1].textContent=r.filter(x=>x.cells[2].textContent==='Aprobado').length;document.querySelectorAll('#resumen .metric strong')[1].textContent=r.length;applyFilter();}
+ rows().forEach(row=>{const b=document.createElement('button');b.type='button';b.className='btn alt';b.textContent='Ver perfil';row.querySelector('.actions').prepend(b);b.addEventListener('click',()=>{selected=row;origin=b;const p=profiles[row.dataset.record];document.getElementById('profileTitle').textContent=row.dataset.record;const content=document.getElementById('profileContent');content.replaceChildren();['VISTA PREVIA · Datos ficticios','Tipo: '+p.type,'Estado: '+row.cells[2].textContent,p.description,p.media].forEach(text=>{const el=document.createElement('p');el.textContent=text;content.append(el);});document.getElementById('profileChanges').value=row.dataset.changes||'';document.getElementById('profileFeedback').textContent='';dialog.showModal();document.getElementById('closeProfile').focus();});});
+ function update(state){if(!selected?.isConnected)return;selected.cells[2].textContent=state;counts();document.getElementById('profileFeedback').textContent=state==='Aprobado'?'Perfil aprobado en la demostración. No se ha publicado ni enviado ninguna notificación.':'Cambios guardados solo en la demostración. No se ha enviado ninguna notificación.';}
+ document.getElementById('approveProfile').addEventListener('click',()=>update('Aprobado'));
+ document.getElementById('requestChanges').addEventListener('click',()=>{const field=document.getElementById('profileChanges');if(!field.value.trim()){document.getElementById('profileFeedback').textContent='Escribe los cambios que deseas solicitar.';field.focus();return;}selected.dataset.changes=field.value.trim();update('Cambios solicitados');});
+ document.getElementById('closeProfile').addEventListener('click',()=>dialog.close());dialog.addEventListener('close',()=>{if(origin?.isConnected&&!selected.hidden)origin.focus();else filters.querySelector('button').focus();});
+ new MutationObserver(counts).observe(table.tBodies[0],{childList:true});counts();
+})();
+</script>
+<dialog id="clientDialog" aria-labelledby="clientTitle"><h2 id="clientTitle">Perfil del cliente</h2><p class="note">VISTA PREVIA · Datos ficticios</p><div id="clientDetails"></div><h3>Eventos</h3><div id="clientEvents"></div><h3>Cotizaciones</h3><div id="clientQuotes"></div><div class="actions"><button type="button" class="btn alt" id="closeClient">Cerrar</button></div></dialog>
+<style>#clientDialog{width:min(680px,calc(100% - 32px));max-height:90vh;overflow:auto}</style>
+<script>
+(function(){
+ const dialog=document.getElementById('clientDialog');let origin=null;
+ const links={'Valeria Mendoza':['Gala NEXO 2026'],'Eventos Aurora':['Evento corporativo']};
+ function list(target,rows,empty){const container=document.getElementById(target);container.replaceChildren();if(!rows.length){const p=document.createElement('p');p.className='note';p.textContent=empty;container.append(p);return;}rows.forEach(row=>{const card=document.createElement('div');card.className='profile-demo';const title=document.createElement('strong');title.textContent=row.cells[0].textContent;const detail=document.createElement('p');detail.textContent=Array.from(row.cells).slice(1,-1).map(c=>c.textContent).join(' · ');card.append(title,detail);container.append(card);});}
+ document.querySelectorAll('#usuarios tr[data-kind="usuarios"]').forEach(row=>{
+  const button=document.createElement('button');button.type='button';button.className='btn alt';button.textContent='Ver perfil';row.querySelector('.actions').prepend(button);
+  button.addEventListener('click',()=>{
+   origin=button;const name=row.cells[0].textContent;document.getElementById('clientTitle').textContent=name;
+   const details=document.getElementById('clientDetails');details.replaceChildren();
+   [['Correo',row.cells[1].textContent],['Tipo de cuenta',row.cells[2].textContent],['Teléfono','No proporcionado'],['Empresa y cargo','No proporcionados']].forEach(pair=>{const p=document.createElement('p');const label=document.createElement('strong');label.textContent=pair[0]+': ';p.append(label,document.createTextNode(pair[1]));details.append(p);});
+   const names=links[name]||[];
+   list('clientEvents',Array.from(document.querySelectorAll('#eventos tr[data-kind="eventos"]')).filter(r=>names.includes(r.dataset.record)),'Sin eventos de ejemplo disponibles.');
+   list('clientQuotes',Array.from(document.querySelectorAll('#cotizaciones tr[data-kind="cotizaciones"]')).filter(r=>r.cells[2].textContent===name),'Sin cotizaciones de ejemplo disponibles.');
+   dialog.showModal();document.getElementById('closeClient').focus();
+  });
+ });
+ document.getElementById('closeClient').addEventListener('click',()=>dialog.close());dialog.addEventListener('close',()=>origin?.isConnected&&origin.focus());
+})();
+</script></body></html>

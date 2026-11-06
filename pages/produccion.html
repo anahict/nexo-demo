@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Producción | NEXO</title>
+
+    <link rel="stylesheet" href="../estilos.css">
+	
+	<style>
+.nexo-categorias-produccion {
+    padding: 90px 24px;
+    background: #f7f7fa;
+}
+
+.nexo-categorias-contenedor {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nexo-categorias-contenedor > h2 {
+    max-width: 750px;
+    margin: 14px 0;
+    font-size: clamp(30px, 4vw, 46px);
+    line-height: 1.15;
+    color: #17141f;
+}
+
+.nexo-categorias-intro {
+    max-width: 650px;
+    color: #666;
+    line-height: 1.7;
+}
+
+.nexo-categorias-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 38px 0 28px;
+}
+
+.nexo-tab {
+    padding: 13px 22px;
+    border: 1px solid #dedbe9;
+    border-radius: 30px;
+    background: white;
+    color: #333;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .25s ease;
+}
+
+.nexo-tab:hover {
+    border-color: #6c4cff;
+    color: #6c4cff;
+}
+
+.nexo-tab.activo {
+    background: #6c4cff;
+    border-color: #6c4cff;
+    color: white;
+}
+
+.nexo-categoria-detalle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+    background: white;
+    border-radius: 22px;
+    box-shadow: 0 16px 45px rgba(25, 15, 65, .07);
+}
+
+.nexo-categoria-imagen {
+    min-height: 430px;
+    background: #211b36;
+}
+
+.nexo-categoria-imagen img {
+    width: 100%;
+    height: 100%;
+    min-height: 430px;
+    display: block;
+    object-fit: cover;
+}
+
+.nexo-categoria-informacion {
+    padding: clamp(28px, 4vw, 55px);
+}
+
+#nexo-categoria-etiqueta {
+    color: #6c4cff;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+#nexo-categoria-titulo {
+    margin: 18px 0;
+    font-size: clamp(28px, 3vw, 38px);
+    line-height: 1.2;
+    color: #17141f;
+}
+
+#nexo-categoria-descripcion {
+    color: #666;
+    line-height: 1.8;
+}
+
+.nexo-categoria-informacion h4 {
+    margin-top: 28px;
+    color: #17141f;
+}
+
+#nexo-categoria-lista {
+    margin: 18px 0 32px;
+    padding-left: 20px;
+    color: #555;
+    line-height: 2;
+}
+
+#nexo-categoria-lista li::marker {
+    color: #6c4cff;
+}
+
+.nexo-categoria-boton {
+    display: inline-block;
+    padding: 15px 25px;
+    background: #6c4cff;
+    border-radius: 10px;
+    color: white;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background .25s ease;
+}
+
+.nexo-categoria-boton:hover {
+    background: #5135dd;
+}
+
+@media (max-width: 800px) {
+    .nexo-categoria-detalle {
+        grid-template-columns: 1fr;
+    }
+
+    .nexo-categoria-imagen,
+    .nexo-categoria-imagen img {
+        min-height: 270px;
+        max-height: 340px;
+    }
+
+    .nexo-categorias-produccion {
+        padding: 60px 18px;
+    }
+}
+
+/* Equipamiento por categoría: integrado en el panel existente */
+.nexo-categoria-informacion .nexo-equipo-inventario {
+    margin-top: 22px;
+}
+#nexo-categoria-equipos {
+    margin: 14px 0 10px;
+    padding-left: 20px;
+    color: #555;
+    line-height: 1.8;
+}
+#nexo-categoria-equipos li { margin-bottom: 5px; }
+#nexo-categoria-equipos li::marker { color: #6c4cff; }
+.nexo-categoria-nota {
+    margin: 0 0 26px;
+    color: #777;
+    font-size: 12px;
+    line-height: 1.6;
+}
+</style>
+	
+	<style>
+.nexo-equipos-contenedor {
+    max-width: 1200px;
+    margin: 55px auto 0;
+}
+
+.nexo-equipos-encabezado {
+    margin-bottom: 25px;
+}
+
+.nexo-equipos-encabezado h3 {
+    font-size: 26px;
+    color: #17141f;
+    margin-bottom: 8px;
+}
+
+.nexo-equipos-encabezado p {
+    color: #777;
+}
+
+.nexo-equipos-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.nexo-equipo-card {
+    background: white;
+    border: 1px solid #eceaf3;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.nexo-equipo-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(25, 15, 65, .1);
+}
+
+.nexo-equipo-card img {
+    width: 100%;
+    height: 175px;
+    object-fit: cover;
+    display: block;
+}
+
+.nexo-equipo-info {
+    padding: 20px;
+}
+
+.nexo-equipo-info h4 {
+    font-size: 17px;
+    margin: 0 0 10px;
+    color: #17141f;
+}
+
+.nexo-equipo-info p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #777;
+}
+
+.nexo-equipo-info a {
+    display: inline-block;
+    margin-top: 15px;
+    color: #6c4cff;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+@media (max-width: 950px) {
+    .nexo-equipos-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 550px) {
+    .nexo-equipos-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+	
+	<style>
+/* =========================================
+   NEXO — MÁS QUE EQUIPO
+========================================= */
+
+.nexo-produccion-proceso {
+    width: 100%;
+    padding: 85px 24px;
+    background: #f7f7fb;
+    box-sizing: border-box;
+}
+
+.nexo-proceso-contenedor {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nexo-proceso-encabezado {
+    margin-bottom: 35px;
+}
+
+.nexo-proceso-etiqueta {
+    color: #6c4cff;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+}
+
+.nexo-proceso-encabezado h2 {
+    color: #17141f;
+    font-size: clamp(30px, 4vw, 44px);
+    line-height: 1.15;
+    margin: 0 0 15px;
+}
+
+.nexo-proceso-encabezado > p:last-child {
+    max-width: 680px;
+    color: #686575;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+/* TARJETAS */
+
+.nexo-proceso-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.nexo-proceso-card {
+    padding: 28px 24px;
+    background: #ffffff;
+    border: 1px solid #eeebf5;
+    border-radius: 18px;
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease,
+        border-color .3s ease;
+}
+
+.nexo-proceso-card:hover {
+    transform: translateY(-6px);
+    border-color: #d5ccff;
+    box-shadow: 0 16px 35px rgba(35, 20, 85, .09);
+}
+
+/* ÍCONOS NUMÉRICOS */
+
+.nexo-proceso-icono {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    margin-bottom: 24px;
+    border-radius: 18px;
+    background: #f0ecff;
+    color: #6c4cff;
+}
+
+.nexo-proceso-icono span {
+    font-size: 20px;
+    font-weight: 800;
+}
+
+/* TEXTOS */
+
+.nexo-proceso-card h3 {
+    color: #17141f;
+    font-size: 18px;
+    line-height: 1.35;
+    margin: 0 0 14px;
+}
+
+.nexo-proceso-card p {
+    color: #777381;
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1000px) {
+    .nexo-proceso-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .nexo-produccion-proceso {
+        padding: 60px 18px;
+    }
+
+    .nexo-proceso-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .nexo-proceso-card {
+        padding: 25px;
+    }
+}
+		
+			.nexo-integral-banner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 500px;
+    padding: 90px 24px;
+    box-sizing: border-box;
+    overflow: hidden;
+
+    background-color: #0f0f10;
+    background-image: url("../assets/images/nexo-produccion.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}	
+		
+</style>
+
+	<style>
+/* BANNER PRODUCCIÓN INTEGRAL */
+
+.nexo-integral-banner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 500px;
+    padding: 90px 24px;
+    box-sizing: border-box;
+    overflow: hidden;
+    background: #0f0f10 url("../assets/images/nexo-produccion.jpg") center / cover no-repeat;
+}
+
+.nexo-integral-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+        90deg,
+        rgba(8, 8, 14, .95) 0%,
+        rgba(8, 8, 14, .80) 38%,
+        rgba(8, 8, 14, .20) 100%
+    );
+    pointer-events: none;
+}
+
+.nexo-integral-banner-contenido {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nexo-integral-banner-texto {
+    max-width: 580px;
+}
+
+.nexo-integral-etiqueta {
+    margin: 0 0 20px;
+    color: #a18cff;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.nexo-integral-banner-texto h2 {
+    margin: 0 0 24px;
+    color: #ffffff;
+    font-size: clamp(38px, 5vw, 64px);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -1px;
+}
+
+.nexo-integral-descripcion {
+    max-width: 520px;
+    margin: 0 0 35px;
+    color: #e5e2ed;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.nexo-integral-boton {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 26px;
+    background: #6c4cff;
+    color: #ffffff;
+    border-radius: 40px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    transition: background .3s ease;
+}
+
+.nexo-integral-boton:hover {
+    background: #856cff;
+    color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    .nexo-integral-banner {
+        min-height: 460px;
+        padding: 70px 22px;
+    }
+
+    .nexo-integral-overlay {
+        background: rgba(8, 8, 14, .78);
+    }
+
+    .nexo-integral-banner-texto h2 {
+        font-size: 40px;
+    }
+
+    .nexo-integral-descripcion {
+        font-size: 14px;
+    }
+}
+</style>
+	
+	<style>
+/* ======================================
+   NEXO — CORRECCIÓN DEL FOOTER
+====================================== */
+
+footer.nexo-footer {
+    background: #0f0f10;
+    color: #ffffff;
+    padding: 75px 24px 25px;
+}
+
+.nexo-footer .nexo-footer-contenedor {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* CUATRO COLUMNAS */
+
+.nexo-footer .nexo-footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+    gap: 45px;
+    align-items: start;
+    padding-bottom: 60px;
+}
+
+.nexo-footer .nexo-footer-grid > div {
+    min-width: 0;
+}
+
+/* LOGOTIPO */
+
+.nexo-footer .nexo-footer-logo {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #ffffff;
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    text-decoration: none;
+}
+
+.nexo-footer .nexo-footer-logo span {
+    color: #6c4cff;
+}
+
+.nexo-footer .nexo-footer-marca p {
+    max-width: 290px;
+    margin: 0;
+    color: #aaa7b2;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+/* REDES SOCIALES */
+
+.nexo-footer .nexo-footer-redes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 22px;
+}
+
+.nexo-footer .nexo-footer-redes a {
+    color: #aaa7b2;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+/* COLUMNAS DE ENLACES */
+
+.nexo-footer .nexo-footer-columna {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.nexo-footer .nexo-footer-columna h3 {
+    margin: 0 0 10px;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.nexo-footer .nexo-footer-columna > a:not(.nexo-footer-boton) {
+    color: #aaa7b2;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.nexo-footer .nexo-footer-columna p {
+    margin: 0;
+    color: #aaa7b2;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+/* BOTÓN MORADO */
+
+.nexo-footer .nexo-footer-boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    padding: 14px 22px;
+    background: #6c4cff;
+    color: #ffffff;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.nexo-footer .nexo-footer-boton:hover {
+    background: #856cff;
+    color: #ffffff;
+}
+
+/* PARTE INFERIOR */
+
+.nexo-footer .nexo-footer-inferior {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding-top: 25px;
+    border-top: 1px solid #29272f;
+}
+
+.nexo-footer .nexo-footer-inferior p {
+    margin: 0;
+    color: #85818d;
+    font-size: 12px;
+}
+
+.nexo-footer .nexo-footer-inferior div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.nexo-footer .nexo-footer-inferior a {
+    color: #85818d;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+/* EFECTOS */
+
+.nexo-footer a:hover {
+    color: #a18cff;
+}
+
+/* TABLET */
+
+@media (max-width: 950px) {
+    .nexo-footer .nexo-footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 40px;
+    }
+}
+
+/* MÓVIL */
+
+@media (max-width: 600px) {
+    footer.nexo-footer {
+        padding: 55px 20px 25px;
+    }
+
+    .nexo-footer .nexo-footer-grid {
+        grid-template-columns: 1fr;
+        gap: 35px;
+        padding-bottom: 45px;
+    }
+
+    .nexo-footer .nexo-footer-inferior {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+	
+		/* MENSAJE DE EQUIPAMIENTO ADICIONAL */
+
+.nexo-mas-equipos {
+    margin-top: 24px;
+    padding: 20px;
+    background: #f7f5ff;
+    border-left: 3px solid #6c4cff;
+    border-radius: 10px;
+}
+
+.nexo-mas-equipos p {
+    margin: 0;
+    color: #555;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.nexo-mas-equipos strong {
+    color: #17141f;
+}
+
+.nexo-mas-equipos a {
+    display: inline-block;
+    margin-top: 12px;
+    color: #6c4cff;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.nexo-mas-equipos a:hover {
+    text-decoration: underline;
+}
+		
+</style>
+
+	
+	
+</head>
+
+<body>
+
+    <header class="header nexo-header">
+
+    <a href="../index.html" class="nexo-logo">
+        <span class="logo-ne">NE</span><span class="logo-xo">XO</span>
+    </a>
+
+    <form
+        class="nexo-header-buscador"
+        action="explorar.html"
+        method="get"
+    >
+        <input
+            type="search"
+            name="q"
+            placeholder="Busca artistas, música o servicios..."
+            aria-label="Buscar servicios"
+            required
+        >
+
+        <button type="submit" aria-label="Buscar">
+            ⌕
+        </button>
+    </form>
+
+    <div class="nexo-header-acciones">
+
+        <a href="login.html" class="nexo-login">
+            Iniciar sesión
+        </a>
+
+        <a href="proveedores.html" class="nexo-publicar">
+            Publica tus servicios
+        </a>
+
+        <button
+            type="button"
+            class="nexo-icono"
+            aria-label="Favoritos"
+        >
+            ♡
+        </button>
+
+        <button
+            type="button"
+            class="nexo-menu-boton"
+            id="nexo-menu-boton"
+            aria-label="Abrir menú"
+            aria-expanded="false"
+            aria-controls="nexo-menu"
+        >
+            ☰
+        </button>
+
+    </div>
+
+</header>
+
+<nav
+    class="nexo-menu-panel"
+    id="nexo-menu"
+    aria-label="Menú principal"
+    hidden
+>
+    <div class="nexo-menu-contenido">
+
+        <h2>Explora NEXO</h2>
+
+        <a href="artistas.html">Artistas y música</a>
+
+        <a href="explorar.html?categoria=entretenimiento">
+            Entretenimiento
+        </a>
+
+        <a href="explorar.html?q=conferencistas">
+            Conferencistas y conductores
+        </a>
+
+        <a href="produccion.html">
+            Producción y servicios para eventos
+        </a>
+
+        <hr>
+
+        <a href="../index.html">Inicio</a>
+
+        <a href="explorar.html">Explorar</a>
+
+        <a href="eventos.html">Tipos de evento</a>
+
+        <a href="como-funciona.html">Cómo funciona</a>
+
+        <a href="proveedores.html">Publica tus servicios</a>
+
+        <a href="login.html">Iniciar sesión</a>
+
+        <a href="cotizar.html" class="nexo-menu-cotizar">
+            Cotiza tu evento
+        </a>
+
+    </div>
+</nav>
+	
+    <main>
+
+        <section class="produccion-hero">
+
+          <div class="produccion-hero-contenido">
+
+                <p class="seccion-etiqueta">
+                    PRODUCCIÓN
+                </p>
+
+                <h1>
+                    Todo lo técnico para hacer realidad tu evento.
+                </h1>
+
+            <p class="produccion-hero-texto">
+                    Encuentra soluciones de audio, iluminación,
+                    pantallas LED, backline, escenarios y producción integral.
+                </p>
+
+            <p>&nbsp;</p>
+                <p> <a href="cotizar.html" class="perfil-btn-principal"> Cotiza tu producción </a> </p>
+            </div>
+			
+			<div class="nexo-equipos-contenedor">
+
+      </section>
+		
+		<section class="nexo-categorias-produccion" id="categorias-produccion">
+
+    <div class="nexo-categorias-contenedor">
+
+        <p class="seccion-etiqueta">EXPLORA NUESTROS SERVICIOS</p>
+
+        <h2>Encuentra la solución ideal para tu evento.</h2>
+
+        <p class="nexo-categorias-intro">
+            Selecciona una categoría y descubre las opciones
+            de producción disponibles en NEXO.
+        </p>
+
+        <div class="nexo-categorias-tabs" role="tablist"
+             aria-label="Categorías de producción">
+
+            <button type="button" class="nexo-tab activo"
+                    data-categoria="audio" role="tab">
+                Audio
+            </button>
+
+            <button type="button" class="nexo-tab"
+                    data-categoria="iluminacion" role="tab">
+                Iluminación
+            </button>
+
+            <button type="button" class="nexo-tab"
+                    data-categoria="pantallas-led" role="tab">
+                Pantallas LED
+            </button>
+
+            <button type="button" class="nexo-tab"
+                    data-categoria="backline" role="tab">
+                Backline
+            </button>
+			
+			<button type="button" class="nexo-tab"
+        data-categoria="escenarios" role="tab">
+    Escenarios
+</button>
+
+            <button type="button" class="nexo-tab"
+                    data-categoria="produccion-integral" role="tab">
+                Producción integral
+            </button>
+
+        </div>
+
+        <div class="nexo-categoria-detalle">
+
+            <div class="nexo-categoria-imagen">
+                <img
+                    id="nexo-categoria-foto"
+                    src="../assets/images/produccion-audio.jpg"
+                    alt="Equipo de audio profesional"
+                >
+            </div>
+
+            <div class="nexo-categoria-informacion">
+
+                <span id="nexo-categoria-etiqueta">
+                    01 / AUDIO
+                </span>
+
+                <h3 id="nexo-categoria-titulo">
+                    Audio profesional
+                </h3>
+
+                <p id="nexo-categoria-descripcion">
+                    Sistemas profesionales de sonido para conciertos,
+                    conferencias y eventos especiales.
+                </p>
+
+                <h4>Servicios disponibles</h4>
+
+                <ul id="nexo-categoria-lista">
+                    <li>Sonorización de eventos</li>
+                    <li>Consolas y sistemas de audio</li>
+                    <li>Micrófonos y monitores</li>
+                    <li>Operación técnica</li>
+                </ul>
+
+                <div class="nexo-equipo-inventario">
+                    <h4>Equipamiento disponible</h4>
+                    <ul id="nexo-categoria-equipos" aria-live="polite">
+                        <li>Sistemas de sonido RCF HDL-20-A</li>
+                        <li>Subwoofers RCF y JBL</li>
+                        <li>Consolas Behringer X32 y XAIR</li>
+                        <li>Micrófonos Shure</li>
+                        <li>Sistemas de monitoreo in-ear Sennheiser</li>
+                    </ul>
+					<div class="nexo-mas-equipos">
+    <p>
+        <strong>¿Buscas algo más?</strong><br>
+        Los equipos mostrados son solo una selección
+        de nuestras opciones de producción.
+        Consulta por otras soluciones y equipamiento
+        para tu evento.
+    </p>
+
+    <a href="cotizar.html">
+        Consultar otros equipos →
+    </a>
+</div>
+                   <br> <p class="nexo-categoria-nota">Equipo sujeto a disponibilidad y confirmación técnica al cotizar.</p>
+                </div>
+
+                <a
+                    id="nexo-categoria-cotizar"
+                    href="cotizar.html?servicio=audio"
+                    class="nexo-categoria-boton"
+                >
+                    Solicitar cotización ↗
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================
+     NEXO — MÁS QUE EQUIPO
+========================================= -->
+
+<section class="nexo-produccion-proceso">
+
+    <div class="nexo-proceso-contenedor">
+
+        <div class="nexo-proceso-encabezado">
+
+            <p class="nexo-proceso-etiqueta">
+                MÁS QUE EQUIPO
+            </p>
+
+            <h2>
+                Una producción completa.
+            </h2>
+
+            <p>
+                No solo se trata de encontrar el equipo adecuado.
+                En NEXO puedes conectar con soluciones técnicas
+                para cada etapa de tu evento.
+            </p>
+
+        </div>
+
+        <div class="nexo-proceso-grid">
+
+            <!-- ASESORÍA -->
+
+            <article class="nexo-proceso-card">
+
+                <div class="nexo-proceso-icono">
+                    <span>01</span>
+                </div>
+
+                <h3>
+                    Asesoría y planeación técnica
+                </h3>
+
+                <p>
+                    Identifica las necesidades de audio,
+                    iluminación, video y equipamiento
+                    según las características de tu evento.
+                </p>
+
+            </article>
+
+            <!-- MONTAJE -->
+
+            <article class="nexo-proceso-card">
+
+                <div class="nexo-proceso-icono">
+                    <span>02</span>
+                </div>
+
+                <h3>
+                    Instalación y montaje
+                </h3>
+
+                <p>
+                    Encuentra soluciones para el traslado,
+                    instalación, configuración y pruebas
+                    de los equipos técnicos.
+                </p>
+
+            </article>
+
+            <!-- OPERACIÓN -->
+
+            <article class="nexo-proceso-card">
+
+                <div class="nexo-proceso-icono">
+                    <span>03</span>
+                </div>
+
+                <h3>
+                    Operación profesional
+                </h3>
+
+                <p>
+                    Personal técnico especializado para
+                    supervisar y operar los sistemas
+                    durante el desarrollo del evento.
+                </p>
+
+            </article>
+
+            <!-- DESMONTAJE -->
+
+            <article class="nexo-proceso-card">
+
+                <div class="nexo-proceso-icono">
+                    <span>04</span>
+                </div>
+
+                <h3>
+                    Desmontaje y cierre
+                </h3>
+
+                <p>
+                    Coordinación del retiro de equipos,
+                    desmontaje de instalaciones y
+                    cierre técnico al finalizar el evento.
+                </p>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+   <section class="nexo-integral-banner">
+
+<div class="nexo-integral-overlay"></div>
+
+<div class="nexo-integral-banner-contenido">
+
+    <div class="nexo-integral-banner-texto">
+
+        <p class="nexo-integral-etiqueta">
+            PRODUCCIÓN INTEGRAL
+        </p>
+
+        <h2>
+            Todas las piezas,<br>
+            un solo aliado.
+        </h2>
+
+        <p class="nexo-integral-descripcion">
+            Combinamos audio, iluminación, pantallas LED,
+            backline y montaje para crear experiencias completas.
+            Encuentra las soluciones técnicas que necesitas
+            para hacer realidad tu evento.
+        </p>
+
+        <a
+            href="cotizar.html?servicio=produccion-integral"
+            class="nexo-integral-boton"
+        >
+            Solicitar producción integral ↗
+        </a>
+
+    </div>
+
+</div>
+
+</section>
+		
+		<section class="produccion-eventos">
+
+    <div class="produccion-eventos-contenido">
+
+        <div class="produccion-eventos-header">
+
+            <p class="seccion-etiqueta">
+                IDEAL PARA
+            </p>
+
+            <h2>
+                Producción para distintos tipos de eventos
+            </h2>
+
+        </div>
+
+        <div class="produccion-eventos-grid">
+
+            <article class="produccion-evento-card">
+                <h3>Corporativos</h3>
+                <p>
+                    Audio, iluminación, video y operación técnica
+                    para presentaciones, lanzamientos y convenciones.
+                </p>
+            </article>
+
+            <article class="produccion-evento-card">
+                <h3>Bodas</h3>
+                <p>
+                    Soluciones técnicas para ceremonia, recepción,
+                    música, iluminación y ambientación.
+                </p>
+            </article>
+
+            <article class="produccion-evento-card">
+                <h3>Conciertos</h3>
+                <p>
+                    Escenario, audio, backline, iluminación
+                    y soporte técnico para shows en vivo.
+                </p>
+            </article>
+
+            <article class="produccion-evento-card">
+                <h3>Festivales</h3>
+                <p>
+                    Producción técnica para escenarios,
+                    múltiples artistas y operación continua.
+                </p>
+            </article>
+
+            <article class="produccion-evento-card">
+                <h3>Fiestas</h3>
+                <p>
+                    Audio, iluminación, pantallas y ambientación
+                    para celebraciones privadas.
+                </p>
+            </article>
+
+            <article class="produccion-evento-card">
+                <h3>Fin de año</h3>
+                <p>
+                    Producción completa para cenas,
+                    fiestas empresariales y celebraciones especiales.
+                </p>
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+		
+		<section class="cta-cotiza">
+
+    <div class="cta-cotiza-contenido">
+
+        <p class="seccion-etiqueta">
+            PRODUCE TU EVENTO
+        </p>
+
+        <h2>
+            Convierte una idea en una producción completa.
+        </h2>
+
+        <p>
+            Cuéntanos qué estás organizando y te ayudamos a integrar
+            audio, iluminación, pantallas, backline y operación técnica.
+        </p>
+
+        <a href="cotizar.html" class="cta-boton">
+            Cotiza tu producción
+        </a>
+
+    </div>
+
+</section>
+
+</main>
+	
+	<script>
+(() => {
+
+    const categorias = {
+
+        "audio": {
+            etiqueta: "01 / AUDIO",
+            titulo: "Audio profesional",
+            descripcion: "Sistemas profesionales de sonido para conciertos, conferencias y eventos especiales.",
+            imagen: "../assets/images/produccion-audio.jpg",
+            alt: "Equipo de audio profesional",
+            servicios: [
+                "Sonorización de eventos",
+                "Consolas y sistemas de audio",
+                "Micrófonos y monitores",
+                "Operación técnica"
+            ],
+            equipos: [
+                "Sistemas de sonido RCF HDL-20-A",
+                "Subwoofers RCF y JBL",
+                "Consolas digitales Behringer X32 y XAIR",
+                "Micrófonos Shure",
+                "Sistemas de monitoreo in-ear Sennheiser"
+            ]
+        },
+
+        "iluminacion": {
+            etiqueta: "02 / ILUMINACIÓN",
+            titulo: "Iluminación profesional",
+            descripcion: "Diseñamos ambientes y experiencias visuales mediante soluciones de iluminación para todo tipo de eventos.",
+            imagen: "../assets/images/produccion-iluminacion.jpg",
+            alt: "Iluminación profesional para eventos",
+            servicios: [
+                "Iluminación de escenarios",
+                "Cabezas móviles y efectos",
+                "Ambientación arquitectónica",
+                "Diseño y operación de iluminación"
+            ],
+            equipos: [
+                "Cabezas móviles Lite Tek Beam 230",
+                "Sunstar Samurai 200",
+                "Kaleidos 7 y LED Beam",
+                "Blinder LED",
+                "Controladores y accesorios DMX"
+            ]
+        },
+
+        "pantallas-led": {
+            etiqueta: "03 / PANTALLAS LED",
+            titulo: "Pantallas LED",
+            descripcion: "Soluciones audiovisuales para escenarios, conciertos, presentaciones y eventos corporativos.",
+            imagen: "../assets/images/produccion-led.jpg",
+            alt: "Pantallas LED para eventos",
+            servicios: [
+                "Renta de pantallas LED",
+                "Pantallas para escenarios",
+                "Video para eventos corporativos",
+                "Montaje y operación técnica"
+            ],
+            equipos: [
+                "Módulos LED Lite Tek pitch 3.9",
+                "Procesadores de video VDWALL",
+                "Pantallas Hisense de 70 pulgadas",
+                "Proyectores y accesorios de video",
+                "Equipo de video Blackmagic"
+            ]
+        },
+
+        "backline": {
+            etiqueta: "04 / BACKLINE",
+            titulo: "Backline profesional",
+            descripcion: "Instrumentos y equipamiento técnico para músicos, bandas y espectáculos en vivo.",
+            imagen: "../assets/images/produccion-backline.jpg",
+            alt: "Instrumentos y backline profesional",
+            servicios: [
+                "Baterías y percusiones",
+                "Amplificadores de guitarra y bajo",
+                "Teclados y soportes",
+                "Montaje y asistencia técnica"
+            ],
+            equipos: [
+                "Piano Yamaha P-85",
+                "Pianos Yamaha P-125 y CP-40",
+                "Teclado Kurzweil Artis SE",
+                "Soportes para instrumentos",
+                "Accesorios de escenario"
+            ]
+        },
+		
+		"escenarios": {
+    etiqueta: "05 / ESCENARIOS",
+    titulo: "Escenarios y estructuras",
+    descripcion: "Soluciones profesionales de escenarios, tarimas y estructuras para conciertos, festivales, eventos corporativos y espectáculos.",
+    imagen: "../assets/images/produccion-escenarios.jpg",
+    alt: "Escenarios y estructuras profesionales para eventos",
+    servicios: [
+        "Renta de escenarios y tarimas",
+        "Estructuras truss y soportes técnicos",
+        "Montaje y desmontaje",
+        "Configuración de escenarios para distintos eventos"
+    ],
+            equipos: [
+                "Trusses de 3 m, 2.20 m y 1.20 m",
+                "Polipastos para montaje",
+                "Bases para estructuras",
+                "Bumpers y accesorios de rigging",
+                "Elementos de soporte para montaje técnico"
+            ]
+},
+
+
+        "produccion-integral": {
+           etiqueta: "06 / PRODUCCIÓN INTEGRAL",
+            titulo: "Producción integral",
+            descripcion: "Coordinamos los servicios técnicos necesarios para desarrollar tu evento de principio a fin.",
+            imagen: "../assets/images/nexo-produccion.jpg",
+            alt: "Producción integral de eventos",
+            servicios: [
+                "Planeación técnica",
+                "Coordinación de proveedores",
+                "Montaje y pruebas",
+                "Operación y desmontaje"
+            ],
+            equipos: [
+                "Sistemas de audio RCF, JBL y Behringer",
+                "Iluminación Lite Tek, Sunstar y control DMX",
+                "Pantallas LED y procesamiento de video",
+                "Backline Yamaha y Kurzweil",
+                "Trusses, soportes y accesorios de montaje"
+            ]
+        }
+
+    };
+
+    const botones = document.querySelectorAll(".nexo-tab");
+
+    const foto = document.getElementById("nexo-categoria-foto");
+    const etiqueta = document.getElementById("nexo-categoria-etiqueta");
+    const titulo = document.getElementById("nexo-categoria-titulo");
+    const descripcion = document.getElementById("nexo-categoria-descripcion");
+    const lista = document.getElementById("nexo-categoria-lista");
+    const listaEquipos = document.getElementById("nexo-categoria-equipos");
+    const cotizar = document.getElementById("nexo-categoria-cotizar");
+
+    function mostrarCategoria(id, actualizarURL = true) {
+
+        const categoria = categorias[id];
+
+        if (!categoria) return;
+
+        etiqueta.textContent = categoria.etiqueta;
+        titulo.textContent = categoria.titulo;
+        descripcion.textContent = categoria.descripcion;
+
+        foto.src = categoria.imagen;
+        foto.alt = categoria.alt;
+
+        lista.replaceChildren();
+
+        categoria.servicios.forEach(servicio => {
+            const elemento = document.createElement("li");
+            elemento.textContent = servicio;
+            lista.appendChild(elemento);
+        });
+
+        listaEquipos.replaceChildren();
+        categoria.equipos.forEach(equipo => {
+            const elemento = document.createElement("li");
+            elemento.textContent = equipo;
+            listaEquipos.appendChild(elemento);
+        });
+
+        cotizar.href =
+            "cotizar.html?servicio=" + encodeURIComponent(id);
+
+        botones.forEach(boton => {
+
+            const activo = boton.dataset.categoria === id;
+
+            boton.classList.toggle("activo", activo);
+
+            boton.setAttribute("aria-selected", String(activo));
+
+        });
+
+        if (actualizarURL) {
+
+            const url = new URL(window.location.href);
+
+            url.searchParams.set("categoria", id);
+
+            window.history.replaceState({}, "", url);
+
+        }
+
+    }
+
+    botones.forEach(boton => {
+
+        boton.addEventListener("click", () => {
+
+            mostrarCategoria(boton.dataset.categoria);
+
+        });
+
+    });
+
+    const parametros = new URLSearchParams(window.location.search);
+
+    const categoriaInicial = parametros.get("categoria");
+
+    mostrarCategoria(
+        categorias[categoriaInicial] ? categoriaInicial : "audio",
+        false
+    );
+
+    if (categorias[categoriaInicial]) {
+
+        document.getElementById("categorias-produccion")
+            .scrollIntoView({ block: "start" });
+
+    }
+
+})();
+</script>
+	
+	<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const boton = document.getElementById("nexo-menu-boton");
+    const menu = document.getElementById("nexo-menu");
+
+    if (!boton || !menu) return;
+
+    boton.addEventListener("click", () => {
+
+        const abierto = !menu.hidden;
+
+        menu.hidden = abierto;
+
+        boton.setAttribute(
+            "aria-expanded",
+            String(!abierto)
+        );
+
+    });
+
+    document.addEventListener("click", (evento) => {
+
+        if (
+            !menu.hidden &&
+            !menu.contains(evento.target) &&
+            !boton.contains(evento.target)
+        ) {
+            menu.hidden = true;
+            boton.setAttribute("aria-expanded", "false");
+        }
+
+    });
+
+    document.addEventListener("keydown", (evento) => {
+
+        if (evento.key === "Escape") {
+            menu.hidden = true;
+            boton.setAttribute("aria-expanded", "false");
+        }
+
+    });
+
+});
+</script>
+		
+		<!-- =====================================
+     FOOTER NEXO
+===================================== -->
+
+<footer class="nexo-footer">
+
+    <div class="nexo-footer-contenedor">
+
+        <div class="nexo-footer-grid">
+
+            <!-- MARCA -->
+            <div class="nexo-footer-marca">
+
+                <a href="../index.html" class="nexo-footer-logo">
+                    NE<span>XO</span>
+                </a>
+
+                <p>
+                    Conectamos talento, entretenimiento y
+                    producción profesional para hacer
+                    realidad experiencias extraordinarias.
+                </p>
+
+                <div class="nexo-footer-redes">
+                    <a href="#" aria-label="Instagram">Instagram ↗</a>
+                    <a href="#" aria-label="Facebook">Facebook ↗</a>
+                </div>
+
+            </div>
+
+            <!-- EXPLORAR -->
+            <div class="nexo-footer-columna">
+
+                <h3>Explorar</h3>
+
+                <a href="artistas.html">Artistas y música</a>
+                <a href="explorar.html?categoria=entretenimiento">Entretenimiento</a>
+                <a href="produccion.html">Producción y servicios</a>
+                <a href="eventos.html">Tipos de evento</a>
+
+            </div>
+
+            <!-- NEXO -->
+            <div class="nexo-footer-columna">
+
+                <h3>NEXO</h3>
+
+                <a href="como-funciona.html">Cómo funciona</a>
+                <a href="proveedores.html">Publica tus servicios</a>
+                <a href="ayuda.html">Centro de ayuda</a>
+                <a href="contacto.html">Contacto</a>
+
+            </div>
+
+            <!-- CONTRATACIÓN -->
+            <div class="nexo-footer-columna">
+
+                <h3>Tu próximo evento</h3>
+
+                <p>
+                    Encuentra artistas y servicios
+                    para crear un evento inolvidable.
+                </p>
+
+                <a href="cotizar.html" class="nexo-footer-boton">
+                    Cotiza tu evento ↗
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="nexo-footer-inferior">
+
+            <p>© 2026 NEXO. Todos los derechos reservados.</p>
+
+            <div>
+                <a href="privacidad.html">Aviso de privacidad</a>
+                <a href="terminos.html">Términos y condiciones</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+	
+</body>
+
+</html>

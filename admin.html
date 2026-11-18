@@ -452,6 +452,14 @@ function abrirCotizacion(id) {
       <h2>${escapar(e?.nombre || 'Evento sin nombre')}</h2>
       <p>Servicio solicitado: <strong>${escapar(c.servicio_nombre || e?.servicio_solicitado || c.servicio_tipo || 'No especificado')}</strong></p></div>
       <span class="badge">${escapar(c.estado || 'Pendiente')}</span></div>
+    <h3>Datos del cliente</h3>
+    <div class="detalle-grid" id="datos-cliente">
+      ${campo('Nombre', c.contacto_nombre || null)}
+      ${campo('Teléfono', c.contacto_telefono || null)}
+      ${campo('Correo electrónico', c.contacto_correo || null)}
+      ${c.correo_copia ? campo('Correo para copia', c.correo_copia) : ''}
+    </div>
+    <p id="aviso-datos-cliente" role="status"></p>
     <div class="detalle-grid">
       ${campo('Tipo de evento',e?.tipo)}
       ${campo('Fecha',fechaAmigable(e?.fecha))}
@@ -477,6 +485,33 @@ function abrirCotizacion(id) {
   panel.hidden = false;
   panel.scrollIntoView({behavior:'smooth',block:'start'});
   cargarMensajes(c.id);
+  cargarDatosCliente(c, campo);
+}
+
+async function cargarDatosCliente(c, campo) {
+  if (!c.cliente_id || (c.contacto_nombre && c.contacto_telefono && c.contacto_correo)) return;
+
+  const bloque = document.getElementById('datos-cliente');
+  const aviso = document.getElementById('aviso-datos-cliente');
+  aviso.textContent = 'Consultando datos del perfil…';
+
+  try {
+    const { data, error } = await db.rpc('nexo_contacto_cotizacion', {
+      p_id: String(c.id)
+    });
+    if (error) throw error;
+    if (!bloque.isConnected) return;
+
+    bloque.innerHTML = [
+      campo('Nombre', c.contacto_nombre || data?.nombre || null),
+      campo('Teléfono', c.contacto_telefono || data?.telefono || null),
+      campo('Correo electrónico', c.contacto_correo || data?.correo || null),
+      c.correo_copia ? campo('Correo para copia', c.correo_copia) : ''
+    ].join('');
+    aviso.textContent = '';
+  } catch {
+    aviso.textContent = 'No se pudieron consultar los datos del perfil.';
+  }
 }
 
 async function cargarMensajes(id) {

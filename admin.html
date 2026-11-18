@@ -774,9 +774,9 @@ document.addEventListener('click',async event=>{
  operacionPendiente=true;button.disabled=true;
  try{
   const auth=await db.auth.getUser();if(auth.error||!auth.data.user)throw new Error('La sesión expiró. Inicia sesión otra vez.');
-  if (tipo === 'cotizaciones' && action === 'eliminar') {
+  if (action === 'eliminar' && ['cotizaciones', 'eventos'].includes(tipo)) {
     const { error } = await db.rpc('nexo_gestion_admin', {
-      p_tipo: 'cotizaciones',
+      p_tipo: tipo,
       p_id: String(record.id),
       p_accion: 'eliminar'
     });

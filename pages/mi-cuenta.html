@@ -491,12 +491,17 @@
 .nexo-servicio-opcion input{width:17px;height:17px;flex:none;accent-color:#7b3fea}
 </style>
 <style>
-.cotiza-chat { width: min(640px, calc(100% - 2rem)); max-height: 90vh; max-height: 90dvh; border: 1px solid #ded8f0; border-radius: 18px; padding: clamp(1rem, 4vw, 1.5rem); color: #211d2c; }
-.cotiza-chat::backdrop { background: #171122a8; }
+.cotiza-chat { position: fixed; inset: auto max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) auto; margin: 0; z-index: 10000; width: min(25rem, calc(100% - 2rem)); max-height: calc(100dvh - 2rem); overflow: auto; border: 1px solid #ded8f0; border-radius: 16px; padding: 0; color: #211d2c; background: #fff; box-shadow: 0 12px 40px #261a4540; }
+.cotiza-chat .cotiza-chat-cuerpo { padding: .9rem; }
+.cotiza-chat-controles { display: flex; gap: .35rem; }
+.cotiza-chat header { padding: .75rem .9rem; border-bottom: 1px solid #ede8f6; }
+.cotiza-chat header h3 { font-size: 1rem; }
+.cotiza-chat-cuerpo > p:empty { display: none; }
+.cotiza-chat-cuerpo > p { margin: 0 0 .65rem; overflow-wrap: anywhere; }
 .cotiza-chat header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; position: static; background: none; }
 .cotiza-chat header h3 { margin: 0; }
-.cotiza-chat header button, .cotiza-chat > button { cursor: pointer; border: 0; border-radius: 8px; padding: .5rem .75rem; color: #4b2eb0; background: #eee8ff; }
-.cotiza-chat-historial { display: flex; flex-direction: column; gap: .75rem; max-height: 42vh; overflow: auto; padding: .75rem; background: #f7f5fb; border-radius: 12px; }
+.cotiza-chat header button, .cotiza-chat-cuerpo > button { cursor: pointer; border: 0; border-radius: 8px; padding: .5rem .75rem; color: #4b2eb0; background: #eee8ff; }
+.cotiza-chat-historial { display: flex; flex-direction: column; gap: .75rem; min-height: min(28vh, 10rem); max-height: 36vh; overflow: auto; padding: .75rem; background: #f7f5fb; border-radius: 12px; }
 .cotiza-chat-historial p { margin: 0; padding: .65rem .85rem; border-radius: 12px; max-width: 90%; overflow-wrap: anywhere; }
 .cotiza-chat-propio { align-self: flex-end; background: #e9e0ff; }
 .cotiza-chat-equipo { align-self: flex-start; background: #fff; }
@@ -1213,7 +1218,7 @@ botonFavoritosHeader?.addEventListener('click', () => {
       if (!nexoCliente || !nexoUsuario || document.hidden || revisandoMensajes) return;
       revisandoMensajes = true;
       try {
-        const { data, error } = await nexoCliente.rpc('nexo_mensajes_cliente');
+        const { data, error } = await nexoCliente.rpc('nexo_mensajes_cliente', { p_id: null, p_texto: null });
         const aviso = $('aviso-mensajes-cotizacion');
         const estado = $('estado-mensajes-cotizacion');
         if (error) throw error;
@@ -1263,7 +1268,14 @@ botonFavoritosHeader?.addEventListener('click', () => {
       cerrar.textContent = 'Cerrar';
       cerrar.addEventListener('click', () => conversacion.close());
       const cabecera = document.createElement('header');
-      cabecera.append(titulo, cerrar);
+      const minimizar = document.createElement('button');
+      minimizar.type = 'button';
+      minimizar.textContent = 'Minimizar';
+      minimizar.setAttribute('aria-expanded', 'true');
+      const controles = document.createElement('div');
+      controles.className = 'cotiza-chat-controles';
+      controles.append(minimizar, cerrar);
+      cabecera.append(titulo, controles);
       const badge = document.createElement('span');
       badge.className = 'evento-etiqueta';
       badge.dataset.avisoCotizacion = String(id);
@@ -1292,7 +1304,25 @@ botonFavoritosHeader?.addEventListener('click', () => {
       enviar.className = 'evento-boton';
       enviar.textContent = 'Enviar respuesta';
       formulario.append(campo, enviar);
-      conversacion.append(cabecera, servicio, historial, formulario, aviso, actualizar);
+      const cuerpo = document.createElement('div');
+      cuerpo.className = 'cotiza-chat-cuerpo';
+      cuerpo.append(servicio, historial, formulario, aviso, actualizar);
+      conversacion.append(cabecera, cuerpo);
+      function ajustarVista(minimizado) {
+        cuerpo.hidden = minimizado;
+        minimizar.textContent = minimizado ? 'Expandir' : 'Minimizar';
+        minimizar.setAttribute('aria-expanded', String(!minimizado));
+      }
+      minimizar.addEventListener('click', () => {
+        ajustarVista(!cuerpo.hidden);
+        if (!cuerpo.hidden) cargarConversacion();
+      });
+      conversacion.addEventListener('keydown', evento => {
+        if (evento.key === 'Escape') conversacion.close();
+      });
+      conversacion.addEventListener('close', () => {
+        if (!document.querySelector('.cotiza-chat[open]') && abrir.isConnected) abrir.focus();
+      });
       item.append(abrir, conversacion);
 
       async function cargarConversacion() {
@@ -1301,9 +1331,9 @@ botonFavoritosHeader?.addEventListener('click', () => {
         actualizar.hidden = true;
         aviso.textContent = 'Cargando conversación…';
         try {
-          const { data, error } = await nexoCliente.rpc('nexo_mensajes_cliente', { p_id: String(id) });
+          const { data, error } = await nexoCliente.rpc('nexo_mensajes_cliente', { p_id: String(id), p_texto: null });
           if (error) throw error;
-          if (!conversacion.open || !conversacion.isConnected) return;
+          if (!conversacion.open || cuerpo.hidden || !conversacion.isConnected) return;
           historial.replaceChildren();
           let ultimo;
           for (const mensaje of data || []) {
@@ -1333,11 +1363,15 @@ botonFavoritosHeader?.addEventListener('click', () => {
       }
 
       abrir.addEventListener('click', () => {
-        if (!conversacion.open) conversacion.showModal();
+        for (const chat of document.querySelectorAll('.cotiza-chat[open]')) {
+          if (chat !== conversacion) chat.close();
+        }
+        ajustarVista(false);
+        if (!conversacion.open) conversacion.show();
         cargarConversacion();
       });
       badge.addEventListener('mensaje-nuevo', () => {
-        if (conversacion.open && actualizar.hidden) cargarConversacion();
+        if (conversacion.open && !cuerpo.hidden && actualizar.hidden) cargarConversacion();
       });
       actualizar.addEventListener('click', cargarConversacion);
       formulario.addEventListener('submit', async event => {

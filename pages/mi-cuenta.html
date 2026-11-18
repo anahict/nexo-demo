@@ -491,11 +491,18 @@
 .nexo-servicio-opcion input{width:17px;height:17px;flex:none;accent-color:#7b3fea}
 </style>
 <style>
-#cotiza-lista details { margin-top: 1rem; }
-#cotiza-lista summary { cursor: pointer; font-weight: 700; }
-#cotiza-lista details form { margin-top: .75rem; display: grid; gap: .5rem; }
-#cotiza-lista details textarea { width: 100%; font: inherit; padding: .75rem; }
-#cotiza-lista details button { justify-self: start; }
+.cotiza-chat { width: min(640px, calc(100% - 2rem)); max-height: 90vh; max-height: 90dvh; border: 1px solid #ded8f0; border-radius: 18px; padding: clamp(1rem, 4vw, 1.5rem); color: #211d2c; }
+.cotiza-chat::backdrop { background: #171122a8; }
+.cotiza-chat header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; position: static; background: none; }
+.cotiza-chat header h3 { margin: 0; }
+.cotiza-chat header button, .cotiza-chat > button { cursor: pointer; border: 0; border-radius: 8px; padding: .5rem .75rem; color: #4b2eb0; background: #eee8ff; }
+.cotiza-chat-historial { display: flex; flex-direction: column; gap: .75rem; max-height: 42vh; overflow: auto; padding: .75rem; background: #f7f5fb; border-radius: 12px; }
+.cotiza-chat-historial p { margin: 0; padding: .65rem .85rem; border-radius: 12px; max-width: 90%; overflow-wrap: anywhere; }
+.cotiza-chat-propio { align-self: flex-end; background: #e9e0ff; }
+.cotiza-chat-equipo { align-self: flex-start; background: #fff; }
+.cotiza-chat form { margin-top: 1rem; display: grid; gap: .5rem; }
+.cotiza-chat textarea { width: 100%; font: inherit; padding: .75rem; border: 1px solid #d8d0e8; border-radius: 8px; }
+.cotiza-chat form button { justify-self: end; }
 </style>
 </head>
 <body>
@@ -1218,6 +1225,7 @@ botonFavoritosHeader?.addEventListener('click', () => {
         for (const badge of document.querySelectorAll('[data-aviso-cotizacion]')) {
           const id = badge.dataset.avisoCotizacion;
           badge.hidden = !ultimos.has(id) || ultimoMensajeVisto(id) === ultimos.get(id);
+          if (!badge.hidden) badge.dispatchEvent(new Event('mensaje-nuevo'));
         }
         const texto = nuevos ? 'Mis cotizaciones (' + nuevos + ')' : 'Mis cotizaciones';
         const boton = document.querySelector('[data-seccion="cotizaciones"]');
@@ -1233,24 +1241,45 @@ botonFavoritosHeader?.addEventListener('click', () => {
       }
     }
 
+    function codigoErrorChat(error) {
+      return error?.code ? ' Código de Supabase: ' + error.code : '';
+    }
+
     function agregarConversacion(item, id) {
-      const conversacion = document.createElement('details');
-      const resumen = document.createElement('summary');
-      resumen.textContent = 'Ver conversación';
+      const conversacion = document.createElement('dialog');
+      conversacion.className = 'cotiza-chat';
+      const abrir = document.createElement('button');
+      abrir.type = 'button';
+      abrir.className = 'evento-boton';
+      abrir.textContent = 'Abrir chat';
+      const titulo = document.createElement('h3');
+      titulo.id = 'chat-titulo-' + id;
+      titulo.textContent = 'Conversación con NEXO';
+      conversacion.setAttribute('aria-labelledby', titulo.id);
+      const servicio = document.createElement('p');
+      servicio.textContent = item.querySelector('h3').textContent;
+      const cerrar = document.createElement('button');
+      cerrar.type = 'button';
+      cerrar.textContent = 'Cerrar';
+      cerrar.addEventListener('click', () => conversacion.close());
+      const cabecera = document.createElement('header');
+      cabecera.append(titulo, cerrar);
       const badge = document.createElement('span');
       badge.className = 'evento-etiqueta';
       badge.dataset.avisoCotizacion = String(id);
       badge.textContent = 'Mensaje nuevo';
       badge.hidden = true;
-      resumen.append(' ', badge);
+      abrir.append(' ', badge);
 
       const historial = document.createElement('div');
+      historial.className = 'cotiza-chat-historial';
+      historial.setAttribute('role', 'log');
       const aviso = document.createElement('p');
       aviso.setAttribute('role', 'status');
       const actualizar = document.createElement('button');
       actualizar.type = 'button';
-      actualizar.className = 'evento-boton';
-      actualizar.textContent = 'Actualizar conversación';
+      actualizar.textContent = 'Reintentar carga';
+      actualizar.hidden = true;
       const formulario = document.createElement('form');
       const campo = document.createElement('textarea');
       campo.required = true;
@@ -1263,11 +1292,13 @@ botonFavoritosHeader?.addEventListener('click', () => {
       enviar.className = 'evento-boton';
       enviar.textContent = 'Enviar respuesta';
       formulario.append(campo, enviar);
-      conversacion.append(resumen, historial, actualizar, formulario, aviso);
-      item.append(conversacion);
+      conversacion.append(cabecera, servicio, historial, formulario, aviso, actualizar);
+      item.append(abrir, conversacion);
 
       async function cargarConversacion() {
+        if (actualizar.disabled) return;
         actualizar.disabled = true;
+        actualizar.hidden = true;
         aviso.textContent = 'Cargando conversación…';
         try {
           const { data, error } = await nexoCliente.rpc('nexo_mensajes_cliente', { p_id: String(id) });
@@ -1277,6 +1308,7 @@ botonFavoritosHeader?.addEventListener('click', () => {
           let ultimo;
           for (const mensaje of data || []) {
             const p = document.createElement('p');
+            p.className = mensaje.propio ? 'cotiza-chat-propio' : 'cotiza-chat-equipo';
             const autor = document.createElement('strong');
             autor.textContent = mensaje.propio ? 'Tú' : 'Equipo NEXO';
             const contenido = document.createElement('span');
@@ -1288,18 +1320,24 @@ botonFavoritosHeader?.addEventListener('click', () => {
           }
           if (!historial.childElementCount) historial.textContent = 'Aún no hay mensajes.';
           if (ultimo != null) marcarMensajeVisto(id, ultimo);
+          historial.scrollTop = historial.scrollHeight;
           badge.hidden = true;
           aviso.textContent = '';
           revisarMensajesNuevos();
-        } catch {
-          aviso.textContent = 'No se pudo cargar la conversación. Vuelve a intentarlo.';
+        } catch (error) {
+          actualizar.hidden = false;
+          aviso.textContent = 'No se pudo cargar la conversación.' + codigoErrorChat(error);
         } finally {
           actualizar.disabled = false;
         }
       }
 
-      conversacion.addEventListener('toggle', () => {
-        if (conversacion.open) cargarConversacion();
+      abrir.addEventListener('click', () => {
+        if (!conversacion.open) conversacion.showModal();
+        cargarConversacion();
+      });
+      badge.addEventListener('mensaje-nuevo', () => {
+        if (conversacion.open && actualizar.hidden) cargarConversacion();
       });
       actualizar.addEventListener('click', cargarConversacion);
       formulario.addEventListener('submit', async event => {
@@ -1315,8 +1353,8 @@ botonFavoritosHeader?.addEventListener('click', () => {
           if (error) throw error;
           campo.value = '';
           await cargarConversacion();
-        } catch {
-          aviso.textContent = 'No se pudo enviar la respuesta. Tu texto sigue en el campo.';
+        } catch (error) {
+          aviso.textContent = 'No se pudo enviar. Tu texto sigue en el campo.' + codigoErrorChat(error);
         } finally {
           enviar.disabled = false;
         }

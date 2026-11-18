@@ -775,7 +775,32 @@ document.addEventListener('click',async event=>{
  try{
   const auth=await db.auth.getUser();if(auth.error||!auth.data.user)throw new Error('La sesión expiró. Inicia sesión otra vez.');
   let request;
-  if(action==='eliminar')request=db.from(tipo).delete().eq('id',record.id).select('id');
+  if (tipo === 'cotizaciones' && action === 'eliminar') {
+  const { error } = await db.rpc('nexo_gestion_admin', {
+    p_tipo: 'cotizaciones',
+    p_id: String(record.id),
+    p_accion: 'eliminar'
+  });
+
+  if (error) throw error;
+} else {
+  let request;
+
+  if (action === 'eliminar') {
+    request = db.from(tipo).delete().eq('id', record.id).select('id');
+  } else if (tipo === 'cotizaciones' && ['visto', 'finalizado'].includes(action)) {
+    request = db.from(tipo).update({ estado: action }).eq('id', record.id).select('id');
+  } else {
+    throw new Error('Acción no disponible.');
+  }
+
+  const result = await request;
+  if (result.error) throw result.error;
+
+  if (result.data?.length !== 1) {
+    throw new Error('No se confirmó el cambio. Revisa los permisos administrativos en Supabase.');
+  }
+}
   else if(tipo==='cotizaciones'&&['visto','finalizado'].includes(action))request=db.from(tipo).update({estado:action}).eq('id',record.id).select('id');
   else throw new Error('Acción no disponible.');
   const result=await request;if(result.error)throw result.error;

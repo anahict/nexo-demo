@@ -768,73 +768,54 @@ document.getElementById('crear-cliente')?.addEventListener('click', async () => 
         catch(e){return avisar('No se pudieron guardar los datos.');}
         window.location.href='completar-perfil.html';
     });
-
     document.getElementById('crear-empresa')?.addEventListener('click', async () => {
-    const boton = document.getElementById('crear-empresa');
-    const opcion = document.querySelector('input[name="categoria-servicio"]:checked');
-
-    if (!opcion) return avisar('Selecciona una categoría de proveedor.');
-
-    const categoria = opcion.parentElement.querySelector('span')?.textContent.trim() || '';
-    const otro = valor('empresa-otro');
-
-    if (opcion.value === '18' && !otro) {
-        return avisar('Especifica qué servicio ofreces.', 'empresa-otro');
-    }
-
-    const datos = validarDatos('empresa', true);
-    if (!datos) return;
-
-    if (!window.supabase?.createClient) {
-        return avisar('No se pudo cargar Supabase. Recarga la página e intenta de nuevo.');
-    }
-	
-	// Aquí termina el bloque 2
-	
-	// Aquí empieza el bloque 3
-	
-	    boton.disabled = true;
-
-    try {
-        const db = window.supabase.createClient(
-              'https://bbszahuoeclszmivgnyy.supabase.co',
-            'sb_publishable_VLTfpjdin94_xmYSA-Y-yg_-q8_e_Ii'
-        );
-
-        const destino = new URL('completar-perfil.html', window.location.href).href;
-        const { data, error } = await db.auth.signUp({
-            email: datos.correo,
-            password: valor('empresa-password'),
-            options: { emailRedirectTo: destino }
-        });
-
-        if (error) throw error;
-
-// Aquí termina el bloque 3
-
-        localStorage.setItem('nexoProveedor', JSON.stringify({
-            ...datos,
-            tipoCuenta: 'proveedor',
-            tipo: 'produccion',
-            categoria,
-            subcategorias: otro ? [otro] : [],
-            generos: [],
-            decadas: []
-        }));
-
-        document.getElementById('empresa-password').value = '';
-
-        if (data.session) {
-            window.location.assign(destino);
-            return;
+        const opcion = document.querySelector('input[name="categoria-servicio"]:checked');
+        if (!opcion) return avisar('Selecciona una categoría de proveedor.');
+        const categoria = opcion.parentElement.querySelector('span')?.textContent.trim() || '';
+        const otro = valor('empresa-otro');
+        if (opcion.value === '18' && !otro) return avisar('Especifica qué servicio ofreces.','empresa-otro');
+        const datos = validarDatos('empresa',true);
+        if (!datos) return;
+        if (!window.supabase?.createClient) {
+            return avisar('No se pudo cargar Supabase. Recarga la página e intenta de nuevo.');
         }
 
-        avisar('Revisa tu correo y abre el enlace de confirmación en este mismo navegador para continuar con tu perfil.');
-    } catch (error) {
-        avisar(error.message || 'No se pudo iniciar el registro. Intenta de nuevo.');
-    } finally {
-        boton.disabled = false;
-    }
+        const boton = document.getElementById('crear-empresa');
+        boton.disabled = true;
+        try {
+            const db = window.supabase.createClient(
+            'https://bbszahuoeclszmivgnyy.supabase.co',
+            'sb_publishable_VLTfpjdin94_xmYSA-Y-yg_-q8_e_Ii'
+        );
+            const destino = new URL('completar-perfil.html', window.location.href).href;
+            const { data, error } = await db.auth.signUp({
+                email: datos.correo,
+                password: document.getElementById('empresa-password').value,
+                options: { emailRedirectTo: destino }
+            });
+            if (error) throw error;
+            if (!data.user) throw new Error('No se pudo completar el registro.');
+
+            localStorage.setItem('nexoProveedor', JSON.stringify({
+                ...datos, tipoCuenta: 'proveedor', tipo: 'produccion', categoria,
+                subcategorias: otro ? [otro] : [], generos: [], decadas: []
+            }));
+
+            document.getElementById('empresa-password').value = '';
+            if (data.session) {
+                window.location.assign(destino);
+                return;
+            }
+            avisar('Revisa tu correo y abre el enlace de confirmación en este mismo navegador para continuar con tu perfil.');
+        } catch (error) {
+            avisar(error.message || 'No se pudo iniciar el registro. Intenta de nuevo.');
+        } finally {
+            boton.disabled = false;
+        }
+    });
+    const tipoURL = new URLSearchParams(window.location.search).get('tipo');
+    if (tipoURL === 'artista' || tipoURL === 'proveedor' || tipoURL === 'cliente') abrirRegistro(tipoURL);
+
 });
 
 /* =========================================

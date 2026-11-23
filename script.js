@@ -751,7 +751,7 @@ document.getElementById('crear-cliente')?.addEventListener('click', async () => 
     }
 });
 
-    document.getElementById('crear-artista')?.addEventListener('click', () => {
+    document.getElementById('crear-artista')?.addEventListener('click', async () => {
         const categoria = artistaForm?.querySelector('input[name="tipo-proveedor"]:checked')?.value;
         if (!categoria) return avisar('Selecciona qué tipo de artista eres.');
         const visibles = grupos[categoria] || [];
@@ -764,9 +764,42 @@ document.getElementById('crear-cliente')?.addEventListener('click', async () => 
         if (!musicales.includes(categoria) && !subcategorias.length) return avisar('Selecciona al menos una especialidad.');
         const datos = validarDatos('proveedor',true);
         if (!datos) return;
-        try {localStorage.setItem('nexoProveedor',JSON.stringify({...datos,tipoCuenta:'artista',tipo:categoria,categoria,subcategorias,generos,decadas}));}
-        catch(e){return avisar('No se pudieron guardar los datos.');}
-        window.location.href='completar-perfil.html';
+        if (!window.supabase?.createClient) {
+            return avisar('No se pudo cargar Supabase. Recarga la página e intenta de nuevo.');
+        }
+
+        const boton = document.getElementById('crear-artista');
+        boton.disabled = true;
+        try {
+            const db = window.supabase.createClient(
+            'https://bbszahuoeclszmivgnyy.supabase.co',
+            'sb_publishable_VLTfpjdin94_xmYSA-Y-yg_-q8_e_Ii'
+        );
+            const destino = new URL('completar-perfil.html', window.location.href).href;
+            const { data, error } = await db.auth.signUp({
+                email: datos.correo,
+                password: document.getElementById('proveedor-password').value,
+                options: { emailRedirectTo: destino }
+            });
+            if (error) throw error;
+            if (!data.user) throw new Error('No se pudo completar el registro.');
+
+            localStorage.setItem('nexoProveedor', JSON.stringify({
+                ...datos, tipoCuenta: 'artista', tipo: categoria, categoria,
+                subcategorias, generos, decadas
+            }));
+
+            document.getElementById('proveedor-password').value = '';
+            if (data.session) {
+                window.location.assign(destino);
+                return;
+            }
+            avisar('Revisa tu correo y abre el enlace de confirmación en este mismo navegador para continuar con tu perfil.');
+        } catch (error) {
+            avisar(error.message || 'No se pudo iniciar el registro. Intenta de nuevo.');
+        } finally {
+            boton.disabled = false;
+        }
     });
     document.getElementById('crear-empresa')?.addEventListener('click', async () => {
         const opcion = document.querySelector('input[name="categoria-servicio"]:checked');

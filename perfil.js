@@ -1299,7 +1299,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         botonPublicar.addEventListener(
             "click",
-            function () {
+            async function () {
 
                 for (var pasoValidar = 0; pasoValidar < 4; pasoValidar++) {
                     if (!validarPasoPerfil(pasoValidar)) {
@@ -1762,34 +1762,72 @@ document.addEventListener("DOMContentLoaded", function () {
                 delete perfilPublicado.servicio.precio;
                 delete perfilPublicado.servicio.modalidad;
                 perfilPublicado.pressKit = esArtista ? fichaPDF('perfil-press-kit') : null;
-                // Separación de datos para la demo; NO es un mecanismo de seguridad.
+                if (botonPublicar.disabled) return;
+                botonPublicar.disabled = true;
                 try {
+                    const db = window.supabase.createClient(
+            'https://bbszahuoeclszmivgnyy.supabase.co',
+            'sb_publishable_VLTfpjdin94_xmYSA-Y-yg_-q8_e_Ii'
+        );
+                    const { data: auth, error: authError } = await db.auth.getUser();
+                    if (authError || !auth?.user?.email ||
+                        auth.user.email.toLowerCase() !== (datosRegistro.correo || '').trim().toLowerCase()) {
+                        throw new Error('Inicia sesión con el correo que usaste para este registro.');
+                    }
 
-                   var solicitudRevision = {
-    ...perfilPublicado,
-    datosInternos: datosInternos,
-    demostracionLocal: true,
-    estado: "pendiente_revision",
-    fechaEnvio: new Date().toISOString(),
-    plazoRevisionHoras: null
-};
+                    const tipoCuenta = esArtista ? 'artista' : 'proveedor';
+                    const tabla = db.from('nexo_solicitudes_perfil');
+                    const { data: existente, error: consultaError } = await tabla.select('id')
+                        .eq('usuario_id', auth.user.id).eq('tipo_cuenta', tipoCuenta).maybeSingle();
+                    if (consultaError) throw consultaError;
 
-localStorage.setItem(
-    "nexoPerfilPendiente",
-    JSON.stringify(solicitudRevision)
-);
-                }
+                    if (!existente) {
+                        const bucket = db.storage.from('nexo-perfiles-adjuntos');
+                        async function subir(blob, etiqueta, nombre, contentType) {
+                            const hash = await crypto.subtle.digest('SHA-256', await blob.arrayBuffer());
+                            const huella = Array.from(new Uint8Array(hash), n => n.toString(16).padStart(2, '0')).join('');
+                            const extension = ({'image/jpeg':'jpg','image/png':'png','image/webp':'webp','application/pdf':'pdf'})[contentType];
+                            if (!extension) throw new Error('Formato de adjunto no compatible: ' + etiqueta);
+                            const ruta = auth.user.id + '/' + tipoCuenta + '/' + etiqueta + '-' + huella + '.' + extension;
+                            const { error } = await bucket.upload(ruta, blob, { contentType, upsert: false });
+                            if (error && String(error.statusCode) !== '409') throw error;
+                            return { ruta, nombre: nombre || etiqueta + '.' + extension, bytes: blob.size };
+                        }
+                        async function foto(base64, etiqueta) {
+                            if (!base64) return null;
+                            if (!/^data:image\/(jpeg|png|webp);base64,/i.test(base64)) {
+                                throw new Error('Vuelve a seleccionar la imagen de ' + etiqueta + '.');
+                            }
+                            const blob = await (await fetch(base64)).blob();
+                            return subir(blob, etiqueta, null, blob.type);
+                        }
+                        async function pdf(id, etiqueta) {
+                            const input = document.getElementById(id);
+                            const archivo = input && !input.disabled && input.files?.[0];
+                            return archivo ? subir(archivo, etiqueta, archivo.name, 'application/pdf') : null;
+                        }
 
-                catch (error) {
+                        perfilPublicado.portada = await foto(portadaGuardada, 'portada');
+                        perfilPublicado.avatar = await foto(avatarGuardado, 'avatar');
+                        perfilPublicado.galeria = [];
+                        for (const imagen of galeriaGuardada) {
+                            perfilPublicado.galeria.push(await foto(imagen, 'galeria'));
+                        }
+                        perfilPublicado.pressKit = esArtista ? await pdf('perfil-press-kit', 'press-kit') : null;
+                        datosInternos.rider = esArtista ? await pdf('perfil-rider', 'rider') : null;
 
-                    alert(
-                        "No se pudo guardar el perfil. Las imágenes pueden estar ocupando demasiado espacio. Usa menos fotografías o archivos más ligeros."
-                    );
-
+                        const { error } = await tabla.insert({
+                            tipo_cuenta: tipoCuenta,
+                            datos: { ...perfilPublicado, datosInternos }
+                        });
+                        if (error && error.code !== '23505') throw error;
+                    }
+                } catch (error) {
+                    alert('No se pudo enviar la solicitud. ' + (error.message || 'Intenta de nuevo.'));
                     return;
-
+                } finally {
+                    botonPublicar.disabled = false;
                 }
-
 
                 window.location.href =
     "perfil-en-revision.html";

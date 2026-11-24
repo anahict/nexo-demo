@@ -27,6 +27,8 @@
     const evento = tipoEvento === 'otro' ? valor('otro-evento') : tipoEvento;
     const fecha = valor('fecha-evento');
     const invitados = valor('numero-invitados');
+    const horario = valor('horario-evento');
+    const correoCopia = valor('correo-copia');
     const necesidades = [...document.querySelectorAll('input[name="necesidades"]:checked')].map(el => el.value);
     const presupuesto = seleccionado('presupuesto')?.value || '';
     const comentarios = valor('comentarios-evento');
@@ -38,16 +40,22 @@
     if (!evento || !fecha || !ciudad || !invitados || !necesidades.length || !presupuesto) {
       mensaje('Faltan datos del evento. Revisa los pasos anteriores.'); return;
     }
+    if (!Number.isInteger(Number(invitados)) || Number(invitados) < 1) {
+      mensaje('Indica un número válido de invitados.'); return;
+    }
+    if (correoCopia && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correoCopia)) {
+      mensaje('Introduce un correo adicional válido.'); return;
+    }
     if (!tokenTurnstile) {
       mensaje('Completa la verificación de seguridad antes de enviar.'); return;
     }
 
-    // El backend actual guarda una cotización básica; la persistencia estructurada
-    // de fecha, ciudad, invitados y presupuesto requiere ampliar la Edge Function.
+    // Resumen para la notificacion y datos estructurados para Supabase.
     const detalle = [
       `Evento: ${evento}`, `Fecha: ${fecha}`, `Ciudad: ${ciudad}`,
       `Invitados: ${invitados}`, `Necesidades: ${necesidades.join(', ')}`,
-      `Presupuesto: ${presupuesto}`, `Comentarios: ${comentarios || 'Sin comentarios'}`,
+      `Presupuesto: ${presupuesto}`, `Horario: ${horario || "Por confirmar"}`,
+      `Correo adicional: ${correoCopia || "No indicado"}`, `Comentarios: ${comentarios || 'Sin comentarios'}`,
     ].join('\n');
     const tipoServicio = necesidades.some(n => ['produccion-integral','audio','iluminacion','pantallas-led','backline','escenario'].includes(n))
       ? 'produccion' : necesidades.includes('artistas') ? 'artista' : 'proveedor';
@@ -62,6 +70,9 @@
         body: JSON.stringify({
           nombre, correo, telefono, servicio: necesidades.join(', '),
           servicio_tipo: tipoServicio, comentarios: detalle,
+          tipo_evento: evento, fecha, horario: horario || null,
+          ciudad, invitados: Number(invitados), presupuesto_rango: presupuesto,
+          correo_copia: correoCopia || null, comentarios_evento: comentarios,
           solicitud_token: solicitudToken, turnstile_token: tokenTurnstile,
         }),
       });

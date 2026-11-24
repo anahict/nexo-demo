@@ -790,11 +790,7 @@ document.getElementById('crear-cliente')?.addEventListener('click', async () => 
             }));
 
             document.getElementById('proveedor-password').value = '';
-            if (data.session) {
-                window.location.assign(destino);
-                return;
-            }
-            avisar('Revisa tu correo y abre el enlace de confirmación en este mismo navegador para continuar con tu perfil.');
+            window.location.assign(destino);
         } catch (error) {
             avisar(error.message || 'No se pudo iniciar el registro. Intenta de nuevo.');
         } finally {
@@ -835,11 +831,7 @@ document.getElementById('crear-cliente')?.addEventListener('click', async () => 
             }));
 
             document.getElementById('empresa-password').value = '';
-            if (data.session) {
-                window.location.assign(destino);
-                return;
-            }
-            avisar('Revisa tu correo y abre el enlace de confirmación en este mismo navegador para continuar con tu perfil.');
+            window.location.assign(destino);
         } catch (error) {
             avisar(error.message || 'No se pudo iniciar el registro. Intenta de nuevo.');
         } finally {

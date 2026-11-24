@@ -457,6 +457,7 @@ function abrirCotizacion(id) {
   const copia = e?.correo_copia || (antiguo ? detalle('Correo adicional') : '');
   const horario = e?.horario || (antiguo ? detalle('Horario') : '');
   const invitados = e?.invitados ?? (antiguo ? detalle('Invitados') : null);
+  const texto = String(c.mensaje_cliente || '');
   const comentarios = antiguo ? (texto.match(/^Comentarios:\s*([\s\S]*)/m)?.[1] || '') : c.mensaje_cliente || e?.descripcion;
   document.getElementById('detalle-contenido').innerHTML = `
     <div class="detalle-encabezado"><div><p class="eyebrow">SOLICITUD DE COTIZACIÓN${invitado ? ' · SIN REGISTRO' : ''}</p>
@@ -547,7 +548,12 @@ document.addEventListener('click', function(evento) {
   const boton = evento.target.closest('[data-ver-cotizacion]');
   if (!boton) return;
 
-  abrirCotizacion(boton.dataset.verCotizacion);
+  try {
+    abrirCotizacion(boton.dataset.verCotizacion);
+  } catch (error) {
+    console.error('Error al abrir cotizacion:', error);
+    alert('No se pudieron abrir los detalles: ' + error.message);
+  }
 });
 
 function renderizar() {

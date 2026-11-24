@@ -351,14 +351,7 @@ h1{font-size:34px}.card,.panel{border-radius:16px}.card{padding:25px 20px}.card 
   <section id="proveedores" class="section">
     <div class="panel">
       <h2>Artistas y proveedores</h2>
-      <p>
-        Aquí revisaremos los registros, documentos EPK
-        y solicitudes de publicación.
-      </p>
-      <p>
-        Los perfiles nuevos deberán pasar por el proceso
-        de revisión de hasta 72 horas.
-      </p>
+      <div id="solicitudes-perfil" aria-live="polite"></div>
     </div>
   </section>
 
@@ -452,14 +445,6 @@ function abrirCotizacion(id) {
       <h2>${escapar(e?.nombre || 'Evento sin nombre')}</h2>
       <p>Servicio solicitado: <strong>${escapar(c.servicio_nombre || e?.servicio_solicitado || c.servicio_tipo || 'No especificado')}</strong></p></div>
       <span class="badge">${escapar(c.estado || 'Pendiente')}</span></div>
-    <h3>Datos del cliente</h3>
-    <div class="detalle-grid" id="datos-cliente">
-      ${campo('Nombre', c.contacto_nombre || null)}
-      ${campo('Teléfono', c.contacto_telefono || null)}
-      ${campo('Correo electrónico', c.contacto_correo || null)}
-      ${c.correo_copia ? campo('Correo para copia', c.correo_copia) : ''}
-    </div>
-    <p id="aviso-datos-cliente" role="status"></p>
     <div class="detalle-grid">
       ${campo('Tipo de evento',e?.tipo)}
       ${campo('Fecha',fechaAmigable(e?.fecha))}
@@ -485,33 +470,6 @@ function abrirCotizacion(id) {
   panel.hidden = false;
   panel.scrollIntoView({behavior:'smooth',block:'start'});
   cargarMensajes(c.id);
-  cargarDatosCliente(c, campo);
-}
-
-async function cargarDatosCliente(c, campo) {
-  if (!c.cliente_id || (c.contacto_nombre && c.contacto_telefono && c.contacto_correo)) return;
-
-  const bloque = document.getElementById('datos-cliente');
-  const aviso = document.getElementById('aviso-datos-cliente');
-  aviso.textContent = 'Consultando datos del perfil…';
-
-  try {
-    const { data, error } = await db.rpc('nexo_contacto_cotizacion', {
-      p_id: String(c.id)
-    });
-    if (error) throw error;
-    if (!bloque.isConnected) return;
-
-    bloque.innerHTML = [
-      campo('Nombre', c.contacto_nombre || data?.nombre || null),
-      campo('Teléfono', c.contacto_telefono || data?.telefono || null),
-      campo('Correo electrónico', c.contacto_correo || data?.correo || null),
-      c.correo_copia ? campo('Correo para copia', c.correo_copia) : ''
-    ].join('');
-    aviso.textContent = '';
-  } catch {
-    aviso.textContent = 'No se pudieron consultar los datos del perfil.';
-  }
 }
 
 async function cargarMensajes(id) {
@@ -753,8 +711,91 @@ async function iniciar() {
   }
 }
 
+async function cargarSolicitudesPerfil() {
+  const panel = document.getElementById('solicitudes-perfil');
+  panel.textContent = 'Cargando solicitudes…';
+  try {
+    const { data, error } = await db.from('nexo_solicitudes_perfil')
+      .select('id, usuario_id, tipo_cuenta, datos, estado, creado_en')
+      .order('creado_en', { ascending: false });
+    if (error) throw error;
+    if (!data.length) {
+      panel.textContent = 'Todavía no hay solicitudes de artistas ni proveedores.';
+      return;
+    }
+
+    const lista = document.createDocumentFragment();
+    for (const solicitud of data) {
+      const perfil = solicitud.datos || {};
+      const ficha = document.createElement('details');
+      ficha.style.padding = '14px 0';
+      ficha.style.borderBottom = '1px solid #e5e2ee';
+      const titulo = document.createElement('summary');
+      const estado = solicitud.estado === 'pendiente_revision' ? 'Pendiente de revisión' : solicitud.estado;
+      titulo.textContent = [perfil.nombre || 'Perfil sin nombre', solicitud.tipo_cuenta, estado].join(' · ');
+      ficha.append(titulo);
+
+      for (const [etiqueta, valor] of [
+        ['Fecha', new Date(solicitud.creado_en).toLocaleString('es-MX')],
+        ['Nombre de contacto', perfil.contacto?.nombre],
+        ['Correo', perfil.contacto?.correo],
+        ['Teléfono', perfil.contacto?.telefono],
+        ['Categoría', perfil.categoria],
+        ['Servicio', perfil.servicio?.nombre],
+        ['Descripción', perfil.descripcion]
+      ]) {
+        if (!valor) continue;
+        const linea = document.createElement('p');
+        linea.textContent = etiqueta + ': ' + valor;
+        ficha.append(linea);
+      }
+
+      const adjuntos = [
+        ['Press kit', perfil.pressKit],
+        ['Rider técnico', perfil.datosInternos?.rider],
+        ['Portada', perfil.portada],
+        ['Foto de perfil', perfil.avatar],
+        ...(Array.isArray(perfil.galeria) ? perfil.galeria.map((foto, i) => ['Foto ' + (i + 1), foto]) : [])
+      ];
+      for (const [nombre, archivo] of adjuntos) {
+        const prefijo = solicitud.usuario_id + '/' + solicitud.tipo_cuenta + '/';
+        if (typeof archivo?.ruta !== 'string' || !archivo.ruta.startsWith(prefijo)) continue;
+        const boton = document.createElement('button');
+        boton.type = 'button';
+        boton.textContent = 'Descargar ' + nombre;
+        boton.style.margin = '4px 8px 4px 0';
+        boton.addEventListener('click', async () => {
+          boton.disabled = true;
+          try {
+            const { data: blob, error } = await db.storage.from('nexo-perfiles-adjuntos').download(archivo.ruta);
+            if (error) throw error;
+            const url = URL.createObjectURL(blob);
+            const enlace = document.createElement('a');
+            enlace.href = url;
+            enlace.download = typeof archivo.nombre === 'string' ? archivo.nombre : archivo.ruta.split('/').pop();
+            document.body.append(enlace);
+            enlace.click();
+            enlace.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 30000);
+          } catch (error) {
+            alert('No se pudo descargar el archivo. ' + (error.message || 'Intenta de nuevo.'));
+          } finally {
+            boton.disabled = false;
+          }
+        });
+        ficha.append(boton);
+      }
+      lista.append(ficha);
+    }
+    panel.replaceChildren(lista);
+  } catch (error) {
+    panel.textContent = 'No se pudieron cargar las solicitudes. ' + (error.message || 'Intenta de nuevo.');
+  }
+}
+
 document.querySelectorAll('[data-tab]').forEach(boton => {
   boton.addEventListener('click', () => {
+    if (boton.dataset.tab === 'proveedores') void cargarSolicitudesPerfil();
     document.querySelectorAll('[data-tab]').forEach(b =>
       b.classList.remove('active')
     );
@@ -809,21 +850,12 @@ document.addEventListener('click',async event=>{
  operacionPendiente=true;button.disabled=true;
  try{
   const auth=await db.auth.getUser();if(auth.error||!auth.data.user)throw new Error('La sesión expiró. Inicia sesión otra vez.');
-  if (action === 'eliminar' && ['cotizaciones', 'eventos'].includes(tipo)) {
-    const { error } = await db.rpc('nexo_gestion_admin', {
-      p_tipo: tipo,
-      p_id: String(record.id),
-      p_accion: 'eliminar'
-    });
-    if (error) throw error;
-  } else {
-    let request;
-    if(action==='eliminar')request=db.from(tipo).delete().eq('id',record.id).select('id');
-    else if(tipo==='cotizaciones'&&['visto','finalizado'].includes(action))request=db.from(tipo).update({estado:action}).eq('id',record.id).select('id');
-    else throw new Error('Acción no disponible.');
-    const result=await request;if(result.error)throw result.error;
-    if(result.data?.length!==1)throw new Error('No se confirmó el cambio. Revisa los permisos administrativos en Supabase.');
-  }
+  let request;
+  if(action==='eliminar')request=db.from(tipo).delete().eq('id',record.id).select('id');
+  else if(tipo==='cotizaciones'&&['visto','finalizado'].includes(action))request=db.from(tipo).update({estado:action}).eq('id',record.id).select('id');
+  else throw new Error('Acción no disponible.');
+  const result=await request;if(result.error)throw result.error;
+  if(result.data?.length!==1)throw new Error('No se confirmó el cambio. Revisa los permisos administrativos en Supabase.');
   if(String(cotizacionActualId)===id&&(action==='eliminar'||tipo==='cotizaciones')){
     cotizacionActualId=null;document.getElementById('detalle-cotizacion').hidden=true;
   }

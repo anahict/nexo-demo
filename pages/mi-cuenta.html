@@ -1517,6 +1517,21 @@ botonFavoritosHeader?.addEventListener('click', () => {
         }
 
         usuario = resultado.data.user;
+		  const { data: accesoAdmin, error: errorAdmin } = await cliente
+  .from('nexo_admin_access')
+  .select('user_id')
+  .eq('user_id', usuario.id)
+  .maybeSingle();
+
+if (errorAdmin) {
+  texto('estado-carga', 'No se pudo comprobar el acceso a tu panel. Recarga la página.');
+  return;
+}
+
+if (accesoAdmin) {
+  window.location.replace('../admin.html');
+  return;
+}
         nexoUsuario = usuario;
         revisarMensajesNuevos();
         $('nexo-cuenta').hidden = true;

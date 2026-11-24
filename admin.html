@@ -432,30 +432,55 @@ function fechaAmigable(fecha) {
   return d.toLocaleDateString('es-MX', {day:'numeric',month:'long',year:'numeric'});
 }
 
+function datosSolicitud(c) {
+  const e = eventos.find(x => String(x.id) === String(c.evento_id));
+  const invitado = !c.cliente_id;
+  const texto = String(c.mensaje_cliente || '');
+  const detalle = nombre => texto.split('\n').find(l => l.startsWith(nombre + ':'))?.slice(nombre.length + 1).trim() || '';
+  const antiguo = invitado && !e && !!detalle('Evento');
+  const tipo = e?.tipo || (antiguo ? detalle('Evento') : '');
+  const titulo = tipo ? 'Evento ' + tipo.charAt(0).toUpperCase() + tipo.slice(1).replace(/-/g,' ') : 'Solicitud de cotización';
+  return {e, invitado, antiguo, detalle, tipo, titulo: invitado ? titulo : e?.nombre || titulo};
+}
+
 function abrirCotizacion(id) {
   const c = cotizaciones.find(x => String(x.id) === String(id));
   if (!c) return;
   cotizacionActualId = c.id;
-  const e = eventos.find(x => String(x.id) === String(c.evento_id));
-  const campo = (nombre, valor) => `<div class="dato"><span>${nombre}</span><strong>${escapar(valor ?? 'No especificado')}</strong></div>`;
-  const presupuesto = e?.presupuesto == null ? 'No indicado' :
-    new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:0}).format(e.presupuesto);
+  const {e, invitado, antiguo, detalle, tipo, titulo} = datosSolicitud(c);
+  const campo = (nombre, valor) => `<div class="dato"><span>${nombre}</span><strong>${escapar(valor || 'No indicado')}</strong></div>`;
+  const moneda = n => new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:0}).format(n);
+  const rango = e?.presupuesto_rango || (antiguo ? detalle('Presupuesto') : '');
+  const rangos = {'menos-10000':'Menos de $10,000 MXN','10000-25000':'$10,000 – $25,000 MXN','25000-50000':'$25,000 – $50,000 MXN','50000-100000':'$50,000 – $100,000 MXN','mas-100000':'Más de $100,000 MXN','por-definir':'Por definir'};
+  const presupuesto = rango ? (rangos[rango] || rango) : e?.presupuesto == null ? 'No indicado' : moneda(e.presupuesto);
+  const correo = c.contacto_correo || e?.contacto_correo || '';
+  const copia = e?.correo_copia || (antiguo ? detalle('Correo adicional') : '');
+  const horario = e?.horario || (antiguo ? detalle('Horario') : '');
+  const invitados = e?.invitados ?? (antiguo ? detalle('Invitados') : null);
+  const comentarios = antiguo ? (texto.match(/^Comentarios:\s*([\s\S]*)/m)?.[1] || '') : c.mensaje_cliente || e?.descripcion;
   document.getElementById('detalle-contenido').innerHTML = `
-    <div class="detalle-encabezado"><div><p class="eyebrow">SOLICITUD DE COTIZACIÓN</p>
-      <h2>${escapar(e?.nombre || 'Evento sin nombre')}</h2>
+    <div class="detalle-encabezado"><div><p class="eyebrow">SOLICITUD DE COTIZACIÓN${invitado ? ' · SIN REGISTRO' : ''}</p>
+      <h2>${escapar(titulo)}</h2>
       <p>Servicio solicitado: <strong>${escapar(c.servicio_nombre || e?.servicio_solicitado || c.servicio_tipo || 'No especificado')}</strong></p></div>
       <span class="badge">${escapar(c.estado || 'Pendiente')}</span></div>
     <div class="detalle-grid">
-      ${campo('Tipo de evento',e?.tipo)}
-      ${campo('Fecha',fechaAmigable(e?.fecha))}
-      ${campo('Horario',e?.horario ? String(e.horario).slice(0,5) : 'Por confirmar')}
-      ${campo('Ciudad',e?.ciudad)}
-      ${campo('Invitados',e?.invitados == null ? 'No indicado' : Number(e.invitados).toLocaleString('es-MX'))}
+      ${campo('Tipo de evento',tipo)}
+      ${campo('Fecha',fechaAmigable(e?.fecha || (antiguo ? detalle('Fecha') : '')))}
+      ${campo('Horario',horario ? (/^\d{2}:\d{2}/.test(horario) ? horario.slice(0,5) : horario) : 'Por confirmar')}
+      ${campo('Ciudad',e?.ciudad || (antiguo ? detalle('Ciudad') : ''))}
+      ${campo('Invitados',invitados == null || invitados === '' ? 'No indicado' : Number(invitados).toLocaleString('es-MX'))}
       ${campo('Presupuesto estimado del cliente',presupuesto)}
     </div>
+    <h3>Datos del cliente</h3>
+    <div class="detalle-grid">
+      ${campo('Nombre',c.contacto_nombre || e?.contacto_nombre)}
+      ${campo('Teléfono',c.contacto_telefono || e?.contacto_telefono)}
+      ${campo('Correo electrónico',correo)}
+      ${campo('Correo adicional',copia)}
+    </div>
     <h3>Mensaje del cliente</h3>
-    <p class="texto-cliente">${escapar(c.mensaje_cliente || e?.descripcion || 'El cliente no dejó un mensaje adicional.')}</p>
-    <h3>Conversación</h3>
+    <p class="texto-cliente">${escapar(comentarios || 'El cliente no dejó un mensaje adicional.')}</p>
+    ${invitado ? `<h3>Contacto por correo</h3><p>El cliente no tiene cuenta. Utiliza tu aplicación de correo para responder.</p>${correo ? `<a class="btn" href="${escapar('mailto:' + encodeURIComponent(correo) + '?' + new URLSearchParams({subject:'NEXO | Tu solicitud de cotización', ...(copia && copia.includes('@') ? {cc:copia} : {})}).toString().replace(/\+/g,'%20'))}">Responder por correo</a>` : ''}` : `<h3>Conversación</h3>
     <div id="historial-mensajes" class="historial" aria-live="polite">Cargando mensajes...</div>
     <form id="form-respuesta">
       <label for="respuesta-texto">Responder al cliente</label>
@@ -463,13 +488,13 @@ function abrirCotizacion(id) {
       <button class="btn" type="submit" id="enviar-respuesta">Enviar mensaje</button>
       <p id="estado-respuesta" role="status" class="ayuda-respuesta"></p>
     </form>
-    <p class="ayuda-respuesta">La propuesta económica podrá añadirse después, cuando se hayan aclarado los detalles.</p>`;
+    <p class="ayuda-respuesta">La propuesta económica podrá añadirse después, cuando se hayan aclarado los detalles.</p>`}`;
   document.querySelectorAll('[data-tab]').forEach(b => b.classList.toggle('active',b.dataset.tab === 'cotizaciones'));
   document.querySelectorAll('.section').forEach(x => x.classList.toggle('active',x.id === 'cotizaciones'));
   const panel = document.getElementById('detalle-cotizacion');
   panel.hidden = false;
   panel.scrollIntoView({behavior:'smooth',block:'start'});
-  cargarMensajes(c.id);
+  if (!invitado) cargarMensajes(c.id);
 }
 
 async function cargarMensajes(id) {
@@ -590,9 +615,7 @@ function renderizar() {
             <tr>
               <td>${escapar(c.estado)}</td>
               <td>${escapar(
-                eventos.find(e => String(e.id) === String(c.evento_id))?.nombre
-                || c.evento_id
-                || 'Sin evento'
+                datosSolicitud(c).titulo
               )}</td>
               <td>
                 <button type="button" class="btn"

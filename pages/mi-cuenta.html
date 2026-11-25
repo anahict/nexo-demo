@@ -559,7 +559,7 @@
       Verificando tu sesión...
     </div>
 <style>
-#panel-talento[hidden], #talento-vista[hidden] { display: none; }
+#panel-talento[hidden], #talento-vista[hidden], #editar-talento[hidden], #talento-editar[hidden] { display: none; }
 .talento-portada { background: #19132c; color: white; border-radius: 18px; overflow: hidden; margin-bottom: 24px; }
 .talento-portada img { width: 100%; height: clamp(160px, 35vw, 420px); object-fit: cover; display: block; }
 .talento-portada img[hidden] { display: none; }
@@ -575,7 +575,10 @@
   <section class="tarjeta" aria-labelledby="talento-revision">
     <h2 id="talento-revision">Estado de revisión</h2>
     <p id="talento-estado"></p>
+    <p id="talento-comentario" style="white-space:pre-wrap;overflow-wrap:anywhere" hidden></p>
     <button class="evento-boton" type="button" id="talento-ver" aria-expanded="false" aria-controls="talento-vista">Ver vista previa</button>
+    <button class="evento-boton secundario" type="button" id="talento-editar" aria-controls="editar-talento" aria-expanded="false" hidden>Editar mi perfil</button>
+    <form class="tarjeta" id="editar-talento" hidden></form>
     <p id="talento-aviso" role="status"></p>
     <iframe id="talento-vista" title="Vista previa del perfil" sandbox="allow-scripts" hidden></iframe>
   </section>
@@ -1291,6 +1294,113 @@ botonFavoritosHeader?.addEventListener('click', () => {
     $('evento-form').addEventListener('submit',async e=>{e.preventDefault();await guardarEvento(false)});
     $('evento-cotizar').addEventListener('click',async()=>{await guardarEvento(true)});
 
+    function activarEdicionTalento(cliente, usuario, solicitud) {
+      if (solicitud.estado === 'publicado') return;
+      const formulario = $('editar-talento');
+      const abrir = $('talento-editar');
+      abrir.hidden = false;
+      const datos = solicitud.datos || {};
+      const campos = [
+        ['nombre', 'Nombre artístico o comercial', 'text', datos.nombre],
+        ['descripcion', 'Descripción', 'textarea', datos.descripcion],
+        ['ciudad', 'Ciudad o estado base', 'text', datos.estadoBase || datos.ciudad],
+        ['cobertura', 'Cobertura', 'text', datos.cobertura],
+        ['video', 'Enlace del video (YouTube o Vimeo)', 'url', datos.video],
+        ['servicio.nombre', 'Nombre del servicio o show', 'text', datos.servicio?.nombre],
+        ['servicio.duracion', 'Duración', 'text', datos.servicio?.duracion],
+        ['servicio.incluye', 'Qué incluye', 'textarea', datos.servicio?.incluye],
+        ['contacto.telefono', 'Teléfono de contacto', 'tel', datos.contacto?.telefono],
+        ...['instagram','tiktok','youtube','spotify','facebook','web'].map(red =>
+          ['redes.' + red, red === 'web' ? 'Sitio web' : red, 'url', datos.redes?.[red]])
+      ];
+      for (const [clave, nombre, tipo, valor] of campos) {
+        const etiqueta = document.createElement('label');
+        etiqueta.style.cssText = 'display:block;margin:0 0 12px';
+        etiqueta.textContent = nombre;
+        const entrada = document.createElement(tipo === 'textarea' ? 'textarea' : 'input');
+        if (tipo !== 'textarea') entrada.type = tipo;
+        entrada.name = clave;
+        entrada.value = valor ?? '';
+        entrada.required = clave === 'nombre' || clave === 'descripcion';
+        entrada.maxLength = tipo === 'textarea' ? 5000 : 500;
+        entrada.style.cssText = 'display:block;width:100%;padding:9px;border:1px solid #ded9ee;border-radius:8px;margin-top:5px;font:inherit';
+        etiqueta.append(entrada);
+        formulario.append(etiqueta);
+      }
+      for (const [clave, titulo, pdf] of [
+        ['portada','Reemplazar portada',false], ['avatar','Reemplazar foto de perfil',false],
+        ['galeria','Reemplazar galería',false], ['pressKit','Reemplazar EPK',true], ['rider','Reemplazar rider técnico',true]
+      ]) {
+        const etiqueta = document.createElement('label');
+        etiqueta.style.cssText = 'display:block;margin:0 0 12px';
+        etiqueta.textContent = titulo + ' (opcional)';
+        const entrada = document.createElement('input');
+        entrada.type = 'file';
+        entrada.name = clave;
+        entrada.accept = pdf ? 'application/pdf' : 'image/jpeg,image/png,image/webp';
+        entrada.multiple = clave === 'galeria';
+        entrada.style.display = 'block';
+        etiqueta.append(entrada);
+        formulario.append(etiqueta);
+      }
+      const enviar = document.createElement('button');
+      enviar.className = 'evento-boton';
+      enviar.type = 'submit';
+      enviar.textContent = 'Enviar de nuevo a revisión';
+      const estado = document.createElement('p');
+      estado.setAttribute('role', 'status');
+      formulario.append(enviar, estado);
+      abrir.addEventListener('click', () => {
+        formulario.hidden = !formulario.hidden;
+        abrir.setAttribute('aria-expanded', String(!formulario.hidden));
+      });
+      formulario.addEventListener('submit', async evento => {
+        evento.preventDefault();
+        if (enviar.disabled) return;
+        enviar.disabled = true;
+        estado.textContent = 'Guardando cambios…';
+        const controles = Array.from(formulario.elements).filter(el => el !== enviar);
+        controles.forEach(el => { el.disabled = true; });
+        try {
+          const cambios = Object.fromEntries(campos.map(([clave]) => [clave, formulario.elements.namedItem(clave).value.trim()]));
+          if (!cambios.nombre || !cambios.descripcion) throw new Error('Completa el nombre y la descripción.');
+          if (cambios.video !== (datos.video || '') && cambios.video && !window.NexoVistaPublica?.videoURL(cambios.video)) {
+            throw new Error('Usa un enlace válido de YouTube o Vimeo.');
+          }
+          const adjuntos = {};
+          const bucket = cliente.storage.from('nexo-perfiles-adjuntos');
+          for (const clave of ['portada','avatar','galeria','pressKit','rider']) {
+            const archivos = Array.from(formulario.elements.namedItem(clave).files);
+            if (!archivos.length) continue;
+            if (archivos.length > 8) throw new Error('Selecciona hasta ocho fotografías para la galería.');
+            const subidos = [];
+            for (const archivo of archivos) {
+              const extension = {'image/jpeg':'jpg','image/png':'png','image/webp':'webp','application/pdf':'pdf'}[archivo.type];
+              const pdf = ['pressKit','rider'].includes(clave);
+              if (!extension || (extension === 'pdf') !== pdf || archivo.size > 10 * 1024 * 1024) {
+                throw new Error('Revisa el formato del archivo y que pese como máximo 10 MB.');
+              }
+              const ruta = usuario.id + '/' + solicitud.tipo_cuenta + '/' + clave + '-' + crypto.randomUUID() + '.' + extension;
+              const { error } = await bucket.upload(ruta, archivo, { contentType: archivo.type, upsert: false });
+              if (error) throw error;
+              subidos.push({ ruta, nombre: archivo.name, bytes: archivo.size });
+            }
+            adjuntos[clave] = clave === 'galeria' ? subidos : subidos[0];
+          }
+          const { data, error } = await cliente.rpc('nexo_reenviar_perfil', {
+            p_id: String(solicitud.id), p_campos: cambios, p_adjuntos: adjuntos
+          });
+          if (error) throw error;
+          if (data !== true) throw new Error('No se confirmó el envío.');
+          window.location.reload();
+        } catch (error) {
+          estado.textContent = 'No se pudieron guardar los cambios. ' + error.message;
+          enviar.disabled = false;
+          controles.forEach(el => { el.disabled = false; });
+        }
+      });
+    }
+
     function mostrarPanelTalento(cliente, usuario, solicitud) {
       const datos = solicitud.datos || {};
       const artista = solicitud.tipo_cuenta === 'artista';
@@ -1299,14 +1409,21 @@ botonFavoritosHeader?.addEventListener('click', () => {
         pendiente_revision: 'Pendiente de revisión',
         aprobado: 'Aprobado',
         publicado: 'Publicado',
-        rechazado: 'No aprobado'
+        rechazado: 'No aprobado',
+        cambios_solicitados: 'Cambios solicitados'
       };
       texto('cuenta-etiqueta', artista ? 'Panel de talento' : 'Panel de proveedor');
       texto('cuenta-titulo', artista ? 'Mi perfil de talento' : 'Mi perfil de proveedor');
       texto('talento-nombre', nombre);
-      texto('talento-estado', estados[solicitud.estado] || solicitud.estado || 'Estado por confirmar');
+      const revision = solicitud.decision_revision || solicitud.estado;
+      texto('talento-estado', estados[revision] || revision || 'Estado por confirmar');
+      if (solicitud.comentario_revision) {
+        texto('talento-comentario', 'Comentario de NEXO: ' + solicitud.comentario_revision);
+        $('talento-comentario').hidden = false;
+      }
       $('estado-carga').hidden = true;
       $('panel-talento').hidden = false;
+      activarEdicionTalento(cliente, usuario, solicitud);
 
       const bucket = cliente.storage.from('nexo-perfiles-adjuntos');
       const prefijo = usuario.id + '/' + solicitud.tipo_cuenta + '/';
@@ -1426,7 +1543,7 @@ botonFavoritosHeader?.addEventListener('click', () => {
 
       try {
         const { data, error } = await cliente.from('nexo_solicitudes_perfil')
-          .select('tipo_cuenta, datos, estado')
+          .select('id, tipo_cuenta, datos, estado, decision_revision, comentario_revision')
           .eq('usuario_id', usuario.id)
           .in('tipo_cuenta', ['artista', 'proveedor'])
           .order('creado_en', { ascending: false })
@@ -1897,3 +2014,5 @@ function nexoDatosContacto() {
 </script>
 </body>
 </html>
+
+

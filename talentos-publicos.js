@@ -28,21 +28,43 @@
     return data;
   }
 
+  async function listar(tipo = '') {
+    const talentos = [];
+    const pagina = 100;
+    for (let desde = 0; ; desde += pagina) {
+      let consulta = db.from('nexo_talentos_publicos')
+        .select('id,tipo,nombre,categoria,descripcion,portada,avatar,generos');
+      if (tipo) consulta = consulta.eq('tipo', tipo);
+      const {data, error} = await consulta.order('publicado_en',{ascending:false}).order('id')
+        .range(desde, desde + pagina - 1);
+      if (error) throw error;
+      talentos.push(...data);
+      if (data.length < pagina) return talentos;
+    }
+  }
+
+  async function opcionesExplorar() {
+    const talentos = await listar();
+    return Promise.all(talentos.map(async t => {
+      const [clave, rotulo] = categoria(t.categoria);
+      const entretenimiento = ['comedia','magia','danza','conferencistas','conductores'].includes(clave);
+      return {
+        nombre: t.nombre,
+        descripcion: t.descripcion || rotulo,
+        tags: [rotulo, t.categoria, ...(t.generos || [])].filter(Boolean).join(' '),
+        grupo: t.tipo === 'proveedor' ? 'produccion' : entretenimiento ? 'entretenimiento' : 'musica',
+        imagen: await urlFoto(t.portada || t.avatar),
+        url: urlPerfil(t.id),
+        perfilPublicado: true
+      };
+    }));
+  }
+
   async function agregarAlCatalogo() {
     const grid = document.querySelector('.artistas-grid');
     if (!grid) return;
     try {
-      const talentos = [];
-      const pagina = 100;
-      for (let desde = 0; ; desde += pagina) {
-        const {data, error} = await db.from('nexo_talentos_publicos')
-          .select('id,nombre,categoria,descripcion,portada,avatar,generos')
-          .eq('tipo','artista').order('publicado_en',{ascending:false}).order('id')
-          .range(desde, desde + pagina - 1);
-        if (error) throw error;
-        talentos.push(...data);
-        if (data.length < pagina) break;
-      }
+      const talentos = await listar('artista');
 
       const tarjetas = await Promise.all(talentos.map(async t => {
         const tarjeta = document.createElement('article');
@@ -159,6 +181,7 @@
     }
   }
 
-  window.NexoTalentos = { obtener, agregarAlCatalogo, mostrarPerfil };
+  window.NexoTalentos = { obtener, agregarAlCatalogo, mostrarPerfil, opcionesExplorar };
 })();
+
 

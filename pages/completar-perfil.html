@@ -779,7 +779,7 @@
 <small>Máximo 20 MB. Puedes continuar sin adjuntarlo.</small>
 <p id="estado-press-kit" role="status" aria-live="polite"></p>
 </div>
-<p>Selecciona o elimina tu Press Kit. En esta demostración el PDF no se conserva ni se envía; solo se guarda su ficha descriptiva al solicitar revisión.</p>
+<p>Selecciona o elimina tu Press Kit. El PDF se adjunta a tu solicitud de revisión.</p>
 </div>
 <section id="seccion-rider" class="perfil-subseccion" hidden>
 <h3>Rider técnico para artistas</h3>
@@ -790,7 +790,7 @@
 <small>Máximo 20 MB. Adjunta los requerimientos técnicos de tu presentación.</small>
 <p id="estado-rider" role="status" aria-live="polite"></p>
 </div>
-<p>El rider es información interna y no aparece en tu perfil público. En esta demostración el PDF no se conserva ni se envía; solo se guarda su ficha descriptiva al solicitar revisión.</p>
+<p>El rider es información interna y no aparece en tu perfil público. El PDF se adjunta a tu solicitud de revisión.</p>
 </section>
 <!-- =========================
                          VIDEO
@@ -1524,7 +1524,7 @@
         </h3>
 
         <p>
-            En la plataforma, NEXO revisará tu perfil antes de publicarlo. Esta demostración solo guarda una solicitud local; no envía información al equipo. Las tarifas, el EPK y el rider no se muestran públicamente. Esta demostración no ofrece confidencialidad real ni conserva archivos PDF. Para almacenar el EPK y permitir consultarlo, actualizarlo o eliminarlo de forma privada será necesario implementar un servidor con autenticación y control de acceso.
+            El equipo de NEXO revisará tu perfil antes de publicarlo. Las tarifas, el EPK y el rider son de uso interno.
         </p>
 
         <label class="perfil-aceptacion">
@@ -1559,7 +1559,7 @@
             class="perfil-siguiente"
             id="publicar-perfil"
         >
-            Guardar solicitud de revisión (demo)
+            Enviar solicitud a revisión
         </button>
 
     </div>
@@ -1665,8 +1665,8 @@
     ========================== -->
 
     <script src="../nexo-vista-publica.js"></script>
-   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script src="../perfil.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../perfil.js?v=solicitudes-20261125"></script>
 	<script src="../buscador.js" defer></script>
 
 

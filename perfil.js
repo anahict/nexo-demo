@@ -1769,36 +1769,16 @@ document.addEventListener("DOMContentLoaded", function () {
             'https://bbszahuoeclszmivgnyy.supabase.co',
             'sb_publishable_VLTfpjdin94_xmYSA-Y-yg_-q8_e_Ii'
         );
-                    const correo = (datosRegistro.correo || '').trim().toLowerCase();
-                    if (!correo) throw new Error('Abre Completar perfil desde el enlace de confirmación en el navegador donde te registraste.');
-                    const { data: auth } = await db.auth.getUser();
-                    let usuario = auth?.user;
-                    if (usuario?.email?.toLowerCase() !== correo) {
-                        const ventana = document.createElement('dialog');
-                        ventana.innerHTML = '<form method="dialog"><h2>Verifica tu cuenta para enviar el perfil</h2><p></p><label>Contraseña <input type="password" autocomplete="current-password" required></label><p><button value="cancelar" formnovalidate>Cancelar</button> <button value="enviar">Verificar y enviar</button></p></form>';
-                        ventana.querySelector('p').textContent = correo;
-                        document.body.append(ventana);
-                        const campo = ventana.querySelector('input');
-                        const confirmado = await new Promise(resolve => {
-                            ventana.addEventListener('close', () => resolve(ventana.returnValue === 'enviar'), { once: true });
-                            ventana.showModal();
-                        });
-                        const password = confirmado ? campo.value : '';
-                        campo.value = '';
-                        ventana.remove();
-                        if (!confirmado) return;
-                        const { data, error } = await db.auth.signInWithPassword({ email: correo, password });
-                        if (error) throw error;
-                        usuario = data.user;
-                    }
-                    if (!usuario || usuario.email?.toLowerCase() !== correo) {
-                        throw new Error('No se pudo verificar la cuenta de este perfil.');
+                    const { data: auth, error: authError } = await db.auth.getUser();
+                    if (authError || !auth?.user?.email ||
+                        auth.user.email.toLowerCase() !== (datosRegistro.correo || '').trim().toLowerCase()) {
+                        throw new Error('Inicia sesión con el correo que usaste para este registro.');
                     }
 
                     const tipoCuenta = esArtista ? 'artista' : 'proveedor';
                     const tabla = db.from('nexo_solicitudes_perfil');
                     const { data: existente, error: consultaError } = await tabla.select('id')
-                        .eq('usuario_id', usuario.id).eq('tipo_cuenta', tipoCuenta).maybeSingle();
+                        .eq('usuario_id', auth.user.id).eq('tipo_cuenta', tipoCuenta).maybeSingle();
                     if (consultaError) throw consultaError;
 
                     if (!existente) {
@@ -1808,7 +1788,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             const huella = Array.from(new Uint8Array(hash), n => n.toString(16).padStart(2, '0')).join('');
                             const extension = ({'image/jpeg':'jpg','image/png':'png','image/webp':'webp','application/pdf':'pdf'})[contentType];
                             if (!extension) throw new Error('Formato de adjunto no compatible: ' + etiqueta);
-                            const ruta = usuario.id + '/' + tipoCuenta + '/' + etiqueta + '-' + huella + '.' + extension;
+                            const ruta = auth.user.id + '/' + tipoCuenta + '/' + etiqueta + '-' + huella + '.' + extension;
                             const { error } = await bucket.upload(ruta, blob, { contentType, upsert: false });
                             if (error && String(error.statusCode) !== '409') throw error;
                             return { ruta, nombre: nombre || etiqueta + '.' + extension, bytes: blob.size };

@@ -455,9 +455,9 @@
 
             <a href="index.html" class="nexo-login nexo-inicio">Inicio</a>
 
-           <a href="pages/mi-cuenta.html" class="nexo-login" id="nexo-cuenta">
-  Mi cuenta
-</a>
+            <a href="pages/login.html" class="nexo-login" id="nexo-cuenta">
+                Iniciar sesión
+            </a>
 
             <a href="pages/proveedores.html" class="nexo-publicar">
                 Publica tus servicios
@@ -1442,6 +1442,26 @@
         [categoria, 'Categoría de talento'], ...opciones.map(nombre => [nombre, categoria])
       ]), ...produccion.map(nombre => [nombre, 'Producción y servicios'])];
 
+      const buscadoresActivos = [];
+      document.addEventListener('DOMContentLoaded', async () => {
+        try {
+          if (!window.NexoTalentos) return;
+          const publicados = await window.NexoTalentos.opcionesExplorar({ conFotos: false });
+          for (const perfil of publicados.reverse()) {
+            const duplicado = catalogo.findIndex(item =>
+              artistas.includes(item) && normalizar(item[0]) === normalizar(perfil.nombre)
+            );
+            if (duplicado !== -1) catalogo.splice(duplicado, 1);
+            catalogo.unshift([perfil.nombre, perfil.categoria, 'pages/' + perfil.url]);
+          }
+          for (const { input, buscar, lista } of buscadoresActivos) {
+            if (input === document.activeElement && !lista.hidden) buscar();
+          }
+        } catch (error) {
+          console.error('No se pudo cargar el catálogo publicado en Inicio.', error);
+        }
+      });
+
       document.querySelectorAll('form[data-nexo-autocomplete]').forEach((form, index) => {
         const input = form.querySelector('input[name="q"]');
         if (!input) return;
@@ -1475,7 +1495,7 @@
             };
             return puntaje(a) - puntaje(b);
           }).slice(0, 7);
-          coincidencias.forEach(([nombre, categoria]) => {
+          coincidencias.forEach(([nombre, categoria, url]) => {
             const boton = document.createElement('button');
             boton.type = 'button';
             boton.className = 'nexo-autocomplete-opcion';
@@ -1484,6 +1504,10 @@
             const detalle = document.createElement('small'); detalle.textContent = categoria;
             boton.append(titulo, detalle);
             boton.addEventListener('click', () => {
+              if (url) {
+                window.location.assign(url);
+                return;
+              }
               input.value = nombre;
               cerrarLista();
               form.requestSubmit();
@@ -1499,6 +1523,7 @@
           lista.hidden = false;
           input.setAttribute('aria-expanded', 'true');
         }
+        buscadoresActivos.push({ input, buscar, lista });
         input.addEventListener('input', buscar);
         input.addEventListener('focus', buscar);
         input.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarLista(); });
@@ -1544,6 +1569,7 @@ document.querySelectorAll(
 	
 <!-- NEXO: reconocer al usuario conectado -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="talentos-publicos.js?v=buscador-inicio"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', async function () {
@@ -1580,3 +1606,4 @@ document.addEventListener('DOMContentLoaded', async function () {
 </body>
 
 </html>
+

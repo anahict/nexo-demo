@@ -43,17 +43,18 @@
     }
   }
 
-  async function opcionesExplorar() {
+  async function opcionesExplorar({ conFotos = true } = {}) {
     const talentos = await listar();
     return Promise.all(talentos.map(async t => {
       const [clave, rotulo] = categoria(t.categoria);
       const entretenimiento = ['comedia','magia','danza','conferencistas','conductores'].includes(clave);
       return {
         nombre: t.nombre,
+        categoria: rotulo,
         descripcion: t.descripcion || rotulo,
         tags: [rotulo, t.categoria, ...(t.generos || [])].filter(Boolean).join(' '),
         grupo: t.tipo === 'proveedor' ? 'produccion' : entretenimiento ? 'entretenimiento' : 'musica',
-        imagen: await urlFoto(t.portada || t.avatar),
+        imagen: conFotos ? await urlFoto(t.portada || t.avatar) : '',
         url: urlPerfil(t.id),
         perfilPublicado: true
       };
@@ -183,5 +184,6 @@
 
   window.NexoTalentos = { obtener, agregarAlCatalogo, mostrarPerfil, opcionesExplorar };
 })();
+
 
 

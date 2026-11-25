@@ -6,6 +6,46 @@
   if (!boton || !estado) return;
 
   const valor = id => document.getElementById(id)?.value.trim() || '';
+  const idsFecha = ['fecha-dia', 'fecha-mes', 'fecha-anio'];
+  const idsHora = ['evento-hora', 'evento-minutos', 'evento-periodo'];
+  const avisoFecha = document.getElementById('cotizador-fecha-aviso');
+  const dos = valor => String(valor).padStart(2, '0');
+  function sincronizarFechaHora() {
+    const [dia, mes, anio] = idsFecha.map(valor);
+    const fecha = new Date(Date.UTC(Number(anio), Number(mes) - 1, Number(dia)));
+    const valida = /^[1-9]\d{3}$/.test(anio) && Number(dia) > 0 && Number(mes) > 0 &&
+      fecha.getUTCFullYear() === Number(anio) && fecha.getUTCMonth() + 1 === Number(mes) &&
+      fecha.getUTCDate() === Number(dia);
+    document.getElementById('fecha-evento').value = valida ? anio + '-' + dos(mes) + '-' + dos(dia) : '';
+
+    const [hora, minutos, periodo] = idsHora.map(valor);
+    const horaValida = !!hora && !!periodo && (!minutos || /^\d{1,2}$/.test(minutos) && Number(minutos) < 60);
+    document.getElementById('horario-evento').value = horaValida
+      ? dos(Number(hora) % 12 + (periodo === 'pm' ? 12 : 0)) + ':' + dos(Number(minutos)) : '';
+    return !valida ? 'Selecciona una fecha válida.' :
+      (!horaValida && (hora || minutos || periodo)) ? 'Completa la hora y elige a. m. o p. m., o deja el horario vacío.' : '';
+  }
+  if (avisoFecha) {
+    [...idsFecha, ...idsHora].forEach(id => {
+      const entrada = document.getElementById(id);
+      entrada.addEventListener('input', () => {
+        sincronizarFechaHora();
+        avisoFecha.textContent = '';
+      });
+    });
+    document.addEventListener('click', evento => {
+      const siguiente = evento.target.closest('.cotizador-siguiente');
+      if (!siguiente?.closest('.cotizador-paso')?.contains(avisoFecha)) return;
+      const error = sincronizarFechaHora();
+      avisoFecha.textContent = error;
+      if (error) {
+        evento.preventDefault();
+        evento.stopImmediatePropagation();
+        const grupo = valor('fecha-evento') ? idsHora : idsFecha;
+        document.getElementById(grupo.find(id => !valor(id)) || grupo[0]).focus();
+      }
+    }, true);
+  }
   const seleccionado = nombre => document.querySelector(`input[name="${nombre}"]:checked`);
   const mensaje = texto => { estado.textContent = texto; };
   document.querySelectorAll('[data-categoria-cotizacion]').forEach(grupo => {
@@ -132,6 +172,7 @@
     }
   }, true);
 })();
+
 
 
 

@@ -827,6 +827,10 @@ document.addEventListener("DOMContentLoaded", function () {
         filtrarArtistas();
     });
 
+    window.addEventListener('nexo-talentos-cargados', evento => {
+        tarjetasArtistas.unshift(...evento.detail);
+        reiniciarResultados();
+    });
     buscador.value = parametrosURL.get("q") || "";
     actualizarEspecialidades();
     mostrarElemento(grupoGenero, categoriasMusicales.includes(filtroTalento.value));
@@ -964,5 +968,6 @@ document.addEventListener("DOMContentLoaded", function () {
 })();
 </script>
 	
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../talentos-publicos.js"></script><script>document.addEventListener('DOMContentLoaded', () => void NexoTalentos.agregarAlCatalogo());</script>
 </body>
 </html>

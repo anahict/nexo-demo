@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Perfil de talento | NEXO</title>
+<link rel="stylesheet" href="../estilos.css">
+<style>
+body { margin:0; background:white; color:#17151f; }
+#talento-pagina[hidden], #talento-pagina [hidden] { display:none !important; }
+.cabecera-talento,.pie-talento { background:#101014; color:#fff; padding:18px 5%; display:flex; gap:24px; flex-wrap:wrap; align-items:center; }
+.cabecera-talento a,.pie-talento a { color:#fff; text-decoration:none; }
+.cabecera-talento nav { display:flex; gap:24px; flex-wrap:wrap; }
+.cabecera-talento .marca-talento { margin-right:auto; font:bold 32px Arial; letter-spacing:2px; }
+.marca-talento span { color:#6c4cff; }
+#carga-talento { color:#17151f; padding:32px 5%; }
+#talento-pagina {
+  --nexo-morado:#6C4CFF; --nexo-negro:#0F0F10; --nexo-texto:#17151F; --nexo-gris:#666;
+  color:var(--nexo-texto); background:#fff; font-family:Arial,Helvetica,sans-serif;
+  .btn-principal { background:var(--nexo-morado); color:white; padding:15px 26px; border-radius:30px; border:0; font:inherit; font-weight:700; display:inline-block; text-align:center; cursor:pointer; }
+      .perfil-hero {
+      position: relative;
+      min-height: 620px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background: #10101A;
+      color: #fff;
+    }
+
+    .perfil-hero-imagen {
+      position: absolute;
+      inset: 0;
+    }
+
+    .perfil-hero-imagen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+    }
+
+    .perfil-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg,
+        rgba(10, 8, 25, .94) 0%,
+        rgba(10, 8, 25, .70) 35%,
+        rgba(10, 8, 25, .12) 75%
+      );
+    }
+
+    .perfil-hero-contenido {
+      position: relative;
+      z-index: 2;
+      width: min(1200px, 90%);
+      margin: auto;
+      padding: 90px 0;
+    }
+
+    .etiqueta {
+      color: #A995FF;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .perfil-hero h1 {
+      font-size: clamp(46px, 6vw, 78px);
+      margin: 18px 0;
+      line-height: 1.05;
+      color: #fff;
+    }
+
+    .perfil-hero p {
+      max-width: 580px;
+      font-size: 19px;
+      line-height: 1.7;
+      margin-bottom: 35px;
+      color: #f1f1f1;
+    }
+
+    /* ==============================
+       CONTENIDO PRINCIPAL
+    ============================== */
+
+    .perfil-main {
+      background: #fff;
+      padding: 65px 5% 100px;
+    }
+
+    .perfil-container {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .perfil-datos {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      background: #fff;
+      border: 1px solid #E6E6E6;
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, .04);
+      margin-bottom: 65px;
+    }
+
+    .perfil-datos > div:not(:last-child) {
+      border-right: 1px solid #EAEAEA;
+    }
+
+    .perfil-datos small {
+      color: #777;
+      display: block;
+      margin-bottom: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .perfil-datos strong {
+      font-size: 16px;
+    }
+
+    .perfil-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(290px, 1fr);
+      gap: 55px;
+      align-items: start;
+    }
+
+    .perfil-seccion {
+      margin-bottom: 65px;
+    }
+
+    .perfil-seccion h2 {
+      font-size: 30px;
+      margin: 12px 0 25px;
+      color: #17151F;
+    }
+
+    .perfil-seccion p,
+    .perfil-seccion li {
+      color: #555;
+      line-height: 1.85;
+      font-size: 16px;
+    }
+
+    /* ==============================
+       GALERÍA
+    ============================== */
+
+    .galeria-principal {
+      height: 460px;
+      background: #17141F;
+      border-radius: 18px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .galeria-principal img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .galeria-control {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 42px;
+      height: 42px;
+      border: none;
+      border-radius: 50%;
+      background: #fff;
+      color: #17151F;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .galeria-control.anterior {
+      left: 15px;
+    }
+
+    .galeria-control.siguiente {
+      right: 15px;
+    }
+
+    .galeria-miniaturas {
+      display: flex;
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .galeria-miniaturas button {
+      padding: 0;
+      border: 2px solid var(--nexo-morado);
+      border-radius: 10px;
+      overflow: hidden;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .galeria-miniaturas img {
+      width: 90px;
+      height: 65px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .galeria-nota {
+      font-size: 13px !important;
+      color: #777 !important;
+      margin-top: 12px;
+    }
+
+    /* ==============================
+       VIDEOS
+    ============================== */
+
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .video-card {
+      border: 1px solid #EAEAEA;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .video-card iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 0;
+    }
+
+    .video-card h3 {
+      margin: 16px;
+      font-size: 16px;
+    }
+
+    /* ==============================
+       FORMATOS DE SHOW
+    ============================== */
+
+    .shows-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .show-card {
+      border: 1px solid #E8E8E8;
+      border-radius: 18px;
+      padding: 26px;
+      background: #fff;
+    }
+
+    .show-card span {
+      display: inline-block;
+      color: var(--nexo-morado);
+      background: #F0EBFF;
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .show-card h3 {
+      font-size: 22px;
+      margin: 20px 0 10px;
+    }
+
+    .show-card ul {
+      padding-left: 20px;
+    }
+
+    /* ==============================
+       COLUMNA DERECHA
+    ============================== */
+
+    .perfil-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      position: sticky;
+      top: 20px;
+    }
+
+    .sidebar-card {
+      background: #fff;
+      border: 1px solid #E7E7E7;
+      border-radius: 20px;
+      padding: 30px;
+    }
+
+    .artista-card {
+      text-align: center;
+    }
+
+  .artista-avatar {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  margin: 0 auto 18px;
+  background-color: #17114B;
+}
+
+    .artista-card h2 {
+      margin: 0 0 10px;
+      font-size: 24px;
+    }
+
+    .artista-card p {
+      color: #777;
+      margin-bottom: 25px;
+    }
+
+    .artista-card .btn-principal {
+      display: block;
+      width: 100%;
+    }
+
+    .btn-favoritos {
+      width: 100%;
+      padding: 14px;
+      margin-top: 12px;
+      border: 1px solid var(--nexo-morado);
+      border-radius: 30px;
+      background: #fff;
+      color: var(--nexo-morado);
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .btn-favoritos[aria-pressed="true"] {
+      background: #F0EBFF;
+    }
+
+    .redes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .redes-grid a {
+      padding: 14px 8px;
+      background: #F3F0FF;
+      color: var(--nexo-morado);
+      border-radius: 10px;
+      font-weight: 700;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .redes-grid a:hover {
+      background: #E8E0FF;
+    }
+
+    /* ==============================
+       CONTRATACIÓN
+    ============================== */
+
+    .perfil-cta {
+      background: #17141F;
+      color: #fff;
+      border-radius: 22px;
+      padding: 38px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 25px;
+      margin-top: 35px;
+    }
+
+    .perfil-cta h2 {
+      color: #fff;
+      margin: 0 0 12px;
+    }
+
+    .perfil-cta p {
+      color: #ddd;
+      margin: 0;
+    }
+
+    /* ==============================
+       FOOTER
+    ============================== */
+
+
+  .perfil-hero p { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+  .perfil-sidebar .artista-avatar { width:160px; height:160px; object-fit:cover; border-radius:50%; }
+  .perfil-seccion .videos-grid, .perfil-seccion .shows-grid { grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr)); }
+  .galeria-miniaturas button[aria-pressed="true"] { outline:2px solid var(--nexo-morado); }
+  .galeria-control { z-index:1; }
+  .perfil-sidebar .btn-principal { width:100%; }
+  .perfil-seccion p { white-space:pre-line; }
+  .redes-grid a { text-decoration:none; }
+  @media(max-width:950px) {
+    .perfil-grid { grid-template-columns:1fr; }
+    .perfil-sidebar { position:static; }
+    .perfil-hero { min-height:500px; }
+  }
+  @media(max-width:600px) {
+    .perfil-hero { min-height:440px; }
+    .perfil-hero-contenido { padding:60px 0; }
+    .perfil-hero h1 { font-size:clamp(34px,10vw,50px); }
+    .perfil-hero p { font-size:16px; }
+    .perfil-datos { grid-template-columns:1fr; gap:14px; margin-bottom:35px; }
+    .perfil-datos > div:not(:last-child) { border-right:0; }
+    .galeria-principal { height:260px; }
+    .perfil-cta { flex-direction:column; align-items:flex-start; gap:15px; }
+  }
+}
+
+</style></head>
+<body>
+<header class="cabecera-talento"><a class="marca-talento" href="../index.html">NE<span>X</span>O</a>
+<nav aria-label="Navegación"><a href="artistas.html">Explorar artistas</a><a href="eventos.html">Tipos de evento</a><a href="como-funciona.html">Cómo funciona</a><a href="login.html">Iniciar sesión</a></nav></header>
+<p id="carga-talento" role="status">Cargando perfil…</p>
+<main id="talento-pagina" hidden aria-labelledby="perfil-talento-titulo">
+  <section class="perfil-hero">
+    <div class="perfil-hero-imagen"><img id="perfil-talento-portada" alt="" hidden></div>
+    <div class="perfil-hero-overlay"></div>
+    <div class="perfil-hero-contenido">
+      <span class="etiqueta" id="perfil-talento-categoria"></span>
+      <h1 id="perfil-talento-titulo" tabindex="-1"></h1>
+      <p id="perfil-talento-intro"></p>
+      <a class="btn-principal perfil-talento-cotizar">Solicitar cotización</a>
+    </div>
+  </section>
+  <div class="perfil-main">
+    <div class="perfil-container">
+      <div class="perfil-datos">
+        <div><small>Categoría</small><strong id="perfil-talento-tipo"></strong></div>
+        <div><small>Espectáculo o servicio</small><strong id="perfil-talento-show"></strong></div>
+        <div><small>Disponibilidad</small><strong>Sujeta a confirmación</strong></div>
+      </div>
+      <div class="perfil-grid">
+        <div class="perfil-contenido">
+          <section class="perfil-seccion" id="perfil-talento-galeria" hidden>
+            <span class="etiqueta">Multimedia</span><h2>Galería de fotografías</h2>
+            <div class="galeria-principal">
+              <button type="button" class="galeria-control anterior" aria-label="Foto anterior">❮</button>
+              <img id="perfil-talento-foto" alt="">
+              <button type="button" class="galeria-control siguiente" aria-label="Foto siguiente">❯</button>
+            </div>
+            <div class="galeria-miniaturas" id="perfil-talento-miniaturas"></div>
+          </section>
+          <section class="perfil-seccion" id="perfil-talento-videos" hidden>
+            <span class="etiqueta">Videos</span><h2 id="perfil-talento-video-titulo"></h2>
+            <div class="videos-grid"><div class="video-card"><iframe id="perfil-talento-video" loading="lazy" allowfullscreen></iframe></div></div>
+          </section>
+          <section class="perfil-seccion" id="perfil-talento-bio">
+            <span class="etiqueta">Sobre el talento</span><h2 id="perfil-talento-bio-titulo"></h2>
+            <p id="perfil-talento-descripcion"></p>
+          </section>
+          <section class="perfil-seccion" id="perfil-talento-formatos" hidden>
+            <span class="etiqueta">Espectáculos</span><h2>Formatos disponibles</h2>
+            <div class="shows-grid"><article class="show-card">
+              <h3 id="perfil-talento-show-nombre"></h3><p id="perfil-talento-show-detalle"></p><p id="perfil-talento-duracion"></p>
+            </article></div>
+          </section>
+        </div>
+        <aside class="perfil-sidebar">
+          <div class="sidebar-card artista-card">
+            <img class="artista-avatar" id="perfil-talento-avatar" alt="" hidden>
+            <h2 id="perfil-talento-sidebar"></h2><p id="perfil-talento-sidebar-tipo"></p>
+            <a class="btn-principal perfil-talento-cotizar">Solicitar cotización</a>
+          </div>
+          
+        </aside>
+      </div>
+    </div>
+  </div>
+</main>
+<footer class="pie-talento"><a href="../index.html">NEXO</a><a href="artistas.html">Explorar artistas</a><a href="contacto.html">Contacto</a></footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../talentos-publicos.js"></script><script src="../nexo-vista-publica.js"></script>
+<script>void NexoTalentos.mostrarPerfil();</script></body></html>

@@ -565,7 +565,15 @@
 .talento-portada img[hidden] { display: none; }
 .talento-portada h2 { color: white; font-size: clamp(28px, 5vw, 52px); padding: 24px; overflow-wrap: anywhere; }
 #panel-talento .tarjeta { margin-bottom: 20px; overflow-wrap: anywhere; }
-#talento-vista { width: 100%; height: min(1000px, 85vh); min-height: 520px; border: 1px solid #e4dff2; border-radius: 12px; margin-top: 16px; }
+#talento-pantalla {
+  position: fixed; inset: 0; margin: 0; padding: 0; border: 0;
+  width: 100%; max-width: none; height: 100dvh; max-height: none;
+  background: #fff; color: #201a2d; overflow: hidden;
+}
+#talento-pantalla[open] { display: grid; grid-template-rows: auto minmax(0, 1fr); }
+#talento-pantalla::backdrop { background: #101014; }
+#talento-pantalla .talento-barra { padding: 8px clamp(12px, 4vw, 48px); background: #f4efff; }
+#talento-vista { display: block; width: 100%; height: 100%; border: 0; }
 </style>
 <section id="panel-talento" aria-labelledby="cuenta-titulo" hidden>
   <div class="talento-portada" id="talento-resumen">
@@ -576,11 +584,11 @@
     <h2 id="talento-revision">Estado de revisión</h2>
     <p id="talento-estado"></p>
     <p id="talento-comentario" style="white-space:pre-wrap;overflow-wrap:anywhere" hidden></p>
-    <button class="evento-boton" type="button" id="talento-ver" aria-expanded="false" aria-controls="talento-vista">Ver vista previa</button>
+    <button class="evento-boton" type="button" id="talento-ver" aria-expanded="false" aria-controls="talento-pantalla" aria-haspopup="dialog">Ver vista previa</button>
     <button class="evento-boton secundario" type="button" id="talento-editar" aria-controls="editar-talento" aria-expanded="false" hidden>Editar mi perfil</button>
     <form class="tarjeta" id="editar-talento" hidden></form>
     <p id="talento-aviso" role="status"></p>
-    <iframe id="talento-vista" title="Vista previa del perfil" sandbox="allow-scripts" hidden></iframe>
+
   </section>
 </section>
 <div hidden="" id="panel-cliente">
@@ -1441,9 +1449,10 @@ botonFavoritosHeader?.addEventListener('click', () => {
 
       const boton = $('talento-ver');
       const vista = $('talento-vista');
+      const pantalla = $('talento-pantalla');
       const perfilCompleto = ['aprobado', 'publicado'].includes(revision) || solicitud.estado === 'publicado';
       const abrirPerfil = perfilCompleto ? 'Ver perfil completo' : 'Ver vista previa';
-      const cerrarPerfil = perfilCompleto ? 'Ocultar perfil completo' : 'Cerrar vista previa';
+
       boton.textContent = abrirPerfil;
       if (perfilCompleto) {
         texto('cuenta-titulo', nombre);
@@ -1451,12 +1460,7 @@ botonFavoritosHeader?.addEventListener('click', () => {
       }
       async function mostrarVistaTalento() {
         if (boton.disabled) return;
-        if (!vista.hidden) {
-          vista.hidden = true;
-          boton.textContent = abrirPerfil;
-          boton.setAttribute('aria-expanded', 'false');
-          return;
-        }
+        if (pantalla.open) return;
         boton.disabled = true;
         texto('talento-aviso', 'Cargando vista previa…');
         try {
@@ -1482,8 +1486,7 @@ botonFavoritosHeader?.addEventListener('click', () => {
             disponibilidad: 'Sujeta a confirmación'
           });
           vista.hidden = false;
-          if (perfilCompleto) $('talento-resumen').hidden = true;
-          boton.textContent = cerrarPerfil;
+          pantalla.showModal();
           boton.setAttribute('aria-expanded', 'true');
           texto('talento-aviso', '');
         } catch (error) {
@@ -1492,6 +1495,13 @@ botonFavoritosHeader?.addEventListener('click', () => {
           boton.disabled = false;
         }
       }
+      $('talento-volver').addEventListener('click', () => pantalla.close());
+      pantalla.addEventListener('close', () => {
+        boton.setAttribute('aria-expanded', 'false');
+        vista.hidden = true;
+        vista.removeAttribute('srcdoc');
+        boton.focus();
+      });
       boton.addEventListener('click', mostrarVistaTalento);
       if (perfilCompleto) void mostrarVistaTalento();
     }
@@ -2025,8 +2035,15 @@ function nexoDatosContacto() {
   actualizarAvisos();
 })();
 </script>
+<dialog id="talento-pantalla" aria-label="Perfil del talento">
+  <div class="talento-barra">
+    <button type="button" class="evento-boton secundario" id="talento-volver" autofocus>← Volver a Mi cuenta</button>
+  </div>
+  <iframe id="talento-vista" title="Vista previa del perfil" sandbox="allow-scripts" hidden></iframe>
+</dialog>
 </body>
 </html>
+
 
 
 

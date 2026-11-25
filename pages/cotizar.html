@@ -98,6 +98,7 @@
             .nexo-autocomplete-lista { max-height: 300px; }
         }
     </style>
+<style>.cotizador-opcion-ejemplo { display: block; font-size: .875em; font-weight: 400; margin-top: .35em; line-height: 1.4; }</style>
 </head>
 
 <body>
@@ -541,53 +542,29 @@
     </p>
 
     <h2>
-        ¿Qué necesitas para tu evento?
+        ¿Qué quieres cotizar?
     </h2>
 
     <p class="cotizador-ayuda">
-        Puedes seleccionar una o varias opciones.
+        Puedes seleccionar más de una opción.
     </p>
+    <p class="cotizador-ayuda" id="talento-solicitado-paso" hidden></p>
 
     <div class="cotizador-opciones">
 
         <label class="cotizador-opcion">
             <input type="checkbox" name="necesidades" value="artistas">
-            <span>Artistas</span>
+            <span>Artistas<small class="cotizador-opcion-ejemplo">Bandas, DJs y solistas.</small></span>
         </label>
 
         <label class="cotizador-opcion">
             <input type="checkbox" name="necesidades" value="entretenimiento">
-            <span>Entretenimiento</span>
-        </label>
-
-        <label class="cotizador-opcion">
-            <input type="checkbox" name="necesidades" value="audio">
-            <span>Audio</span>
-        </label>
-
-        <label class="cotizador-opcion">
-            <input type="checkbox" name="necesidades" value="iluminacion">
-            <span>Iluminación</span>
-        </label>
-
-        <label class="cotizador-opcion">
-            <input type="checkbox" name="necesidades" value="pantallas-led">
-            <span>Pantallas LED</span>
-        </label>
-
-        <label class="cotizador-opcion">
-            <input type="checkbox" name="necesidades" value="backline">
-            <span>Backline</span>
-        </label>
-
-        <label class="cotizador-opcion">
-            <input type="checkbox" name="necesidades" value="escenario">
-            <span>Escenario</span>
+            <span>Entretenimiento<small class="cotizador-opcion-ejemplo">Comedia, danza y espectáculos.</small></span>
         </label>
 
         <label class="cotizador-opcion">
             <input type="checkbox" name="necesidades" value="produccion-integral">
-            <span>Producción integral</span>
+            <span>Producción<small class="cotizador-opcion-ejemplo">Audio, iluminación, pantallas LED, backline y escenario.</small></span>
         </label>
 
     </div>
@@ -645,11 +622,6 @@
         <label class="cotizador-opcion">
             <input type="radio" name="presupuesto" value="mas-100000">
             <span>Más de $100,000 MXN</span>
-        </label>
-
-        <label class="cotizador-opcion">
-            <input type="radio" name="presupuesto" value="por-definir">
-            <span>Aún no lo sé</span>
         </label>
 
     </div>
@@ -837,7 +809,7 @@
 	
 	<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 	<script src="../script.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../talentos-publicos.js"></script><script src="../cotizar-nexo.js?v=talento-publicado"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../talentos-publicos.js"></script><script src="../cotizar-nexo.js?v=opciones-cortas"></script>
 
 <script id="nexo-menu-unificado-script">
 (() => {
@@ -958,4 +930,5 @@
 </body>
 
 </html>
+
 

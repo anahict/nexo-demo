@@ -483,7 +483,7 @@ function abrirCotizacion(id) {
     <div class="detalle-encabezado"><div><p class="eyebrow">SOLICITUD DE COTIZACIÓN${invitado ? ' · SIN REGISTRO' : ''}</p>
       <h2>${escapar(titulo)}</h2>
       <p>Servicio solicitado: <strong>${escapar(c.servicio_nombre || e?.servicio_solicitado || c.servicio_tipo || 'No especificado')}</strong></p></div>
-      <span class="badge">${escapar(c.estado || 'Pendiente')}</span></div>
+      <span class="badge">${escapar(c.gestion_estado === 'visto' ? 'Visto' : c.gestion_estado === 'finalizado' ? 'Finalizado' : c.estado || 'Pendiente')}</span></div>
     <div class="detalle-grid">
       ${campo('Tipo de evento',tipo)}
       ${campo('Fecha',fechaAmigable(e?.fecha || (antiguo ? detalle('Fecha') : '')))}
@@ -609,7 +609,7 @@ function renderizar() {
 
   const cotizacionesVisibles = cotizaciones.map(c => ({
     ...c,
-    estado: c.estado || c.status || 'Sin estado'
+    estado: c.gestion_estado === 'visto' ? 'Visto' : c.gestion_estado === 'finalizado' ? 'Finalizado' : c.estado || c.status || 'Sin estado'
   }));
 
     const columnasConAccion = [
@@ -1068,18 +1068,23 @@ document.addEventListener('click',async event=>{
  operacionPendiente=true;button.disabled=true;
  try{
   const auth=await db.auth.getUser();if(auth.error||!auth.data.user)throw new Error('La sesión expiró. Inicia sesión otra vez.');
-  let request;
-  if(action==='eliminar')request=db.from(tipo).delete().eq('id',record.id).select('id');
-  else if(tipo==='cotizaciones'&&['visto','finalizado'].includes(action))request=db.from(tipo).update({estado:action}).eq('id',record.id).select('id');
-  else throw new Error('Acción no disponible.');
-  const result=await request;if(result.error)throw result.error;
-  if(result.data?.length!==1)throw new Error('No se confirmó el cambio. Revisa los permisos administrativos en Supabase.');
-  if(String(cotizacionActualId)===id&&(action==='eliminar'||tipo==='cotizaciones')){
+  if (tipo === 'cotizaciones') {
+    const {data, error} = await db.rpc('nexo_gestionar_cotizacion_admin', {p_id: String(record.id), p_accion: action});
+    if (error) throw error;
+    if (data !== true) throw new Error('No se confirmó el cambio.');
+  } else if (action === 'eliminar') {
+    const {data, error} = await db.from('eventos').delete().eq('id', record.id).select('id');
+    if (error) throw error;
+    if (data?.length !== 1) throw new Error('No se confirmó la eliminación del evento.');
+  } else {
+    throw new Error('Acción no disponible.');
+  }
+  if(tipo==='cotizaciones'&&String(cotizacionActualId)===id){
     cotizacionActualId=null;document.getElementById('detalle-cotizacion').hidden=true;
   }
   await cargarDatos();
   const status=document.getElementById('system-message');status.className='message';status.textContent=action==='eliminar'?'Registro eliminado.':'Estado actualizado: '+action+'.';
- }catch(error){mostrarError('No se pudo guardar el cambio: '+error.message+' Si Supabase indica permisos o estado no válido, falta ajustar su configuración.');}
+ }catch(error){mostrarError('No se pudo guardar el cambio: '+error.message);}
  finally{operacionPendiente=false;button.disabled=false;}
 });
 
@@ -1088,6 +1093,7 @@ iniciar();
 
 </body>
 </html>
+
 
 
 

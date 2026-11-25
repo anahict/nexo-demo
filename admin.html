@@ -286,6 +286,7 @@ h1{font-size:34px}.card,.panel{border-radius:16px}.card{padding:25px 20px}.card 
 #lista-usuarios td { overflow-wrap: anywhere; }
 .usuarios-paginas { margin-top: 16px; }
 .usuarios-paginas[hidden] { display: none; }
+ .solicitud-acciones [hidden] { display: none; }
 </style>
 </head>
 
@@ -1106,6 +1107,35 @@ async function cargarSolicitudesPerfil() {
         avisoCorreo.textContent = 'Esta solicitud no tiene un correo de contacto válido.';
         acciones.append(avisoCorreo);
       }
+      const avisoCorreoPrueba = document.createElement('span');
+      avisoCorreoPrueba.setAttribute('role', 'status');
+      const correoPrueba = document.createElement('button');
+      correoPrueba.type = 'button';
+      correoPrueba.className = 'btn secondary';
+      correoPrueba.textContent = 'Probar correo de aprobación';
+      correoPrueba.hidden = revision !== 'aprobado';
+      async function enviarAvisoPrueba() {
+        if (correoPrueba.disabled) return;
+        correoPrueba.disabled = true;
+        avisoCorreoPrueba.textContent = 'Enviando aviso al correo interno…';
+        try {
+          const { data, error } = await db.functions.invoke('nexo-aviso-perfil-aprobado', {
+            body: { id: String(solicitud.id) }
+          });
+          if (error) {
+            const detalle = await error.context?.json?.().catch(() => null);
+            throw new Error(detalle?.error || error.message);
+          }
+          if (!data?.ok) throw new Error('No se confirmó el envío.');
+          avisoCorreoPrueba.textContent = 'Resend aceptó el aviso de prueba para el correo interno.';
+        } catch (error) {
+          avisoCorreoPrueba.textContent = 'No se pudo enviar el aviso de prueba. ' + (error.message || 'Intenta de nuevo.');
+        } finally {
+          correoPrueba.disabled = false;
+        }
+      }
+      correoPrueba.addEventListener('click', enviarAvisoPrueba);
+      acciones.append(correoPrueba, avisoCorreoPrueba);
       if (revision === 'pendiente_revision' || revision === 'cambios_solicitados') {
         const aprobar = document.createElement('button');
         aprobar.type = 'button';
@@ -1128,6 +1158,8 @@ async function cargarSolicitudesPerfil() {
             estado.classList.add('aprobado');
             aprobar.remove();
             aviso.textContent = 'Perfil aprobado.';
+            correoPrueba.hidden = false;
+            void enviarAvisoPrueba();
           } catch (error) {
             aviso.textContent = 'No se pudo aprobar. ' + error.message;
             aprobar.disabled = false;
@@ -1244,6 +1276,7 @@ iniciar();
 
 </body>
 </html>
+
 
 
 

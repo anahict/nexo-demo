@@ -7,6 +7,7 @@
 <title>NEXO | Administración</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./nexo-vista-publica.js"></script>
 
 <style>
 :root {
@@ -253,6 +254,25 @@ h1{font-size:34px}.card,.panel{border-radius:16px}.card{padding:25px 20px}.card 
 .actions{display:flex;gap:8px;flex-wrap:wrap}.btn:disabled{opacity:.5;cursor:wait}
 @media(max-width:800px){.tabs{position:static;width:auto;flex-direction:row;overflow:auto;flex-wrap:nowrap}.tabs button{white-space:nowrap}main>h1,main>.subtitle,main>.section,main>#system-message{margin-left:0}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:480px){.stats{grid-template-columns:1fr}}
+.solicitud-ficha { border: 1px solid #e5dff3; border-radius: 16px; margin: 16px 0; overflow: hidden; }
+.solicitud-ficha summary { cursor: pointer; background: #f6f2ff; padding: 20px; }
+.solicitud-ficha summary strong { font-size: 1.16rem; }
+.solicitud-estado { display: inline-block; margin: 4px 0 4px 12px; padding: 5px 10px; border-radius: 20px; background: #fff; color: #5835b5; font-size: .85rem; }
+.solicitud-estado.aprobado { background: #e1f5e7; color: #195e34; }
+.solicitud-contenido { padding: 20px; overflow-wrap: anywhere; }
+.solicitud-datos { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); gap: 12px; }
+.solicitud-datos > div { background: #f7f7fb; padding: 12px; border-radius: 10px; }
+.solicitud-datos dt { color: #625979; font-weight: 700; }
+.solicitud-datos dd { margin: 4px 0 0; }
+.solicitud-adjuntos, .solicitud-acciones { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.solicitud-adjuntos button { border: 1px solid #e5dff3; border-radius: 8px; padding: 8px 12px; background: #faf8ff; color: #50319c; cursor: pointer; }
+.solicitud-vista { margin-top: 20px; }
+.solicitud-privada { margin-top: 20px; padding: 16px; background: #fbf9ff; border: 1px solid #e5dff3; border-radius: 12px; }
+.solicitud-privada h3 { color: #50319c; margin: 0 0 12px; }
+.solicitud-privada .solicitud-adjuntos { margin-top: 14px; }
+.solicitud-vista iframe { display: block; width: 100%; height: min(80vh, 920px); min-height: 420px; border: 1px solid #e5dff3; border-radius: 12px; margin-top: 12px; }
+.solicitud-vista a { display: inline-block; margin-top: 12px; color: #50319c; font-weight: bold; }
+.solicitud-acciones { border-top: 1px solid #e5dff3; margin-top: 20px; padding-top: 16px; }
 </style>
 </head>
 
@@ -757,28 +777,48 @@ async function cargarSolicitudesPerfil() {
     for (const solicitud of data) {
       const perfil = solicitud.datos || {};
       const ficha = document.createElement('details');
-      ficha.style.padding = '14px 0';
-      ficha.style.borderBottom = '1px solid #e5e2ee';
+      ficha.className = 'solicitud-ficha';
       const titulo = document.createElement('summary');
-      const estado = solicitud.estado === 'pendiente_revision' ? 'Pendiente de revisión' : solicitud.estado;
-      titulo.textContent = [perfil.nombre || 'Perfil sin nombre', solicitud.tipo_cuenta, estado].join(' · ');
+      const identidad = document.createElement('strong');
+      identidad.textContent = (perfil.nombre || 'Perfil sin nombre') +
+        (solicitud.tipo_cuenta === 'artista' ? ' · Artista' : ' · Proveedor');
+      const estado = document.createElement('span');
+      estado.className = 'solicitud-estado';
+      estado.textContent = {pendiente_revision: 'Pendiente de revisión', aprobado: 'Aprobado'}[solicitud.estado] || solicitud.estado;
+      estado.classList.toggle('aprobado', solicitud.estado === 'aprobado');
+      titulo.append(identidad, estado);
       ficha.append(titulo);
 
+      const contenido = document.createElement('div');
+      contenido.className = 'solicitud-contenido';
+      const datos = document.createElement('dl');
+      datos.className = 'solicitud-datos';
       for (const [etiqueta, valor] of [
-        ['Fecha', new Date(solicitud.creado_en).toLocaleString('es-MX')],
+        ['Fecha de envío', new Date(solicitud.creado_en).toLocaleString('es-MX')],
         ['Nombre de contacto', perfil.contacto?.nombre],
         ['Correo', perfil.contacto?.correo],
         ['Teléfono', perfil.contacto?.telefono],
         ['Categoría', perfil.categoria],
-        ['Servicio', perfil.servicio?.nombre],
-        ['Descripción', perfil.descripcion]
+        ['Servicio', perfil.servicio?.nombre]
       ]) {
         if (!valor) continue;
-        const linea = document.createElement('p');
-        linea.textContent = etiqueta + ': ' + valor;
-        ficha.append(linea);
+        const campo = document.createElement('div');
+        const nombreCampo = document.createElement('dt');
+        const valorCampo = document.createElement('dd');
+        nombreCampo.textContent = etiqueta;
+        valorCampo.textContent = valor;
+        campo.append(nombreCampo, valorCampo);
+        datos.append(campo);
+      }
+      contenido.append(datos);
+      if (perfil.descripcion) {
+        const descripcion = document.createElement('p');
+        descripcion.textContent = perfil.descripcion;
+        contenido.append(descripcion);
       }
 
+      const archivos = document.createElement('div');
+      archivos.className = 'solicitud-adjuntos';
       const adjuntos = [
         ['Press kit', perfil.pressKit],
         ['Rider técnico', perfil.datosInternos?.rider],
@@ -792,7 +832,6 @@ async function cargarSolicitudesPerfil() {
         const boton = document.createElement('button');
         boton.type = 'button';
         boton.textContent = 'Descargar ' + nombre;
-        boton.style.margin = '4px 8px 4px 0';
         boton.addEventListener('click', async () => {
           boton.disabled = true;
           try {
@@ -812,8 +851,158 @@ async function cargarSolicitudesPerfil() {
             boton.disabled = false;
           }
         });
-        ficha.append(boton);
+        archivos.append(boton);
       }
+      const vista = document.createElement('details');
+      vista.className = 'solicitud-vista';
+      const tituloVista = document.createElement('summary');
+      tituloVista.textContent = 'Ver perfil final';
+      const avisoVista = document.createElement('p');
+      avisoVista.setAttribute('role', 'status');
+      vista.append(tituloVista, avisoVista);
+      let cargaVista = 0;
+      vista.addEventListener('toggle', async () => {
+        const carga = ++cargaVista;
+        if (!vista.open) return;
+        avisoVista.textContent = 'Cargando vista previa…';
+        try {
+          const plantilla = window.NexoVistaPublica;
+          if (!plantilla) throw new Error('Falta cargar la plantilla de perfil de NEXO.');
+          const prefijo = solicitud.usuario_id + '/' + solicitud.tipo_cuenta + '/';
+          const bucket = db.storage.from('nexo-perfiles-adjuntos');
+          const lista = valor => Array.isArray(valor) ? valor : [];
+          async function firmarFoto(archivo) {
+            if (typeof archivo?.ruta !== 'string' || !archivo.ruta.startsWith(prefijo)) return '';
+            const { data, error } = await bucket.createSignedUrl(archivo.ruta, 900);
+            if (error) throw error;
+            return data.signedUrl;
+          }
+          const [portada, avatar, galeria] = await Promise.all([
+            firmarFoto(perfil.portada), firmarFoto(perfil.avatar),
+            Promise.all(lista(perfil.galeria).map(firmarFoto))
+          ]);
+          if (!vista.open || carga !== cargaVista) return;
+          const video = plantilla.videoURL(perfil.video);
+          if (video) {
+            const enlace = document.createElement('a');
+            enlace.href = perfil.video;
+            enlace.target = '_blank';
+            enlace.rel = 'noopener noreferrer';
+            enlace.textContent = 'Abrir video original';
+            vista.append(enlace);
+          }
+
+          const marco = document.createElement('iframe');
+          marco.title = 'Vista previa de ' + (perfil.nombre || 'la solicitud');
+          marco.setAttribute('sandbox', 'allow-scripts');
+          plantilla.mostrar(marco, {
+            nombre: perfil.nombre || 'Perfil sin nombre',
+            categoria: perfil.categoria,
+            descripcion: perfil.descripcion,
+            portada, avatar, galeria: galeria.filter(Boolean), video,
+            ciudad: '', cobertura: perfil.cobertura,
+            generos: lista(perfil.generos),
+            subcategorias: lista(perfil.subcategorias),
+            decadas: lista(perfil.decadas),
+            servicio: {
+              nombre: perfil.servicio?.nombre,
+              duracion: perfil.servicio?.duracion,
+              incluye: perfil.servicio?.incluye
+            },
+            disponibilidad: 'Sujeta a confirmación'
+          });
+          vista.append(marco);
+          avisoVista.remove();
+        } catch (error) {
+          if (!vista.open || carga !== cargaVista) return;
+          avisoVista.textContent = 'No se pudo abrir la vista previa. ' +
+            (error.message || 'Cierra la vista y vuelve a abrirla.');
+        }
+      });
+      vista.addEventListener('toggle', () => {
+        if (!vista.open) {
+          vista.querySelectorAll('a, iframe').forEach(elemento => elemento.remove());
+          if (!avisoVista.isConnected) vista.append(avisoVista);
+        }
+      });
+      const internos = perfil.datosInternos || {};
+      const servicio = perfil.servicio || {};
+      const tarifa = internos.tarifaBase ?? servicio.precio;
+      const cantidad = typeof tarifa === 'string' ? tarifa.trim().replace(/[$,\s]/g, '') : tarifa;
+      const monto = cantidad !== '' && cantidad != null && Number.isFinite(Number(cantidad))
+        ? new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(Number(cantidad)) + ' MXN'
+        : tarifa || 'Sin tarifa registrada';
+
+      const privado = document.createElement('section');
+      privado.className = 'solicitud-privada';
+      const tituloPrivado = document.createElement('h3');
+      tituloPrivado.textContent = 'Información de revisión · Solo administración';
+      const campos = document.createElement('dl');
+      campos.className = 'solicitud-datos';
+      for (const [etiqueta, valor] of [
+        ['Tarifa base', monto],
+        ['Modalidad de tarifa', internos.modalidadTarifa ?? servicio.modalidad],
+        ['Ciudad o estado base', perfil.estadoBase || perfil.ciudad],
+        ['Cobertura', perfil.cobertura],
+        ['Disponibilidad', perfil.disponibilidad],
+        ['Días disponibles', perfil.disponibilidadDias],
+        ['Duración del servicio', servicio.duracion],
+        ['Qué incluye', servicio.incluye],
+        ['Anticipación requerida', servicio.anticipacion],
+        ['Puede viajar', servicio.viaja],
+        ['Personas del equipo', perfil.personasEquipo],
+        ['Experiencia', perfil.experiencia],
+        ['Experiencia destacada', perfil.experienciaDestacada],
+        ['Especialidades', perfil.subcategorias],
+        ['Géneros', perfil.generos],
+        ['Décadas', perfil.decadas],
+        ...[
+          ['Instagram', 'instagram'], ['TikTok', 'tiktok'], ['YouTube', 'youtube'],
+          ['Spotify', 'spotify'], ['Facebook', 'facebook'], ['Sitio web', 'web']
+        ].map(([etiqueta, clave]) => [etiqueta, perfil.redes?.[clave]])
+      ]) {
+        const texto = Array.isArray(valor) ? valor.join(', ') : valor;
+        if (texto == null || texto === '') continue;
+        const campo = document.createElement('div');
+        const nombre = document.createElement('dt');
+        const detalle = document.createElement('dd');
+        nombre.textContent = etiqueta;
+        detalle.textContent = texto;
+        campo.append(nombre, detalle);
+        campos.append(campo);
+      }
+      privado.append(tituloPrivado, campos, archivos);
+      contenido.append(vista, privado);
+      if (solicitud.estado === 'pendiente_revision') {
+        const acciones = document.createElement('div');
+        acciones.className = 'solicitud-acciones';
+        const aprobar = document.createElement('button');
+        aprobar.type = 'button';
+        aprobar.className = 'btn';
+        aprobar.textContent = 'Aprobar perfil';
+        const aviso = document.createElement('span');
+        aviso.setAttribute('role', 'status');
+        aprobar.addEventListener('click', async () => {
+          if (aprobar.disabled || !window.confirm('¿Aprobar el perfil de ' + (perfil.nombre || 'esta solicitud') + '?')) return;
+          aprobar.disabled = true;
+          aviso.textContent = 'Guardando aprobación…';
+          try {
+            const { data, error } = await db.rpc('nexo_aprobar_perfil', { p_id: String(solicitud.id) });
+            if (error) throw error;
+            if (data !== 'aprobado') throw new Error('No se recibió confirmación.');
+            estado.textContent = 'Aprobado';
+            estado.classList.add('aprobado');
+            aviso.textContent = 'Perfil aprobado.';
+            aprobar.remove();
+          } catch (error) {
+            aviso.textContent = 'No se pudo aprobar el perfil. ' + (error.message || 'Intenta de nuevo.');
+            aprobar.disabled = false;
+          }
+        });
+        acciones.append(aprobar, aviso);
+        contenido.append(acciones);
+      }
+      ficha.append(contenido);
       lista.append(ficha);
     }
     panel.replaceChildren(lista);
@@ -899,3 +1088,6 @@ iniciar();
 
 </body>
 </html>
+
+
+

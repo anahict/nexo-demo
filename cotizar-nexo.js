@@ -8,6 +8,16 @@
   const valor = id => document.getElementById(id)?.value.trim() || '';
   const seleccionado = nombre => document.querySelector(`input[name="${nombre}"]:checked`);
   const mensaje = texto => { estado.textContent = texto; };
+  document.querySelectorAll('[data-categoria-cotizacion]').forEach(grupo => {
+    const categoria = grupo.querySelector('input[name="necesidades"]');
+    const submenu = grupo.querySelector('fieldset');
+    const actualizar = () => {
+      submenu.hidden = !categoria.checked;
+      submenu.disabled = !categoria.checked;
+    };
+    categoria.addEventListener('change', actualizar);
+    actualizar();
+  });
   const idTalento = new URLSearchParams(location.search).get('talento');
   let idPublicoNoDisponible = false;
   const talentoElegido = idTalento && window.NexoTalentos
@@ -23,7 +33,10 @@
           avisoPaso.hidden = false;
         }
         const tipo = document.querySelector('input[name="necesidades"][value="artistas"]');
-        if (tipo && talento.tipo === 'artista') tipo.checked = true;
+        if (tipo && talento.tipo === 'artista') {
+          tipo.checked = true;
+          tipo.dispatchEvent(new Event('change', { bubbles: true }));
+        }
         return talento;
       }).catch(() => { idPublicoNoDisponible = true; mensaje('No se pudo cargar el talento. Recarga la página.'); return null; })
     : Promise.resolve(null);
@@ -52,7 +65,14 @@
     const correoCopia = valor('correo-copia');
     const necesidades = [...document.querySelectorAll('input[name="necesidades"]:checked')].map(el => el.value);
     const presupuesto = seleccionado('presupuesto')?.value || '';
-    const comentarios = valor('comentarios-evento');
+    const detalles = [...document.querySelectorAll('input[name="detalle-necesidad"]:checked:enabled')]
+      .map(opcion => opcion.value);
+    const extra = necesidades.includes('extra') ? valor('cotizacion-extra').slice(0, 500) : '';
+    const comentarios = [
+      extra ? 'Extra: ' + extra : '',
+      detalles.length ? 'Opciones solicitadas: ' + detalles.join(', ') : '',
+      valor('comentarios-evento')
+    ].filter(Boolean).join('\n').slice(0, 2000);
     const tokenTurnstile = document.querySelector('input[name="cf-turnstile-response"]')?.value || '';
 
     if (!nombre || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo) || !telefono) {
@@ -112,5 +132,7 @@
     }
   }, true);
 })();
+
+
 
 

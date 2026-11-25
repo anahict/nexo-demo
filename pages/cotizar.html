@@ -109,6 +109,15 @@
 .cotizador-submenu input { accent-color: #6c4cff; }
 #cotizacion-extra { display: block; box-sizing: border-box; width: 100%; padding: 10px; border: 1px solid #d7d2e5; border-radius: 8px; font: inherit; resize: vertical; }
 </style>
+<style>
+.cotizador-fecha-grupo { border:0; padding:0; margin:0 0 24px; min-width:0; }
+.cotizador-fecha-grupo legend { font-weight:700; margin-bottom:10px; }
+.cotizador-fecha-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+.cotizador-fecha-grid label { font-size:.875rem; font-weight:600; min-width:0; }
+.cotizador-fecha-grid input, .cotizador-fecha-grid select { display:block; width:100%; min-width:0; margin-top:6px; border:1px solid #d8d4e0; border-radius:10px; padding:11px 8px; min-height:44px; background:#fff; color:#19161f; font:inherit; }
+#cotizador-fecha-aviso { color:#a82446; }
+#cotizador-fecha-aviso:empty { display:none; }
+</style>
 </head>
 
 <body>
@@ -361,30 +370,25 @@
         Selecciona la fecha estimada de tu evento.
     </p>
 
-    <div class="cotizador-campo">
-
-        <label for="fecha-evento">
-            Fecha del evento
-        </label>
-
-        <input
-            type="date"
-            id="fecha-evento"
-            name="fecha-evento"
-        >
-
-    </div>
-
-    <div class="cotizador-campo">
-        <label for="horario-evento">Horario del evento (opcional)</label>
-        <input type="time" id="horario-evento" name="horario-evento">
-    </div>
-			
-<div
-  class="cf-turnstile"
-  data-sitekey="0x4AAAAAAFnQtJ45MD__yLoI">
-</div>
-
+    <fieldset class="cotizador-fecha-grupo" id="campos-fecha">
+        <legend>Fecha del evento</legend>
+        <div class="cotizador-fecha-grid">
+            <label>Día<select id="fecha-dia"><option value="">Día</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select></label>
+            <label>Mes<select id="fecha-mes"><option value="">Mes</option><option value="1">Enero</option><option value="2">Febrero</option><option value="3">Marzo</option><option value="4">Abril</option><option value="5">Mayo</option><option value="6">Junio</option><option value="7">Julio</option><option value="8">Agosto</option><option value="9">Septiembre</option><option value="10">Octubre</option><option value="11">Noviembre</option><option value="12">Diciembre</option></select></label>
+            <label>Año<input id="fecha-anio" type="text" inputmode="numeric" maxlength="4" placeholder="AAAA"></label>
+        </div>
+        <input type="hidden" id="fecha-evento" name="fecha-evento">
+    </fieldset>
+    <fieldset class="cotizador-fecha-grupo">
+        <legend>Horario del evento (opcional)</legend>
+        <div class="cotizador-fecha-grid">
+            <label>Hora<select id="evento-hora"><option value="">Hora</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select></label>
+            <label>Minutos<input id="evento-minutos" type="text" inputmode="numeric" maxlength="2" placeholder="00"></label>
+            <label>AM o PM<select id="evento-periodo"><option value="">AM o PM</option><option value="am">a. m.</option><option value="pm">p. m.</option></select></label>
+        </div>
+        <input type="hidden" id="horario-evento" name="horario-evento">
+    </fieldset>
+    <p id="cotizador-fecha-aviso" role="status"></p>
 
     <div class="cotizador-acciones">
 
@@ -765,7 +769,7 @@
     </div>
 
     <div class="nexo-turnstile" style="margin: 18px 0;">
-        <div class="cf-turnstile" data-sitekey="REEMPLAZAR_CON_SITE_KEY_DE_CLOUDFLARE"></div>
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAAFnQtJ45MD__yLoI"></div>
         <p id="nexo-envio-estado" role="status" aria-live="polite" style="margin-top:10px;"></p>
     </div>
 
@@ -854,7 +858,7 @@
 	
 	<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 	<script src="../script.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../talentos-publicos.js"></script><script src="../cotizar-nexo.js?v=extra"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../talentos-publicos.js"></script><script src="../cotizar-nexo.js?v=fecha-hora"></script>
 
 <script id="nexo-menu-unificado-script">
 (() => {
@@ -975,6 +979,7 @@
 </body>
 
 </html>
+
 
 
 

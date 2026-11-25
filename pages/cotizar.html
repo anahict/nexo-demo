@@ -98,7 +98,17 @@
             .nexo-autocomplete-lista { max-height: 300px; }
         }
     </style>
-<style>.cotizador-opcion-ejemplo { display: block; font-size: .875em; font-weight: 400; margin-top: .35em; line-height: 1.4; }</style>
+<style>
+.cotizador-categorias { align-items: start; }
+.cotizador-categorias .cotizador-categoria > span { font-size: clamp(1.15rem, 3vw, 1.45rem); font-weight: 800; }
+.cotizador-categorias .cotizador-categoria > span::after { content: "⌄"; margin-left: auto; padding-left: 12px; }
+.cotizador-submenu[hidden] { display: none; }
+.cotizador-submenu { margin: 8px 0 0; padding: 12px 16px; min-width: 0; border: 1px solid #e4dff2; border-radius: 12px; }
+.cotizador-submenu legend { padding: 0 5px; font-size: .9rem; color: #555; }
+.cotizador-submenu label { display: flex; gap: 8px; align-items: center; min-height: 34px; cursor: pointer; }
+.cotizador-submenu input { accent-color: #6c4cff; }
+#cotizacion-extra { display: block; box-sizing: border-box; width: 100%; padding: 10px; border: 1px solid #d7d2e5; border-radius: 8px; font: inherit; resize: vertical; }
+</style>
 </head>
 
 <body>
@@ -546,27 +556,62 @@
     </h2>
 
     <p class="cotizador-ayuda">
-        Puedes seleccionar más de una opción.
+        Selecciona lo que necesitas. Puedes elegir una o varias categorías.
     </p>
     <p class="cotizador-ayuda" id="talento-solicitado-paso" hidden></p>
 
-    <div class="cotizador-opciones">
-
-        <label class="cotizador-opcion">
-            <input type="checkbox" name="necesidades" value="artistas">
-            <span>Artistas<small class="cotizador-opcion-ejemplo">Bandas, DJs y solistas.</small></span>
-        </label>
-
-        <label class="cotizador-opcion">
-            <input type="checkbox" name="necesidades" value="entretenimiento">
-            <span>Entretenimiento<small class="cotizador-opcion-ejemplo">Comedia, danza y espectáculos.</small></span>
-        </label>
-
-        <label class="cotizador-opcion">
-            <input type="checkbox" name="necesidades" value="produccion-integral">
-            <span>Producción<small class="cotizador-opcion-ejemplo">Audio, iluminación, pantallas LED, backline y escenario.</small></span>
-        </label>
-
+    <div class="cotizador-opciones cotizador-categorias">
+        <div data-categoria-cotizacion>
+            <label class="cotizador-opcion cotizador-categoria">
+                <input type="checkbox" name="necesidades" value="artistas" aria-controls="opciones-artistas">
+                <span>Artistas</span>
+            </label>
+            <fieldset class="cotizador-submenu" id="opciones-artistas" hidden disabled>
+                <legend>Opciones de artistas (opcional)</legend>
+                <label><input type="checkbox" name="detalle-necesidad" value="Bandas"> Bandas</label>
+                <label><input type="checkbox" name="detalle-necesidad" value="DJs"> DJs</label>
+                <label><input type="checkbox" name="detalle-necesidad" value="Solistas"> Solistas</label>
+            </fieldset>
+        </div>
+        <div data-categoria-cotizacion>
+            <label class="cotizador-opcion cotizador-categoria">
+                <input type="checkbox" name="necesidades" value="entretenimiento" aria-controls="opciones-entretenimiento">
+                <span>Entretenimiento</span>
+            </label>
+            <fieldset class="cotizador-submenu" id="opciones-entretenimiento" hidden disabled>
+                <legend>Opciones de entretenimiento (opcional)</legend>
+                <label><input type="checkbox" name="detalle-necesidad" value="Comedia"> Comedia</label>
+                <label><input type="checkbox" name="detalle-necesidad" value="Danza"> Danza</label>
+                <label><input type="checkbox" name="detalle-necesidad" value="Espectáculos"> Espectáculos</label>
+            </fieldset>
+        </div>
+        <div data-categoria-cotizacion>
+            <label class="cotizador-opcion cotizador-categoria">
+                <input type="checkbox" name="necesidades" value="produccion-integral" aria-controls="opciones-produccion-integral">
+                <span>Producción</span>
+            </label>
+            <fieldset class="cotizador-submenu" id="opciones-produccion-integral" hidden disabled>
+                <legend>Opciones de producción (opcional)</legend>
+                <label><input type="checkbox" name="detalle-necesidad" value="Audio"> Audio</label>
+                <label><input type="checkbox" name="detalle-necesidad" value="Iluminación"> Iluminación</label>
+                <label><input type="checkbox" name="detalle-necesidad" value="Pantallas LED"> Pantallas LED</label>
+                <label><input type="checkbox" name="detalle-necesidad" value="Backline"> Backline</label>
+                <label><input type="checkbox" name="detalle-necesidad" value="Escenario"> Escenario</label>
+                <label><input type="checkbox" name="detalle-necesidad" value="Producción integral"> Producción integral</label>
+            </fieldset>
+        </div>
+        <div data-categoria-cotizacion>
+            <label class="cotizador-opcion cotizador-categoria">
+                <input type="checkbox" name="necesidades" value="extra" aria-controls="opciones-extra">
+                <span>Extra</span>
+            </label>
+            <fieldset class="cotizador-submenu" id="opciones-extra" hidden disabled>
+                <legend>Solicitud adicional</legend>
+                <label for="cotizacion-extra">¿Qué más necesitas?</label>
+                <textarea id="cotizacion-extra" rows="3" maxlength="500"
+                    placeholder="Describe lo que necesitas para tu evento"></textarea>
+            </fieldset>
+        </div>
     </div>
 
     <div class="cotizador-acciones">
@@ -809,7 +854,7 @@
 	
 	<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 	<script src="../script.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../talentos-publicos.js"></script><script src="../cotizar-nexo.js?v=opciones-cortas"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../talentos-publicos.js"></script><script src="../cotizar-nexo.js?v=extra"></script>
 
 <script id="nexo-menu-unificado-script">
 (() => {
@@ -930,5 +975,7 @@
 </body>
 
 </html>
+
+
 
 

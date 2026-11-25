@@ -276,6 +276,8 @@ h1{font-size:34px}.card,.panel{border-radius:16px}.card{padding:25px 20px}.card 
 #recientes, #lista-cotizaciones { overflow-x: auto; }
 .actions.acciones-cotizacion { flex-wrap: nowrap; align-items: center; }
 .acciones-cotizacion button { flex: 0 0 auto; white-space: nowrap; }
+.usuarios-categorias { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 20px; }
+.usuarios-categorias .btn[aria-pressed="true"] { background: #603ce5; color: #fff; }
 .usuarios-busqueda { margin: 12px 0 18px; }
 .usuarios-busqueda label { display: block; margin-bottom: 8px; font-weight: 700; }
 .usuarios-busqueda > div, .usuarios-paginas { display: flex; gap: 10px; align-items: center; }
@@ -371,6 +373,13 @@ h1{font-size:34px}.card,.panel{border-radius:16px}.card{padding:25px 20px}.card 
   <section id="usuarios" class="section">
     <div class="panel">
       <h2>Usuarios y clientes</h2>
+      <div id="usuarios-categorias" class="usuarios-categorias" role="group" aria-label="Filtrar por tipo de cuenta">
+        <button type="button" class="btn secondary" data-tipo-usuario="" aria-pressed="true">Todos</button>
+        <button type="button" class="btn secondary" data-tipo-usuario="Cliente" aria-pressed="false">Clientes</button>
+        <button type="button" class="btn secondary" data-tipo-usuario="Artista" aria-pressed="false">Artistas</button>
+        <button type="button" class="btn secondary" data-tipo-usuario="Proveedor" aria-pressed="false">Proveedores</button>
+        <button type="button" class="btn secondary" data-tipo-usuario="Administrador" aria-pressed="false">Administradores</button>
+      </div>
       <form id="buscar-usuarios" class="usuarios-busqueda">
         <label for="consulta-usuarios">Buscar por nombre, correo o tipo de cuenta</label>
         <div>
@@ -795,6 +804,7 @@ async function iniciar() {
 
 let paginaUsuarios = 0;
 let consultaUsuarios = '';
+let tipoUsuarios = '';
 let cargaUsuarios = 0;
 const usuariosPorPagina = 25;
 
@@ -808,8 +818,9 @@ async function cargarUsuarios(pagina = 0) {
   controles.hidden = true;
 
   try {
-    const { data, error } = await db.rpc('nexo_listar_usuarios_admin', {
+    const { data, error } = await db.rpc('nexo_filtrar_usuarios_admin', {
       p_busqueda: consultaUsuarios,
+      p_tipo: tipoUsuarios,
       p_desplazamiento: pagina * usuariosPorPagina
     });
     if (carga !== cargaUsuarios) return;
@@ -840,6 +851,18 @@ async function cargarUsuarios(pagina = 0) {
     if (carga === cargaUsuarios) estado.textContent = 'No se pudieron cargar los usuarios. ' + error.message;
   }
 }
+
+const categoriasUsuarios = document.getElementById('usuarios-categorias');
+categoriasUsuarios.addEventListener('click', evento => {
+  const boton = evento.target.closest('[data-tipo-usuario]');
+  if (!boton || boton.dataset.tipoUsuario === tipoUsuarios) return;
+  tipoUsuarios = boton.dataset.tipoUsuario;
+  consultaUsuarios = document.getElementById('consulta-usuarios').value.trim();
+  categoriasUsuarios.querySelectorAll('[data-tipo-usuario]').forEach(opcion => {
+    opcion.setAttribute('aria-pressed', String(opcion === boton));
+  });
+  void cargarUsuarios();
+});
 
 document.getElementById('buscar-usuarios').addEventListener('submit', evento => {
   evento.preventDefault();
@@ -1198,6 +1221,7 @@ iniciar();
 
 </body>
 </html>
+
 
 
 

@@ -273,6 +273,9 @@ h1{font-size:34px}.card,.panel{border-radius:16px}.card{padding:25px 20px}.card 
 .solicitud-vista iframe { display: block; width: 100%; height: min(80vh, 920px); min-height: 420px; border: 1px solid #e5dff3; border-radius: 12px; margin-top: 12px; }
 .solicitud-vista a { display: inline-block; margin-top: 12px; color: #50319c; font-weight: bold; }
 .solicitud-acciones { border-top: 1px solid #e5dff3; margin-top: 20px; padding-top: 16px; }
+#recientes, #lista-cotizaciones { overflow-x: auto; }
+.actions.acciones-cotizacion { flex-wrap: nowrap; align-items: center; }
+.acciones-cotizacion button { flex: 0 0 auto; white-space: nowrap; }
 </style>
 </head>
 
@@ -1072,7 +1075,12 @@ renderizar=function(){
  const records=target==='recientes'?cotizaciones.slice(0,5):cotizaciones;
  document.querySelectorAll('#'+target+' tbody tr').forEach((row,index)=>{
  const c=records[index];if(!c)return;
- const cell=row.cells[row.cells.length-1];cell.insertAdjacentHTML('beforeend',botonesGestion('cotizaciones',c));
+ const cell = row.cells[row.cells.length - 1];
+ const detalle = cell.querySelector('[data-ver-cotizacion]');
+ cell.insertAdjacentHTML('beforeend', botonesGestion('cotizaciones', c));
+ const acciones = cell.lastElementChild;
+ acciones.classList.add('acciones-cotizacion');
+ if (detalle) acciones.prepend(detalle);
  });
  });
  const table=document.querySelector('#lista-eventos table');
@@ -1116,6 +1124,7 @@ iniciar();
 
 </body>
 </html>
+
 
 
 

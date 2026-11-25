@@ -17,6 +17,11 @@
         aviso.style.margin = '12px 0';
         aviso.textContent = 'Talento solicitado: ' + talento.nombre;
         document.querySelector('.cotizador-enviar')?.before(aviso);
+        const avisoPaso = document.getElementById('talento-solicitado-paso');
+        if (avisoPaso) {
+          avisoPaso.textContent = aviso.textContent;
+          avisoPaso.hidden = false;
+        }
         const tipo = document.querySelector('input[name="necesidades"][value="artistas"]');
         if (tipo && talento.tipo === 'artista') tipo.checked = true;
         return talento;
@@ -107,4 +112,5 @@
     }
   }, true);
 })();
+
 

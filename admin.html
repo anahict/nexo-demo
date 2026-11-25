@@ -1117,7 +1117,7 @@ async function cargarSolicitudesPerfil() {
       async function enviarAvisoPrueba() {
         if (correoPrueba.disabled) return;
         correoPrueba.disabled = true;
-        avisoCorreoPrueba.textContent = 'Enviando aviso de prueba…';
+        avisoCorreoPrueba.textContent = 'Enviando aviso al correo interno…';
         try {
           const { data, error } = await db.functions.invoke('nexo-aviso-perfil-aprobado', {
             body: { id: String(solicitud.id) }
@@ -1127,9 +1127,7 @@ async function cargarSolicitudesPerfil() {
             throw new Error(detalle?.error || error.message);
           }
           if (!data?.ok) throw new Error('No se confirmó el envío.');
-          avisoCorreoPrueba.textContent = data.modo === 'talento_demo'
-            ? 'Resend aceptó el aviso de prueba para el correo del talento.'
-            : 'Resend aceptó el aviso de prueba para el correo interno.';
+          avisoCorreoPrueba.textContent = 'Resend aceptó el aviso de prueba para el correo interno.';
         } catch (error) {
           avisoCorreoPrueba.textContent = 'No se pudo enviar el aviso de prueba. ' + (error.message || 'Intenta de nuevo.');
         } finally {
@@ -1138,20 +1136,33 @@ async function cargarSolicitudesPerfil() {
       }
       correoPrueba.addEventListener('click', enviarAvisoPrueba);
       acciones.append(correoPrueba, avisoCorreoPrueba);
-      if (revision === 'pendiente_revision' || revision === 'cambios_solicitados') {
+      if (['pendiente_revision', 'cambios_solicitados', 'aprobado'].includes(revision)) {
         const aprobar = document.createElement('button');
         aprobar.type = 'button';
         aprobar.className = 'btn';
-        aprobar.textContent = 'Aprobar perfil';
+        aprobar.textContent = revision === 'aprobado' ? 'Publicar perfil aprobado' : 'Aprobar y publicar';
+        if (revision === 'aprobado') {
+          db.from('nexo_talentos_publicos').select('id').eq('id', String(solicitud.id)).maybeSingle()
+            .then(({data}) => {
+              if (data) {
+                aprobar.replaceWith(document.createTextNode('Publicado en NEXO'));
+                const enlace = document.createElement('a');
+                enlace.href = 'pages/talento.html?id=' + encodeURIComponent(solicitud.id);
+                enlace.className = 'btn secondary';
+                enlace.textContent = 'Ver perfil público';
+                acciones.append(enlace);
+              }
+            });
+        }
         const aviso = document.createElement('span');
         aviso.setAttribute('role', 'status');
         aprobar.addEventListener('click', async () => {
-          if (!window.confirm('¿Aprobar el perfil de ' + (perfil.nombre || 'este talento') + '?')) return;
+          if (!window.confirm('¿Publicar el perfil de ' + (perfil.nombre || 'este talento') + '?')) return;
           aprobar.disabled = true;
           aviso.textContent = 'Guardando…';
           try {
-            const { data, error } = await db.rpc('nexo_decidir_revision_perfil', {
-              p_id: String(solicitud.id), p_decision: 'aprobado', p_comentario: '',
+            const { data, error } = await db.rpc('nexo_publicar_revision_perfil', {
+              p_id: String(solicitud.id),
               p_revision_anterior: revision
             });
             if (error) throw error;
@@ -1159,9 +1170,14 @@ async function cargarSolicitudesPerfil() {
             estado.textContent = 'Aprobado';
             estado.classList.add('aprobado');
             aprobar.remove();
-            aviso.textContent = 'Perfil aprobado.';
+            aviso.textContent = 'Perfil aprobado y publicado.';
+            const enlace = document.createElement('a');
+            enlace.href = 'pages/talento.html?id=' + encodeURIComponent(solicitud.id);
+            enlace.className = 'btn secondary';
+            enlace.textContent = 'Ver perfil público';
+            acciones.append(enlace);
             correoPrueba.hidden = false;
-            void enviarAvisoPrueba();
+            if (revision !== 'aprobado') void enviarAvisoPrueba();
           } catch (error) {
             aviso.textContent = 'No se pudo aprobar. ' + error.message;
             aprobar.disabled = false;

@@ -8,6 +8,20 @@
   const valor = id => document.getElementById(id)?.value.trim() || '';
   const seleccionado = nombre => document.querySelector(`input[name="${nombre}"]:checked`);
   const mensaje = texto => { estado.textContent = texto; };
+  const idTalento = new URLSearchParams(location.search).get('talento');
+  let idPublicoNoDisponible = false;
+  const talentoElegido = idTalento && window.NexoTalentos
+    ? window.NexoTalentos.obtener(idTalento).then(talento => {
+        if (!talento) { idPublicoNoDisponible = true; mensaje('El perfil seleccionado ya no está disponible.'); return null; }
+        const aviso = document.createElement('p');
+        aviso.style.margin = '12px 0';
+        aviso.textContent = 'Talento solicitado: ' + talento.nombre;
+        document.querySelector('.cotizador-enviar')?.before(aviso);
+        const tipo = document.querySelector('input[name="necesidades"][value="artistas"]');
+        if (tipo && talento.tipo === 'artista') tipo.checked = true;
+        return talento;
+      }).catch(() => { idPublicoNoDisponible = true; mensaje('No se pudo cargar el talento. Recarga la página.'); return null; })
+    : Promise.resolve(null);
   let enviando = false;
   let solicitudToken = crypto.randomUUID();
 
@@ -18,6 +32,8 @@
     event.stopImmediatePropagation();
     if (enviando) return;
 
+    const talento = await talentoElegido;
+    if (enviando || idPublicoNoDisponible) return;
     const nombre = valor('nombre-contacto');
     const correo = valor('correo-contacto');
     const telefono = valor('telefono-contacto');
@@ -37,7 +53,7 @@
     if (!nombre || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo) || !telefono) {
       mensaje('Completa tu nombre, correo válido y teléfono.'); return;
     }
-    if (!evento || !fecha || !ciudad || !invitados || !necesidades.length || !presupuesto) {
+    if (!evento || !fecha || !ciudad || !invitados || (!talento && !necesidades.length) || !presupuesto) {
       mensaje('Faltan datos del evento. Revisa los pasos anteriores.'); return;
     }
     if (!Number.isInteger(Number(invitados)) || Number(invitados) < 1) {
@@ -60,6 +76,7 @@
     const tipoServicio = necesidades.some(n => ['produccion-integral','audio','iluminacion','pantallas-led','backline','escenario'].includes(n))
       ? 'produccion' : necesidades.includes('artistas') ? 'artista' : 'proveedor';
 
+    const servicios = [talento?.nombre, ...necesidades.filter(n => !talento || n !== 'artistas')].filter(Boolean);
     enviando = true;
     boton.disabled = true;
     mensaje('Enviando solicitud...');
@@ -68,8 +85,8 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          nombre, correo, telefono, servicio: necesidades.join(', '),
-          servicio_tipo: tipoServicio, comentarios: detalle,
+          nombre, correo, telefono, servicio: servicios.join(', '),
+          servicio_tipo: talento?.tipo || tipoServicio, comentarios: detalle,
           tipo_evento: evento, fecha, horario: horario || null,
           ciudad, invitados: Number(invitados), presupuesto_rango: presupuesto,
           correo_copia: correoCopia || null, comentarios_evento: comentarios,
@@ -90,3 +107,4 @@
     }
   }, true);
 })();
+

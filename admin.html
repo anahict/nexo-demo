@@ -1117,7 +1117,7 @@ async function cargarSolicitudesPerfil() {
       async function enviarAvisoPrueba() {
         if (correoPrueba.disabled) return;
         correoPrueba.disabled = true;
-        avisoCorreoPrueba.textContent = 'Enviando aviso al correo interno…';
+        avisoCorreoPrueba.textContent = 'Enviando aviso de prueba…';
         try {
           const { data, error } = await db.functions.invoke('nexo-aviso-perfil-aprobado', {
             body: { id: String(solicitud.id) }
@@ -1127,7 +1127,9 @@ async function cargarSolicitudesPerfil() {
             throw new Error(detalle?.error || error.message);
           }
           if (!data?.ok) throw new Error('No se confirmó el envío.');
-          avisoCorreoPrueba.textContent = 'Resend aceptó el aviso de prueba para el correo interno.';
+          avisoCorreoPrueba.textContent = data.modo === 'talento_demo'
+            ? 'Resend aceptó el aviso de prueba para el correo del talento.'
+            : 'Resend aceptó el aviso de prueba para el correo interno.';
         } catch (error) {
           avisoCorreoPrueba.textContent = 'No se pudo enviar el aviso de prueba. ' + (error.message || 'Intenta de nuevo.');
         } finally {
@@ -1276,6 +1278,7 @@ iniciar();
 
 </body>
 </html>
+
 
 
 

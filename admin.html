@@ -877,7 +877,7 @@ async function cargarSolicitudesPerfil() {
   panel.textContent = 'Cargando solicitudes…';
   try {
     const { data, error } = await db.from('nexo_solicitudes_perfil')
-      .select('id, usuario_id, tipo_cuenta, datos, estado, creado_en')
+      .select('id, usuario_id, tipo_cuenta, datos, estado, creado_en, decision_revision, comentario_revision')
       .order('creado_en', { ascending: false });
     if (error) throw error;
     if (!data.length) {
@@ -896,8 +896,10 @@ async function cargarSolicitudesPerfil() {
         (solicitud.tipo_cuenta === 'artista' ? ' · Artista' : ' · Proveedor');
       const estado = document.createElement('span');
       estado.className = 'solicitud-estado';
-      estado.textContent = {pendiente_revision: 'Pendiente de revisión', aprobado: 'Aprobado'}[solicitud.estado] || solicitud.estado;
-      estado.classList.toggle('aprobado', solicitud.estado === 'aprobado');
+      const resultados = { pendiente_revision: 'Pendiente de revisión', aprobado: 'Aprobado', cambios_solicitados: 'Cambios solicitados', rechazado: 'Rechazado' };
+      const revision = solicitud.decision_revision || solicitud.estado;
+      estado.textContent = resultados[revision] || revision;
+      estado.classList.toggle('aprobado', revision === 'aprobado');
       titulo.append(identidad, estado);
       ficha.append(titulo);
 
@@ -1085,9 +1087,26 @@ async function cargarSolicitudesPerfil() {
       }
       privado.append(tituloPrivado, campos, archivos);
       contenido.append(vista, privado);
-      if (solicitud.estado === 'pendiente_revision') {
-        const acciones = document.createElement('div');
-        acciones.className = 'solicitud-acciones';
+      const acciones = document.createElement('div');
+      acciones.className = 'solicitud-acciones';
+      const correo = typeof perfil.contacto?.correo === 'string' ? perfil.contacto.correo.trim() : '';
+      if (/^[^\s@?&#%,;]+@[^\s@?&#%,;]+\.[^\s@?&#%,;]+$/.test(correo)) {
+        const enlace = document.createElement('a');
+        enlace.className = 'btn secondary';
+        const asunto = 'NEXO | Retroalimentación sobre tu perfil';
+        const mensaje = 'Hola, ' + (perfil.nombre || 'talento') + ':\n\n' +
+          'Te compartimos la retroalimentación sobre tu perfil:\n\n\n' +
+          'Cuando tengas los ajustes, entra a Mi cuenta en NEXO, elige Editar mi perfil y envíalo de nuevo a revisión.\n\nEquipo NEXO';
+        enlace.href = 'mailto:' + encodeURIComponent(correo).replace('%40', '@') +
+          '?subject=' + encodeURIComponent(asunto) + '&body=' + encodeURIComponent(mensaje);
+        enlace.textContent = 'Enviar retroalimentación';
+        acciones.append(enlace);
+      } else {
+        const avisoCorreo = document.createElement('span');
+        avisoCorreo.textContent = 'Esta solicitud no tiene un correo de contacto válido.';
+        acciones.append(avisoCorreo);
+      }
+      if (revision === 'pendiente_revision' || revision === 'cambios_solicitados') {
         const aprobar = document.createElement('button');
         aprobar.type = 'button';
         aprobar.className = 'btn';
@@ -1095,25 +1114,29 @@ async function cargarSolicitudesPerfil() {
         const aviso = document.createElement('span');
         aviso.setAttribute('role', 'status');
         aprobar.addEventListener('click', async () => {
-          if (aprobar.disabled || !window.confirm('¿Aprobar el perfil de ' + (perfil.nombre || 'esta solicitud') + '?')) return;
+          if (!window.confirm('¿Aprobar el perfil de ' + (perfil.nombre || 'este talento') + '?')) return;
           aprobar.disabled = true;
-          aviso.textContent = 'Guardando aprobación…';
+          aviso.textContent = 'Guardando…';
           try {
-            const { data, error } = await db.rpc('nexo_aprobar_perfil', { p_id: String(solicitud.id) });
+            const { data, error } = await db.rpc('nexo_decidir_revision_perfil', {
+              p_id: String(solicitud.id), p_decision: 'aprobado', p_comentario: '',
+              p_revision_anterior: revision
+            });
             if (error) throw error;
-            if (data !== 'aprobado') throw new Error('No se recibió confirmación.');
+            if (data !== 'aprobado') throw new Error('No se confirmó la aprobación.');
             estado.textContent = 'Aprobado';
             estado.classList.add('aprobado');
-            aviso.textContent = 'Perfil aprobado.';
             aprobar.remove();
+            aviso.textContent = 'Perfil aprobado.';
           } catch (error) {
-            aviso.textContent = 'No se pudo aprobar el perfil. ' + (error.message || 'Intenta de nuevo.');
+            aviso.textContent = 'No se pudo aprobar. ' + error.message;
             aprobar.disabled = false;
           }
         });
-        acciones.append(aprobar, aviso);
-        contenido.append(acciones);
+        acciones.prepend(aprobar);
+        acciones.append(aviso);
       }
+      contenido.append(acciones);
       ficha.append(contenido);
       lista.append(ficha);
     }
@@ -1221,6 +1244,8 @@ iniciar();
 
 </body>
 </html>
+
+
 
 
 

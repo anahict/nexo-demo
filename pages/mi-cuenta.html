@@ -2095,6 +2095,21 @@ botonFavoritosHeader?.addEventListener('click', () => {
       });
 
       try {
+        const { data: acceso, error: errorAcceso } = await cliente.from('nexo_admin_access')
+          .select('user_id')
+          .eq('user_id', usuario.id)
+          .maybeSingle();
+
+        if (errorAcceso) {
+          texto('estado-carga', 'No pudimos verificar tu tipo de cuenta. Recarga la página para intentarlo de nuevo.');
+          console.error('No se pudo consultar el acceso de administración.', errorAcceso);
+          return;
+        }
+        if (acceso) {
+          window.location.replace('../admin.html');
+          return;
+        }
+
         const { data, error } = await cliente.from('nexo_solicitudes_perfil')
           .select('id, tipo_cuenta, datos, estado, decision_revision, comentario_revision')
           .eq('usuario_id', usuario.id)
@@ -2568,6 +2583,7 @@ function nexoDatosContacto() {
 
 </body>
 </html>
+
 
 
 

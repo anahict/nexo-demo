@@ -559,16 +559,16 @@
       Verificando tu sesión...
     </div>
 <style>
-#panel-talento[hidden], #talento-vista[hidden], #editar-talento[hidden], #talento-editar[hidden] { display: none; }
+#talento-resumen[hidden], #panel-talento[hidden], #talento-vista[hidden], #editar-talento[hidden], #talento-editar[hidden] { display: none; }
 .talento-portada { background: #19132c; color: white; border-radius: 18px; overflow: hidden; margin-bottom: 24px; }
 .talento-portada img { width: 100%; height: clamp(160px, 35vw, 420px); object-fit: cover; display: block; }
 .talento-portada img[hidden] { display: none; }
 .talento-portada h2 { color: white; font-size: clamp(28px, 5vw, 52px); padding: 24px; overflow-wrap: anywhere; }
 #panel-talento .tarjeta { margin-bottom: 20px; overflow-wrap: anywhere; }
-#talento-vista { width: 100%; min-height: 75vh; border: 1px solid #e4dff2; border-radius: 12px; margin-top: 16px; }
+#talento-vista { width: 100%; height: min(1000px, 85vh); min-height: 520px; border: 1px solid #e4dff2; border-radius: 12px; margin-top: 16px; }
 </style>
 <section id="panel-talento" aria-labelledby="cuenta-titulo" hidden>
-  <div class="talento-portada">
+  <div class="talento-portada" id="talento-resumen">
     <img id="talento-portada" alt="" hidden>
     <h2 id="talento-nombre"></h2>
   </div>
@@ -1432,7 +1432,8 @@ botonFavoritosHeader?.addEventListener('click', () => {
         const { data, error } = await bucket.createSignedUrl(archivo.ruta, 3600);
         return error ? '' : data?.signedUrl || '';
       }
-      imagen(datos.portada).then(url => {
+      const portadaDisponible = imagen(datos.portada).catch(() => '');
+      portadaDisponible.then(url => {
         if (!url) return;
         $('talento-portada').src = url;
         $('talento-portada').hidden = false;
@@ -1440,10 +1441,19 @@ botonFavoritosHeader?.addEventListener('click', () => {
 
       const boton = $('talento-ver');
       const vista = $('talento-vista');
-      boton.addEventListener('click', async () => {
+      const perfilCompleto = ['aprobado', 'publicado'].includes(revision) || solicitud.estado === 'publicado';
+      const abrirPerfil = perfilCompleto ? 'Ver perfil completo' : 'Ver vista previa';
+      const cerrarPerfil = perfilCompleto ? 'Ocultar perfil completo' : 'Cerrar vista previa';
+      boton.textContent = abrirPerfil;
+      if (perfilCompleto) {
+        texto('cuenta-titulo', nombre);
+        vista.title = 'Perfil completo de ' + nombre;
+      }
+      async function mostrarVistaTalento() {
+        if (boton.disabled) return;
         if (!vista.hidden) {
           vista.hidden = true;
-          boton.textContent = 'Ver vista previa';
+          boton.textContent = abrirPerfil;
           boton.setAttribute('aria-expanded', 'false');
           return;
         }
@@ -1454,7 +1464,7 @@ botonFavoritosHeader?.addEventListener('click', () => {
           if (!plantilla) throw new Error('Plantilla de perfil no disponible');
           const lista = valor => Array.isArray(valor) ? valor : [];
           const [portada, avatar, galeria] = await Promise.all([
-            imagen(datos.portada), imagen(datos.avatar),
+            portadaDisponible, imagen(datos.avatar),
             Promise.all(lista(datos.galeria).map(imagen))
           ]);
           plantilla.mostrar(vista, {
@@ -1472,7 +1482,8 @@ botonFavoritosHeader?.addEventListener('click', () => {
             disponibilidad: 'Sujeta a confirmación'
           });
           vista.hidden = false;
-          boton.textContent = 'Cerrar vista previa';
+          if (perfilCompleto) $('talento-resumen').hidden = true;
+          boton.textContent = cerrarPerfil;
           boton.setAttribute('aria-expanded', 'true');
           texto('talento-aviso', '');
         } catch (error) {
@@ -1480,7 +1491,9 @@ botonFavoritosHeader?.addEventListener('click', () => {
         } finally {
           boton.disabled = false;
         }
-      });
+      }
+      boton.addEventListener('click', mostrarVistaTalento);
+      if (perfilCompleto) void mostrarVistaTalento();
     }
 
     async function iniciarPanel() {
@@ -2014,5 +2027,6 @@ function nexoDatosContacto() {
 </script>
 </body>
 </html>
+
 
 

@@ -276,6 +276,14 @@ h1{font-size:34px}.card,.panel{border-radius:16px}.card{padding:25px 20px}.card 
 #recientes, #lista-cotizaciones { overflow-x: auto; }
 .actions.acciones-cotizacion { flex-wrap: nowrap; align-items: center; }
 .acciones-cotizacion button { flex: 0 0 auto; white-space: nowrap; }
+.usuarios-busqueda { margin: 12px 0 18px; }
+.usuarios-busqueda label { display: block; margin-bottom: 8px; font-weight: 700; }
+.usuarios-busqueda > div, .usuarios-paginas { display: flex; gap: 10px; align-items: center; }
+.usuarios-busqueda input { width: min(100%, 390px); min-width: 0; padding: 10px 12px; border: 1px solid #dcd6eb; border-radius: 8px; font: inherit; }
+#lista-usuarios { overflow-x: auto; }
+#lista-usuarios td { overflow-wrap: anywhere; }
+.usuarios-paginas { margin-top: 16px; }
+.usuarios-paginas[hidden] { display: none; }
 </style>
 </head>
 
@@ -363,11 +371,20 @@ h1{font-size:34px}.card,.panel{border-radius:16px}.card{padding:25px 20px}.card 
   <section id="usuarios" class="section">
     <div class="panel">
       <h2>Usuarios y clientes</h2>
-      <p>
-        Este módulo mostrará los perfiles de clientes
-        cuando confirmemos la estructura de la tabla
-        correspondiente en Supabase.
-      </p>
+      <form id="buscar-usuarios" class="usuarios-busqueda">
+        <label for="consulta-usuarios">Buscar por nombre, correo o tipo de cuenta</label>
+        <div>
+          <input id="consulta-usuarios" type="search" maxlength="120" placeholder="Ej. Nova Rey">
+          <button type="submit" class="btn">Buscar</button>
+        </div>
+      </form>
+      <p id="estado-usuarios" role="status"></p>
+      <div id="lista-usuarios"></div>
+      <div class="usuarios-paginas" id="usuarios-paginas" hidden>
+        <button type="button" class="btn secondary" id="usuarios-anterior">Anterior</button>
+        <span id="usuarios-pagina"></span>
+        <button type="button" class="btn secondary" id="usuarios-siguiente">Siguiente</button>
+      </div>
     </div>
   </section>
 
@@ -776,6 +793,62 @@ async function iniciar() {
   }
 }
 
+let paginaUsuarios = 0;
+let consultaUsuarios = '';
+let cargaUsuarios = 0;
+const usuariosPorPagina = 25;
+
+async function cargarUsuarios(pagina = 0) {
+  const carga = ++cargaUsuarios;
+  const estado = document.getElementById('estado-usuarios');
+  const lista = document.getElementById('lista-usuarios');
+  const controles = document.getElementById('usuarios-paginas');
+  estado.textContent = 'Cargando usuarios…';
+  lista.replaceChildren();
+  controles.hidden = true;
+
+  try {
+    const { data, error } = await db.rpc('nexo_listar_usuarios_admin', {
+      p_busqueda: consultaUsuarios,
+      p_desplazamiento: pagina * usuariosPorPagina
+    });
+    if (carga !== cargaUsuarios) return;
+    if (error) throw error;
+
+    paginaUsuarios = pagina;
+    const registros = data.slice(0, usuariosPorPagina).map(usuario => ({
+      ...usuario,
+      confirmado: usuario.confirmado ? 'Confirmado' : 'Sin confirmar',
+      registro: new Date(usuario.registro).toLocaleDateString('es-MX', { timeZone: 'America/Mexico_City' })
+    }));
+    if (registros.length) {
+      lista.innerHTML = tabla(registros, [
+        { titulo: 'Nombre', campo: 'nombre' },
+        { titulo: 'Correo', campo: 'correo' },
+        { titulo: 'Teléfono', campo: 'telefono' },
+        { titulo: 'Tipo de cuenta', campo: 'tipo' },
+        { titulo: 'Correo verificado', campo: 'confirmado' },
+        { titulo: 'Registro', campo: 'registro' }
+      ]);
+    }
+    estado.textContent = registros.length ? '' : 'No se encontraron usuarios.';
+    document.getElementById('usuarios-pagina').textContent = 'Página ' + (pagina + 1);
+    document.getElementById('usuarios-anterior').disabled = pagina === 0;
+    document.getElementById('usuarios-siguiente').disabled = data.length <= usuariosPorPagina;
+    controles.hidden = pagina === 0 && data.length <= usuariosPorPagina;
+  } catch (error) {
+    if (carga === cargaUsuarios) estado.textContent = 'No se pudieron cargar los usuarios. ' + error.message;
+  }
+}
+
+document.getElementById('buscar-usuarios').addEventListener('submit', evento => {
+  evento.preventDefault();
+  consultaUsuarios = document.getElementById('consulta-usuarios').value.trim();
+  void cargarUsuarios();
+});
+document.getElementById('usuarios-anterior').addEventListener('click', () => void cargarUsuarios(paginaUsuarios - 1));
+document.getElementById('usuarios-siguiente').addEventListener('click', () => void cargarUsuarios(paginaUsuarios + 1));
+
 async function cargarSolicitudesPerfil() {
   const panel = document.getElementById('solicitudes-perfil');
   panel.textContent = 'Cargando solicitudes…';
@@ -1029,6 +1102,7 @@ async function cargarSolicitudesPerfil() {
 
 document.querySelectorAll('[data-tab]').forEach(boton => {
   boton.addEventListener('click', () => {
+    if (boton.dataset.tab === 'usuarios') void cargarUsuarios(paginaUsuarios);
     if (boton.dataset.tab === 'proveedores') void cargarSolicitudesPerfil();
     document.querySelectorAll('[data-tab]').forEach(b =>
       b.classList.remove('active')
@@ -1124,6 +1198,7 @@ iniciar();
 
 </body>
 </html>
+
 
 
 

@@ -773,7 +773,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const coincidencias = tarjetasArtistas.filter(function (tarjeta) {
             const datos = tarjeta.dataset;
             const texto = normalizar(tarjeta.textContent);
-            return (!modoEntretenimiento || categoriasEntretenimiento.includes(datos.categoria)) &&
+            return (!modoEntretenimiento || categoriasEntretenimiento.some(grupo => contiene(datos.categoria, grupo))) &&
                 (!categoria || contiene(datos.categoria, categoria)) &&
                 (!especialidad || normalizar(datos.especialidad) === normalizar(especialidad)) &&
                 (!genero || contiene(datos.generos, genero)) &&
@@ -828,6 +828,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     window.addEventListener('nexo-talentos-cargados', evento => {
+        for (let i = tarjetasArtistas.length - 1; i >= 0; i--) {
+            if (!tarjetasArtistas[i].isConnected) tarjetasArtistas.splice(i, 1);
+        }
         tarjetasArtistas.unshift(...evento.detail);
         reiniciarResultados();
     });
@@ -968,6 +971,7 @@ document.addEventListener("DOMContentLoaded", function () {
 })();
 </script>
 	
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../talentos-publicos.js"></script><script>document.addEventListener('DOMContentLoaded', () => void NexoTalentos.agregarAlCatalogo());</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../talentos-publicos.js?v=catalogo-ct"></script><script>document.addEventListener('DOMContentLoaded', () => void NexoTalentos.agregarAlCatalogo());</script>
 </body>
 </html>
+

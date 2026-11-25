@@ -452,6 +452,12 @@ function fechaAmigable(fecha) {
   return d.toLocaleDateString('es-MX', {day:'numeric',month:'long',year:'numeric'});
 }
 
+function estadoGestion(c) {
+  if (c.gestion_estado === 'en_atencion') return 'En atención';
+  if (c.gestion_estado === 'finalizado') return 'Finalizada';
+  return c.estado || c.status || 'Pendiente';
+}
+
 function datosSolicitud(c) {
   const e = eventos.find(x => String(x.id) === String(c.evento_id));
   const invitado = !c.cliente_id;
@@ -483,7 +489,7 @@ function abrirCotizacion(id) {
     <div class="detalle-encabezado"><div><p class="eyebrow">SOLICITUD DE COTIZACIÓN${invitado ? ' · SIN REGISTRO' : ''}</p>
       <h2>${escapar(titulo)}</h2>
       <p>Servicio solicitado: <strong>${escapar(c.servicio_nombre || e?.servicio_solicitado || c.servicio_tipo || 'No especificado')}</strong></p></div>
-      <span class="badge">${escapar(c.gestion_estado === 'visto' ? 'Visto' : c.gestion_estado === 'finalizado' ? 'Finalizado' : c.estado || 'Pendiente')}</span></div>
+      <span class="badge" id="estado-gestion-detalle">${escapar(estadoGestion(c))}</span></div>
     <div class="detalle-grid">
       ${campo('Tipo de evento',tipo)}
       ${campo('Fecha',fechaAmigable(e?.fecha || (antiguo ? detalle('Fecha') : '')))}
@@ -547,18 +553,24 @@ document.addEventListener('submit', async event => {
   if (!mensaje) return;
   const boton = document.getElementById('enviar-respuesta');
   const estado = document.getElementById('estado-respuesta');
+  const idEnviado = cotizacionActualId;
   boton.disabled = true;
   estado.textContent = 'Enviando...';
   try {
     const {data:{user},error:authError} = await db.auth.getUser();
     if (authError || !user) throw new Error('La sesión ha expirado. Inicia sesión de nuevo.');
     const {error} = await db.from('mensajes_cotizacion').insert({
-      cotizacion_id:cotizacionActualId, autor_id:user.id, contenido:mensaje
+      cotizacion_id:idEnviado, autor_id:user.id, contenido:mensaje
     });
     if (error) throw error;
     campo.value = '';
     estado.textContent = 'Mensaje enviado y guardado.';
-    await cargarMensajes(cotizacionActualId);
+    await cargarDatos();
+    const actualizada = cotizaciones.find(c => String(c.id) === String(idEnviado));
+    if (actualizada && String(cotizacionActualId) === String(idEnviado)) {
+      document.getElementById('estado-gestion-detalle').textContent = estadoGestion(actualizada);
+      await cargarMensajes(idEnviado);
+    }
   } catch(error) {
     estado.textContent = 'No se pudo enviar: ' + error.message;
   } finally { boton.disabled = false; }
@@ -585,6 +597,7 @@ function renderizar() {
 
   document.getElementById('stat-pendientes').textContent =
     cotizaciones.filter(c =>
+      !['en_atencion', 'finalizado'].includes(c.gestion_estado) &&
       String(c.estado || c.status || '').toLowerCase() === 'pendiente'
     ).length;
 
@@ -609,7 +622,7 @@ function renderizar() {
 
   const cotizacionesVisibles = cotizaciones.map(c => ({
     ...c,
-    estado: c.gestion_estado === 'visto' ? 'Visto' : c.gestion_estado === 'finalizado' ? 'Finalizado' : c.estado || c.status || 'Sin estado'
+    estado: estadoGestion(c)
   }));
 
     const columnasConAccion = [
@@ -1040,8 +1053,17 @@ document.getElementById('logout').addEventListener(
   }
 );
 
-function botonesGestion(tipo,id){
- return '<div class="actions">'+(tipo==='cotizaciones'?'<button class="btn secondary" data-operacion="visto" data-tipo="'+tipo+'" data-id="'+escapar(id)+'">Marcar como visto</button><button class="btn secondary" data-operacion="finalizado" data-tipo="'+tipo+'" data-id="'+escapar(id)+'">Finalizar</button>':'')+'<button class="btn danger" data-operacion="eliminar" data-tipo="'+tipo+'" data-id="'+escapar(id)+'">Eliminar</button></div>';
+function botonesGestion(tipo, registro) {
+  const atributos = ' data-tipo="' + tipo + '" data-id="' + escapar(registro.id) + '"';
+  let acciones = '';
+  if (tipo === 'cotizaciones' && registro.gestion_estado !== 'finalizado') {
+    if (datosSolicitud(registro).invitado && registro.gestion_estado !== 'en_atencion') {
+      acciones += '<button class="btn secondary" data-operacion="en_atencion"' + atributos + '>Registrar respuesta por correo</button>';
+    }
+    acciones += '<button class="btn secondary" data-operacion="finalizado"' + atributos + '>Finalizar</button>';
+  }
+  acciones += '<button class="btn danger" data-operacion="eliminar"' + atributos + '>Eliminar</button>';
+  return '<div class="actions">' + acciones + '</div>';
 }
 const renderOriginal=renderizar;
 renderizar=function(){
@@ -1050,12 +1072,12 @@ renderizar=function(){
  const records=target==='recientes'?cotizaciones.slice(0,5):cotizaciones;
  document.querySelectorAll('#'+target+' tbody tr').forEach((row,index)=>{
  const c=records[index];if(!c)return;
- const cell=row.cells[row.cells.length-1];cell.insertAdjacentHTML('beforeend',botonesGestion('cotizaciones',c.id));
+ const cell=row.cells[row.cells.length-1];cell.insertAdjacentHTML('beforeend',botonesGestion('cotizaciones',c));
  });
  });
  const table=document.querySelector('#lista-eventos table');
  if(table){table.tHead.rows[0].insertAdjacentHTML('beforeend','<th>Acción</th>');
- Array.from(table.tBodies[0].rows).forEach((row,index)=>row.insertCell().innerHTML=botonesGestion('eventos',eventos[index].id));}
+ Array.from(table.tBodies[0].rows).forEach((row,index)=>row.insertCell().innerHTML=botonesGestion('eventos',eventos[index]));}
 };
 let operacionPendiente=false;
 document.addEventListener('click',async event=>{
@@ -1064,6 +1086,7 @@ document.addEventListener('click',async event=>{
  if(!['cotizaciones','eventos'].includes(tipo))return;
  const record=(tipo==='cotizaciones'?cotizaciones:eventos).find(r=>String(r.id)===id);if(!record)return;
  if(action==='eliminar'&&!window.confirm('¿Eliminar este registro de NEXO? Se eliminará de la base de datos. Esta acción no se puede deshacer.'))return;
+ if(action==='en_atencion'&&!window.confirm('¿Ya enviaste una respuesta a esta cotización por correo?'))return;
  if(action==='finalizado'&&!window.confirm('¿Marcar esta cotización como finalizada?'))return;
  operacionPendiente=true;button.disabled=true;
  try{
@@ -1083,7 +1106,7 @@ document.addEventListener('click',async event=>{
     cotizacionActualId=null;document.getElementById('detalle-cotizacion').hidden=true;
   }
   await cargarDatos();
-  const status=document.getElementById('system-message');status.className='message';status.textContent=action==='eliminar'?'Registro eliminado.':'Estado actualizado: '+action+'.';
+  const status=document.getElementById('system-message');status.className='message';status.textContent=action==='eliminar'?'Registro eliminado.':action==='en_atencion'?'Cotización en atención.':'Cotización finalizada.';
  }catch(error){mostrarError('No se pudo guardar el cambio: '+error.message);}
  finally{operacionPendiente=false;button.disabled=false;}
 });
@@ -1093,6 +1116,7 @@ iniciar();
 
 </body>
 </html>
+
 
 
 

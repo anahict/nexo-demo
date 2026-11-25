@@ -490,25 +490,6 @@
 .nexo-servicio-opcion{display:flex;align-items:center;gap:9px;padding:7px 5px;cursor:pointer;font-size:inherit}
 .nexo-servicio-opcion input{width:17px;height:17px;flex:none;accent-color:#7b3fea}
 </style>
-<style>
-.cotiza-chat { position: fixed; inset: auto max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) auto; margin: 0; z-index: 10000; width: min(25rem, calc(100% - 2rem)); max-height: calc(100dvh - 2rem); overflow: auto; border: 1px solid #ded8f0; border-radius: 16px; padding: 0; color: #211d2c; background: #fff; box-shadow: 0 12px 40px #261a4540; }
-.cotiza-chat .cotiza-chat-cuerpo { padding: .9rem; }
-.cotiza-chat-controles { display: flex; gap: .35rem; }
-.cotiza-chat header { padding: .75rem .9rem; border-bottom: 1px solid #ede8f6; }
-.cotiza-chat header h3 { font-size: 1rem; }
-.cotiza-chat-cuerpo > p:empty { display: none; }
-.cotiza-chat-cuerpo > p { margin: 0 0 .65rem; overflow-wrap: anywhere; }
-.cotiza-chat header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; position: static; background: none; }
-.cotiza-chat header h3 { margin: 0; }
-.cotiza-chat header button, .cotiza-chat-cuerpo > button { cursor: pointer; border: 0; border-radius: 8px; padding: .5rem .75rem; color: #4b2eb0; background: #eee8ff; }
-.cotiza-chat-historial { display: flex; flex-direction: column; gap: .75rem; min-height: min(28vh, 10rem); max-height: 36vh; overflow: auto; padding: .75rem; background: #f7f5fb; border-radius: 12px; }
-.cotiza-chat-historial p { margin: 0; padding: .65rem .85rem; border-radius: 12px; max-width: 90%; overflow-wrap: anywhere; }
-.cotiza-chat-propio { align-self: flex-end; background: #e9e0ff; }
-.cotiza-chat-equipo { align-self: flex-start; background: #fff; }
-.cotiza-chat form { margin-top: 1rem; display: grid; gap: .5rem; }
-.cotiza-chat textarea { width: 100%; font: inherit; padding: .75rem; border: 1px solid #d8d0e8; border-radius: 8px; }
-.cotiza-chat form button { justify-self: end; }
-</style>
 </head>
 <body>
 <header class="header nexo-header">
@@ -569,14 +550,36 @@
 </div>
 </nav>
 <main class="contenedor">
-<div class="etiqueta">Panel de cliente</div>
-<h1>Mi cuenta</h1>
-<p class="subtitulo">
+<div class="etiqueta" id="cuenta-etiqueta">Mi cuenta</div>
+<h1 id="cuenta-titulo">Mi cuenta</h1>
+<p class="subtitulo" id="cuenta-subtitulo" hidden>
       Administra tu información, favoritos y solicitudes desde un solo lugar.
     </p>
 <div id="estado-carga" class="estado">
       Verificando tu sesión...
     </div>
+<style>
+#panel-talento[hidden], #talento-vista[hidden] { display: none; }
+.talento-portada { background: #19132c; color: white; border-radius: 18px; overflow: hidden; margin-bottom: 24px; }
+.talento-portada img { width: 100%; height: clamp(160px, 35vw, 420px); object-fit: cover; display: block; }
+.talento-portada img[hidden] { display: none; }
+.talento-portada h2 { color: white; font-size: clamp(28px, 5vw, 52px); padding: 24px; overflow-wrap: anywhere; }
+#panel-talento .tarjeta { margin-bottom: 20px; overflow-wrap: anywhere; }
+#talento-vista { width: 100%; min-height: 75vh; border: 1px solid #e4dff2; border-radius: 12px; margin-top: 16px; }
+</style>
+<section id="panel-talento" aria-labelledby="cuenta-titulo" hidden>
+  <div class="talento-portada">
+    <img id="talento-portada" alt="" hidden>
+    <h2 id="talento-nombre"></h2>
+  </div>
+  <section class="tarjeta" aria-labelledby="talento-revision">
+    <h2 id="talento-revision">Estado de revisión</h2>
+    <p id="talento-estado"></p>
+    <button class="evento-boton" type="button" id="talento-ver" aria-expanded="false" aria-controls="talento-vista">Ver vista previa</button>
+    <p id="talento-aviso" role="status"></p>
+    <iframe id="talento-vista" title="Vista previa del perfil" sandbox="allow-scripts" hidden></iframe>
+  </section>
+</section>
 <div hidden="" id="panel-cliente">
 <section aria-label="Bienvenida a NEXO" class="cuenta-banner">
 <div class="cuenta-banner-contenido">
@@ -681,7 +684,7 @@
 </section>
 <section class="seccion" id="seccion-cotizaciones">
 
-<div class="tarjeta"><h2>Mis cotizaciones</h2><p id="aviso-mensajes-cotizacion" role="status"></p><p id="estado-mensajes-cotizacion" role="status"></p><div class="evento-lista" id="cotiza-lista"><p>Cargando cotizaciones...</p></div></div>
+<div class="tarjeta"><h2>Mis cotizaciones</h2><div class="evento-lista" id="cotiza-lista"><p>Cargando cotizaciones...</p></div></div>
 </section>
 <section class="seccion" id="seccion-favoritos">
 <div class="tarjeta">
@@ -842,6 +845,7 @@ botonFavoritosHeader?.addEventListener('click', () => {
 
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../nexo-vista-publica.js"></script>
 <script>
     const NEXO_URL = 'https://bbszahuoeclszmivgnyy.supabase.co';
     const NEXO_KEY = 'sb_publishable_VLTfpjdin94_xmYSA-Y-yg_-q8_e_Ii';
@@ -1016,8 +1020,7 @@ botonFavoritosHeader?.addEventListener('click', () => {
         const archivo = e.target.files?.[0]; if (!archivo) return;
         e.target.value = '';
         const tipos = {'image/jpeg':'jpg','image/png':'png','image/webp':'webp'};
-        if (!tipos[archivo.type] || archivo.size > 2*1024*1024 || !archivo.size) return aviso('foto-mensaje','Selecciona un JPG, PNG o WebP de máximo 2 MB.',true);
-        const boton = $('foto-subir'); boton.disabled = true;
+        if (!tipos[archivo.type] || archivo.size > 2*1024*1024 || !archivo.size) return aviso('foto-mensaje','Selecciona un JPG, PNG o WebP de máximo 2 MB.',true);        const boton = $('foto-subir'); boton.disabled = true;
         aviso('foto-mensaje','Subiendo fotografía...');
         const rutaNueva = `${nexoUsuario.id}/avatar-${crypto.randomUUID()}.${tipos[archivo.type]}`;
         const anterior = nexoFotoRuta;
@@ -1195,209 +1198,6 @@ botonFavoritosHeader?.addEventListener('click', () => {
         lista.append(item);
       }
     }
-    const avisosCotizacion = new Map();
-    let revisandoMensajes = false;
-
-    function claveMensajeVisto(id) {
-      return 'nexo:mensaje-visto:' + nexoUsuario.id + ':' + id;
-    }
-
-    function ultimoMensajeVisto(id) {
-      const clave = claveMensajeVisto(id);
-      try { return avisosCotizacion.get(clave) || localStorage.getItem(clave); }
-      catch { return avisosCotizacion.get(clave); }
-    }
-
-    function marcarMensajeVisto(id, mensaje) {
-      const clave = claveMensajeVisto(id);
-      avisosCotizacion.set(clave, String(mensaje));
-      try { localStorage.setItem(clave, String(mensaje)); } catch {}
-    }
-
-    async function revisarMensajesNuevos() {
-      if (!nexoCliente || !nexoUsuario || document.hidden || revisandoMensajes) return;
-      revisandoMensajes = true;
-      try {
-        const { data, error } = await nexoCliente.rpc('nexo_mensajes_cliente', { p_id: null, p_texto: null });
-        const aviso = $('aviso-mensajes-cotizacion');
-        const estado = $('estado-mensajes-cotizacion');
-        if (error) throw error;
-        const ultimos = new Map((data || []).map(m => [String(m.cotizacion_id), String(m.id)]));
-        let nuevos = 0;
-        for (const [id, mensaje] of ultimos) {
-          if (ultimoMensajeVisto(id) !== mensaje) nuevos++;
-        }
-        for (const badge of document.querySelectorAll('[data-aviso-cotizacion]')) {
-          const id = badge.dataset.avisoCotizacion;
-          badge.hidden = !ultimos.has(id) || ultimoMensajeVisto(id) === ultimos.get(id);
-          if (!badge.hidden) badge.dispatchEvent(new Event('mensaje-nuevo'));
-        }
-        const texto = nuevos ? 'Mis cotizaciones (' + nuevos + ')' : 'Mis cotizaciones';
-        const boton = document.querySelector('[data-seccion="cotizaciones"]');
-        if (boton && boton.textContent !== texto) boton.textContent = texto;
-        const resumen = nuevos ? 'Tienes mensajes nuevos en ' + nuevos + (nuevos === 1 ? ' cotización.' : ' cotizaciones.') : '';
-        if (aviso && aviso.textContent !== resumen) aviso.textContent = resumen;
-        if (estado) estado.textContent = '';
-      } catch {
-        const estado = $('estado-mensajes-cotizacion');
-        if (estado) estado.textContent = 'No se pudieron consultar los avisos de mensajes.';
-      } finally {
-        revisandoMensajes = false;
-      }
-    }
-
-    function codigoErrorChat(error) {
-      return error?.code ? ' Código de Supabase: ' + error.code : '';
-    }
-
-    function agregarConversacion(item, id) {
-      const conversacion = document.createElement('dialog');
-      conversacion.className = 'cotiza-chat';
-      const abrir = document.createElement('button');
-      abrir.type = 'button';
-      abrir.className = 'evento-boton';
-      abrir.textContent = 'Abrir chat';
-      const titulo = document.createElement('h3');
-      titulo.id = 'chat-titulo-' + id;
-      titulo.textContent = 'Conversación con NEXO';
-      conversacion.setAttribute('aria-labelledby', titulo.id);
-      const servicio = document.createElement('p');
-      servicio.textContent = item.querySelector('h3').textContent;
-      const cerrar = document.createElement('button');
-      cerrar.type = 'button';
-      cerrar.textContent = 'Cerrar';
-      cerrar.addEventListener('click', () => conversacion.close());
-      const cabecera = document.createElement('header');
-      const minimizar = document.createElement('button');
-      minimizar.type = 'button';
-      minimizar.textContent = 'Minimizar';
-      minimizar.setAttribute('aria-expanded', 'true');
-      const controles = document.createElement('div');
-      controles.className = 'cotiza-chat-controles';
-      controles.append(minimizar, cerrar);
-      cabecera.append(titulo, controles);
-      const badge = document.createElement('span');
-      badge.className = 'evento-etiqueta';
-      badge.dataset.avisoCotizacion = String(id);
-      badge.textContent = 'Mensaje nuevo';
-      badge.hidden = true;
-      abrir.append(' ', badge);
-
-      const historial = document.createElement('div');
-      historial.className = 'cotiza-chat-historial';
-      historial.setAttribute('role', 'log');
-      const aviso = document.createElement('p');
-      aviso.setAttribute('role', 'status');
-      const actualizar = document.createElement('button');
-      actualizar.type = 'button';
-      actualizar.textContent = 'Reintentar carga';
-      actualizar.hidden = true;
-      const formulario = document.createElement('form');
-      const campo = document.createElement('textarea');
-      campo.required = true;
-      campo.maxLength = 3000;
-      campo.rows = 3;
-      campo.setAttribute('aria-label', 'Tu respuesta');
-      campo.placeholder = 'Escribe tu respuesta';
-      const enviar = document.createElement('button');
-      enviar.type = 'submit';
-      enviar.className = 'evento-boton';
-      enviar.textContent = 'Enviar respuesta';
-      formulario.append(campo, enviar);
-      const cuerpo = document.createElement('div');
-      cuerpo.className = 'cotiza-chat-cuerpo';
-      cuerpo.append(servicio, historial, formulario, aviso, actualizar);
-      conversacion.append(cabecera, cuerpo);
-      function ajustarVista(minimizado) {
-        cuerpo.hidden = minimizado;
-        minimizar.textContent = minimizado ? 'Expandir' : 'Minimizar';
-        minimizar.setAttribute('aria-expanded', String(!minimizado));
-      }
-      minimizar.addEventListener('click', () => {
-        ajustarVista(!cuerpo.hidden);
-        if (!cuerpo.hidden) cargarConversacion();
-      });
-      conversacion.addEventListener('keydown', evento => {
-        if (evento.key === 'Escape') conversacion.close();
-      });
-      conversacion.addEventListener('close', () => {
-        if (!document.querySelector('.cotiza-chat[open]') && abrir.isConnected) abrir.focus();
-      });
-      item.append(abrir, conversacion);
-
-      async function cargarConversacion() {
-        if (actualizar.disabled) return;
-        actualizar.disabled = true;
-        actualizar.hidden = true;
-        aviso.textContent = 'Cargando conversación…';
-        try {
-          const { data, error } = await nexoCliente.rpc('nexo_mensajes_cliente', { p_id: String(id), p_texto: null });
-          if (error) throw error;
-          if (!conversacion.open || cuerpo.hidden || !conversacion.isConnected) return;
-          historial.replaceChildren();
-          let ultimo;
-          for (const mensaje of data || []) {
-            const p = document.createElement('p');
-            p.className = mensaje.propio ? 'cotiza-chat-propio' : 'cotiza-chat-equipo';
-            const autor = document.createElement('strong');
-            autor.textContent = mensaje.propio ? 'Tú' : 'Equipo NEXO';
-            const contenido = document.createElement('span');
-            contenido.style.whiteSpace = 'pre-wrap';
-            contenido.textContent = mensaje.contenido;
-            p.append(autor, document.createElement('br'), contenido);
-            historial.append(p);
-            if (!mensaje.propio) ultimo = mensaje.id;
-          }
-          if (!historial.childElementCount) historial.textContent = 'Aún no hay mensajes.';
-          if (ultimo != null) marcarMensajeVisto(id, ultimo);
-          historial.scrollTop = historial.scrollHeight;
-          badge.hidden = true;
-          aviso.textContent = '';
-          revisarMensajesNuevos();
-        } catch (error) {
-          actualizar.hidden = false;
-          aviso.textContent = 'No se pudo cargar la conversación.' + codigoErrorChat(error);
-        } finally {
-          actualizar.disabled = false;
-        }
-      }
-
-      abrir.addEventListener('click', () => {
-        for (const chat of document.querySelectorAll('.cotiza-chat[open]')) {
-          if (chat !== conversacion) chat.close();
-        }
-        ajustarVista(false);
-        if (!conversacion.open) conversacion.show();
-        cargarConversacion();
-      });
-      badge.addEventListener('mensaje-nuevo', () => {
-        if (conversacion.open && !cuerpo.hidden && actualizar.hidden) cargarConversacion();
-      });
-      actualizar.addEventListener('click', cargarConversacion);
-      formulario.addEventListener('submit', async event => {
-        event.preventDefault();
-        const texto = campo.value.trim();
-        if (!texto || enviar.disabled) return;
-        enviar.disabled = true;
-        aviso.textContent = 'Enviando respuesta…';
-        try {
-          const { error } = await nexoCliente.rpc('nexo_mensajes_cliente', {
-            p_id: String(id), p_texto: texto
-          });
-          if (error) throw error;
-          campo.value = '';
-          await cargarConversacion();
-        } catch (error) {
-          aviso.textContent = 'No se pudo enviar. Tu texto sigue en el campo.' + codigoErrorChat(error);
-        } finally {
-          enviar.disabled = false;
-        }
-      });
-    }
-
-    setInterval(revisarMensajesNuevos, 20000);
-    document.addEventListener('visibilitychange', revisarMensajesNuevos);
-
     async function cargarCotizaciones(){
       if(!nexoCliente||!nexoUsuario)return;
       const lista=$('cotiza-lista');lista.replaceChildren();
@@ -1428,11 +1228,8 @@ botonFavoritosHeader?.addEventListener('click', () => {
             });acciones.append(boton);
           }item.append(acciones);
         }
-        item.dataset.cotizacionId = String(c.id);
-        agregarConversacion(item, c.id);
         lista.append(item);
       }
-      revisarMensajesNuevos();
     }
     async function solicitarCotizacionEvento(evento){
       // Un evento ya guardado envía la solicitud sin abrir otro formulario.
@@ -1494,6 +1291,81 @@ botonFavoritosHeader?.addEventListener('click', () => {
     $('evento-form').addEventListener('submit',async e=>{e.preventDefault();await guardarEvento(false)});
     $('evento-cotizar').addEventListener('click',async()=>{await guardarEvento(true)});
 
+    function mostrarPanelTalento(cliente, usuario, solicitud) {
+      const datos = solicitud.datos || {};
+      const artista = solicitud.tipo_cuenta === 'artista';
+      const nombre = datos.nombre || (artista ? 'Mi perfil artístico' : 'Mi perfil de proveedor');
+      const estados = {
+        pendiente_revision: 'Pendiente de revisión',
+        aprobado: 'Aprobado',
+        publicado: 'Publicado',
+        rechazado: 'No aprobado'
+      };
+      texto('cuenta-etiqueta', artista ? 'Panel de talento' : 'Panel de proveedor');
+      texto('cuenta-titulo', artista ? 'Mi perfil de talento' : 'Mi perfil de proveedor');
+      texto('talento-nombre', nombre);
+      texto('talento-estado', estados[solicitud.estado] || solicitud.estado || 'Estado por confirmar');
+      $('estado-carga').hidden = true;
+      $('panel-talento').hidden = false;
+
+      const bucket = cliente.storage.from('nexo-perfiles-adjuntos');
+      const prefijo = usuario.id + '/' + solicitud.tipo_cuenta + '/';
+      async function imagen(archivo) {
+        if (typeof archivo?.ruta !== 'string' || !archivo.ruta.startsWith(prefijo)) return '';
+        const { data, error } = await bucket.createSignedUrl(archivo.ruta, 3600);
+        return error ? '' : data?.signedUrl || '';
+      }
+      imagen(datos.portada).then(url => {
+        if (!url) return;
+        $('talento-portada').src = url;
+        $('talento-portada').hidden = false;
+      }).catch(() => {});
+
+      const boton = $('talento-ver');
+      const vista = $('talento-vista');
+      boton.addEventListener('click', async () => {
+        if (!vista.hidden) {
+          vista.hidden = true;
+          boton.textContent = 'Ver vista previa';
+          boton.setAttribute('aria-expanded', 'false');
+          return;
+        }
+        boton.disabled = true;
+        texto('talento-aviso', 'Cargando vista previa…');
+        try {
+          const plantilla = window.NexoVistaPublica;
+          if (!plantilla) throw new Error('Plantilla de perfil no disponible');
+          const lista = valor => Array.isArray(valor) ? valor : [];
+          const [portada, avatar, galeria] = await Promise.all([
+            imagen(datos.portada), imagen(datos.avatar),
+            Promise.all(lista(datos.galeria).map(imagen))
+          ]);
+          plantilla.mostrar(vista, {
+            nombre, portada, avatar, galeria: galeria.filter(Boolean),
+            categoria: datos.categoria, descripcion: datos.descripcion,
+            cobertura: datos.cobertura, ciudad: '',
+            video: plantilla.videoURL(datos.video),
+            generos: lista(datos.generos), subcategorias: lista(datos.subcategorias),
+            decadas: lista(datos.decadas),
+            servicio: {
+              nombre: datos.servicio?.nombre,
+              incluye: datos.servicio?.incluye,
+              duracion: datos.servicio?.duracion
+            },
+            disponibilidad: 'Sujeta a confirmación'
+          });
+          vista.hidden = false;
+          boton.textContent = 'Cerrar vista previa';
+          boton.setAttribute('aria-expanded', 'true');
+          texto('talento-aviso', '');
+        } catch (error) {
+          texto('talento-aviso', 'No pudimos abrir la vista previa. Intenta de nuevo.');
+        } finally {
+          boton.disabled = false;
+        }
+      });
+    }
+
     async function iniciarPanel() {
       if (!window.supabase?.createClient) {
         texto('estado-carga', 'No se pudo cargar Supabase. Revisa tu conexión.');
@@ -1517,23 +1389,6 @@ botonFavoritosHeader?.addEventListener('click', () => {
         }
 
         usuario = resultado.data.user;
-		  const { data: accesoAdmin, error: errorAdmin } = await cliente
-  .from('nexo_admin_access')
-  .select('user_id')
-  .eq('user_id', usuario.id)
-  .maybeSingle();
-
-if (errorAdmin) {
-  texto('estado-carga', 'No se pudo comprobar el acceso a tu panel. Recarga la página.');
-  return;
-}
-
-if (accesoAdmin) {
-  window.location.replace('../admin.html');
-  return;
-}
-        nexoUsuario = usuario;
-        revisarMensajesNuevos();
         $('nexo-cuenta').hidden = true;
         $('nexo-mi-cuenta').hidden = false;
         $('nexo-cerrar-sesion-header').hidden = false;
@@ -1542,6 +1397,55 @@ if (accesoAdmin) {
         return;
       }
 
+      async function cerrarSesionNexo() {
+        const botones = [$('cerrar-sesion'), $('nexo-cerrar-sesion-header')].filter(Boolean);
+        botones.forEach(boton => {
+          boton.disabled = true;
+          boton.textContent = 'Cerrando sesión...';
+        });
+        try {
+          const { error } = await cliente.auth.signOut();
+          if (error) throw error;
+          window.location.replace('login.html');
+        } catch (error) {
+          alert('No se pudo cerrar sesión. Intenta nuevamente.');
+          botones.forEach(boton => {
+            boton.disabled = false;
+            boton.textContent = 'Cerrar sesión';
+          });
+        }
+      }
+      $('cerrar-sesion').addEventListener('click', cerrarSesionNexo);
+      $('nexo-cerrar-sesion-header').addEventListener('click', cerrarSesionNexo);
+
+      cliente.auth.onAuthStateChange((evento) => {
+        if (evento === 'SIGNED_OUT') {
+          window.location.replace('login.html');
+        }
+      });
+
+      try {
+        const { data, error } = await cliente.from('nexo_solicitudes_perfil')
+          .select('tipo_cuenta, datos, estado')
+          .eq('usuario_id', usuario.id)
+          .in('tipo_cuenta', ['artista', 'proveedor'])
+          .order('creado_en', { ascending: false })
+          .limit(1)
+          .maybeSingle();
+        if (error) throw error;
+        if (data) {
+          mostrarPanelTalento(cliente, usuario, data);
+          return;
+        }
+      } catch (error) {
+        console.error('No se pudo consultar el tipo de perfil.', error);
+        texto('estado-carga', 'No pudimos cargar tu cuenta. Recarga esta página para intentarlo de nuevo.');
+        return;
+      }
+
+      nexoUsuario = usuario;
+      texto('cuenta-etiqueta', 'Panel de cliente');
+      $('cuenta-subtitulo').hidden = false;
       const nombre =
         usuario.user_metadata?.full_name ||
         usuario.email?.split('@')[0] ||
@@ -1572,32 +1476,7 @@ if (accesoAdmin) {
       $('estado-carga').hidden = true;
       $('panel-cliente').hidden = false;
 
-      async function cerrarSesionNexo() {
-        const botones = [$('cerrar-sesion'), $('nexo-cerrar-sesion-header')].filter(Boolean);
-        botones.forEach(boton => {
-          boton.disabled = true;
-          boton.textContent = 'Cerrando sesión...';
-        });
-        try {
-          const { error } = await cliente.auth.signOut();
-          if (error) throw error;
-          window.location.replace('login.html');
-        } catch (error) {
-          alert('No se pudo cerrar sesión. Intenta nuevamente.');
-          botones.forEach(boton => {
-            boton.disabled = false;
-            boton.textContent = 'Cerrar sesión';
-          });
-        }
-      }
-      $('cerrar-sesion').addEventListener('click', cerrarSesionNexo);
-      $('nexo-cerrar-sesion-header').addEventListener('click', cerrarSesionNexo);
 
-      cliente.auth.onAuthStateChange((evento) => {
-        if (evento === 'SIGNED_OUT') {
-          window.location.replace('login.html');
-        }
-      });
     }
 
     iniciarPanel();
@@ -1763,6 +1642,201 @@ function nexoDatosContacto() {
     return solicitarAnterior(evento);
   };
 
+  const panel = document.getElementById('panel-cliente');
+  const aviso = document.createElement('button');
+  aviso.type = 'button';
+  aviso.className = 'nexo-aviso-mensajes';
+  aviso.hidden = true;
+  aviso.setAttribute('aria-live', 'polite');
+  panel.prepend(aviso);
+
+  let avisos = [];
+  let consultandoAvisos = false;
+  let conversacion = null;
+  let cargandoConversacion = false;
+
+  async function actualizarAvisos() {
+    if (!nexoCliente || !nexoUsuario || consultandoAvisos) return;
+    consultandoAvisos = true;
+
+    try {
+      const {data, error} = await nexoCliente.rpc('nexo_avisos_cliente');
+      if (error) throw error;
+
+      avisos = data || [];
+      const total = avisos.reduce(
+        (suma, item) => suma + Number(item.cantidad), 0
+      );
+
+      aviso.hidden = total === 0;
+      aviso.textContent = total === 1
+        ? 'Tienes 1 mensaje nuevo del equipo NEXO. Ver mensaje'
+        : `Tienes ${total} mensajes nuevos del equipo NEXO. Ver mensajes`;
+    } catch(err) {
+      console.error('No se pudieron consultar los avisos:', err.message);
+    } finally {
+      consultandoAvisos = false;
+    }
+  }
+
+  aviso.addEventListener('click', async () => {
+    const id = avisos[0]?.id;
+    mostrarSeccion('cotizaciones');
+    await cargarCotizaciones();
+    if (id) await abrirConversacion(id);
+  });
+
+  const tarjeta = document.createElement('div');
+  tarjeta.className = 'tarjeta';
+  tarjeta.hidden = true;
+
+  const tituloChat = document.createElement('h2');
+  tituloChat.textContent = 'Conversación con NEXO';
+
+  const cerrar = document.createElement('button');
+  cerrar.type = 'button';
+  cerrar.className = 'evento-boton secundario';
+  cerrar.textContent = 'Cerrar conversación';
+  cerrar.addEventListener('click', () => {
+    conversacion = null;
+    tarjeta.hidden = true;
+  });
+
+  const historial = document.createElement('div');
+  historial.className = 'nexo-chat-historial';
+
+  const formulario = document.createElement('form');
+  formulario.className = 'nexo-chat-form';
+
+  const label = document.createElement('label');
+  label.htmlFor = 'nexo-respuesta-cliente';
+  label.textContent = 'Responder al equipo NEXO';
+
+  const entrada = document.createElement('textarea');
+  entrada.id = 'nexo-respuesta-cliente';
+  entrada.required = true;
+  entrada.maxLength = 5000;
+  entrada.placeholder = 'Escribe tu mensaje…';
+
+  const enviar = document.createElement('button');
+  enviar.type = 'submit';
+  enviar.className = 'evento-boton';
+  enviar.textContent = 'Enviar mensaje';
+
+  const estadoChat = document.createElement('p');
+  estadoChat.className = 'nexo-chat-estado';
+  estadoChat.setAttribute('role', 'status');
+
+  formulario.append(label, entrada, enviar, estadoChat);
+  tarjeta.append(tituloChat, cerrar, historial, formulario);
+  document.getElementById('seccion-cotizaciones').append(tarjeta);
+
+  async function abrirConversacion(id, desplazar = true) {
+    id = String(id);
+
+    if (conversacion !== id) {
+      entrada.value = '';
+      estadoChat.textContent = '';
+      historial.textContent = 'Cargando conversación…';
+    }
+
+    conversacion = id;
+    tarjeta.hidden = false;
+    await actualizarConversacion();
+
+    if (desplazar) tarjeta.scrollIntoView({
+      behavior:'smooth', block:'start'
+    });
+  }
+
+  async function actualizarConversacion() {
+    if (!conversacion || cargandoConversacion) return;
+    cargandoConversacion = true;
+    const id = conversacion;
+
+    try {
+      const {data, error} = await nexoCliente.rpc('nexo_leer_mensajes', {
+        p_id:id
+      });
+      if (error) throw error;
+      if (conversacion !== id) return;
+
+      const mensajes = data || [];
+      const cercaDelFinal =
+        historial.scrollHeight - historial.scrollTop -
+        historial.clientHeight < 80;
+
+      historial.replaceChildren();
+
+      if (!mensajes.length) {
+        historial.textContent = 'Aún no hay mensajes. Puedes escribirnos aquí.';
+      }
+
+      for (const m of mensajes) {
+        const bloque = document.createElement('div');
+        bloque.className = 'nexo-chat-mensaje' +
+          (m.autor_id === nexoUsuario.id ? ' propio' : '');
+
+        const etiqueta = document.createElement('small');
+        etiqueta.textContent =
+          (m.es_cliente ? 'Cliente' : 'Equipo NEXO') + ' · ' +
+          new Date(m.creado_en).toLocaleString('es-MX');
+
+        const contenido = document.createElement('span');
+        contenido.textContent = m.contenido;
+        bloque.append(etiqueta, contenido);
+        historial.append(bloque);
+      }
+
+      if (cercaDelFinal) historial.scrollTop = historial.scrollHeight;
+
+      if (!document.hidden && mensajes.length) {
+        const resultado = await nexoCliente.rpc('nexo_marcar_leidos', {
+          p_id:id,
+          p_mensajes:mensajes.map(m => String(m.id))
+        });
+        if (resultado.error) throw resultado.error;
+      }
+
+      await actualizarAvisos();
+    } catch(err) {
+      if (conversacion === id) {
+        estadoChat.textContent = 'No se pudo actualizar: ' + err.message;
+      }
+    } finally {
+      cargandoConversacion = false;
+    }
+  }
+
+  formulario.addEventListener('submit', async e => {
+    e.preventDefault();
+    const mensaje = entrada.value.trim();
+    const id = conversacion;
+    if (!mensaje || !id || enviar.disabled) return;
+
+    enviar.disabled = true;
+    cerrar.disabled = true;
+    estadoChat.textContent = 'Enviando…';
+
+    try {
+      const {error} = await nexoCliente.rpc('nexo_enviar_mensaje', {
+        p_id:id, p_texto:mensaje
+      });
+      if (error) throw error;
+
+      entrada.value = '';
+      estadoChat.textContent = 'Mensaje enviado.';
+      await actualizarConversacion();
+      historial.scrollTop = historial.scrollHeight;
+    } catch(err) {
+      estadoChat.textContent = 'No se pudo enviar: ' + err.message;
+    } finally {
+      enviar.disabled = false;
+      cerrar.disabled = false;
+    }
+  });
+
+  // Mantiene las propuestas y los botones Aceptar/Rechazar existentes.
   const cargarAnterior = cargarCotizaciones;
   let generacionLista = 0;
 
@@ -1778,13 +1852,47 @@ function nexoDatosContacto() {
 
     if (error || generacion !== generacionLista) return;
 
-    const estados = new Map(data.map(c => [String(c.id), c.gestion_estado]));
-    for (const item of document.querySelectorAll('#cotiza-lista [data-cotizacion-id]')) {
-      if (estados.get(item.dataset.cotizacionId) === 'finalizado') {
+    // Vincula cada tarjeta con su ID usando el mismo orden de la consulta.
+    // Se añade un segundo criterio para resolver fechas iguales.
+    const tarjetas = [
+      ...document.querySelectorAll('#cotiza-lista .evento-item')
+    ];
+
+    if (tarjetas.length !== data.length) return;
+
+    tarjetas.forEach((item, i) => {
+      const c = data[i];
+
+      if (c.gestion_estado === 'finalizado') {
         item.querySelector('.evento-etiqueta').textContent = 'Finalizado';
       }
-    }
+
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'evento-boton secundario';
+      b.textContent = 'Ver conversación / Responder';
+      b.addEventListener('click', () => abrirConversacion(c.id));
+      item.append(b);
+    });
   };
+
+  setInterval(async () => {
+    if (!nexoCliente || !nexoUsuario || document.hidden) return;
+    await actualizarAvisos();
+    if (
+      conversacion &&
+      document.getElementById('seccion-cotizaciones')
+        .classList.contains('activa')
+    ) {
+      await actualizarConversacion();
+    }
+  }, 15000);
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) actualizarAvisos();
+  });
+
+  actualizarAvisos();
 })();
 </script>
 </body>

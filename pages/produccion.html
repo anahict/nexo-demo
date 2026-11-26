@@ -156,24 +156,6 @@
     }
 }
 
-/* Equipamiento por categoría: integrado en el panel existente */
-.nexo-categoria-informacion .nexo-equipo-inventario {
-    margin-top: 22px;
-}
-#nexo-categoria-equipos {
-    margin: 14px 0 10px;
-    padding-left: 20px;
-    color: #555;
-    line-height: 1.8;
-}
-#nexo-categoria-equipos li { margin-bottom: 5px; }
-#nexo-categoria-equipos li::marker { color: #6c4cff; }
-.nexo-categoria-nota {
-    margin: 0 0 26px;
-    color: #777;
-    font-size: 12px;
-    line-height: 1.6;
-}
 </style>
 	
 	<style>
@@ -690,41 +672,7 @@ footer.nexo-footer {
     }
 }
 	
-		/* MENSAJE DE EQUIPAMIENTO ADICIONAL */
-
-.nexo-mas-equipos {
-    margin-top: 24px;
-    padding: 20px;
-    background: #f7f5ff;
-    border-left: 3px solid #6c4cff;
-    border-radius: 10px;
-}
-
-.nexo-mas-equipos p {
-    margin: 0;
-    color: #555;
-    font-size: 14px;
-    line-height: 1.7;
-}
-
-.nexo-mas-equipos strong {
-    color: #17141f;
-}
-
-.nexo-mas-equipos a {
-    display: inline-block;
-    margin-top: 12px;
-    color: #6c4cff;
-    font-size: 14px;
-    font-weight: 700;
-    text-decoration: none;
-}
-
-.nexo-mas-equipos a:hover {
-    text-decoration: underline;
-}
-		
-</style>
+		</style>
 
 	
 	
@@ -873,30 +821,6 @@ footer.nexo-footer {
                     <li>Operación técnica</li>
                 </ul>
 
-                <div class="nexo-equipo-inventario">
-                    <h4>Equipamiento disponible</h4>
-                    <ul id="nexo-categoria-equipos" aria-live="polite">
-                        <li>Sistemas de sonido RCF HDL-20-A</li>
-                        <li>Subwoofers RCF y JBL</li>
-                        <li>Consolas Behringer X32 y XAIR</li>
-                        <li>Micrófonos Shure</li>
-                        <li>Sistemas de monitoreo in-ear Sennheiser</li>
-                    </ul>
-					<div class="nexo-mas-equipos">
-    <p>
-        <strong>¿Buscas algo más?</strong><br>
-        Los equipos mostrados son solo una selección
-        de nuestras opciones de producción.
-        Consulta por otras soluciones y equipamiento
-        para tu evento.
-    </p>
-
-    <a href="cotizar.html">
-        Consultar otros equipos →
-    </a>
-</div>
-                   <br> <p class="nexo-categoria-nota">Equipo sujeto a disponibilidad y confirmación técnica al cotizar.</p>
-                </div>
 
                 <a
                     id="nexo-categoria-cotizar"
@@ -1180,13 +1104,6 @@ footer.nexo-footer {
                 "Consolas y sistemas de audio",
                 "Micrófonos y monitores",
                 "Operación técnica"
-            ],
-            equipos: [
-                "Sistemas de sonido RCF HDL-20-A",
-                "Subwoofers RCF y JBL",
-                "Consolas digitales Behringer X32 y XAIR",
-                "Micrófonos Shure",
-                "Sistemas de monitoreo in-ear Sennheiser"
             ]
         },
 
@@ -1201,13 +1118,6 @@ footer.nexo-footer {
                 "Cabezas móviles y efectos",
                 "Ambientación arquitectónica",
                 "Diseño y operación de iluminación"
-            ],
-            equipos: [
-                "Cabezas móviles Lite Tek Beam 230",
-                "Sunstar Samurai 200",
-                "Kaleidos 7 y LED Beam",
-                "Blinder LED",
-                "Controladores y accesorios DMX"
             ]
         },
 
@@ -1222,13 +1132,6 @@ footer.nexo-footer {
                 "Pantallas para escenarios",
                 "Video para eventos corporativos",
                 "Montaje y operación técnica"
-            ],
-            equipos: [
-                "Módulos LED Lite Tek pitch 3.9",
-                "Procesadores de video VDWALL",
-                "Pantallas Hisense de 70 pulgadas",
-                "Proyectores y accesorios de video",
-                "Equipo de video Blackmagic"
             ]
         },
 
@@ -1243,13 +1146,6 @@ footer.nexo-footer {
                 "Amplificadores de guitarra y bajo",
                 "Teclados y soportes",
                 "Montaje y asistencia técnica"
-            ],
-            equipos: [
-                "Piano Yamaha P-85",
-                "Pianos Yamaha P-125 y CP-40",
-                "Teclado Kurzweil Artis SE",
-                "Soportes para instrumentos",
-                "Accesorios de escenario"
             ]
         },
 		
@@ -1264,14 +1160,7 @@ footer.nexo-footer {
         "Estructuras truss y soportes técnicos",
         "Montaje y desmontaje",
         "Configuración de escenarios para distintos eventos"
-    ],
-            equipos: [
-                "Trusses de 3 m, 2.20 m y 1.20 m",
-                "Polipastos para montaje",
-                "Bases para estructuras",
-                "Bumpers y accesorios de rigging",
-                "Elementos de soporte para montaje técnico"
-            ]
+    ]
 },
 
 
@@ -1286,13 +1175,6 @@ footer.nexo-footer {
                 "Coordinación de proveedores",
                 "Montaje y pruebas",
                 "Operación y desmontaje"
-            ],
-            equipos: [
-                "Sistemas de audio RCF, JBL y Behringer",
-                "Iluminación Lite Tek, Sunstar y control DMX",
-                "Pantallas LED y procesamiento de video",
-                "Backline Yamaha y Kurzweil",
-                "Trusses, soportes y accesorios de montaje"
             ]
         }
 
@@ -1305,7 +1187,6 @@ footer.nexo-footer {
     const titulo = document.getElementById("nexo-categoria-titulo");
     const descripcion = document.getElementById("nexo-categoria-descripcion");
     const lista = document.getElementById("nexo-categoria-lista");
-    const listaEquipos = document.getElementById("nexo-categoria-equipos");
     const cotizar = document.getElementById("nexo-categoria-cotizar");
 
     function mostrarCategoria(id, actualizarURL = true) {
@@ -1327,13 +1208,6 @@ footer.nexo-footer {
             const elemento = document.createElement("li");
             elemento.textContent = servicio;
             lista.appendChild(elemento);
-        });
-
-        listaEquipos.replaceChildren();
-        categoria.equipos.forEach(equipo => {
-            const elemento = document.createElement("li");
-            elemento.textContent = equipo;
-            listaEquipos.appendChild(elemento);
         });
 
         cotizar.href =

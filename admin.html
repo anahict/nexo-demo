@@ -28,54 +28,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-header {
-  background: var(--negro);
-  color: white;
-  padding: 19px 5%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.logo {
-  font-size: 25px;
-  font-weight: 900;
-  letter-spacing: -1px;
-}
-
-.logo span { color: #a48cff; }
-
-.logo small {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  margin-left: 10px;
-  color: #aaa;
-}
-
-header nav {
-  display: flex;
-  gap: 25px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-header a, header button {
-  color: white;
-  text-decoration: none;
-  background: none;
-  border: 0;
-  font: inherit;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-header a:hover, header button:hover {
-  color: #b49aff;
-}
-
 main {
   max-width: 1250px;
   margin: auto;
@@ -223,7 +175,6 @@ label { font-size: 13px; font-weight: 600; }
 
 @media (max-width: 560px) {
   .stats { grid-template-columns: 1fr; }
-  header { padding: 18px; }
   main { padding: 25px 15px; }
 }
 

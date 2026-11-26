@@ -722,7 +722,8 @@ document.getElementById('crear-cliente')?.addEventListener('click', async () => 
                     full_name: datos.nombre,
                     phone: datos.telefono,
                     role: 'cliente'
-                }
+                },
+                emailRedirectTo: 'https://anahict.github.io/nexo-demo/pages/login.html'
             }
         });
 
@@ -736,11 +737,11 @@ document.getElementById('crear-cliente')?.addEventListener('click', async () => 
             return;
         }
 
-        if (!data.session) {
-            alert('Tu cuenta quedó pendiente de activación. Contacta a NEXO para revisar el acceso.');
-            return;
-        }
-        window.location.assign('mi-cuenta.html');
+        alert(
+            '¡Registro recibido! Revisa tu correo electrónico y confirma tu cuenta antes de iniciar sesión.'
+        );
+
+        window.location.href = 'login.html';
 
     } catch (error) {
         alert('No fue posible conectar con Supabase. Intenta nuevamente.');
@@ -768,35 +769,76 @@ document.getElementById('crear-cliente')?.addEventListener('click', async () => 
         }
 
         const boton = document.getElementById('crear-artista');
+        const mensaje = artistaForm.querySelector('#registro-artista-mensaje');
+        const reenviar = artistaForm.querySelector('#registro-artista-reenviar');
+        const iniciarSesion = artistaForm.querySelector('#registro-artista-login');
+        function informar(texto) {
+            mensaje.hidden = false;
+            mensaje.textContent = texto;
+        }
+
         boton.disabled = true;
+        const etiqueta = boton.textContent;
+        boton.textContent = 'Creando cuenta…';
+        reenviar.hidden = true;
+        iniciarSesion.hidden = true;
+        informar('Estamos creando tu cuenta.');
         try {
             const db = window.supabase.createClient(
-            'https://bbszahuoeclszmivgnyy.supabase.co',
-            'sb_publishable_VLTfpjdin94_xmYSA-Y-yg_-q8_e_Ii'
-        );
+                'https://bbszahuoeclszmivgnyy.supabase.co',
+                'sb_publishable_VLTfpjdin94_xmYSA-Y-yg_-q8_e_Ii'
+            );
             const destino = new URL('completar-perfil.html', window.location.href).href;
+            const campoPassword = document.getElementById('proveedor-password');
             const { data, error } = await db.auth.signUp({
                 email: datos.correo,
-                password: document.getElementById('proveedor-password').value
+                password: campoPassword.value,
+                options: { emailRedirectTo: destino }
             });
+            if (error?.code === 'user_already_exists' || (!error && data.user?.identities?.length === 0 && !data.session)) {
+                informar('Si ya tienes una cuenta con ese correo, inicia sesión. Si aún falta verificarla, busca el enlace de confirmación en tu correo.');
+                iniciarSesion.hidden = false;
+                return;
+            }
             if (error) throw error;
-            if (!data.user) throw new Error('No se pudo completar el registro.');
+            if (!data.user) throw new Error('Supabase no devolvió un usuario.');
 
             localStorage.setItem('nexoProveedor', JSON.stringify({
                 ...datos, tipoCuenta: 'artista', tipo: categoria, categoria,
                 subcategorias, generos, decadas
             }));
 
-            document.getElementById('proveedor-password').value = '';
+            campoPassword.value = '';
             if (data.session) {
                 window.location.assign(destino);
                 return;
             }
-            avisar('Tu cuenta quedó pendiente de activación. Contacta a NEXO para revisar el acceso. Tus datos de registro quedaron guardados en este navegador.');
+
+            informar('Revisa tu correo y abre el enlace de confirmación en este mismo navegador para continuar con tu perfil.');
+            reenviar.hidden = false;
+            reenviar.onclick = async () => {
+                reenviar.disabled = true;
+                try {
+                    const { error: errorReenvio } = await db.auth.resend({
+                        type: 'signup',
+                        email: datos.correo,
+                        options: { emailRedirectTo: destino }
+                    });
+                    if (errorReenvio) throw errorReenvio;
+                    informar('Enviamos otro enlace. Revisa tu correo, incluida la carpeta de spam.');
+                } catch (errorReenvio) {
+                    informar('No se pudo reenviar el enlace. Espera un momento y vuelve a intentarlo.');
+                } finally {
+                    reenviar.disabled = false;
+                }
+            };
         } catch (error) {
-            avisar(error.message || 'No se pudo iniciar el registro. Intenta de nuevo.');
+            informar(error.code === 'over_email_send_rate_limit'
+                ? 'Espera un momento antes de solicitar otro correo de confirmación.'
+                : 'No pudimos completar el registro. Revisa tus datos e intenta de nuevo.');
         } finally {
             boton.disabled = false;
+            boton.textContent = etiqueta;
         }
     });
     document.getElementById('crear-empresa')?.addEventListener('click', async () => {
@@ -821,7 +863,8 @@ document.getElementById('crear-cliente')?.addEventListener('click', async () => 
             const destino = new URL('completar-perfil.html', window.location.href).href;
             const { data, error } = await db.auth.signUp({
                 email: datos.correo,
-                password: document.getElementById('empresa-password').value
+                password: document.getElementById('empresa-password').value,
+                options: { emailRedirectTo: destino }
             });
             if (error) throw error;
             if (!data.user) throw new Error('No se pudo completar el registro.');
@@ -836,7 +879,7 @@ document.getElementById('crear-cliente')?.addEventListener('click', async () => 
                 window.location.assign(destino);
                 return;
             }
-            avisar('Tu cuenta quedó pendiente de activación. Contacta a NEXO para revisar el acceso. Tus datos de registro quedaron guardados en este navegador.');
+            avisar('Revisa tu correo y abre el enlace de confirmación en este mismo navegador para continuar con tu perfil.');
         } catch (error) {
             avisar(error.message || 'No se pudo iniciar el registro. Intenta de nuevo.');
         } finally {

@@ -722,8 +722,7 @@ document.getElementById('crear-cliente')?.addEventListener('click', async () => 
                     full_name: datos.nombre,
                     phone: datos.telefono,
                     role: 'cliente'
-                },
-                emailRedirectTo: 'https://anahict.github.io/nexo-demo/pages/login.html'
+                }
             }
         });
 
@@ -737,11 +736,11 @@ document.getElementById('crear-cliente')?.addEventListener('click', async () => 
             return;
         }
 
-        alert(
-            '¡Registro recibido! Revisa tu correo electrónico y confirma tu cuenta antes de iniciar sesión.'
-        );
-
-        window.location.href = 'login.html';
+        if (!data.session) {
+            alert('Tu cuenta quedó pendiente de activación. Contacta a NEXO para revisar el acceso.');
+            return;
+        }
+        window.location.assign('mi-cuenta.html');
 
     } catch (error) {
         alert('No fue posible conectar con Supabase. Intenta nuevamente.');
@@ -778,8 +777,7 @@ document.getElementById('crear-cliente')?.addEventListener('click', async () => 
             const destino = new URL('completar-perfil.html', window.location.href).href;
             const { data, error } = await db.auth.signUp({
                 email: datos.correo,
-                password: document.getElementById('proveedor-password').value,
-                options: { emailRedirectTo: destino }
+                password: document.getElementById('proveedor-password').value
             });
             if (error) throw error;
             if (!data.user) throw new Error('No se pudo completar el registro.');
@@ -794,7 +792,7 @@ document.getElementById('crear-cliente')?.addEventListener('click', async () => 
                 window.location.assign(destino);
                 return;
             }
-            avisar('Revisa tu correo y abre el enlace de confirmación en este mismo navegador para continuar con tu perfil.');
+            avisar('Tu cuenta quedó pendiente de activación. Contacta a NEXO para revisar el acceso. Tus datos de registro quedaron guardados en este navegador.');
         } catch (error) {
             avisar(error.message || 'No se pudo iniciar el registro. Intenta de nuevo.');
         } finally {
@@ -823,8 +821,7 @@ document.getElementById('crear-cliente')?.addEventListener('click', async () => 
             const destino = new URL('completar-perfil.html', window.location.href).href;
             const { data, error } = await db.auth.signUp({
                 email: datos.correo,
-                password: document.getElementById('empresa-password').value,
-                options: { emailRedirectTo: destino }
+                password: document.getElementById('empresa-password').value
             });
             if (error) throw error;
             if (!data.user) throw new Error('No se pudo completar el registro.');
@@ -839,7 +836,7 @@ document.getElementById('crear-cliente')?.addEventListener('click', async () => 
                 window.location.assign(destino);
                 return;
             }
-            avisar('Revisa tu correo y abre el enlace de confirmación en este mismo navegador para continuar con tu perfil.');
+            avisar('Tu cuenta quedó pendiente de activación. Contacta a NEXO para revisar el acceso. Tus datos de registro quedaron guardados en este navegador.');
         } catch (error) {
             avisar(error.message || 'No se pudo iniciar el registro. Intenta de nuevo.');
         } finally {

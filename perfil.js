@@ -7,6 +7,65 @@ document.addEventListener("DOMContentLoaded", function () {
     catch (error) { registroInicial = {}; }
     var tipoCuentaPerfil = registroInicial.tipoCuenta || 'proveedor';
     var esArtista = tipoCuentaPerfil === 'artista';
+    function recuperarSesionPerfil(db, correo, mensaje) {
+        const dialogo = document.createElement('dialog');
+        dialogo.style.cssText = 'width:min(420px,90vw);margin:auto;padding:24px;border:0;border-radius:16px;color:#17151f';
+        dialogo.innerHTML = `
+            <form aria-labelledby="nexo-sesion-titulo">
+                <h2 id="nexo-sesion-titulo">Inicia sesión para enviar tu perfil</h2>
+                <p role="status"></p>
+                <label>Correo <input type="email" name="email" autocomplete="username" readonly></label>
+                <label>Contraseña <input type="password" name="password" autocomplete="current-password" required autofocus></label>
+                <button type="submit">Iniciar sesión y enviar</button>
+                <button type="button" data-volver>Volver a mi perfil</button>
+            </form>`;
+        const formulario = dialogo.querySelector('form');
+        const password = formulario.elements.namedItem('password');
+        const estado = dialogo.querySelector('[role="status"]');
+        const entrar = dialogo.querySelector('[type="submit"]');
+        formulario.elements.namedItem('email').value = correo;
+        estado.textContent = mensaje;
+
+        return new Promise(resolver => {
+            let usuario = null;
+            dialogo.querySelector('[data-volver]').addEventListener('click', () => dialogo.close());
+            dialogo.addEventListener('close', () => {
+                password.value = '';
+                dialogo.remove();
+                resolver(usuario);
+            }, { once: true });
+            formulario.addEventListener('submit', async evento => {
+                evento.preventDefault();
+                entrar.disabled = true;
+                estado.textContent = 'Verificando tu cuenta…';
+                try {
+                    const { data, error } = await db.auth.signInWithPassword({ email: correo, password: password.value });
+                    if (error?.code === 'email_not_confirmed') {
+                        estado.textContent = 'Tu cuenta quedó pendiente de activación. Contacta a NEXO. Puedes volver a tu perfil y conservar esta solicitud abierta.';
+                        return;
+                    }
+                    if (error?.code === 'invalid_credentials') {
+                        estado.textContent = 'El correo o la contraseña no coinciden. Revisa tus datos.';
+                        return;
+                    }
+                    if (error || !data.session || data.user?.email?.toLowerCase() !== correo) {
+                        throw error || new Error('Sesión no disponible');
+                    }
+                    if (!dialogo.open) return;
+                    usuario = data.user;
+                    dialogo.close();
+                } catch (error) {
+                    estado.textContent = 'No pudimos iniciar sesión en este momento. Intenta de nuevo.';
+                } finally {
+                    password.value = '';
+                    entrar.disabled = false;
+                }
+            });
+            document.body.append(dialogo);
+            dialogo.showModal();
+        });
+    }
+
     function precioNumerico() {
         const raw = valor('servicio-precio').replace(/^\$\s*/, '').replace(/\s*MXN$/i, '').trim();
         if (!/^(?:\d+|\d{1,3}(?:,\d{3})+)(?:\.\d{1,2})?$/.test(raw)) return NaN;
@@ -1769,16 +1828,23 @@ document.addEventListener("DOMContentLoaded", function () {
             'https://bbszahuoeclszmivgnyy.supabase.co',
             'sb_publishable_VLTfpjdin94_xmYSA-Y-yg_-q8_e_Ii'
         );
+                    const correoRegistro = (datosRegistro.correo || '').trim().toLowerCase();
+                    if (!correoRegistro) throw new Error('No encontramos el correo de tu registro. Abre el perfil desde el navegador donde lo comenzaste.');
+                    
                     const { data: auth, error: authError } = await db.auth.getUser();
-                    if (authError || !auth?.user?.email ||
-                        auth.user.email.toLowerCase() !== (datosRegistro.correo || '').trim().toLowerCase()) {
-                        throw new Error('Inicia sesión con el correo que usaste para este registro.');
+                    let usuario = auth?.user;
+                    if (authError || usuario?.email?.toLowerCase() !== correoRegistro) {
+                        const mensaje = usuario
+                            ? 'La sesión abierta pertenece a otro correo. Entra con el correo de este registro.'
+                            : 'Usa el correo y la contraseña de tu registro. Tus datos y archivos se conservan en esta pestaña.';
+                        usuario = await recuperarSesionPerfil(db, correoRegistro, mensaje);
+                        if (!usuario) return;
                     }
 
                     const tipoCuenta = esArtista ? 'artista' : 'proveedor';
                     const tabla = db.from('nexo_solicitudes_perfil');
                     const { data: existente, error: consultaError } = await tabla.select('id')
-                        .eq('usuario_id', auth.user.id).eq('tipo_cuenta', tipoCuenta).maybeSingle();
+                        .eq('usuario_id', usuario.id).eq('tipo_cuenta', tipoCuenta).maybeSingle();
                     if (consultaError) throw consultaError;
 
                     if (!existente) {
@@ -1788,7 +1854,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             const huella = Array.from(new Uint8Array(hash), n => n.toString(16).padStart(2, '0')).join('');
                             const extension = ({'image/jpeg':'jpg','image/png':'png','image/webp':'webp','application/pdf':'pdf'})[contentType];
                             if (!extension) throw new Error('Formato de adjunto no compatible: ' + etiqueta);
-                            const ruta = auth.user.id + '/' + tipoCuenta + '/' + etiqueta + '-' + huella + '.' + extension;
+                            const ruta = usuario.id + '/' + tipoCuenta + '/' + etiqueta + '-' + huella + '.' + extension;
                             const { error } = await bucket.upload(ruta, blob, { contentType, upsert: false });
                             if (error && String(error.statusCode) !== '409') throw error;
                             return { ruta, nombre: nombre || etiqueta + '.' + extension, bytes: blob.size };

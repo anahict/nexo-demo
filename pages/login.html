@@ -386,13 +386,17 @@
           password: document.getElementById('password').value
         });
         if (error) {
-          mostrarAviso(error.message === 'Invalid login credentials'
-            ? 'Correo o contrasena incorrectos, o cuenta aun no confirmada.'
-            : 'No fue posible iniciar sesion: ' + error.message);
+          if (error.code === 'email_not_confirmed') {
+            mostrarAviso('Tu cuenta quedó pendiente de activación. Contacta a NEXO para revisar el acceso.');
+          } else if (error.code === 'invalid_credentials' || error.message === 'Invalid login credentials') {
+            mostrarAviso('El correo o la contraseña no coinciden. Revisa tus datos.');
+          } else {
+            mostrarAviso('No fue posible iniciar sesión. Intenta de nuevo.');
+          }
           return;
         }
         if (!data.session) {
-          mostrarAviso('Revisa tu correo para confirmar tu cuenta antes de iniciar sesion.');
+          mostrarAviso('No se abrió una sesión. Intenta iniciar sesión de nuevo.');
           return;
         }
         // NEXO: redirigir según el acceso administrativo registrado.

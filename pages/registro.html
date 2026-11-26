@@ -7355,6 +7355,13 @@ html {
 }
 </style>
 <link rel="stylesheet" href="../nexo-encabezado.css?v=navegacion-perfiles">
+<style>
+    .nexo-registro-estado { margin-top: 1rem; display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; }
+    .nexo-registro-estado [hidden] { display: none !important; }
+    #registro-artista-mensaje { flex-basis: 100%; }
+    #registro-artista-reenviar, #registro-artista-login { color: inherit; font: inherit; text-decoration: underline; }
+    #registro-artista-reenviar { background: none; border: 0; cursor: pointer; }
+</style>
 </head>
 
 <body>
@@ -7989,6 +7996,12 @@ html {
                         Continuar con mi perfil
                     </button>
 
+                    <div class="nexo-registro-estado">
+                        <p id="registro-artista-mensaje" role="status" aria-live="polite" hidden></p>
+                        <button type="button" id="registro-artista-reenviar" hidden>Reenviar correo de confirmación</button>
+                        <a id="registro-artista-login" href="login.html" hidden>Iniciar sesión</a>
+                    </div>
+
                 </div>
 
 <div id="formulario-empresa" class="registro-formulario">
@@ -8028,7 +8041,7 @@ html {
          JAVASCRIPT
     ======================================= -->
 
-  <script src="../script.js?v=registro-sin-confirmacion"></script>
+  <script src="../script.js?v=registro-artista-20261126"></script>
 	<script src="../buscador.js" defer></script>
 
 
@@ -8193,6 +8206,9 @@ html {
       paso = Math.max(1,paso-1); pintar(); wizard.scrollIntoView({block:'start',behavior:'smooth'});
     });
     raiz.querySelectorAll('input[name="'+radioNombre+'"]').forEach(n => n.addEventListener('change', actualizarExtras));
+    // El estado del registro acompaña al botón en el último paso.
+    const estadoRegistro = esArtista && raiz.querySelector('.nexo-registro-estado');
+    if (estadoRegistro) envio.after(estadoRegistro);
     // Validación antes del manejador original del botón de envío.
     envio.addEventListener('click', function (evento) {
       if (paso !== 3) return;

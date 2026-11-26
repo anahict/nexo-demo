@@ -55,11 +55,11 @@
   border-radius: 14px; box-shadow: 0 12px 32px #0004;
 }
 .nexo-barra-sugerencias[hidden] { display: none !important; }
-.nexo-barra .nexo-barra-sugerencias button {
+.nexo-barra .nexo-barra-sugerencias a {
   display: block; width: 100%; height: auto; padding: 10px 16px;
   border: 0; background: white; color: #17151f; text-align: left;
-  font: 600 14px Arial, sans-serif; cursor: pointer;
+  font: 600 14px Arial, sans-serif; cursor: pointer; text-decoration: none; pointer-events: auto;
 }
-.nexo-barra .nexo-barra-sugerencias button:hover,
-.nexo-barra .nexo-barra-sugerencias button:focus-visible { background: #f0ebff; }
+.nexo-barra .nexo-barra-sugerencias a:hover,
+.nexo-barra .nexo-barra-sugerencias a:focus-visible { background: #f0ebff; }
 .nexo-barra-sugerencias small { display: block; margin-top: 4px; color: #605972; }

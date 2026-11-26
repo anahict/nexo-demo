@@ -116,30 +116,28 @@ function activarBuscador(barra, rutaScript) {
     };
     const coincidencias = [...catalogo.values()].filter(item => Number.isFinite(puntaje(item)));
     coincidencias.sort((a, b) => puntaje(a) - puntaje(b));
-    function opcion(titulo, detalle, activar) {
-      const boton = document.createElement('button');
-      boton.type = 'button';
-      boton.textContent = titulo;
+    function opcion(titulo, detalle, destino) {
+      const enlace = document.createElement('a');
+      enlace.href = destino.href;
+      enlace.textContent = titulo;
       if (detalle) {
         const etiqueta = document.createElement('small');
         etiqueta.textContent = detalle;
-        boton.append(etiqueta);
+        enlace.append(etiqueta);
       }
-      boton.addEventListener('click', activar);
-      lista.append(boton);
+      lista.append(enlace);
+    }
+    function resultados(termino) {
+      const destino = new URL(formulario.action);
+      destino.searchParams.set(entrada.name, termino);
+      return destino;
     }
 
     coincidencias.slice(0, 7).forEach(({ nombre, categoria, ruta }) => {
-      opcion(nombre, categoria, () => {
-        if (ruta) {
-          location.assign(new URL(ruta, carpetaPaginas));
-          return;
-        }
-        entrada.value = nombre;
-        formulario.requestSubmit();
-      });
+      opcion(nombre, categoria, ruta ? new URL(ruta, carpetaPaginas) : resultados(nombre));
     });
-    opcion('Ver resultados para “' + entrada.value.trim() + '” →', '', () => formulario.requestSubmit());
+    const termino = entrada.value.trim();
+    opcion('Ver resultados para “' + termino + '” →', '', resultados(termino));
     lista.hidden = false;
     entrada.setAttribute('aria-expanded', 'true');
   }
@@ -147,8 +145,8 @@ function activarBuscador(barra, rutaScript) {
   entrada.addEventListener('input', mostrar);
   entrada.addEventListener('focus', mostrar);
   formulario.addEventListener('submit', cerrar);
-  formulario.addEventListener('focusout', evento => {
-    if (!formulario.contains(evento.relatedTarget)) cerrar();
+  document.addEventListener('click', evento => {
+    if (!formulario.contains(evento.target)) cerrar();
   });
   formulario.addEventListener('keydown', evento => {
     if (evento.key === 'Escape' && !lista.hidden) {
@@ -156,7 +154,7 @@ function activarBuscador(barra, rutaScript) {
       cerrar();
     }
     if (lista.hidden || !['ArrowDown', 'ArrowUp'].includes(evento.key)) return;
-    const opciones = [entrada, ...lista.querySelectorAll('button')];
+    const opciones = [entrada, ...lista.querySelectorAll('a[href]')];
     const indice = opciones.indexOf(document.activeElement);
     if (indice === -1) return;
     evento.preventDefault();
@@ -181,7 +179,6 @@ function activarBuscador(barra, rutaScript) {
       if (existente?.ruta) continue;
       agregar(perfil.nombre, perfil.categoria, perfil.url);
     }
-    if (document.activeElement === entrada && !lista.hidden) mostrar();
   }
 
   cargarPublicados().catch(error => console.warn('No se cargaron los perfiles publicados para el buscador.', error));

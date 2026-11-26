@@ -58,7 +58,16 @@ function activarBuscador(barra, rutaScript) {
   lista.setAttribute('role', 'group');
   lista.setAttribute('aria-label', 'Sugerencias de búsqueda');
   lista.hidden = true;
-  formulario.append(entrada, enviar, lista);
+formulario.append(entrada, enviar);
+document.body.append(lista);
+const capaSuperior = typeof lista.showPopover === 'function';
+if (capaSuperior) lista.setAttribute('popover', 'manual');
+function ubicarLista() {
+  const rect = formulario.getBoundingClientRect();
+  lista.style.left = rect.left + 'px';
+  lista.style.top = rect.bottom + 6 + 'px';
+  lista.style.width = rect.width + 'px';
+}
   anterior.replaceWith(formulario);
 
   const talento = {
@@ -99,6 +108,7 @@ function activarBuscador(barra, rutaScript) {
   produccion.forEach(nombre => agregar(nombre, 'Producción y servicios'));
 
   function cerrar() {
+    if (capaSuperior && lista.matches(':popover-open')) lista.hidePopover();
     lista.hidden = true;
     entrada.setAttribute('aria-expanded', 'false');
   }
@@ -138,7 +148,9 @@ function activarBuscador(barra, rutaScript) {
     });
     const termino = entrada.value.trim();
     opcion('Ver resultados para “' + termino + '” →', '', resultados(termino));
+    ubicarLista();
     lista.hidden = false;
+    if (capaSuperior && !lista.matches(':popover-open')) lista.showPopover();
     entrada.setAttribute('aria-expanded', 'true');
   }
 
@@ -146,9 +158,9 @@ function activarBuscador(barra, rutaScript) {
   entrada.addEventListener('focus', mostrar);
   formulario.addEventListener('submit', cerrar);
   document.addEventListener('click', evento => {
-    if (!formulario.contains(evento.target)) cerrar();
+    if (!formulario.contains(evento.target) && !lista.contains(evento.target)) cerrar();
   });
-  formulario.addEventListener('keydown', evento => {
+  function navegarOpciones(evento) {
     if (evento.key === 'Escape' && !lista.hidden) {
       entrada.focus();
       cerrar();
@@ -160,9 +172,21 @@ function activarBuscador(barra, rutaScript) {
     evento.preventDefault();
     const paso = evento.key === 'ArrowDown' ? 1 : -1;
     opciones[(indice + paso + opciones.length) % opciones.length].focus();
-  });
+}
+formulario.addEventListener('keydown', navegarOpciones);
+lista.addEventListener('keydown', navegarOpciones);
+window.addEventListener('resize', () => { if (!lista.hidden) ubicarLista(); });
+window.addEventListener('scroll', () => { if (!lista.hidden) ubicarLista(); }, { passive: true });
+lista.addEventListener('click', evento => {
+  const enlace = evento.target.closest('a[href]');
+  if (!enlace || evento.button !== 0 || evento.metaKey || evento.ctrlKey ||
+      evento.shiftKey || evento.altKey) return;
+  evento.preventDefault();
+  evento.stopPropagation();
+  window.location.assign(enlace.href);
+});
 
-  async function cargarPublicados() {
+async function cargarPublicados() {
     if (!window.supabase) return;
     if (!window.NexoTalentos) {
       await new Promise((resolver, rechazar) => {

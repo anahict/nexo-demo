@@ -685,6 +685,7 @@ body,
 
     </style>
 
+<link rel="stylesheet" href="../nexo-encabezado.css?v=navegacion-perfiles">
 </head>
 
 <body data-artista="andreas-zanetti">
@@ -693,33 +694,34 @@ body,
          HEADER NEXO
     ===================================== -->
 
-    <header class="header">
+    <!-- NEXO: encabezado compartido -->
+<header class="nexo-barra">
+  <a class="nexo-marca" href="../index.html" aria-label="NEXO, inicio">NE<span>XO</span></a>
+  <form class="nexo-header-buscador" data-nexo-autocomplete action="../pages/explorar.html" method="get" role="search">
+    <input id="nexo-header-search" type="search" name="q" autocomplete="off" placeholder="Busca artistas, música o servicios..." aria-label="Buscar artistas, música o servicios" required>
+    <button type="submit" aria-label="Buscar"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="14" cy="10" r="6"/><path d="m9.5 14.5-6 6"/></svg></button>
+  </form>
+  <div class="nexo-barra-acciones">
+    <a class="nexo-barra-inicio" href="../index.html">Inicio</a>
+    <a data-nexo-barra-cuenta="../pages/mi-cuenta.html" href="../pages/login.html">Iniciar sesión</a>
+    <a class="nexo-barra-publicar" href="../pages/proveedores.html">Publica tus servicios</a>
+    <a class="nexo-barra-icono" data-nexo-barra-favoritos="../pages/mi-cuenta.html#favoritos" data-login="../pages/login.html" href="../pages/login.html" aria-label="Favoritos"><svg width="25" height="25" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21S2 14.7 2 8.7a5 5 0 0 1 10-1 5 5 0 0 1 10 1C22 14.7 12 21 12 21Z"/></svg></a>
+    <button class="nexo-barra-icono" type="button" aria-controls="nexo-barra-panel" aria-expanded="false" aria-label="Abrir menú"><svg width="23" height="23" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  </div>
+  <nav class="nexo-barra-panel" id="nexo-barra-panel" aria-label="Menú principal" hidden>
+    <a href="../index.html">Inicio</a>
+    <a href="../pages/artistas.html">Artistas y música</a>
+    <a href="../pages/explorar.html?categoria=entretenimiento">Entretenimiento</a>
+    <a href="../pages/explorar.html?q=conferencistas">Conferencistas y conductores</a>
+    <a href="../pages/produccion.html">Producción para eventos</a>
+    <a href="../pages/eventos.html">Tipos de evento</a>
+    <a href="../pages/como-funciona.html">Cómo funciona</a>
+    <a href="../pages/proveedores.html">Publica tus servicios</a>
+    <a href="../pages/cotizar.html">Cotiza tu evento</a>
+  </nav>
+</header>
+<!-- NEXO: fin del encabezado compartido -->
 
-        <a href="../index.html" class="logo">
-            NE<span class="logo-morado">X</span>O
-        </a>
-
-        <nav class="nav">
-            <a href="explorar.html">Explorar</a>
-            <a href="eventos.html">Tipos de evento</a>
-            <a href="como-funciona.html">Cómo funciona</a>
-            <a href="proveedores.html">Publica tus servicios</a>
-        </nav>
-
-        <div class="header-actions">
-
-            <a href="login.html" class="login">
-                Iniciar sesión
-            </a>
-
-            <a href="cotizar.html?artista=andreas-zanetti"
-               class="btn-cotizar">
-                Cotiza tu evento
-            </a>
-
-        </div>
-
-    </header>
 
 
     <main id="perfil-contenido">
@@ -1526,5 +1528,7 @@ body,
 
     </script>
 
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script defer src="../nexo-encabezado.js?v=navegacion-perfiles"></script>
 </body>
 </html>

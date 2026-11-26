@@ -165,17 +165,25 @@
     return talentos.concat(fichasCentralTalent.filter(perfil => !nombres.has(nombreComparable(perfil.nombre))));
   }
 
+  function fichaRecomendacion(perfil) {
+    const [clave] = categoria(perfil.categoria);
+    const filtros = [...(perfil.filtros || [clave])];
+    if (perfil.especialidad === 'Grupos de covers') filtros.push('covers');
+    return { id: String(perfil.id), nombre: perfil.nombre, filtros };
+  }
+  
   async function opcionesExplorar({ conFotos = true } = {}) {
     const talentos = await listar();
     return Promise.all(talentos.map(async t => {
       const [clave, rotulo] = categoria(t.categoria);
       const entretenimiento = ['comedia','magia','danza','conferencistas','conductores','actores','infantil'].includes(clave);
       return {
-        nombre: t.nombre,
+        ...fichaRecomendacion(t),
         categoria: rotulo,
         descripcion: t.descripcion || rotulo,
         tags: [rotulo, t.categoria, t.especialidad, ...(t.generos || [])].filter(Boolean).join(' '),
         grupo: t.tipo === 'proveedor' ? 'produccion' : entretenimiento ? 'entretenimiento' : 'musica',
+        imagenCatalogo: fotosCentralTalent.has(t.portada) ? t.portada : "",
         imagen: conFotos ? await urlFoto(t.portada || t.avatar) : '',
         url: urlPerfil(t.id),
         perfilPublicado: true
@@ -305,6 +313,7 @@
       }
       estado.hidden = true;
       document.getElementById('talento-pagina').hidden = false;
+      return fichaRecomendacion(perfil);
     } catch (error) {
       estado.textContent = 'No pudimos cargar este perfil. Vuelve a intentarlo.';
       console.error(error);

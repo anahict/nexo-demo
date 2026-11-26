@@ -1,0 +1,14 @@
+#nexo-recomendaciones[hidden], .ct-relacionados-mas[hidden] { display: none !important; }
+#nexo-recomendaciones { background: #f5f2fb; padding: 64px 5%; color: #17151f; }
+.ct-relacionados-contenido { max-width: 1200px; margin: auto; }
+.ct-relacionados-contenido > p { color: #603ce5; text-transform: uppercase; font-size: 13px; font-weight: 800; letter-spacing: 2px; }
+#nexo-recomendaciones .ct-relacionados-contenido h2 { margin: 10px 0 28px; font-size: clamp(26px, 4vw, 34px); }
+.ct-relacionados-grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+.ct-relacionados-tarjeta { display: block; overflow: hidden; color: #17151f; background: white; border: 1px solid #e6deef; border-radius: 18px; text-decoration: none; }
+.ct-relacionados-tarjeta:hover h3 { color: #603ce5; }
+.ct-relacionados-tarjeta > div:last-child { padding: 18px; }
+.ct-relacionados-tarjeta h3 { margin: 0 0 6px; }
+.ct-relacionados-tarjeta span { color: #666; }
+.ct-relacionados-foto { display: grid; place-items: center; aspect-ratio: 16 / 9; position: relative; color: white; background: linear-gradient(130deg, #6c4cff, #17141f); font-size: 32px; font-weight: 800; }
+.ct-relacionados-foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ct-relacionados-mas { margin-top: 24px; padding: 12px 20px; border: 0; border-radius: 20px; background: #6c4cff; color: white; font-weight: 700; cursor: pointer; }

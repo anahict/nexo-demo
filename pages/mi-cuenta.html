@@ -2035,16 +2035,13 @@ botonFavoritosHeader?.addEventListener('click', () => {
         }
 
         usuario = resultado.data.user;
-        $('nexo-cuenta').hidden = true;
-        $('nexo-mi-cuenta').hidden = false;
-        $('nexo-cerrar-sesion-header').hidden = false;
       } catch (error) {
         texto('estado-carga', 'No se pudo verificar la sesión. Intenta de nuevo.');
         return;
       }
 
       async function cerrarSesionNexo() {
-        const botones = [$('cerrar-sesion'), $('nexo-cerrar-sesion-header')].filter(Boolean);
+        const botones = [$('cerrar-sesion')];
         botones.forEach(boton => {
           boton.disabled = true;
           boton.textContent = 'Cerrando sesión...';
@@ -2062,7 +2059,6 @@ botonFavoritosHeader?.addEventListener('click', () => {
         }
       }
       $('cerrar-sesion').addEventListener('click', cerrarSesionNexo);
-      $('nexo-cerrar-sesion-header').addEventListener('click', cerrarSesionNexo);
 
       cliente.auth.onAuthStateChange((evento) => {
         if (evento === 'SIGNED_OUT') {

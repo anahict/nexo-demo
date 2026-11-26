@@ -805,6 +805,7 @@ a.nexo-recomendacion-card img {
 @media(max-width:600px){.nexo-header .nexo-header-buscador{order:3;max-width:none;flex-basis:100%}.nexo-footer-contenido{grid-template-columns:1fr}}
 </style>
 <link rel="stylesheet" href="../nexo-encabezado.css?v=navegacion-perfiles">
+<link rel="stylesheet" href="../recomendaciones.css?v=relacionados-todos">
 </head>
 
 <body data-artista="trendline">
@@ -1398,22 +1399,7 @@ a.nexo-recomendacion-card img {
   </main>
 
 	<!-- ARTISTAS RELACIONADOS -->
-<section id="nexo-recomendaciones" data-artista="trendline" aria-labelledby="recomendaciones-titulo">
-  <div class="nexo-recomendaciones-contenido">
-    <span class="nexo-recomendaciones-etiqueta">DESCUBRE MÁS TALENTO</span>
-    <h2 id="recomendaciones-titulo">También te pueden interesar</h2>
-    <div class="nexo-recomendaciones-grid">
-      <a class="nexo-recomendacion-card" href="mr-loxley.html">
-        <img src="../assets/images/mr-loxley.jpg" alt="Mr. Loxley" loading="lazy">
-        <div class="nexo-recomendacion-info"><h3>Mr. Loxley</h3><p>DJ · Música para eventos</p></div>
-      </a>
-      <a class="nexo-recomendacion-card" href="two-souls.html">
-        <img src="../assets/images/two-souls.jpg" alt="Two Souls" loading="lazy">
-        <div class="nexo-recomendacion-info"><h3>Two Souls</h3><p>Dúo vocal · Pop y covers</p></div>
-      </a>
-    </div>
-  </div>
-</section>
+<section id="nexo-recomendaciones" data-artista="trendline" hidden></section>
 
   <!-- ==============================
        FOOTER
@@ -1600,5 +1586,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });</script>
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script defer src="../nexo-encabezado.js?v=navegacion-perfiles"></script>
+<script defer src="../talentos-publicos.js?v=relacionados-todos"></script>
+<script defer src="../recomendaciones.js?v=relacionados-todos"></script>
 </body>
 </html>

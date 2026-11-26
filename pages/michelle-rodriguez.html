@@ -4,12 +4,781 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Michelle Rodríguez | NEXO</title>
+
   <link rel="stylesheet" href="../estilos.css">
+
+  <style>
+
+    /* ==============================
+       CONFIGURACIÓN GENERAL
+    ============================== */
+
+    :root {
+      --nexo-morado: #6C4CFF;
+      --nexo-negro: #0F0F10;
+      --nexo-texto: #17151F;
+      --nexo-gris: #666;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: #fff;
+      color: var(--nexo-texto);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    /* ==============================
+       HEADER Y LOGOTIPO NEXO
+    ============================== */
+
+    .header {
+      background: var(--nexo-negro);
+      min-height: 80px;
+      padding: 16px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .logo {
+      color: #fff !important;
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      white-space: nowrap;
+    }
+
+    .logo .logo-x {
+      color: var(--nexo-morado) !important;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .nav a,
+    .header-actions a {
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav a:hover {
+      color: #B6A8FF;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .btn-cotizar,
+    .btn-principal {
+      background: var(--nexo-morado);
+      color: #fff !important;
+      padding: 15px 26px;
+      border-radius: 30px;
+      font-weight: 700;
+      display: inline-block;
+      text-align: center;
+      transition: background .2s;
+    }
+
+    .btn-cotizar:hover,
+    .btn-principal:hover {
+      background: #5838E8;
+    }
+
+    /* ==============================
+       BANNER PRINCIPAL
+    ============================== */
+
+    .perfil-hero {
+      position: relative;
+      min-height: 620px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background: #10101A;
+      color: #fff;
+    }
+
+    .perfil-hero-imagen {
+      position: absolute;
+      inset: 0;
+    }
+
+    .perfil-hero-imagen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+    }
+
+    .perfil-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg,
+        rgba(10, 8, 25, .94) 0%,
+        rgba(10, 8, 25, .70) 35%,
+        rgba(10, 8, 25, .12) 75%
+      );
+    }
+
+    .perfil-hero-contenido {
+      position: relative;
+      z-index: 2;
+      width: min(1200px, 90%);
+      margin: auto;
+      padding: 90px 0;
+    }
+
+    .etiqueta {
+      color: #A995FF;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .perfil-hero h1 {
+      font-size: clamp(46px, 6vw, 78px);
+      margin: 18px 0;
+      line-height: 1.05;
+      color: #fff;
+    }
+
+    .perfil-hero p {
+      max-width: 580px;
+      font-size: 19px;
+      line-height: 1.7;
+      margin-bottom: 35px;
+      color: #f1f1f1;
+    }
+
+    /* ==============================
+       CONTENIDO PRINCIPAL
+    ============================== */
+
+    .perfil-main {
+      background: #fff;
+      padding: 65px 5% 100px;
+    }
+
+    .perfil-container {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .perfil-datos {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      background: #fff;
+      border: 1px solid #E6E6E6;
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, .04);
+      margin-bottom: 65px;
+    }
+
+    .perfil-datos > div:not(:last-child) {
+      border-right: 1px solid #EAEAEA;
+    }
+
+    .perfil-datos small {
+      color: #777;
+      display: block;
+      margin-bottom: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .perfil-datos strong {
+      font-size: 16px;
+    }
+
+    .perfil-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(290px, 1fr);
+      gap: 55px;
+      align-items: start;
+    }
+
+    .perfil-seccion {
+      margin-bottom: 65px;
+    }
+
+    .perfil-seccion h2 {
+      font-size: 30px;
+      margin: 12px 0 25px;
+      color: #17151F;
+    }
+
+    .perfil-seccion p,
+    .perfil-seccion li {
+      color: #555;
+      line-height: 1.85;
+      font-size: 16px;
+    }
+
+    /* ==============================
+       GALERÍA
+    ============================== */
+
+    .galeria-principal {
+      height: 460px;
+      background: #17141F;
+      border-radius: 18px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .galeria-principal img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .galeria-control {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 42px;
+      height: 42px;
+      border: none;
+      border-radius: 50%;
+      background: #fff;
+      color: #17151F;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .galeria-control.anterior {
+      left: 15px;
+    }
+
+    .galeria-control.siguiente {
+      right: 15px;
+    }
+
+    .galeria-miniaturas {
+      display: flex;
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .galeria-miniaturas button {
+      padding: 0;
+      border: 2px solid var(--nexo-morado);
+      border-radius: 10px;
+      overflow: hidden;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .galeria-miniaturas img {
+      width: 90px;
+      height: 65px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .galeria-nota {
+      font-size: 13px !important;
+      color: #777 !important;
+      margin-top: 12px;
+    }
+
+    /* ==============================
+       VIDEOS
+    ============================== */
+
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .video-card {
+      border: 1px solid #EAEAEA;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .video-card iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 0;
+    }
+
+    .video-card h3 {
+      margin: 16px;
+      font-size: 16px;
+    }
+
+    /* ==============================
+       FORMATOS DE SHOW
+    ============================== */
+
+    .shows-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .show-card {
+      border: 1px solid #E8E8E8;
+      border-radius: 18px;
+      padding: 26px;
+      background: #fff;
+    }
+
+    .show-card span {
+      display: inline-block;
+      color: var(--nexo-morado);
+      background: #F0EBFF;
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .show-card h3 {
+      font-size: 22px;
+      margin: 20px 0 10px;
+    }
+
+    .show-card ul {
+      padding-left: 20px;
+    }
+
+    /* ==============================
+       COLUMNA DERECHA
+    ============================== */
+
+    .perfil-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      position: sticky;
+      top: 20px;
+    }
+
+    .sidebar-card {
+      background: #fff;
+      border: 1px solid #E7E7E7;
+      border-radius: 20px;
+      padding: 30px;
+    }
+
+    .artista-card {
+      text-align: center;
+    }
+
+  .artista-avatar {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  margin: 0 auto 18px;
+  background-color: #17114B;
+}
+
+    .artista-card h2 {
+      margin: 0 0 10px;
+      font-size: 24px;
+    }
+
+    .artista-card p {
+      color: #777;
+      margin-bottom: 25px;
+    }
+
+    .artista-card .btn-principal {
+      display: block;
+      width: 100%;
+    }
+
+    .btn-favoritos {
+      width: 100%;
+      padding: 14px;
+      margin-top: 12px;
+      border: 1px solid var(--nexo-morado);
+      border-radius: 30px;
+      background: #fff;
+      color: var(--nexo-morado);
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .btn-favoritos[aria-pressed="true"] {
+      background: #F0EBFF;
+    }
+
+    .redes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .redes-grid a {
+      padding: 14px 8px;
+      background: #F3F0FF;
+      color: var(--nexo-morado);
+      border-radius: 10px;
+      font-weight: 700;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .redes-grid a:hover {
+      background: #E8E0FF;
+    }
+
+    /* ==============================
+       CONTRATACIÓN
+    ============================== */
+
+    .perfil-cta {
+      background: #17141F;
+      color: #fff;
+      border-radius: 22px;
+      padding: 38px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 25px;
+      margin-top: 35px;
+    }
+
+    .perfil-cta h2 {
+      color: #fff;
+      margin: 0 0 12px;
+    }
+
+    .perfil-cta p {
+      color: #ddd;
+      margin: 0;
+    }
+
+    /* ==============================
+       FOOTER
+    ============================== */
+
+    .footer {
+      background: #09090B;
+      color: #fff;
+      padding: 65px 5% 25px;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 45px;
+      padding-bottom: 50px;
+    }
+
+    .footer h3 {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .footer p {
+      color: #AAA;
+      line-height: 1.8;
+      max-width: 350px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .footer-links a {
+      color: #BBB;
+      font-size: 14px;
+    }
+
+    .footer-links a:hover {
+      color: #A995FF;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #292929;
+      padding-top: 25px;
+      color: #888;
+      font-size: 13px;
+    }
+
+    /* ==============================
+       RESPONSIVE
+    ============================== */
+
+    @media (max-width: 950px) {
+
+      .header {
+        flex-wrap: wrap;
+      }
+
+      .nav {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .perfil-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .perfil-sidebar {
+        position: static;
+      }
+
+      .perfil-hero {
+        min-height: 520px;
+      }
+
+    }
+
+    @media (max-width: 600px) {
+
+      .header {
+        padding: 18px 5%;
+      }
+
+      .logo {
+        font-size: 27px;
+      }
+
+      .header-actions {
+        gap: 10px;
+      }
+
+      .header-actions .btn-cotizar {
+        padding: 11px 14px;
+        font-size: 12px;
+      }
+
+      .nav {
+        gap: 15px;
+      }
+
+      .nav a {
+        font-size: 12px;
+      }
+
+      .perfil-hero {
+        min-height: 540px;
+      }
+
+      .perfil-hero-imagen img {
+        object-position: 65% center;
+      }
+
+      .perfil-hero-overlay {
+        background: linear-gradient(
+          90deg,
+          rgba(10, 8, 25, .94),
+          rgba(10, 8, 25, .55)
+        );
+      }
+
+      .perfil-hero h1 {
+        font-size: 48px;
+      }
+
+      .perfil-hero p {
+        font-size: 16px;
+      }
+
+      .perfil-datos {
+        grid-template-columns: 1fr;
+      }
+
+      .perfil-datos > div:not(:last-child) {
+        border-right: 0;
+        border-bottom: 1px solid #EAEAEA;
+        padding-bottom: 18px;
+      }
+
+      .videos-grid,
+      .shows-grid,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .galeria-principal {
+        height: 300px;
+      }
+
+      .perfil-cta {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+    }
+	  
+	  /* ==========================================
+   NEXO - ARTISTAS RELACIONADOS
+========================================== */
+
+#nexo-recomendaciones {
+    background: #f7f5fc;
+    padding: 70px 5%;
+    width: 100%;
+}
+
+.nexo-recomendaciones-contenido {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nexo-recomendaciones-etiqueta {
+    display: block;
+    color: #6c4cff;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+#nexo-recomendaciones h2 {
+    color: #17151f;
+    font-size: 32px;
+    font-weight: 800;
+    margin: 0 0 30px;
+}
+
+.nexo-recomendaciones-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 25px;
+}
+
+a.nexo-recomendacion-card {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e8e4f0;
+    border-radius: 18px;
+    text-decoration: none;
+    color: #17151f;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+a.nexo-recomendacion-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+a.nexo-recomendacion-card img {
+    display: block;
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    object-position: center 30%;
+}
+
+.nexo-recomendacion-info {
+    padding: 20px;
+}
+
+.nexo-recomendacion-info h3 {
+    color: #17151f;
+    font-size: 19px;
+    font-weight: 800;
+    margin: 0 0 8px;
+}
+
+.nexo-recomendacion-info p {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* TABLET */
+
+@media (max-width: 900px) {
+    .nexo-recomendaciones-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* MÓVIL */
+
+@media (max-width: 600px) {
+    #nexo-recomendaciones {
+        padding: 45px 20px;
+    }
+
+    #nexo-recomendaciones h2 {
+        font-size: 26px;
+    }
+
+    .nexo-recomendaciones-grid {
+        grid-template-columns: 1fr;
+    }
+
+    a.nexo-recomendacion-card img {
+        height: 210px;
+    }
+}
+
+  </style>
 <link rel="stylesheet" href="../nexo-encabezado.css?v=navegacion-perfiles">
+<link rel="stylesheet" href="../recomendaciones.css?v=relacionados-todos">
 </head>
 
-<body data-artista="michelle-rodriguez">
+<body data-artista="trendline">
+
+  <!-- ==============================
+       HEADER
+  ============================== -->
 
   <!-- NEXO: encabezado compartido -->
 <header class="nexo-barra">
@@ -40,185 +809,184 @@
 <!-- NEXO: fin del encabezado compartido -->
 
 
-  <main id="perfil-contenido">
 
-    <section class="perfil-hero perfil-michelle">
+  <!-- ==============================
+       BANNER TRENDLINE
+  ============================== -->
 
-       <div class="perfil-hero-imagen">
-    <img
-        src="../assets/images/michelle-rodriguez.jpeg"
-        alt="Michelle Rodríguez en el escenario"
-    >
-</div>
-
-        <div class="perfil-hero-overlay"></div>
-
-        <div class="perfil-hero-contenido">
-
-            <span class="perfil-categoria">
-                COMEDIA · CONFERENCIAS · ENTRETENIMIENTO
-            </span>
-
-            <h1>Michelle Rodríguez</h1>
-
-            <p class="perfil-descripcion-corta">
-                Humor, autenticidad y entretenimiento
-                para conectar con diferentes audiencias.
-            </p>
-
-            <div class="perfil-acciones">
-
-                <a href="cotizar.html?artista=michelle-rodriguez"
-                   class="perfil-btn-principal">
-                    Solicitar cotización
-                </a>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <section class="perfil-resumen">
-
-        <div class="perfil-resumen-contenido">
-
-            <div class="perfil-datos">
-
-                <div class="perfil-dato">
-                    <span>Categoría</span>
-                    <strong>Comedia y conferencias</strong>
-                </div>
-
-                <div class="perfil-dato">
-                    <span>Espectáculos</span>
-                    <strong>Stand-up y conferencias</strong>
-                </div>
-
-                <div class="perfil-dato">
-                    <span>Disponibilidad</span>
-                    <strong>Sujeta a confirmación</strong>
-                </div>
-
-            </div>
-
-            <div class="perfil-sobre">
-
-                <p class="seccion-etiqueta">SOBRE EL ARTISTA</p>
-
-                <h2>Sobre Michelle Rodríguez</h2>
-
-                <p>
-                    Michelle Rodríguez es actriz, comediante
-                    y conferencista. Su propuesta combina
-                    humor, experiencias personales y
-                    conexión con el público.
-                </p>
-
-                <p>
-                    Participa en espectáculos de comedia,
-                    conferencias y eventos especiales.
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <section class="perfil-oferta">
-
-        <div class="perfil-oferta-contenido">
-
-            <div class="perfil-shows">
-
-                <p class="seccion-etiqueta">
-                    ESPECTÁCULOS DISPONIBLES
-                </p>
-
-                <h2>Conoce sus propuestas</h2>
-
-                <div class="shows-grid">
-
-                    <article class="show-card">
-
-                        <span class="show-numero">01</span>
-
-                        <h3>Buena Persona</h3>
-
-                        <p>
-                            Espectáculo de comedia
-                            con el estilo y humor
-                            de Michelle Rodríguez.
-                        </p>
-
-                    </article>
-
-                    <article class="show-card">
-
-                        <span class="show-numero">02</span>
-
-                        <h3>Una chica como yo</h3>
-
-                        <p>
-                            Conferencia que comparte
-                            experiencias y reflexiones
-                            personales.
-                        </p>
-
-                    </article>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-    <section class="perfil-operativo">
-
-        <div class="perfil-operativo-contenido">
-
-            <div class="perfil-disponibilidad">
-
-                <div>
-
-                    <p class="seccion-etiqueta">
-                        DISPONIBILIDAD
-                    </p>
-
-                    <h2>Consulta fechas disponibles</h2>
-
-                    <p>
-                        Solicita información para contratar
-                        a Michelle Rodríguez en tu evento.
-                    </p>
-
-                </div>
-
-                <a href="cotizar.html?artista=michelle-rodriguez"
-                   class="perfil-btn-principal">
-                    Comprobar disponibilidad
-                </a>
-
-            </div>
-
-        </div>
-
-    </section>
-
-</main>
-
-  <footer class="footer">
-    <div class="footer-bottom">
-      <p>© 2026 NEXO. Todos los derechos reservados.</p>
+  <section class="perfil-hero">
+  <div class="perfil-hero-imagen"><img src="../assets/images/michelle-rodriguez.jpeg" alt=""></div><div class="perfil-hero-overlay"></div>
+  <div class="perfil-hero-contenido">
+    <span class="etiqueta">Stand-up · Comedia · Conferencias · Conducción</span><h1>Michelle Rodríguez</h1>
+    <p>Humor, entretenimiento y experiencias que conectan con el público.</p><a class="btn-principal" href="cotizar.html?artista=michelle-rodriguez">Solicitar cotización</a>
+  </div>
+</section>
+<main class="perfil-main">
+  <div class="perfil-container">
+    <div class="perfil-datos">
+      <div><small>Categoría</small><strong>Comedia y conferencias</strong></div>
+      <div><small>Espectáculos</small><strong>Buena Persona · Una chica como yo</strong></div>
+      <div><small>Disponibilidad</small><strong>Sujeta a confirmación</strong></div>
     </div>
+    <div class="perfil-grid">
+      <div>
+        <section class="perfil-seccion">
+  <span class="etiqueta">Multimedia</span>
+  <h2>Galería de fotografías</h2>
+  <div class="galeria-principal"><img src="../assets/images/michelle-rodriguez.jpeg" alt="Michelle Rodríguez"></div>
+</section>
+
+        
+        <section class="perfil-seccion">
+  <span class="etiqueta">Sobre el artista</span>
+  <h2>Conoce a Michelle Rodríguez</h2>
+  <p>Michelle Rodríguez desarrolla propuestas de entretenimiento que incluyen comedia, presentaciones y conferencias.</p><p>Su trabajo combina humor, comunicación y experiencias dirigidas a distintos públicos.</p>
+</section>
+
+        <section class="perfil-seccion">
+  <span class="etiqueta">Espectáculos</span>
+  <h2>Formatos disponibles</h2>
+  <div class="shows-grid"><article class="show-card"><span>SHOW 01</span><h3>Buena Persona</h3><p>Espectáculo de comedia.</p></article><article class="show-card"><span>SHOW 02</span><h3>Una chica como yo</h3><p>Conferencia.</p></article></div>
+</section>
+
+        <section class="perfil-seccion">
+  <span class="etiqueta">Contratación</span>
+  <h2>Ideal para tu evento</h2>
+  <ul><li>Eventos corporativos</li><li>Teatros</li><li>Conferencias</li><li>Eventos especiales</li></ul>
+</section>
+
+        <section class="perfil-seccion">
+  <span class="etiqueta">Producción</span>
+  <h2>Requerimientos técnicos</h2>
+  <ul><li>Micrófono</li><li>Sistema de audio</li><li>Iluminación escénica</li><li>Espacio de presentación</li></ul>
+</section>
+
+      </div>
+      <aside class="perfil-sidebar">
+        <div class="sidebar-card artista-card">
+          <img class="artista-avatar" src="../assets/images/michelle-rodriguez.jpeg" alt=""><h2>Michelle Rodríguez</h2><p>Comedia y conferencias</p>
+          <a class="btn-principal" href="cotizar.html?artista=michelle-rodriguez">Solicitar cotización</a>
+          <button class="btn-favoritos" type="button" id="ct-favorito" aria-pressed="false">♡ Agregar a favoritos</button>
+        </div>
+        
+      </aside>
+    </div>
+    <section class="perfil-cta">
+      <div><h2>¿Quieres contratar a Michelle Rodríguez?</h2><p>Consulta su disponibilidad para la fecha de tu evento.</p></div>
+      <a class="btn-principal" href="cotizar.html?artista=michelle-rodriguez">Comprobar disponibilidad</a>
+    </section>
+  </div>
+</main>
+<section id="nexo-recomendaciones" data-artista="michelle-rodriguez" hidden></section>
+<footer class="footer">
+
+    <div class="footer-container">
+
+      <div class="footer-grid">
+
+
+        <div>
+
+          <a href="../index.html" class="logo">
+            NE<span class="logo-x">X</span>O
+          </a>
+
+          <p>
+            Conectamos talento, entretenimiento
+            y producción profesional con
+            experiencias extraordinarias.
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <h3>Explora NEXO</h3>
+
+          <div class="footer-links">
+
+            <a href="../index.html">
+              Inicio
+            </a>
+
+            <a href="explorar.html">
+              Explorar artistas
+            </a>
+
+            <a href="eventos.html">
+              Tipos de evento
+            </a>
+
+            <a href="produccion.html">
+              Producción
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <div>
+
+          <h3>Información</h3>
+
+          <div class="footer-links">
+
+            <a href="como-funciona.html">
+              Cómo funciona
+            </a>
+
+            <a href="proveedores.html">
+              Publica tus servicios
+            </a>
+
+            <a href="contacto.html">
+              Contacto
+            </a>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+      <div class="footer-bottom">
+
+        © 2026 NEXO. Todos los derechos reservados.
+
+      </div>
+
+    </div>
+
   </footer>
-
-  <!-- <script src="perfil-base.js"></script> -->
-
+<script>
+  (() => {
+    const nombre = document.querySelector('.perfil-hero h1').textContent;
+    const boton = document.getElementById('ct-favorito');
+    const anterior = 'nexo-favorito-michelle-rodriguez';
+    let nombres;
+    try { nombres = JSON.parse(localStorage.getItem('nexoFavoritos') || '[]'); } catch { nombres = []; }
+    const favoritos = new Set(Array.isArray(nombres) ? nombres : []);
+    if (localStorage.getItem(anterior) === 'true') favoritos.add(nombre);
+    function actualizar() {
+      boton.setAttribute('aria-pressed', String(favoritos.has(nombre)));
+      boton.textContent = favoritos.has(nombre) ? '♥ Agregado a favoritos' : '♡ Agregar a favoritos';
+    }
+    boton.addEventListener('click', () => {
+      if (favoritos.has(nombre)) favoritos.delete(nombre); else favoritos.add(nombre);
+      localStorage.setItem('nexoFavoritos', JSON.stringify([...favoritos]));
+      localStorage.setItem(anterior, String(favoritos.has(nombre)));
+      actualizar();
+    });
+    actualizar();
+  })();
+</script>
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script defer src="../talentos-publicos.js?v=relacionados-todos"></script>
+<script defer src="../recomendaciones.js?v=relacionados-todos"></script>
 <script defer src="../nexo-encabezado.js?v=navegacion-perfiles"></script>
 </body>
 </html>

@@ -597,6 +597,7 @@ body { margin:0; background:white; color:#17151f; }
 }
 
 </style><link rel="stylesheet" href="../nexo-encabezado.css?v=navegacion-perfiles">
+<link rel="stylesheet" href="../recomendaciones.css?v=relacionados-todos">
 </head>
 <body>
 <!-- NEXO: encabezado compartido -->
@@ -688,13 +689,7 @@ body { margin:0; background:white; color:#17151f; }
     </div>
   </div>
 </main>
-<section id="talentos-relacionados" hidden aria-labelledby="talentos-relacionados-titulo">
-<div class="relacionados-contenido">
-<p>Descubre más talento</p><h2 id="talentos-relacionados-titulo">También te pueden interesar</h2>
-<a class="talento-relacionado" id="talento-relacionado-enlace"><img id="talento-relacionado-foto" alt="" loading="lazy">
-<div><h3 id="talento-relacionado-nombre"></h3><span id="talento-relacionado-categoria"></span></div></a>
-</div>
-</section>
+<section id="nexo-recomendaciones" data-artista="" hidden></section>
 <footer class="footer">
 
     <div class="footer-container">
@@ -779,22 +774,10 @@ body { margin:0; background:white; color:#17151f; }
     </div>
 
   </footer>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../talentos-publicos.js?v=catalogo-ct-restaurado"></script><script src="../nexo-vista-publica.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="../talentos-publicos.js?v=relacionados-todos"></script><script src="../nexo-vista-publica.js"></script>
 <script>
-void NexoTalentos.mostrarPerfil().then(() => {
-  if (document.getElementById('talento-pagina').hidden) return;
-  const categoria = document.getElementById('perfil-talento-categoria').textContent.trim();
-  const nombre = document.getElementById('perfil-talento-titulo').textContent.trim();
-  const esDJ = /^dj\b/i.test(categoria) && !/^mr\.?\s+loxley$/i.test(nombre);
-  const talento = esDJ
-    ? { nombre:'Mr. Loxley', categoria:'DJ · Experiencias musicales', enlace:'mr-loxley.html', foto:'../assets/images/mr-loxley.jpg' }
-    : { nombre:'Trendline', categoria:'Banda de covers · Pop y rock', enlace:'trendline.html', foto:'../assets/images/trendline.png' };
-  document.getElementById('talento-relacionado-enlace').href = talento.enlace;
-  document.getElementById('talento-relacionado-foto').src = talento.foto;
-  document.getElementById('talento-relacionado-nombre').textContent = talento.nombre;
-  document.getElementById('talento-relacionado-categoria').textContent = talento.categoria;
-  document.getElementById('talentos-relacionados').hidden = false;
-});
+window.NexoPerfilActual = NexoTalentos.mostrarPerfil();
 </script><script defer src="../nexo-encabezado.js?v=navegacion-perfiles"></script>
+<script defer src="../recomendaciones.js?v=relacionados-todos"></script>
 </body></html>
 

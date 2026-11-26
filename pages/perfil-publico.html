@@ -93,6 +93,7 @@
         }
     </style>
 <link rel="stylesheet" href="../nexo-encabezado.css?v=navegacion-perfiles">
+<link rel="stylesheet" href="../recomendaciones.css?v=relacionados-todos">
 </head>
 
 <body>
@@ -405,38 +406,7 @@
 
         <!-- RECOMENDACIONES -->
 
-        <section class="perfil-similares">
-
-            <div class="perfil-similares-contenido">
-
-                <div class="artistas-header">
-
-                    <div>
-
-                        <h3 class="seccion-etiqueta">
-                            DESCUBRE MÁS TALENTO
-                        </h3>
-
-                        <h2>
-                            Artistas que también te pueden interesar
-                        </h2>
-
-                    </div>
-
-                    <a href="artistas.html" class="ver-todos">
-                        Ver todos →
-                    </a>
-
-                </div>
-
-                <div
-                    class="artistas-grid"
-                    id="artistas-recomendados"
-                ></div>
-
-            </div>
-
-        </section>
+        <section id="nexo-recomendaciones" hidden></section>
 
     </main>
 
@@ -976,79 +946,9 @@
         document.getElementById("artista-disponibilidad").href = urlCotizacion;
 
 
-        /* RECOMENDACIONES */
-
-        const recomendados = document.getElementById("artistas-recomendados");
-
-        recomendados.innerHTML = "";
-
-        artista.relacionados.forEach(function (relacionadoId) {
-
-            const relacionado = artistas[relacionadoId];
-
-            if (!relacionado) return;
-
-            const tarjeta = document.createElement("article");
-            tarjeta.className = "artista-card";
-
-            const imagenContenedor = document.createElement("div");
-            imagenContenedor.className = "artista-imagen";
-
-            if (relacionado.imagen) {
-                const imagen = document.createElement("img");
-                imagen.src = relacionado.imagen;
-                imagen.alt = relacionado.nombre;
-                imagenContenedor.appendChild(imagen);
-            } else {
-                const marcador = document.createElement("div");
-                marcador.style.cssText =
-                    "height:220px;display:flex;align-items:center;" +
-                    "justify-content:center;background:#17131f;color:#fff;" +
-                    "font-size:32px;font-weight:800";
-                marcador.textContent = relacionado.nombre;
-                imagenContenedor.appendChild(marcador);
-            }
-
-            const info = document.createElement("div");
-            info.className = "artista-info";
-
-            const categoria = document.createElement("span");
-            categoria.className = "artista-categoria";
-            categoria.textContent = relacionado.especialidad;
-
-            const nombre = document.createElement("h3");
-            nombre.textContent = relacionado.nombre;
-
-            const descripcion = document.createElement("p");
-            descripcion.textContent = relacionado.descripcion;
-
-            const acciones = document.createElement("div");
-            acciones.className = "artista-acciones";
-
-            const verPerfil = document.createElement("a");
-            verPerfil.className = "artista-ver";
-            verPerfil.href =
-    "perfil-publico.html?artista=" + relacionadoId;
-            verPerfil.textContent = "Ver perfil →";
-
-            const cotizar = document.createElement("a");
-            cotizar.className = "artista-cotizar";
-            cotizar.href =
-                "cotizar.html?artista=" +
-                encodeURIComponent(relacionado.nombre);
-            cotizar.textContent = "Solicitar cotización";
-
-            acciones.append(verPerfil, cotizar);
-
-            info.append(categoria, nombre, descripcion, acciones);
-
-            tarjeta.append(imagenContenedor, info);
-
-            recomendados.appendChild(tarjeta);
-
-        });
-
-
+        const recomendados = document.getElementById('nexo-recomendaciones');
+        recomendados.dataset.artista = id;
+        recomendados.dataset.nombre = artista.nombre;
         /* GUARDAR ARTISTA */
 
         const guardar = document.getElementById("artista-guardar");
@@ -1085,5 +985,8 @@
 
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script defer src="../nexo-encabezado.js?v=navegacion-perfiles"></script>
+<script defer src="../talentos-publicos.js?v=relacionados-todos"></script>
+<script defer src="../recomendaciones.js?v=relacionados-todos"></script>
 </body>
+
 </html>
